@@ -188,7 +188,10 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 					0.1,
 				);
 
-			const heroIn = gsap.timeline({ delay: 0.5 });
+			// Paused — played only once fonts are ready, so the BDScript chars
+			// first rasterize with the real font (fixes the iOS Safari
+			// font-swap-on-transformed-element bug on the hero headline).
+			const heroIn = gsap.timeline({ delay: 0.5, paused: true });
 			heroIn.call(() => onNavVisibleRef.current(true), [], 0.45);
 			heroIn
 				.to(
@@ -240,6 +243,13 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 					"-=0.38",
 				)
 				.to(a1Hint.current, { autoAlpha: 1, duration: 0.45 }, "-=0.22");
+
+			// Start the hero reveal only after webfonts have loaded.
+			if (typeof document !== "undefined" && document.fonts?.ready) {
+				document.fonts.ready.then(() => heroIn.play());
+			} else {
+				heroIn.play();
+			}
 
 			let heroExitFired = false;
 			const tl = gsap.timeline({
