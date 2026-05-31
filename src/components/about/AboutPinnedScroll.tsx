@@ -243,7 +243,21 @@ export default function AboutPinnedScroll({ started }: Props) {
 			// Paused — played only once fonts are ready, so the BDScript chars
 			// first rasterize with the real font (fixes the iOS Safari
 			// font-swap-on-transformed-element bug on the hero headline).
-			const heroIn = gsap.timeline({ delay: 1.1, paused: true });
+			const heroIn = gsap.timeline({
+				delay: 1.1,
+				paused: true,
+				onComplete: () => {
+					// Drop will-change so the headline isn't stuck in a frozen
+					// composited layer on iOS Safari.
+					[
+						...(a1EyebrowChars.current ?? []),
+						...(a1Line1Chars.current ?? []),
+						...(a1Line2Chars.current ?? []),
+					].forEach((el) => {
+						if (el) el.style.willChange = "auto";
+					});
+				},
+			});
 			heroIn
 				.to(
 					a1BgImg.current,

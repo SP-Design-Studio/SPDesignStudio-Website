@@ -22,7 +22,13 @@ const dmSans = DM_Sans({
 const bdScript = localFont({
   src: "../../public/fonts/BDScript-Regular.woff",
   variable: "--font-bdscript",
-  display: "swap",
+  // "block" — keep glyphs invisible until BDScript loads instead of painting
+  // the iOS `cursive` fallback. The fallback was getting frozen inside the
+  // hero's composited transform layer (will-change-transform) and never
+  // repainting once the real font arrived.
+  display: "block",
+  // Preload so the woff is fetched before the hero paints.
+  preload: true,
 });
 
 export const metadata: Metadata = {
