@@ -17,13 +17,6 @@
   --font-sans: var(--font-dm-sans);
 }
 
-@font-face {
-  font-family: "BDScript";
-  src: url("/fonts/BDScript-Regular.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
 
 html {
   overflow-x: hidden;
@@ -46,7 +39,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .font-bdscript {
-  font-family: "BDScript", cursive;
+  font-family: var(--font-bdscript), cursive;
   text-transform: none !important;
 }
 

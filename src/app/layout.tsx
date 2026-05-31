@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant, DM_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import PageTransition from "@/components/shared/PageTransition";
 
@@ -14,6 +15,14 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
   weight: ["300", "400", "500"],
+});
+
+// Self-hosted via next/font — Next bundles it with a hashed URL, preload
+// and correct headers, so it loads reliably on Vercel (no CSS @font-face FOUT/fallback).
+const bdScript = localFont({
+  src: "../../public/fonts/BDScript-Regular.woff",
+  variable: "--font-bdscript",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -33,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${dmSans.variable} ${bdScript.variable}`}>
       <body>
         <PageTransition />
         {children}
