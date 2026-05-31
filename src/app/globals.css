@@ -19,11 +19,13 @@
 
 
 html {
-  overflow-x: hidden;
+  /* overflow-x: clip prevents horizontal scroll WITHOUT creating a scroll
+     container — overflow-x: hidden here breaks GSAP ScrollTrigger pinning. */
+  overflow-x: clip;
 }
 
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
   background-color: var(--color-plum-dark);
   color: var(--color-cream);
   font-family: var(--font-sans);
