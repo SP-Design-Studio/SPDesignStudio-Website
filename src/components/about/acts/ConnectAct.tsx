@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ABOUT, STUDIO } from "@/lib/studio";
-import { Chars } from "@/components/shared/Chars";
+import { Words } from "@/components/shared/Words";
 
 interface ConnectActProps {
 	wrapRef: React.RefObject<HTMLDivElement | null>;
@@ -27,12 +27,20 @@ export function ConnectAct({
 			<div
 				className="font-bdscript text-cream tracking-[-0.015em]"
 				style={{ fontSize: DFS, lineHeight: 1, perspective: "1200px" }}>
-				<Chars text={ABOUT.connect.line1} refStore={line1CharsRef} />
+				<Words
+					words={ABOUT.connect.line1.split(" ")}
+					refStore={line1CharsRef}
+					spacing="0.2em"
+				/>
 			</div>
 			<div
 				className="font-bdscript tracking-[-0.015em] mb-8 md:mb-10 text-gold"
 				style={{ fontSize: DFS, lineHeight: 1, perspective: "1200px" }}>
-				<Chars text={ABOUT.connect.line2} refStore={line2CharsRef} />
+				<Words
+					words={ABOUT.connect.line2.split(" ")}
+					refStore={line2CharsRef}
+					spacing="0.2em"
+				/>
 			</div>
 
 			<p

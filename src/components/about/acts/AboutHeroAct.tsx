@@ -44,7 +44,7 @@ export function AboutHeroAct({
 			<div className="relative z-10">
 				<div
 					className="font-bdscript text-gold tracking-[0.01em] mb-4 sm:mb-5 text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
-					style={{ perspective: "1200px" }}>
+					style={{ perspective: "1200px", paddingLeft: "0.12em", overflow: "visible" }}>
 					<Words
 						words={ABOUT.hero.eyebrow.split(" ")}
 						refStore={eyebrowCharsRef}
@@ -55,7 +55,7 @@ export function AboutHeroAct({
 
 				<div
 					className="font-bdscript text-cream leading-none tracking-[-0.015em] text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
-					style={{ perspective: "1200px" }}>
+					style={{ perspective: "1200px", paddingLeft: "0.12em", overflow: "visible" }}>
 					<Words
 						words={ABOUT.hero.line1.split(" ")}
 						refStore={line1CharsRef}
@@ -66,7 +66,7 @@ export function AboutHeroAct({
 
 				<div
 					className="font-bdscript leading-none tracking-[-0.015em] mb-6 md:mb-[clamp(22px,2.5vw,32px)] text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
-					style={{ perspective: "1200px" }}>
+					style={{ perspective: "1200px", paddingLeft: "0.12em", overflow: "visible" }}>
 					<Words
 						words={ABOUT.hero.line2.split(" ")}
 						refStore={line2CharsRef}

@@ -1,6 +1,6 @@
 import { FaInstagram, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
-import { Chars } from "@/components/shared/Chars";
+import { Words } from "@/components/shared/Words";
 import { STUDIO, SECTIONS } from "@/lib/studio";
 
 const DFS = "clamp(3rem, 11vw, 13rem)";
@@ -31,20 +31,24 @@ export function InvitationAct({
 			<div
 				className="font-bdscript text-cream tracking-[-0.015em]"
 				style={{ fontSize: DFS, lineHeight: 1, perspective: "1200px" }}>
-				<Chars text={SECTIONS.invitation.line1} refStore={line1CharsRef} />
+				<Words
+					words={SECTIONS.invitation.line1.split(" ")}
+					refStore={line1CharsRef}
+					spacing="0.2em"
+				/>
 			</div>
 
 			<div
 				className="font-bdscript tracking-[-0.015em] mb-[clamp(32px,5vw,64px)]"
 				style={{ fontSize: DFS, lineHeight: 1, perspective: "1200px" }}>
-				<Chars
-					text={SECTIONS.invitation.line2}
+				<Words
+					words={SECTIONS.invitation.line2.split(" ")}
 					refStore={line2CharsRef}
-					charStyleByIndex={(i) => ({
+					spacing="0.2em"
+					wordStyleByIndex={(i) => ({
+						// "Your" cream, "Design." gold (per word so the script joins).
 						color:
-							i < SECTIONS.invitation.line2GoldFromIndex
-								? "var(--color-cream)"
-								: "var(--color-gold)",
+							i === 0 ? "var(--color-cream)" : "var(--color-gold)",
 					})}
 				/>
 			</div>
