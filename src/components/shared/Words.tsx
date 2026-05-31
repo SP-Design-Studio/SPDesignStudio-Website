@@ -21,7 +21,9 @@ export function Words({
         <span
           key={i}
           ref={(el) => { refStore.current[i] = el; }}
-          className="inline-block will-change-transform"
+          // No `will-change-transform`: see Chars.tsx — it freezes the iOS
+          // Safari fallback-font raster into a permanent composited layer.
+          className="inline-block overflow-visible"
           style={{
             marginRight: spacing,
             transformOrigin: "50% 100%",

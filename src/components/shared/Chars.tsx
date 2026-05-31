@@ -26,7 +26,13 @@ export function Chars({
         <span
           key={i}
           ref={(el) => { refStore.current[i] = el; }}
-          className="inline-block will-change-transform"
+          // NOTE: no `will-change-transform` here. On iOS Safari it forces a
+          // permanent composited layer that rasterizes the system `cursive`
+          // fallback before the BDScript web font loads and then FREEZES it —
+          // the headline stays in the wrong font forever. Let GSAP create the
+          // (transient) layer during the reveal instead, by which point the
+          // font is loaded.
+          className="inline-block overflow-visible"
           style={{
             whiteSpace: "pre",
             transformOrigin: "50% 100%",
