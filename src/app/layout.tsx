@@ -20,14 +20,20 @@ const dmSans = DM_Sans({
 // Self-hosted via next/font — Next bundles it with a hashed URL, preload
 // and correct headers, so it loads reliably on Vercel (no CSS @font-face FOUT/fallback).
 const bdScript = localFont({
-  src: "../../public/fonts/BDScript-Regular.woff",
+  // WOFF2 — iOS Safari (esp. Private Browsing) renders it far more reliably
+  // than the FontForge-generated WOFF1, which was falling through to the
+  // system `cursive` fallback on the hero headlines. iOS has supported WOFF2
+  // since iOS 10, so WOFF1 is no longer needed.
+  src: "../../public/fonts/BDScript-Regular.woff2",
   variable: "--font-bdscript",
-  // "block" — keep glyphs invisible until BDScript loads instead of painting
-  // the iOS `cursive` fallback. The fallback was getting frozen inside the
-  // hero's composited transform layer (will-change-transform) and never
-  // repainting once the real font arrived.
-  display: "block",
-  // Preload so the woff is fetched before the hero paints.
+  // "swap" so the headline never stays invisible if the font is slow — it's
+  // preloaded, so the swap window is effectively zero on a warm load.
+  display: "swap",
+  // Drop next/font's auto Arial fallback face: it uses `local(Arial)`, which
+  // iOS Safari Private Browsing blocks (anti-fingerprinting), causing the
+  // chain to skip to the ugly `cursive` system script. Without it the chain
+  // is just bdScript -> our explicit fallback.
+  adjustFontFallback: false,
   preload: true,
 });
 
