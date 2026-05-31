@@ -36,8 +36,12 @@ export function Chars({
           style={{
             whiteSpace: "pre",
             transformOrigin: "50% 100%",
-            backfaceVisibility: "hidden",
-            ...(initialHidden ? { opacity: 0 } : {}),
+            backfaceVisibility: "visible",
+            // `visibility:hidden` (not opacity:0) — WebKit does NOT rasterize a
+            // hidden element, so it can't cache the fallback glyphs into the
+            // hero's 3D-transform layer before BDScript loads. Flipped to
+            // visible only after the font is ready (see PinnedScroll).
+            ...(initialHidden ? { visibility: "hidden" as const } : {}),
             ...(charStyleByIndex?.(i) ?? {}),
           }}
         >

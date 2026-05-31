@@ -315,28 +315,24 @@ export default function AboutPinnedScroll({ started }: Props) {
 					"-=0.55",
 				);
 
-			// iOS WebKit caches the glyphs of a 3D-transformed element (the hero
-			// sits in a `perspective` + rotateX layer) the first time it paints.
-			// If that happens before BDScript loads, it freezes the fallback font
-			// and never re-rasterizes. Force a re-raster by toggling `display`
-			// once the font is ready, then run the reveal.
-			const repaintChars = () => {
+			// The hero chars render `visibility:hidden` (see Chars.tsx) so WebKit
+			// never rasterizes the fallback font into the 3D-transform layer
+			// before BDScript loads. Once the font is ready, reveal them — the
+			// very first rasterization now uses the correct font.
+			const revealChars = () => {
 				[
 					...(a1EyebrowChars.current ?? []),
 					...(a1Line1Chars.current ?? []),
 					...(a1Line2Chars.current ?? []),
 				].forEach((el) => {
-					if (!el) return;
-					el.style.display = "none";
-					void el.offsetHeight; // force reflow → drops the cached layer
-					el.style.display = "";
+					if (el) el.style.visibility = "visible";
 				});
 			};
 
 			// Start the hero reveal only after BDScript has actually loaded
 			// (fonts.ready alone can resolve before the face starts loading).
 			const playReveal = () => {
-				repaintChars();
+				revealChars();
 				heroIn.play();
 			};
 			if (typeof document !== "undefined" && document.fonts?.load) {
