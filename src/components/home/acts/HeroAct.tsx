@@ -53,13 +53,21 @@ export function HeroAct({
 					<div
 						className="font-bdscript text-cream leading-none tracking-[-0.015em] text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem]"
 						style={{ perspective: "1200px" }}>
-						<Chars text={SECTIONS.hero.line1} refStore={line1CharsRef} />
+						<Chars
+							text={SECTIONS.hero.line1}
+							refStore={line1CharsRef}
+							initialHidden
+						/>
 					</div>
 
 					<div
 						className="font-bdscript text-gold leading-none tracking-[-0.015em] mb-5 md:mb-[clamp(22px,2.5vw,32px)] text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem]"
 						style={{ perspective: "1200px" }}>
-						<Chars text={SECTIONS.hero.line2} refStore={line2CharsRef} />
+						<Chars
+							text={SECTIONS.hero.line2}
+							refStore={line2CharsRef}
+							initialHidden
+						/>
 					</div>
 
 					<p

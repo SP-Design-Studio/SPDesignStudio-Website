@@ -45,13 +45,21 @@ export function AboutHeroAct({
 				<div
 					className="font-bdscript text-gold tracking-[0.01em] mb-4 sm:mb-5 text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
 					style={{ perspective: "1200px" }}>
-					<Chars text={ABOUT.hero.eyebrow} refStore={eyebrowCharsRef} />
+					<Chars
+						text={ABOUT.hero.eyebrow}
+						refStore={eyebrowCharsRef}
+						initialHidden
+					/>
 				</div>
 
 				<div
 					className="font-bdscript text-cream leading-none tracking-[-0.015em] text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
 					style={{ perspective: "1200px" }}>
-					<Chars text={ABOUT.hero.line1} refStore={line1CharsRef} />
+					<Chars
+						text={ABOUT.hero.line1}
+						refStore={line1CharsRef}
+						initialHidden
+					/>
 				</div>
 
 				<div
@@ -60,6 +68,7 @@ export function AboutHeroAct({
 					<Chars
 						text={ABOUT.hero.line2}
 						refStore={line2CharsRef}
+						initialHidden
 						charStyleByIndex={(i) => ({
 							color:
 								i < ABOUT.hero.line2GoldFromIndex
