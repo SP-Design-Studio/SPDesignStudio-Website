@@ -1,0 +1,37 @@
+import type { Metadata } from "next";
+import { Cormorant, DM_Sans } from "next/font/google";
+import "./globals.css";
+import PageTransition from "@/components/shared/PageTransition";
+
+const cormorant = Cormorant({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  style: ["normal", "italic"],
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+});
+
+export const metadata: Metadata = {
+  title: "SP Design Studio",
+  description: "Interior design studio crafting spaces that merge technical rigor with intentional living.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
+      <body>
+        <PageTransition />
+        {children}
+      </body>
+    </html>
+  );
+}

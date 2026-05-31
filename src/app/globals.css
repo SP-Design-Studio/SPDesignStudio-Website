@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+:root {
+  --color-plum: #5b3644;
+  --color-plum-dark: #3d242e;
+  --color-gold: #bfa15f;
+  --color-cream: #fcfbf7;
+}
+
+@theme inline {
+  --color-plum: var(--color-plum);
+  --color-plum-dark: var(--color-plum-dark);
+  --color-gold: var(--color-gold);
+  --color-cream: var(--color-cream);
+
+  --font-serif: var(--font-cormorant);
+  --font-sans: var(--font-dm-sans);
+}
+
+@font-face {
+  font-family: "BDScript";
+  src: url("/fonts/BDScript-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--color-plum-dark);
+  color: var(--color-cream);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  line-height: 0.9;
+}
+
+.font-bdscript {
+  font-family: "BDScript", cursive;
+  text-transform: none !important;
+}
+
+.noise-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("/noisy.png");
+  background-repeat: repeat;
+  background-size: 180px;
+  opacity: 0.04;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(to bottom, #d7bf86, #bfa15f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(191, 161, 95, 0.25);
+  color: var(--color-cream);
+}
+
