@@ -337,7 +337,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 			};
 			if (typeof document !== "undefined" && document.fonts?.load) {
 				Promise.all([
-					document.fonts.load('1em "bdScript"'),
+					document.fonts.load('italic 1em "bdScript"'),
 					document.fonts.ready,
 				])
 					.then(playReveal)

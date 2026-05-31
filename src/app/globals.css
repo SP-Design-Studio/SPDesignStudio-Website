@@ -43,6 +43,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .font-bdscript {
   font-family: var(--font-bdscript), cursive;
+  /* BDScript's @font-face is declared italic (it's a 40°-slanted face that
+     reports itself as "Regular"). iOS Safari only matches the face when the
+     element also requests italic — without this it falls back to a system
+     font on iPhone. */
+  font-style: italic;
   text-transform: none !important;
 }
 

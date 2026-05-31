@@ -20,21 +20,17 @@ const dmSans = DM_Sans({
 // Self-hosted via next/font — Next bundles it with a hashed URL, preload
 // and correct headers, so it loads reliably on Vercel (no CSS @font-face FOUT/fallback).
 const bdScript = localFont({
-  // WOFF2 — iOS Safari (esp. Private Browsing) renders it far more reliably
-  // than the FontForge-generated WOFF1, which was falling through to the
-  // system `cursive` fallback on the hero headlines. iOS has supported WOFF2
-  // since iOS 10, so WOFF1 is no longer needed.
-  src: "../../public/fonts/BDScript-Regular.woff2",
+  src: "../../public/fonts/BDScript-Regular.woff",
   variable: "--font-bdscript",
-  // "swap" so the headline never stays invisible if the font is slow — it's
-  // preloaded, so the swap window is effectively zero on a warm load.
   display: "swap",
-  // Drop next/font's auto Arial fallback face: it uses `local(Arial)`, which
-  // iOS Safari Private Browsing blocks (anti-fingerprinting), causing the
-  // chain to skip to the ugly `cursive` system script. Without it the chain
-  // is just bdScript -> our explicit fallback.
-  adjustFontFallback: false,
-  preload: true,
+  // CRITICAL: BDScript is a 40°-slanted script (post.italicAngle = -40) that
+  // mislabels itself "Regular" in its OS/2 table. iOS Safari/WebKit does strict
+  // style matching and REFUSES to use a slanted face for a `font-style:normal`
+  // request — it silently falls back, which is why the hero headlines rendered
+  // wrong on iPhone but fine on desktop Chrome (which is lenient). Declaring the
+  // face as italic (and requesting italic via `.font-bdscript`, see globals.css)
+  // makes iOS accept it. This matches the working v1 site's config exactly.
+  style: "italic",
 });
 
 export const metadata: Metadata = {
