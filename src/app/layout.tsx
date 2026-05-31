@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant, DM_Sans } from "next/font/google";
 import "./globals.css";
 import PageTransition from "@/components/shared/PageTransition";
@@ -19,6 +19,12 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "SP Design Studio",
   description: "Interior design studio crafting spaces that merge technical rigor with intentional living.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

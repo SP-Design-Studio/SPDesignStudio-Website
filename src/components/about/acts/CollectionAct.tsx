@@ -23,9 +23,11 @@ export function CollectionAct({
 		<div
 			ref={wrapRef}
 			className="absolute inset-0 z-10 invisible overflow-y-auto">
-			<div className="min-h-full flex flex-col justify-start md:justify-center items-center px-6 sm:px-8 md:px-10 pt-20 sm:pt-24 pb-8 md:py-14">
+			<div
+				className="min-h-full flex flex-col justify-start md:justify-center items-center px-6 sm:px-8 md:px-10 sm:pt-24 pb-8 md:py-10"
+				style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 5rem)" }}>
 			<div className="max-w-275 w-full">
-				<div className="md:grid md:grid-cols-12 md:gap-8 md:items-end mb-7 md:mb-9">
+				<div className="md:grid md:grid-cols-12 md:gap-8 md:items-end mb-6 md:mb-7">
 					<div className="md:col-span-7">
 						<div
 							ref={eyebrowRef}
@@ -48,10 +50,10 @@ export function CollectionAct({
 				</div>
 
 				{/* Desktop Grid */}
-				<div className="hidden md:grid mx-auto max-w-220 grid-cols-3 gap-x-5 gap-y-4">
+				<div className="hidden md:grid mx-auto max-w-200 lg:max-w-220 grid-cols-3 gap-x-5 gap-y-3">
 					{ABOUT.team.members.map((m, i) => {
 						const offsetClass =
-							i % 2 === 1 ? "translate-y-6 lg:translate-y-8" : "";
+							i % 2 === 1 ? "lg:translate-y-4 xl:translate-y-6" : "";
 
 						return (
 							<div
@@ -60,7 +62,7 @@ export function CollectionAct({
 									membersRef.current[i] = el;
 								}}
 								className={`group flex flex-col cursor-default ${offsetClass}`}>
-								<div className="relative aspect-3/4 overflow-hidden mb-3 bg-plum/40 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1">
+								<div className="relative w-full h-[clamp(130px,24vh,300px)] overflow-hidden mb-2.5 bg-plum/40 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1">
 									{m.img ? (
 										<Image
 											src={m.img}
@@ -134,7 +136,7 @@ export function CollectionAct({
 									</div>
 								)}
 
-								<div className="absolute inset-0 bg-gradient-to-t from-plum-dark/85 via-plum-dark/20 to-transparent" />
+								<div className="absolute inset-0 bg-linear-to-t from-plum-dark/85 via-plum-dark/20 to-transparent" />
 
 								<span className="absolute top-3 left-3.5 font-sans font-light uppercase tracking-[0.28em] text-cream/80 text-[0.55rem]">
 									0{i + 1}

@@ -195,8 +195,13 @@ export default function Nav({ visible }: NavProps) {
     <>
       <nav
         ref={navRef}
-        className="fixed top-0 inset-x-0 z-60 px-6 md:px-12 py-5 flex items-center justify-between will-change-transform"
-        style={{ opacity: 0, visibility: "hidden" }}
+        className="fixed top-0 inset-x-0 z-60 px-6 md:px-12 flex items-center justify-between will-change-transform"
+        style={{
+          opacity: 0,
+          visibility: "hidden",
+          paddingTop: "calc(env(safe-area-inset-top, 0px) + 1.25rem)",
+          paddingBottom: "1.25rem",
+        }}
       >
         <span
           ref={progressRef}
