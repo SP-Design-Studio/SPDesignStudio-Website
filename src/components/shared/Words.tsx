@@ -6,6 +6,8 @@ type Props = {
   spacing?: string;
   baseStyle?: React.CSSProperties;
   wordStyleByIndex?: (i: number) => React.CSSProperties | undefined;
+  /** Start invisible until the reveal flips visibility (see PinnedScroll). */
+  initialHidden?: boolean;
 };
 
 export function Words({
@@ -14,6 +16,7 @@ export function Words({
   spacing = "0.32em",
   baseStyle,
   wordStyleByIndex,
+  initialHidden,
 }: Props) {
   return (
     <>
@@ -27,6 +30,7 @@ export function Words({
           style={{
             marginRight: spacing,
             transformOrigin: "50% 100%",
+            ...(initialHidden ? { visibility: "hidden" as const } : {}),
             ...baseStyle,
             ...(wordStyleByIndex?.(i) ?? {}),
           }}

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Chars } from "@/components/shared/Chars";
+import { Words } from "@/components/shared/Words";
 import { ABOUT } from "@/lib/studio";
 
 interface AboutHeroActProps {
@@ -45,9 +45,10 @@ export function AboutHeroAct({
 				<div
 					className="font-bdscript text-gold tracking-[0.01em] mb-4 sm:mb-5 text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
 					style={{ perspective: "1200px" }}>
-					<Chars
-						text={ABOUT.hero.eyebrow}
+					<Words
+						words={ABOUT.hero.eyebrow.split(" ")}
 						refStore={eyebrowCharsRef}
+						spacing="0.2em"
 						initialHidden
 					/>
 				</div>
@@ -55,9 +56,10 @@ export function AboutHeroAct({
 				<div
 					className="font-bdscript text-cream leading-none tracking-[-0.015em] text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
 					style={{ perspective: "1200px" }}>
-					<Chars
-						text={ABOUT.hero.line1}
+					<Words
+						words={ABOUT.hero.line1.split(" ")}
 						refStore={line1CharsRef}
+						spacing="0.18em"
 						initialHidden
 					/>
 				</div>
@@ -65,13 +67,17 @@ export function AboutHeroAct({
 				<div
 					className="font-bdscript leading-none tracking-[-0.015em] mb-6 md:mb-[clamp(22px,2.5vw,32px)] text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
 					style={{ perspective: "1200px" }}>
-					<Chars
-						text={ABOUT.hero.line2}
+					<Words
+						words={ABOUT.hero.line2.split(" ")}
 						refStore={line2CharsRef}
+						spacing="0.18em"
 						initialHidden
-						charStyleByIndex={(i) => ({
+						wordStyleByIndex={(i) => ({
+							// First word cream, remaining word(s) gold — matches the
+							// original "with Soul." cream/gold split, but per word so
+							// the connecting script stays joined.
 							color:
-								i < ABOUT.hero.line2GoldFromIndex
+								i === 0
 									? "var(--color-cream)"
 									: "var(--color-gold)",
 						})}

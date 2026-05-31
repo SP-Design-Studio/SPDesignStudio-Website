@@ -6,7 +6,6 @@ import Preloader from "@/components/shared/Preloader";
 import Nav from "@/components/shared/Nav";
 import PinnedScroll from "@/components/home/PinnedScroll";
 import Footer from "@/components/shared/Footer";
-import FontDebug from "@/components/shared/FontDebug";
 
 export default function Home() {
   const [preloaderDone, setPreloaderDone] = useState(false);
@@ -31,7 +30,6 @@ export default function Home() {
 
   return (
     <>
-      <FontDebug />
       {hydrated && showPreloader && !preloaderDone && (
         <Preloader onCompleteAction={() => setPreloaderDone(true)} />
       )}
