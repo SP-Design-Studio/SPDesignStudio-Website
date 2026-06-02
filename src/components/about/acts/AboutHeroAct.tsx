@@ -5,19 +5,21 @@ import { ABOUT } from "@/lib/studio";
 interface AboutHeroActProps {
 	wrapRef: React.RefObject<HTMLDivElement | null>;
 	bgImgRef: React.RefObject<HTMLDivElement | null>;
-	eyebrowCharsRef: React.RefObject<(HTMLSpanElement | null)[]>;
+	eyebrowRef: React.RefObject<HTMLDivElement | null>;
 	line1CharsRef: React.RefObject<(HTMLSpanElement | null)[]>;
 	line2CharsRef: React.RefObject<(HTMLSpanElement | null)[]>;
 	quoteRef: React.RefObject<HTMLParagraphElement | null>;
+	hintRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export function AboutHeroAct({
 	wrapRef,
 	bgImgRef,
-	eyebrowCharsRef,
+	eyebrowRef,
 	line1CharsRef,
 	line2CharsRef,
 	quoteRef,
+	hintRef,
 }: AboutHeroActProps) {
 	return (
 		<div
@@ -43,14 +45,9 @@ export function AboutHeroAct({
 
 			<div className="relative z-10">
 				<div
-					className="font-bdscript text-gold tracking-[0.01em] mb-4 sm:mb-5 text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
-					style={{ perspective: "1200px" }}>
-					<Words
-						words={ABOUT.hero.eyebrow.split(" ")}
-						refStore={eyebrowCharsRef}
-						spacing="0.2em"
-						initialHidden
-					/>
+					ref={eyebrowRef}
+					className="font-sans font-light uppercase tracking-[0.42em] text-gold text-sm md:text-base mb-5 sm:mb-6">
+					{ABOUT.hero.eyebrow}
 				</div>
 
 				<div
@@ -89,6 +86,18 @@ export function AboutHeroAct({
 					className="font-serif italic font-light text-cream/80 leading-[1.55] max-w-130 whitespace-pre-line text-sm sm:text-base md:text-lg">
 					{ABOUT.hero.quote}
 				</p>
+			</div>
+
+			<div
+				ref={hintRef}
+				className="absolute bottom-10 right-10 z-10 hidden md:flex items-center gap-4 rotate-90 origin-right">
+				<span className="text-xs uppercase tracking-[0.4em] text-cream/35">
+					Scroll to Begin
+				</span>
+				<div className="flex items-center relative">
+					<div className="w-12 h-px bg-cream/35" />
+					<span className="absolute right-0 w-2 h-2 border-t border-r rotate-45 border-cream/35" />
+				</div>
 			</div>
 		</div>
 	);

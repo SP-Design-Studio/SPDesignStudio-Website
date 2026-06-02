@@ -1,21 +1,25 @@
 import { Words } from "@/components/shared/Words";
-import { PROCESS } from "@/lib/studio";
+import { CONTACT } from "@/lib/studio";
 
 interface Props {
 	wrapRef: React.RefObject<HTMLDivElement | null>;
 	eyebrowRef: React.RefObject<HTMLDivElement | null>;
-	titleWordsRef: React.RefObject<(HTMLSpanElement | null)[]>;
+	title1Ref: React.RefObject<(HTMLSpanElement | null)[]>;
+	title2Ref: React.RefObject<(HTMLSpanElement | null)[]>;
 	subRef: React.RefObject<HTMLParagraphElement | null>;
 	hintRef: React.RefObject<HTMLDivElement | null>;
 }
 
-export function ProcessHeroAct({
+export function ContactHeroAct({
 	wrapRef,
 	eyebrowRef,
-	titleWordsRef,
+	title1Ref,
+	title2Ref,
 	subRef,
 	hintRef,
 }: Props) {
+	const { eyebrow, line1, line2, subtitle } = CONTACT.hero;
+
 	return (
 		<div
 			ref={wrapRef}
@@ -23,21 +27,22 @@ export function ProcessHeroAct({
 			<div
 				ref={eyebrowRef}
 				className="font-sans font-light uppercase tracking-[0.42em] text-gold text-sm md:text-base mb-7">
-				{PROCESS.eyebrow}
+				{eyebrow}
 			</div>
 			<h1
-				className="font-bdscript text-cream leading-[0.95] text-6xl sm:text-7xl md:text-8xl lg:text-9xl mb-6"
+				className="font-bdscript leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl"
 				style={{ perspective: "1000px" }}>
-				<Words
-					words={PROCESS.title.split(" ")}
-					refStore={titleWordsRef}
-					spacing="0.2em"
-				/>
+				<span className="block text-cream">
+					<Words words={line1.split(" ")} refStore={title1Ref} spacing="0.18em" />
+				</span>
+				<span className="block text-gold">
+					<Words words={line2.split(" ")} refStore={title2Ref} spacing="0.18em" />
+				</span>
 			</h1>
 			<p
 				ref={subRef}
-				className="font-serif italic font-light text-gold/85 text-2xl sm:text-3xl md:text-4xl max-w-2xl">
-				{PROCESS.subtitle}
+				className="font-serif italic font-light text-cream/70 text-base sm:text-lg md:text-xl max-w-xl leading-[1.6] mt-7">
+				{subtitle}
 			</p>
 
 			<div

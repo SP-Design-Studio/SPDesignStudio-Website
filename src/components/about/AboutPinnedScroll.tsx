@@ -7,6 +7,7 @@ import { AboutHeroAct } from "./acts/AboutHeroAct";
 import { VisionaryAct } from "./acts/VisionaryAct";
 import { CollectionAct } from "./acts/CollectionAct";
 import { TimelineAct } from "./acts/TimelineAct";
+import { AchievementsAct } from "./acts/AchievementsAct";
 import { ConnectAct } from "./acts/ConnectAct";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -26,10 +27,11 @@ export default function AboutPinnedScroll({ started }: Props) {
 
 	const a1Wrap = useRef<HTMLDivElement>(null);
 	const a1BgImg = useRef<HTMLDivElement>(null);
-	const a1EyebrowChars = useRef<(HTMLSpanElement | null)[]>([]);
+	const a1Eyebrow = useRef<HTMLDivElement>(null);
 	const a1Line1Chars = useRef<(HTMLSpanElement | null)[]>([]);
 	const a1Line2Chars = useRef<(HTMLSpanElement | null)[]>([]);
 	const a1Quote = useRef<HTMLParagraphElement>(null);
+	const a1Hint = useRef<HTMLDivElement>(null);
 
 	const a3Wrap = useRef<HTMLDivElement>(null);
 	const a3Eyebrow = useRef<HTMLDivElement>(null);
@@ -56,6 +58,8 @@ export default function AboutPinnedScroll({ started }: Props) {
 	const a5Years = useRef<(HTMLSpanElement | null)[]>([]);
 	const a5Entries = useRef<(HTMLDivElement | null)[]>([]);
 	const a5EntriesMobile = useRef<(HTMLDivElement | null)[]>([]);
+
+	const aAchWrap = useRef<HTMLDivElement>(null);
 
 	const a6Wrap = useRef<HTMLDivElement>(null);
 	const a6Line1Chars = useRef<(HTMLSpanElement | null)[]>([]);
@@ -93,13 +97,27 @@ export default function AboutPinnedScroll({ started }: Props) {
 			gsap.set(a1BgImg.current, { scale: 1.15, autoAlpha: 0 });
 			gsap.set(a1Line1Chars.current, HIDDEN_CHAR_3D);
 			gsap.set(a1Line2Chars.current, HIDDEN_CHAR_3D);
-			gsap.set(a1EyebrowChars.current, HIDDEN_CHAR_3D);
+			gsap.set(a1Eyebrow.current, { y: 16, autoAlpha: 0 });
 			gsap.set(a1Quote.current, { y: 22, autoAlpha: 0, filter: "blur(4px)" });
+			gsap.set(a1Hint.current, { autoAlpha: 0 });
 
 			gsap.set(
-				[a3Wrap.current, a4Wrap.current, a5Wrap.current, a6Wrap.current],
+				[
+					a3Wrap.current,
+					a4Wrap.current,
+					a5Wrap.current,
+					aAchWrap.current,
+					a6Wrap.current,
+				],
 				{ autoAlpha: 0 },
 			);
+
+			const achEls = aAchWrap.current
+				? gsap.utils.toArray<HTMLElement>(
+						aAchWrap.current.querySelectorAll(".ach-reveal"),
+					)
+				: [];
+			gsap.set(achEls, { y: 28, autoAlpha: 0, filter: "blur(5px)" });
 
 			gsap.set(a3Eyebrow.current, { y: 16, autoAlpha: 0 });
 			gsap.set(a3Title.current, { y: 32, autoAlpha: 0, filter: "blur(6px)" });
@@ -187,15 +205,13 @@ export default function AboutPinnedScroll({ started }: Props) {
 			const heroExit = gsap.timeline({ paused: true });
 			heroExit
 				.to(
-					a1EyebrowChars.current,
+					a1Eyebrow.current,
 					{
-						rotateX: 65,
-						y: -50,
-						opacity: 0,
-						filter: "blur(5px)",
-						duration: 0.45,
-						ease: "power3.in",
-						stagger: { each: 0.02, from: "end" },
+						y: -30,
+						autoAlpha: 0,
+						filter: "blur(4px)",
+						duration: 0.4,
+						ease: "power2.in",
 					},
 					0,
 				)
@@ -213,6 +229,11 @@ export default function AboutPinnedScroll({ started }: Props) {
 				.to(
 					a1BgImg.current,
 					{ scale: 1.08, autoAlpha: 0, duration: 0.55, ease: "power2.in" },
+					0,
+				)
+				.to(
+					a1Hint.current,
+					{ autoAlpha: 0, duration: 0.3, ease: "power2.in" },
 					0,
 				)
 				.to(
@@ -252,7 +273,6 @@ export default function AboutPinnedScroll({ started }: Props) {
 					// Drop will-change so the headline isn't stuck in a frozen
 					// composited layer on iOS Safari.
 					[
-						...(a1EyebrowChars.current ?? []),
 						...(a1Line1Chars.current ?? []),
 						...(a1Line2Chars.current ?? []),
 					].forEach((el) => {
@@ -267,15 +287,13 @@ export default function AboutPinnedScroll({ started }: Props) {
 					0,
 				)
 				.to(
-					a1EyebrowChars.current,
+					a1Eyebrow.current,
 					{
-						rotateX: 0,
 						y: 0,
-						opacity: 1,
+						autoAlpha: 1,
 						filter: "blur(0px)",
-						duration: 0.9,
-						ease: "power4.out",
-						stagger: 0.025,
+						duration: 0.8,
+						ease: "power3.out",
 					},
 					0.2,
 				)
@@ -315,7 +333,8 @@ export default function AboutPinnedScroll({ started }: Props) {
 						ease: "power3.out",
 					},
 					"-=0.55",
-				);
+				)
+				.to(a1Hint.current, { autoAlpha: 1, duration: 0.45 }, "-=0.22");
 
 			// The hero chars render `visibility:hidden` (see Chars.tsx) so WebKit
 			// never rasterizes the fallback font into the 3D-transform layer
@@ -323,7 +342,6 @@ export default function AboutPinnedScroll({ started }: Props) {
 			// very first rasterization now uses the correct font.
 			const revealChars = () => {
 				[
-					...(a1EyebrowChars.current ?? []),
 					...(a1Line1Chars.current ?? []),
 					...(a1Line2Chars.current ?? []),
 				].forEach((el) => {
@@ -353,7 +371,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 				scrollTrigger: {
 					trigger: wrapperRef.current,
 					start: "top top",
-					end: `+=${VH * 13}`,
+					end: `+=${VH * 16}`,
 					pin: true,
 					scrub: 1.8,
 					anticipatePin: 1,
@@ -715,7 +733,36 @@ export default function AboutPinnedScroll({ started }: Props) {
 				)
 				.to(a5Wrap.current, { autoAlpha: 0, duration: 0.01 }, 12.3)
 
-				.to(a6Wrap.current, { autoAlpha: 1, duration: 0.01 }, 12.25)
+				// ── Achievements (on the same plum-dark bg6) ──
+				.to(aAchWrap.current, { autoAlpha: 1, duration: 0.01 }, 12.25)
+				.to(
+					achEls,
+					{
+						y: 0,
+						autoAlpha: 1,
+						filter: "blur(0px)",
+						duration: 0.7,
+						ease: "power3.out",
+						stagger: 0.05,
+					},
+					12.35,
+				)
+				.to(
+					achEls,
+					{
+						y: -26,
+						autoAlpha: 0,
+						filter: "blur(5px)",
+						duration: 0.5,
+						ease: "power3.in",
+						stagger: 0.03,
+					},
+					14.6,
+				)
+				.to(aAchWrap.current, { autoAlpha: 0, duration: 0.01 }, 15.05)
+
+				// ── Connect ──
+				.to(a6Wrap.current, { autoAlpha: 1, duration: 0.01 }, 15.0)
 				.to(
 					a6Line1Chars.current,
 					{
@@ -727,7 +774,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 						ease: "power4.out",
 						stagger: 0.024,
 					},
-					12.3,
+					15.05,
 				)
 				.to(
 					a6Line2Chars.current,
@@ -740,7 +787,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 						ease: "power4.out",
 						stagger: 0.024,
 					},
-					12.43,
+					15.18,
 				)
 				.to(
 					a6Body.current,
@@ -751,12 +798,12 @@ export default function AboutPinnedScroll({ started }: Props) {
 						duration: 0.6,
 						ease: "power3.out",
 					},
-					12.68,
+					15.43,
 				)
 				.to(
 					a6Cta.current,
 					{ y: 0, autoAlpha: 1, duration: 0.5, ease: "power3.out" },
-					12.78,
+					15.53,
 				);
 		}, wrapperRef);
 
@@ -775,10 +822,11 @@ export default function AboutPinnedScroll({ started }: Props) {
 			<AboutHeroAct
 				wrapRef={a1Wrap}
 				bgImgRef={a1BgImg}
-				eyebrowCharsRef={a1EyebrowChars}
+				eyebrowRef={a1Eyebrow}
 				line1CharsRef={a1Line1Chars}
 				line2CharsRef={a1Line2Chars}
 				quoteRef={a1Quote}
+				hintRef={a1Hint}
 			/>
 
 			<VisionaryAct
@@ -812,6 +860,8 @@ export default function AboutPinnedScroll({ started }: Props) {
 				entriesRef={a5Entries}
 				entriesMobileRef={a5EntriesMobile}
 			/>
+
+			<AchievementsAct wrapRef={aAchWrap} />
 
 			<ConnectAct
 				wrapRef={a6Wrap}
