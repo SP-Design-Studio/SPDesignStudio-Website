@@ -110,7 +110,7 @@ export default function Nav({ visible }: NavProps) {
 
   useEffect(() => {
     const color = lightBg ? "rgba(61,36,46,0.78)" : "rgba(252,251,247,0.7)";
-    const burgerColor = lightBg ? "#3d242e" : "#fcfbf7";
+    const burgerColor = lightBg ? "#452e36" : "#fcfbf7";
     gsap.to(linkCharsRef.current.flat().filter(Boolean), {
       color, duration: 0.7, ease: "power2.out",
     });

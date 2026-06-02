@@ -2,12 +2,12 @@ import Image from "next/image";
 import { PROCESS } from "@/lib/studio";
 
 const SHADES = [
-	"#2e1b22",
-	"#351f27",
-	"#3c242d",
-	"#442832",
-	"#4b2c37",
-	"#52313d",
+	"#2e1f24",
+	"#37252a",
+	"#3f2a31",
+	"#473037",
+	"#4f353e",
+	"#583b44",
 ];
 
 interface Props {
