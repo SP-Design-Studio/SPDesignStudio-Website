@@ -125,7 +125,7 @@ export function VoicesAct({
 									className="font-serif text-gold/35 leading-[0.5] select-none text-5xl">
 									&ldquo;
 								</span>
-								<blockquote className="font-serif italic font-light text-cream/90 leading-[1.5] text-sm md:text-base -mt-2">
+								<blockquote className="font-serif italic font-light text-cream/90 leading-normal text-sm md:text-base -mt-2">
 									{q.quote}
 								</blockquote>
 								<figcaption className="mt-4">
