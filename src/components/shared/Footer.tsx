@@ -90,7 +90,7 @@ export default function Footer() {
           ref={(el) => {
             itemsRef.current[0] = el;
           }}
-          className="font-sans font-light uppercase tracking-[0.32em] text-cream/45 text-[10px] md:text-xs leading-[2]"
+          className="font-sans font-light uppercase tracking-[0.32em] text-cream/45 text-[10px] md:text-xs leading-loose"
         >
           © {year} SP Design Studio — A Canvas of Artistry and Dedication.
         </p>
