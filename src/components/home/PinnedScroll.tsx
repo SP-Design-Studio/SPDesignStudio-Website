@@ -7,6 +7,7 @@ import { HeroAct } from "./acts/HeroAct";
 import { PhilosophyAct } from "./acts/PhilosophyAct";
 import { DisciplinesAct } from "./acts/DisciplinesAct";
 import { PartnersAct } from "./acts/PartnersAct";
+import { VoicesAct } from "./acts/VoicesAct";
 import { InvitationAct } from "./acts/InvitationAct";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -43,7 +44,6 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 	const a2Body = useRef<HTMLParagraphElement>(null);
 
 	const a3Wrap = useRef<HTMLDivElement>(null);
-	const a3Eyebrow = useRef<HTMLDivElement>(null);
 	const a3Rule = useRef<HTMLDivElement>(null);
 	const a3TitleChars = useRef<(HTMLSpanElement | null)[]>([]);
 	const a3Items = useRef<(HTMLDivElement | null)[]>([]);
@@ -54,6 +54,11 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 	const a5TitleWords = useRef<(HTMLSpanElement | null)[]>([]);
 	const a5Tagline = useRef<HTMLParagraphElement>(null);
 	const a5Showcase = useRef<HTMLDivElement>(null);
+
+	const avWrap = useRef<HTMLDivElement>(null);
+	const avRule = useRef<HTMLDivElement>(null);
+	const avTitleWords = useRef<(HTMLSpanElement | null)[]>([]);
+	const avItems = useRef<(HTMLDivElement | null)[]>([]);
 
 	const a6Wrap = useRef<HTMLDivElement>(null);
 	const a6Line1Chars = useRef<(HTMLSpanElement | null)[]>([]);
@@ -104,7 +109,13 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 			gsap.set(a1Hint.current, { autoAlpha: 0 });
 
 			gsap.set(
-				[a2Wrap.current, a3Wrap.current, a5Wrap.current, a6Wrap.current],
+				[
+					a2Wrap.current,
+					a3Wrap.current,
+					a5Wrap.current,
+					avWrap.current,
+					a6Wrap.current,
+				],
 				{ autoAlpha: 0 },
 			);
 
@@ -113,7 +124,6 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 			gsap.set(a2Words.current, HIDDEN_WORD_3D);
 			gsap.set(a2Body.current, { y: 22, autoAlpha: 0, filter: "blur(4px)" });
 
-			gsap.set(a3Eyebrow.current, { y: 14, autoAlpha: 0 });
 			gsap.set(a3Rule.current, { scaleX: 0, transformOrigin: "center" });
 			gsap.set(a3TitleChars.current, HIDDEN_CHAR_SKEW(14));
 			gsap.set(a3Items.current.filter(Boolean), {
@@ -130,6 +140,16 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 			gsap.set(a5TitleWords.current, HIDDEN_WORD_3D);
 			gsap.set(a5Tagline.current, { y: 22, autoAlpha: 0, filter: "blur(4px)" });
 			gsap.set(a5Showcase.current, { autoAlpha: 0, y: 30, filter: "blur(6px)" });
+
+			gsap.set(avRule.current, { scaleX: 0, transformOrigin: "center" });
+			gsap.set(avTitleWords.current, HIDDEN_WORD_3D);
+			gsap.set(avItems.current.filter(Boolean), {
+				y: 30,
+				autoAlpha: 0,
+				rotateX: -28,
+				transformPerspective: 1000,
+				transformOrigin: "50% 0%",
+			});
 
 			gsap.set(a6Line1Chars.current, HIDDEN_CHAR_3D);
 			gsap.set(a6Line2Chars.current, HIDDEN_CHAR_3D);
@@ -292,7 +312,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 				scrollTrigger: {
 					trigger: wrapperRef.current,
 					start: "top top",
-					end: `+=${VH * 12}`,
+					end: `+=${VH * 16}`,
 					pin: true,
 					scrub: 1.8,
 					anticipatePin: 1,
@@ -392,11 +412,6 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 
 				.to(a3Wrap.current, { autoAlpha: 1, duration: 0.01 }, 3.22)
 				.to(
-					a3Eyebrow.current,
-					{ y: 0, autoAlpha: 1, duration: 0.4, ease: "expo.out" },
-					3.26,
-				)
-				.to(
 					a3Rule.current,
 					{ scaleX: 1, duration: 0.55, ease: "expo.out" },
 					3.42,
@@ -455,14 +470,8 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 					4.78,
 				)
 				.to(
-					[a3Eyebrow.current, a3Rule.current],
-					{
-						autoAlpha: 0,
-						y: -16,
-						duration: 0.3,
-						stagger: 0.04,
-						ease: "power2.in",
-					},
+					a3Rule.current,
+					{ autoAlpha: 0, y: -16, duration: 0.3, ease: "power2.in" },
 					4.82,
 				)
 
@@ -564,7 +573,72 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 				)
 				.to(a5Wrap.current, { autoAlpha: 0, duration: 0.01 }, 6.88)
 
-				.to(a6Wrap.current, { autoAlpha: 1, duration: 0.01 }, 6.85)
+				// ── Client voices (testimonials) ──
+				.to(avWrap.current, { autoAlpha: 1, duration: 0.01 }, 6.85)
+				.to(
+					avRule.current,
+					{ scaleX: 1, duration: 0.55, ease: "expo.out" },
+					7.04,
+				)
+				.to(
+					avTitleWords.current,
+					{
+						rotateX: 0,
+						y: 0,
+						opacity: 1,
+						filter: "blur(0px)",
+						duration: 1.0,
+						ease: "power4.out",
+						stagger: 0.08,
+					},
+					6.98,
+				)
+				.to(
+					avItems.current.filter(Boolean),
+					{
+						y: 0,
+						autoAlpha: 1,
+						rotateX: 0,
+						duration: 0.8,
+						ease: "expo.out",
+						stagger: 0.12,
+					},
+					7.2,
+				)
+				.to(
+					avItems.current.filter(Boolean),
+					{
+						y: -40,
+						autoAlpha: 0,
+						scale: 0.94,
+						filter: "blur(6px)",
+						duration: 0.55,
+						ease: "power3.in",
+						stagger: 0.06,
+					},
+					8.7,
+				)
+				.to(
+					avTitleWords.current,
+					{
+						rotateX: -55,
+						y: -50,
+						opacity: 0,
+						filter: "blur(5px)",
+						duration: 0.5,
+						ease: "power3.in",
+						stagger: { each: 0.04, from: "end" },
+					},
+					8.7,
+				)
+				.to(
+					avRule.current,
+					{ autoAlpha: 0, y: -16, duration: 0.3, ease: "power2.in" },
+					8.74,
+				)
+				.to(avWrap.current, { autoAlpha: 0, duration: 0.01 }, 9.18)
+
+				.to(a6Wrap.current, { autoAlpha: 1, duration: 0.01 }, 9.4)
 				.to(
 					a6Line1Chars.current,
 					{
@@ -576,7 +650,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 						ease: "power4.out",
 						stagger: 0.024,
 					},
-					6.9,
+					9.45,
 				)
 				.to(
 					a6Line2Chars.current,
@@ -589,7 +663,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 						ease: "power4.out",
 						stagger: 0.024,
 					},
-					7.04,
+					9.6,
 				)
 				.to(
 					a6Details.current,
@@ -600,17 +674,17 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 						duration: 0.6,
 						ease: "power3.out",
 					},
-					7.3,
+					9.85,
 				)
 				.to(
 					a6Social.current,
 					{ y: 0, autoAlpha: 1, duration: 0.55, ease: "power3.out" },
-					7.4,
+					9.95,
 				)
 				.to(
 					a6CtaWrap.current,
 					{ y: 0, autoAlpha: 1, duration: 0.52, ease: "power3.out" },
-					7.48,
+					10.03,
 				);
 
 			const ctaEl = a6Cta.current;
@@ -677,7 +751,6 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 
 			<DisciplinesAct
 					wrapRef={a3Wrap}
-					eyebrowRef={a3Eyebrow}
 					ruleRef={a3Rule}
 					titleCharsRef={a3TitleChars}
 					itemsRef={a3Items}
@@ -690,6 +763,13 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 				titleWordsRef={a5TitleWords}
 				taglineRef={a5Tagline}
 				showcaseRef={a5Showcase}
+			/>
+
+			<VoicesAct
+				wrapRef={avWrap}
+				ruleRef={avRule}
+				titleWordsRef={avTitleWords}
+				itemsRef={avItems}
 			/>
 
 			<InvitationAct

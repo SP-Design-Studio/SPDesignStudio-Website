@@ -3,7 +3,6 @@ import { DISCIPLINES, SECTIONS } from "@/lib/studio";
 
 interface DisciplinesActProps {
 	wrapRef: React.RefObject<HTMLDivElement | null>;
-	eyebrowRef: React.RefObject<HTMLDivElement | null>;
 	ruleRef: React.RefObject<HTMLDivElement | null>;
 	titleCharsRef: React.RefObject<(HTMLSpanElement | null)[]>;
 	itemsRef: React.RefObject<(HTMLDivElement | null)[]>;
@@ -11,7 +10,6 @@ interface DisciplinesActProps {
 
 export function DisciplinesAct({
 	wrapRef,
-	eyebrowRef,
 	ruleRef,
 	titleCharsRef,
 	itemsRef,
@@ -20,20 +18,15 @@ export function DisciplinesAct({
 		<div
 			ref={wrapRef}
 			className="absolute inset-0 z-10 invisible overflow-y-auto">
-			<div className="min-h-full flex flex-col items-center justify-center px-5 sm:px-8 md:px-10 pt-20 sm:pt-24 pb-8 md:py-12">
+			<div className="min-h-full flex flex-col items-center justify-center px-5 sm:px-8 md:px-10 py-10 sm:py-12 md:py-14">
 			<div
-				ref={eyebrowRef}
-				className="font-bdscript text-gold tracking-[0.01em] leading-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-				{SECTIONS.disciplines.eyebrow}
-			</div>
-			<div ref={ruleRef} className="w-14 h-px bg-gold/70 my-4 sm:my-5" />
-			<div
-				className="font-bdscript text-cream tracking-[-0.005em] mb-7 sm:mb-9 md:mb-12 lg:mb-14 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.05]"
+				className="font-bdscript text-gold tracking-[-0.005em] mb-4 sm:mb-5 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.05]"
 				style={{ perspective: "1200px" }}>
-				<Chars text={SECTIONS.disciplines.title} refStore={titleCharsRef} />
+				<Chars text={SECTIONS.disciplines.eyebrow} refStore={titleCharsRef} />
 			</div>
+			<div ref={ruleRef} className="w-14 h-px bg-gold/70 mb-5 sm:mb-7 md:mb-8" />
 
-			<div className="grid grid-cols-2 lg:grid-cols-3 grid-flow-row-dense auto-rows-[clamp(8rem,14vw,15rem)] gap-2.5 md:gap-4 max-w-7xl mx-auto w-full">
+			<div className="grid grid-cols-2 lg:grid-cols-3 grid-flow-row-dense auto-rows-[clamp(5.5rem,13vh,11rem)] gap-2.5 md:gap-4 max-w-7xl mx-auto w-full">
 				{DISCIPLINES.map((d, i) => {
 					const spanClass =
 						d.span === "wide"

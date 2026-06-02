@@ -116,6 +116,46 @@ export const SECTIONS = {
 		title: "Partnered Brands that bring our Design alive",
 		tagline: "Material houses and craft studios — chosen, refined, trusted.",
 	},
+	voices: {
+		title: "In Their Words",
+		quotes: [
+			{
+				quote:
+					"They didn't design a house — they listened to how we live, then gave it form. Every room feels inevitable.",
+				name: "Aarav & Meera Reddy",
+				detail: "Private Villa · Jubilee Hills",
+				img: "/images/grid-top-left.jpg",
+			},
+			{
+				quote:
+					"Restraint, warmth, precision. SP turned a difficult brief into a space we never want to leave.",
+				name: "Kavya Nair",
+				detail: "Penthouse · Banjara Hills",
+				img: "/images/grid-top-right.jpg",
+			},
+			{
+				quote:
+					"The detail is obsessive in the best way — light, texture, proportion. Nothing is accidental.",
+				name: "Rohan Iyer",
+				detail: "Studio Office · Gachibowli",
+				img: "/images/grid-bottom-left.jpg",
+			},
+			{
+				quote:
+					"They made our home feel like a quiet exhale at the end of every day. Exactly what we asked for.",
+				name: "Sneha Varma",
+				detail: "Apartment · Kondapur",
+				img: "/images/grid-bottom-right.jpg",
+			},
+			{
+				quote:
+					"Timeless, not trendy. Two years on, it still feels like the smartest decision we made.",
+				name: "Vikram Desai",
+				detail: "Farmhouse · Shamirpet",
+				img: "/images/about-hero.jpg",
+			},
+		],
+	},
 	invitation: {
 		line1: "Let's Build",
 		line2: "Your Design.",
@@ -238,4 +278,51 @@ export const ABOUT = {
 		body: "Tell us about your space. We'll do the listening.",
 		ctaText: "Begin a Conversation",
 	},
+} as const;
+
+export const PROCESS = {
+	eyebrow: "The Studio's Workflow",
+	title: "Our Approach",
+	subtitle: "From Vision to Reality",
+	intro:
+		"Every project moves through six considered stages, from the first conversation to the day you step inside.",
+	steps: [
+		{
+			no: "01",
+			title: "Discovery & Consultation",
+			desc: "We begin with deep listening: understanding your rhythm, habits, and lifestyle to establish a foundation for a space that is uniquely yours.",
+			img: "/images/grid-top-left.jpg",
+		},
+		{
+			no: "02",
+			title: "Concept & Moodboarding",
+			desc: "Translating insights into a curated palette of textures, shapes, and tones that define the atmospheric direction of the project.",
+			img: "/images/grid-top-right.jpg",
+		},
+		{
+			no: "03",
+			title: "Design & Refinement",
+			desc: "Our studio blends aesthetic clarity with functional layouts, ensuring your space feels as effortless as it looks.",
+			img: "/images/grid-bottom-left.jpg",
+		},
+		{
+			no: "04",
+			title: "Material Selections",
+			desc: "We carefully source honest materials and custom finishes to create cohesive, tactile, and enduring living experiences.",
+			img: "/images/grid-bottom-right.jpg",
+		},
+		{
+			no: "05",
+			title: "Execution & Styling",
+			desc: "We oversee the final realization, from technical implementation to the styling touches that breathe life into the room.",
+			img: "/images/about-hero.jpg",
+		},
+		{
+			no: "06",
+			title: "Project Handover",
+			desc: "The final reveal: a space designed with soul, story, and intention, ready for you to inhabit and make your own.",
+			img: "/images/grid-top-right.jpg",
+		},
+	],
+	ctaText: "Begin Your Project",
 } as const;

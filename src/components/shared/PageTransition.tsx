@@ -13,29 +13,6 @@ export default function PageTransition() {
   const firstRender = useRef(true);
 
   useEffect(() => {
-    // Sample the actual background colour visible at viewport centre and
-    // decide light/dark by luminance — reliable regardless of pinned/smooth scroll.
-    const isLightBgVisible = () => {
-      if (typeof window === "undefined") return false;
-      let node: Element | null = document.elementFromPoint(
-        window.innerWidth / 2,
-        window.innerHeight / 2,
-      );
-      while (node) {
-        const c = getComputedStyle(node).backgroundColor;
-        const m = c.match(/rgba?\(([^)]+)\)/);
-        if (m) {
-          const [r, g, b, a = 1] = m[1].split(",").map((v) => parseFloat(v));
-          if (a > 0.05) {
-            const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-            return lum > 0.5;
-          }
-        }
-        node = node.parentElement;
-      }
-      return false;
-    };
-
     const onCover = (e: Event) => {
       const detail = (e as CustomEvent).detail as { href: string };
       const el = overlayRef.current;
@@ -43,10 +20,8 @@ export default function PageTransition() {
       const logo = logoRef.current;
       if (!el || !label || !logo) return;
 
-      const inLight = isLightBgVisible();
-
-      el.style.background = inLight ? "var(--color-cream)" : "var(--color-plum-dark)";
-      logo.style.filter = inLight ? "invert(1) brightness(0.35)" : "none";
+      el.style.background = "var(--color-cream)";
+      logo.style.filter = "invert(1) brightness(0.32)";
 
       gsap.set(el, { display: "block", clipPath: "inset(100% 0 0 0)", pointerEvents: "auto" });
       gsap.set(label, { autoAlpha: 0, scale: 0.85, filter: "blur(8px)" });
@@ -90,7 +65,7 @@ export default function PageTransition() {
     <div
       ref={overlayRef}
       className="fixed inset-0 z-100 pointer-events-none"
-      style={{ display: "none", clipPath: "inset(100% 0 0 0)", background: "var(--color-plum-dark)" }}
+      style={{ display: "none", clipPath: "inset(100% 0 0 0)", background: "var(--color-cream)" }}
       aria-hidden
     >
       <div ref={labelRef} className="absolute inset-0 flex items-center justify-center">
