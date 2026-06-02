@@ -93,7 +93,7 @@ export function CareersDrawer() {
 	return createPortal(
 		<div
 			ref={panelRef}
-			className="fixed inset-0 z-[200] overflow-y-auto bg-plum-dark text-cream"
+			className="fixed inset-0 z-200 overflow-y-auto bg-plum-dark text-cream"
 			style={{ clipPath: "inset(0% 0% 100% 0%)" }}>
 			<button
 				type="button"
