@@ -49,12 +49,11 @@ h1, h2, h3, h4, h5, h6 {
      font on iPhone. */
   font-style: italic;
   text-transform: none !important;
-  /* This is a connecting SCRIPT: the first and last glyphs paint swashes/
-     flourishes that extend well past their glyph box. Without room they get
-     clipped by the section's overflow-hidden. Give every BDScript element
-     inline breathing room and never clip its own ink. */
+  /* Connecting script — swashes extend past the glyph box. The actual
+     swash-clipping fix lives on the per-word spans (see Words.tsx): iOS clips
+     glyph ink to a transformed element's border box. Keep overflow visible
+     here so nothing clips the ink on the way up. */
   overflow: visible;
-  padding-inline: 0.3em;
 }
 
 .noise-bg {
