@@ -19,22 +19,27 @@ export default function SmoothScrollProvider({
       duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      // Route touch scrolling through Lenis too. Without this, touch devices
+      // use native momentum scroll while the pinned ScrollTrigger scrub (1.8s
+      // catch-up) lags far behind a fling — leaving the act animations stuck
+      // half-revealed until they slowly catch up. syncTouch makes the scrub
+      // interpolate on touch exactly like it does with the wheel on desktop.
+      syncTouch: true,
+      syncTouchLerp: 0.09,
     });
 
     lenisRef.current = lenis;
 
     lenis.on("scroll", ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
+    const raf = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      lenis.off("scroll", ScrollTrigger.update);
       lenis.destroy();
-      gsap.ticker.remove((time) => {
-        lenis.raf(time * 1000);
-      });
+      gsap.ticker.remove(raf);
     };
   }, []);
 

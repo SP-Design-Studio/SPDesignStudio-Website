@@ -118,32 +118,43 @@ export function TimelineAct({
 						})}
 					</div>
 
-					<div
-						className="md:hidden relative mx-auto"
-						style={{ maxWidth: 300, height: 440 }}>
-						{entries.map((e, i) => (
-							<div
-								key={e.year}
-								ref={(el) => { entriesMobileRef.current[i] = el; }}
-								className="absolute left-0 right-0 will-change-transform"
-								style={{ top: `${i * 34}px`, zIndex: i + 1 }}>
-								<div className="relative aspect-16/11 overflow-hidden bg-plum-dark border border-cream/10 shadow-2xl shadow-plum-dark/60">
-									<Image src={e.img} alt={e.label} fill className="object-cover" sizes="300px" />
-									<div className="absolute inset-0 bg-linear-to-t from-plum-dark/85 via-plum-dark/30 to-transparent" />
-									<span className="absolute top-3 left-4 font-bdscript text-gold leading-none text-3xl">
-										{e.year}
-									</span>
-									<div className="absolute bottom-3 left-4 right-4">
-										<div className="font-serif font-light text-cream tracking-[-0.01em] text-base leading-tight mb-0.5">
+					{/* Mobile — clean vertical timeline. The old stacked deck of
+					    landscape cards overlapped into unreadable bands; this fits
+					    the screen and reads top-to-bottom. */}
+					<div className="md:hidden relative mx-auto w-full max-w-sm pl-8">
+						{/* spine */}
+						<span
+							aria-hidden
+							className="absolute left-[9px] top-2 bottom-2 w-px bg-gold/30"
+						/>
+						<div className="flex flex-col gap-4">
+							{entries.map((e, i) => (
+								<div
+									key={e.year}
+									ref={(el) => { entriesMobileRef.current[i] = el; }}
+									className="relative flex items-start gap-3.5 will-change-transform">
+									{/* dot on the spine */}
+									<span className="absolute top-2 -left-[1.62rem] w-2.5 h-2.5 rounded-full bg-gold ring-4 ring-plum" />
+									{/* thumbnail */}
+									<div className="relative w-24 h-16 shrink-0 overflow-hidden bg-plum-dark border border-cream/10">
+										<Image src={e.img} alt={e.label} fill className="object-cover" sizes="96px" />
+										<div className="absolute inset-0 bg-linear-to-t from-plum-dark/45 to-transparent" />
+									</div>
+									{/* text */}
+									<div className="min-w-0 pt-0.5">
+										<span className="font-bdscript text-gold leading-none text-2xl">
+											{e.year}
+										</span>
+										<div className="font-serif font-light text-cream tracking-[-0.01em] text-base leading-tight mt-1 mb-0.5">
 											{e.label}
 										</div>
-										<p className="font-sans font-light text-cream/65 text-xs leading-snug">
+										<p className="font-sans font-light text-cream/60 text-xs leading-snug">
 											{e.desc}
 										</p>
 									</div>
 								</div>
-							</div>
-						))}
+							))}
+						</div>
 					</div>
 				</div>
 			</div>
