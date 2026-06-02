@@ -1,7 +1,14 @@
 import Image from "next/image";
 import { PROCESS } from "@/lib/studio";
 
-const SHADES = ["#451a2b", "#562637", "#673140", "#783d4b", "#854553"];
+const SHADES = [
+	"#2e1b22",
+	"#351f27",
+	"#3c242d",
+	"#442832",
+	"#4b2c37",
+	"#52313d",
+];
 
 interface Props {
 	wrapRef: React.RefObject<HTMLDivElement | null>;
@@ -69,13 +76,22 @@ export function ProcessStepsAct({
 								{s.no}
 							</span>
 							<div className="relative max-w-xl">
-								<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.6rem] md:text-xs mb-5">
+								<div className="p-eyebrow font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.6rem] md:text-xs mb-5">
 									Stage {s.no}
 								</div>
-								<h2 className="font-serif font-light leading-[1.05] tracking-[-0.01em] text-cream text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-5 md:mb-7">
-									{s.title}
+								<h2
+									className="font-serif font-light leading-[1.05] tracking-[-0.01em] text-cream text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-5 md:mb-7"
+									style={{ perspective: "800px" }}>
+									{s.title.split(" ").map((w, k) => (
+										<span
+											key={k}
+											className="p-tword inline-block"
+											style={{ marginRight: "0.22em" }}>
+											{w}
+										</span>
+									))}
 								</h2>
-								<p className="font-sans font-light text-cream/65 text-sm md:text-base lg:text-lg leading-[1.7]">
+								<p className="p-desc font-sans font-light text-cream/65 text-sm md:text-base lg:text-lg leading-[1.7]">
 									{s.desc}
 								</p>
 							</div>

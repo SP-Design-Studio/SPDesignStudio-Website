@@ -179,6 +179,58 @@ export default function ProcessPinnedScroll({ started }: { started: boolean }) {
 				const at = procStart + i * STEP;
 				wipe(imgInner.current[i], imgLine.current[i], at);
 				wipe(textInner.current[i], textLine.current[i], at);
+
+				const inner = textInner.current[i];
+				if (!inner) return;
+				const tWords = inner.querySelectorAll<HTMLElement>(".p-tword");
+				const eyebrow = inner.querySelector<HTMLElement>(".p-eyebrow");
+				const desc = inner.querySelector<HTMLElement>(".p-desc");
+
+				gsap.set(tWords, {
+					rotateX: 55,
+					y: 28,
+					opacity: 0,
+					filter: "blur(5px)",
+					transformPerspective: 800,
+					transformOrigin: "50% 100%",
+				});
+				gsap.set([eyebrow, desc], { y: 18, autoAlpha: 0, filter: "blur(4px)" });
+
+				tl.to(
+					eyebrow,
+					{
+						y: 0,
+						autoAlpha: 1,
+						filter: "blur(0px)",
+						duration: 0.5,
+						ease: "power3.out",
+					},
+					at + 0.4,
+				)
+					.to(
+						tWords,
+						{
+							rotateX: 0,
+							y: 0,
+							opacity: 1,
+							filter: "blur(0px)",
+							duration: 0.7,
+							ease: "power4.out",
+							stagger: 0.05,
+						},
+						at + 0.46,
+					)
+					.to(
+						desc,
+						{
+							y: 0,
+							autoAlpha: 1,
+							filter: "blur(0px)",
+							duration: 0.55,
+							ease: "power3.out",
+						},
+						at + 0.72,
+					);
 			});
 
 			tl.set(contactWrap.current, { autoAlpha: 1 }, procEnd - 0.05);
