@@ -1,4 +1,4 @@
-import { Chars } from "@/components/shared/Chars";
+import { Words } from "@/components/shared/Words";
 import { DISCIPLINES, SECTIONS } from "@/lib/studio";
 
 interface DisciplinesActProps {
@@ -22,19 +22,23 @@ export function DisciplinesAct({
 			<div
 				className="font-bdscript text-gold tracking-[-0.005em] mb-4 sm:mb-5 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.05]"
 				style={{ perspective: "1200px" }}>
-				<Chars text={SECTIONS.disciplines.eyebrow} refStore={titleCharsRef} />
+				<Words
+						words={SECTIONS.disciplines.eyebrow.split(" ")}
+						refStore={titleCharsRef}
+						spacing="0.18em"
+					/>
 			</div>
 			<div ref={ruleRef} className="w-14 h-px bg-gold/70 mb-5 sm:mb-7 md:mb-8" />
 
-			<div className="grid grid-cols-2 lg:grid-cols-3 grid-flow-row-dense auto-rows-[clamp(5.5rem,13vh,11rem)] gap-2.5 md:gap-4 max-w-7xl mx-auto w-full">
+			<div className="grid grid-cols-2 md:grid-cols-3 grid-flow-row-dense auto-rows-[clamp(7rem,17vh,13rem)] gap-3 md:gap-4 max-w-6xl lg:max-w-7xl mx-auto w-full">
 				{DISCIPLINES.map((d, i) => {
 					const spanClass =
 						d.span === "wide"
-							? "col-span-2 lg:col-span-2"
+							? "col-span-2 md:col-span-2"
 							: d.span === "tall"
-								? "lg:row-span-2"
+								? "md:row-span-2"
 								: d.variant === "italic"
-									? "col-span-2 lg:col-span-1"
+									? "col-span-2 md:col-span-1"
 									: "";
 					return (
 						<div
@@ -53,7 +57,7 @@ export function DisciplinesAct({
 										className="absolute inset-0"
 										style={{
 											background:
-												"linear-gradient(180deg, rgba(61,36,46,0.25) 0%, rgba(61,36,46,0.55) 55%, rgba(61,36,46,0.82) 100%)",
+												"linear-gradient(180deg, rgba(69,46,54,0.85) 0%, rgba(69,46,54,0.3) 28%, rgba(69,46,54,0.42) 62%, rgba(69,46,54,0.93) 100%)",
 										}}
 									/>
 								</>
@@ -62,21 +66,21 @@ export function DisciplinesAct({
 							)}
 
 							{d.variant === "centered" ? (
-								<div className="relative h-full flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 text-center">
-									<span className="font-sans font-light text-gold tracking-[0.4em] mb-3 sm:mb-7 md:mb-10 text-[0.62rem] sm:text-[0.68rem]">
+								<div className="relative h-full flex flex-col items-center justify-center p-4 sm:p-5 md:p-6 text-center">
+									<span className="w-fit rounded-[3px] bg-plum-dark/55 backdrop-blur-sm px-2.5 py-1 font-sans font-light text-gold tracking-[0.4em] mb-2.5 sm:mb-4 md:mb-5 text-[0.6rem] sm:text-[0.66rem]">
 										{d.topLabel}
 									</span>
-									<div className="font-serif italic font-light text-cream leading-none mb-2.5 sm:mb-4 text-4xl sm:text-5xl md:text-7xl">
+									<div className="font-serif italic font-light text-cream leading-none mb-2 sm:mb-3 text-4xl sm:text-5xl">
 										{d.bigStat}
 									</div>
-									<div className="font-sans font-light text-cream/65 tracking-[0.3em] uppercase text-[0.6rem] sm:text-[0.66rem] mb-3 sm:mb-6">
+									<div className="font-sans font-light text-cream/65 tracking-[0.3em] uppercase text-[0.58rem] sm:text-[0.64rem] mb-2.5 sm:mb-4">
 										{d.desc}
 									</div>
-									<span className="w-12 h-px bg-gold/55" />
+									<span className="w-10 h-px bg-gold/55" />
 								</div>
 							) : d.variant === "italic" ? (
 								<div className="relative h-full flex flex-col justify-between p-6 md:p-7">
-									<span className="font-sans font-light text-gold tracking-[0.36em] text-[0.68rem]">
+									<span className="w-fit rounded-[3px] bg-plum-dark/55 backdrop-blur-sm px-2.5 py-1 font-sans font-light text-gold tracking-[0.36em] text-[0.68rem]">
 										{d.topLabel}
 									</span>
 									<div>
@@ -90,11 +94,11 @@ export function DisciplinesAct({
 								</div>
 							) : (
 								<div className="relative h-full flex flex-col justify-between p-6 md:p-7">
-									<span className="font-sans font-light text-gold tracking-[0.36em] text-[0.68rem]">
+									<span className="w-fit rounded-[3px] bg-plum-dark/55 backdrop-blur-sm px-2.5 py-1 font-sans font-light text-gold tracking-[0.36em] text-[0.68rem]">
 										{d.topLabel}
 									</span>
 									<div className="flex flex-col gap-1.5 md:flex-row-reverse md:items-end md:justify-between md:gap-3">
-										<span className="font-serif font-light text-cream leading-none shrink-0 text-3xl sm:text-4xl md:text-7xl">
+										<span className="font-serif font-light text-cream leading-none shrink-0 text-3xl sm:text-4xl md:text-6xl">
 											{d.bigStat}
 										</span>
 										{d.span === "wide" ? (

@@ -93,22 +93,22 @@ export function TimelineAct({
 										ref={(el) => { dotsRef.current[i] = el; }}
 										className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 block w-3 h-3 rounded-full bg-gold ring-4 ring-plum z-3"
 									/>
+									<span className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-[155%] font-bdscript text-gold leading-none text-2xl lg:text-3xl whitespace-nowrap">
+										{e.year}
+									</span>
 									<div
 										ref={(el) => { entriesRef.current[i] = el; }}
-										className="absolute left-1/2 -translate-x-1/2 top-5 w-32 lg:w-40"
+										className="absolute left-1/2 -translate-x-1/2 top-6 w-40 lg:w-48"
 										style={{ perspective: "1000px" }}>
 										<div className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
 											<div className="relative aspect-16/10 overflow-hidden mb-2 bg-plum-dark">
 												<Image src={e.img} alt={e.label} fill className="object-cover" sizes="170px" />
 												<div className="absolute inset-0 bg-linear-to-t from-plum-dark/70 to-transparent" />
-												<span className="absolute bottom-1.5 left-2.5 font-bdscript text-gold leading-none text-xl lg:text-2xl">
-													{e.year}
-												</span>
 											</div>
-											<div className="font-serif font-light text-cream tracking-[-0.01em] text-sm lg:text-base leading-tight mb-0.5">
+											<div className="font-serif font-light text-cream tracking-[-0.01em] text-base lg:text-lg leading-tight mb-1">
 												{e.label}
 											</div>
-											<p className="font-sans font-light text-cream/55 text-[0.68rem] lg:text-xs leading-relaxed">
+											<p className="font-sans font-light text-cream/60 text-xs lg:text-sm leading-relaxed">
 												{e.desc}
 											</p>
 										</div>
@@ -136,19 +136,19 @@ export function TimelineAct({
 									{/* dot on the spine */}
 									<span className="absolute top-2 -left-[1.62rem] w-2.5 h-2.5 rounded-full bg-gold ring-4 ring-plum" />
 									{/* thumbnail */}
-									<div className="relative w-24 h-16 shrink-0 overflow-hidden bg-plum-dark border border-cream/10">
+									<div className="relative w-28 h-20 shrink-0 overflow-hidden bg-plum-dark border border-cream/10">
 										<Image src={e.img} alt={e.label} fill className="object-cover" sizes="96px" />
 										<div className="absolute inset-0 bg-linear-to-t from-plum-dark/45 to-transparent" />
 									</div>
 									{/* text */}
 									<div className="min-w-0 pt-0.5">
-										<span className="font-bdscript text-gold leading-none text-2xl">
+										<span className="font-bdscript text-gold leading-none text-3xl">
 											{e.year}
 										</span>
-										<div className="font-serif font-light text-cream tracking-[-0.01em] text-base leading-tight mt-1 mb-0.5">
+										<div className="font-serif font-light text-cream tracking-[-0.01em] text-lg leading-tight mt-1 mb-1">
 											{e.label}
 										</div>
-										<p className="font-sans font-light text-cream/60 text-xs leading-snug">
+										<p className="font-sans font-light text-cream/65 text-sm leading-snug">
 											{e.desc}
 										</p>
 									</div>

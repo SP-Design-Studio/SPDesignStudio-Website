@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { Words } from "@/components/shared/Words";
+import { PartnersDirectory } from "./PartnersDirectory";
 import { SECTIONS } from "@/lib/studio";
 import { brandLogos } from "@/lib/brands";
 import { gsap } from "gsap";
@@ -99,6 +100,7 @@ export function PartnersAct({
 							words={titleWordsArr}
 							refStore={titleWordsRef}
 							spacing="0.22em"
+							flat
 						/>
 					</div>
 					<p
@@ -106,6 +108,7 @@ export function PartnersAct({
 						className="font-serif italic font-light text-cream/65 max-w-130 text-sm sm:text-base md:text-lg leading-[1.6]">
 						{SECTIONS.partners.tagline}
 					</p>
+					<PartnersDirectory />
 				</div>
 
 				<div
