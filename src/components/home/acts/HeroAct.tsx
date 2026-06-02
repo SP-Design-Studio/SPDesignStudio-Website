@@ -52,7 +52,7 @@ export function HeroAct({
 				<div className="flex flex-col">
 					<div
 						className="font-bdscript text-cream leading-none tracking-[-0.015em] text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem]"
-						style={{ perspective: "1200px", paddingLeft: "0.12em", overflow: "visible" }}>
+						style={{ perspective: "1200px" }}>
 						<Words
 							words={SECTIONS.hero.line1.split(" ")}
 							refStore={line1CharsRef}
@@ -63,7 +63,7 @@ export function HeroAct({
 
 					<div
 						className="font-bdscript text-gold leading-none tracking-[-0.015em] mb-5 md:mb-[clamp(22px,2.5vw,32px)] text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem]"
-						style={{ perspective: "1200px", paddingLeft: "0.12em", overflow: "visible" }}>
+						style={{ perspective: "1200px" }}>
 						<Words
 							words={SECTIONS.hero.line2.split(" ")}
 							refStore={line2CharsRef}
