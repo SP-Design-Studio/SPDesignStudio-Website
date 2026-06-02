@@ -53,6 +53,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 	const a5Rule = useRef<HTMLDivElement>(null);
 	const a5TitleWords = useRef<(HTMLSpanElement | null)[]>([]);
 	const a5Tagline = useRef<HTMLParagraphElement>(null);
+	const a5Cta = useRef<HTMLDivElement>(null);
 	const a5Showcase = useRef<HTMLDivElement>(null);
 
 	const avWrap = useRef<HTMLDivElement>(null);
@@ -139,6 +140,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 			gsap.set(a5Rule.current, { scaleX: 0, transformOrigin: "left" });
 			gsap.set(a5TitleWords.current, HIDDEN_WORD_3D);
 			gsap.set(a5Tagline.current, { y: 22, autoAlpha: 0, filter: "blur(4px)" });
+			gsap.set(a5Cta.current, { y: 18, autoAlpha: 0 });
 			gsap.set(a5Showcase.current, { autoAlpha: 0, y: 30, filter: "blur(6px)" });
 
 			gsap.set(avRule.current, { scaleX: 0, transformOrigin: "center" });
@@ -530,7 +532,12 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 					5.55,
 				)
 				.to(
-					[a5Tagline.current, a5Eyebrow.current, a5Rule.current],
+					a5Cta.current,
+					{ y: 0, autoAlpha: 1, duration: 0.55, ease: "power3.out" },
+					5.82,
+				)
+				.to(
+					[a5Tagline.current, a5Eyebrow.current, a5Rule.current, a5Cta.current],
 					{
 						autoAlpha: 0,
 						y: -22,
@@ -762,6 +769,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 				ruleRef={a5Rule}
 				titleWordsRef={a5TitleWords}
 				taglineRef={a5Tagline}
+				ctaRef={a5Cta}
 				showcaseRef={a5Showcase}
 			/>
 

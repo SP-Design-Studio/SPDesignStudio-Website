@@ -13,6 +13,7 @@ interface PartnersActProps {
 	ruleRef: React.RefObject<HTMLDivElement | null>;
 	titleWordsRef: React.RefObject<(HTMLSpanElement | null)[]>;
 	taglineRef: React.RefObject<HTMLParagraphElement | null>;
+	ctaRef: React.RefObject<HTMLDivElement | null>;
 	showcaseRef: React.RefObject<HTMLDivElement | null>;
 }
 
@@ -47,6 +48,7 @@ export function PartnersAct({
 	ruleRef,
 	titleWordsRef,
 	taglineRef,
+	ctaRef,
 	showcaseRef,
 }: PartnersActProps) {
 	const titleWordsArr = SECTIONS.partners.title.split(" ");
@@ -108,7 +110,9 @@ export function PartnersAct({
 						className="font-serif italic font-light text-cream/65 max-w-130 text-sm sm:text-base md:text-lg leading-[1.6]">
 						{SECTIONS.partners.tagline}
 					</p>
-					<PartnersDirectory />
+					<div ref={ctaRef} className="w-fit">
+						<PartnersDirectory />
+					</div>
 				</div>
 
 				<div

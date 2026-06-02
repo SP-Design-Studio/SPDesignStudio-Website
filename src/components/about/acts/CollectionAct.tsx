@@ -36,7 +36,7 @@ export function CollectionAct({
 						</div>
 
 						<div
-							className="font-bdscript text-cream tracking-[-0.005em] text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05]"
+							className="font-serif font-light text-cream tracking-[-0.01em] text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05]"
 							style={{ perspective: "1200px" }}>
 							<Chars text={ABOUT.team.title} refStore={titleCharsRef} />
 						</div>

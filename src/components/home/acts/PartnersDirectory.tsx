@@ -7,10 +7,7 @@ import { PARTNER_DIRECTORY } from "@/lib/studio";
 
 export function PartnersDirectory() {
 	const [open, setOpen] = useState(false);
-	const [mounted, setMounted] = useState(false);
 	const panelRef = useRef<HTMLDivElement>(null);
-
-	useEffect(() => setMounted(true), []);
 
 	const close = () => {
 		document.body.style.overflow = "";
@@ -66,20 +63,19 @@ export function PartnersDirectory() {
 				</span>
 			</button>
 
-			{mounted &&
-				open &&
+			{open &&
 				createPortal(
 					<div
 						ref={panelRef}
 						className="fixed inset-0 z-[200] overflow-y-auto bg-plum-dark"
 						style={{ clipPath: "inset(0% 0% 100% 0%)" }}>
-						<div className="mx-auto min-h-full max-w-7xl px-6 sm:px-10 md:px-16 py-14 md:py-20">
-							<div className="mb-12 flex items-start justify-between md:mb-16">
+						<div className="mx-auto min-h-full max-w-7xl px-6 sm:px-10 md:px-16 py-12 sm:py-16 md:py-20">
+							<div className="mb-9 flex items-start justify-between gap-5 sm:mb-12 md:mb-16">
 								<div>
-									<div className="font-sans font-light uppercase tracking-[0.42em] text-gold text-[0.6rem] md:text-xs mb-4">
+									<div className="font-sans font-light uppercase tracking-[0.32em] sm:tracking-[0.42em] text-gold text-[0.58rem] md:text-xs mb-3 md:mb-4">
 										Our Network
 									</div>
-									<h2 className="font-bdscript text-cream leading-none text-5xl md:text-7xl">
+									<h2 className="font-bdscript text-cream leading-none text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
 										Trusted Houses
 									</h2>
 								</div>
@@ -93,17 +89,17 @@ export function PartnersDirectory() {
 								</button>
 							</div>
 
-							<div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
+							<div className="grid grid-cols-2 gap-x-6 gap-y-9 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-12 md:grid-cols-4">
 								{PARTNER_DIRECTORY.map((cat) => (
 									<div key={cat.category} className="pd-col">
-										<h3 className="font-serif italic font-light text-gold text-xl md:text-2xl mb-4">
+										<h3 className="font-serif italic font-light text-gold text-lg sm:text-xl md:text-2xl mb-3 md:mb-4">
 											{cat.category}
 										</h3>
-										<ul className="flex flex-col gap-2.5">
+										<ul className="flex flex-col gap-2 sm:gap-2.5">
 											{cat.brands.map((b) => (
 												<li
 													key={b}
-													className="font-sans font-light text-cream/70 text-sm md:text-base">
+													className="font-sans font-light text-cream/70 text-[0.82rem] sm:text-sm md:text-base">
 													{b}
 												</li>
 											))}

@@ -8,6 +8,7 @@ interface TimelineActProps {
 	titleCharsRef: React.RefObject<(HTMLSpanElement | null)[]>;
 	lineDesktopRef: React.RefObject<SVGPathElement | null>;
 	dotsRef: React.RefObject<(HTMLSpanElement | null)[]>;
+	yearsRef: React.RefObject<(HTMLSpanElement | null)[]>;
 	entriesRef: React.RefObject<(HTMLDivElement | null)[]>;
 	entriesMobileRef: React.RefObject<(HTMLDivElement | null)[]>;
 }
@@ -36,6 +37,7 @@ export function TimelineAct({
 	titleCharsRef,
 	lineDesktopRef,
 	dotsRef,
+	yearsRef,
 	entriesRef,
 	entriesMobileRef,
 }: TimelineActProps) {
@@ -53,7 +55,7 @@ export function TimelineAct({
 								{ABOUT.timeline.eyebrow}
 							</div>
 							<div
-								className="font-bdscript text-cream tracking-[-0.005em] text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-[1.05]"
+								className="font-serif font-light text-cream tracking-[-0.01em] text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-[1.05]"
 								style={{ perspective: "1200px" }}>
 								<Chars text={ABOUT.timeline.title} refStore={titleCharsRef} />
 							</div>
@@ -75,7 +77,8 @@ export function TimelineAct({
 								ref={lineDesktopRef}
 								d={D_PATH}
 								stroke="var(--color-gold)"
-								strokeWidth="2"
+								strokeOpacity={0.3}
+								strokeWidth="1.5"
 								strokeLinecap="round"
 							/>
 						</svg>
@@ -93,8 +96,12 @@ export function TimelineAct({
 										ref={(el) => { dotsRef.current[i] = el; }}
 										className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 block w-3 h-3 rounded-full bg-gold ring-4 ring-plum z-3"
 									/>
-									<span className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-[155%] font-bdscript text-gold leading-none text-2xl lg:text-3xl whitespace-nowrap">
-										{e.year}
+									<span className="pointer-events-none absolute left-1/2 bottom-4 -translate-x-1/2">
+										<span
+											ref={(el) => { yearsRef.current[i] = el; }}
+											className="block font-bdscript text-gold leading-none text-3xl lg:text-4xl whitespace-nowrap">
+											{e.year}
+										</span>
 									</span>
 									<div
 										ref={(el) => { entriesRef.current[i] = el; }}
@@ -125,7 +132,7 @@ export function TimelineAct({
 						{/* spine */}
 						<span
 							aria-hidden
-							className="absolute left-[9px] top-2 bottom-2 w-px bg-gold/30"
+							className="absolute left-2.25 top-2 bottom-2 w-px bg-gold/30"
 						/>
 						<div className="flex flex-col gap-4">
 							{entries.map((e, i) => (
@@ -134,7 +141,7 @@ export function TimelineAct({
 									ref={(el) => { entriesMobileRef.current[i] = el; }}
 									className="relative flex items-start gap-3.5 will-change-transform">
 									{/* dot on the spine */}
-									<span className="absolute top-2 -left-[1.62rem] w-2.5 h-2.5 rounded-full bg-gold ring-4 ring-plum" />
+									<span className="absolute top-2 left-[-1.62rem] w-2.5 h-2.5 rounded-full bg-gold ring-4 ring-plum" />
 									{/* thumbnail */}
 									<div className="relative w-28 h-20 shrink-0 overflow-hidden bg-plum-dark border border-cream/10">
 										<Image src={e.img} alt={e.label} fill className="object-cover" sizes="96px" />

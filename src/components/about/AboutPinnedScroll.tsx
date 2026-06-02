@@ -53,6 +53,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 	const a5TitleChars = useRef<(HTMLSpanElement | null)[]>([]);
 	const a5LineDesktop = useRef<SVGPathElement>(null);
 	const a5Dots = useRef<(HTMLSpanElement | null)[]>([]);
+	const a5Years = useRef<(HTMLSpanElement | null)[]>([]);
 	const a5Entries = useRef<(HTMLDivElement | null)[]>([]);
 	const a5EntriesMobile = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -152,6 +153,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 			const a5LenD = a5PathD ? a5PathD.getTotalLength() : 0;
 			if (a5PathD) gsap.set(a5PathD, { strokeDasharray: a5LenD, strokeDashoffset: a5LenD });
 			gsap.set(a5Dots.current.filter(Boolean), { scale: 0, autoAlpha: 0, transformOrigin: "50% 50%" });
+			gsap.set(a5Years.current.filter(Boolean), { y: 10, autoAlpha: 0 });
 			// Pick desktop curve-cards or mobile stacked deck
 			const a5Targets = isMobile
 				? a5EntriesMobile.current.filter(Boolean)
@@ -616,7 +618,12 @@ export default function AboutPinnedScroll({ started }: Props) {
 					},
 					7.6,
 				)
-				// Cards reveal — desktop flip / mobile stack-deal
+				.to(
+						a5Years.current.filter(Boolean),
+						{ y: 0, autoAlpha: 1, duration: 0.5, ease: "power3.out", stagger: 0.34 },
+						7.7,
+					)
+					// Cards reveal — desktop flip / mobile stack-deal
 				.to(
 					a5Targets,
 					isMobile
@@ -670,6 +677,11 @@ export default function AboutPinnedScroll({ started }: Props) {
 				.to(
 					a5Dots.current.filter(Boolean),
 					{ scale: 0, autoAlpha: 0, duration: 0.32, stagger: { each: 0.05, from: "end" }, ease: "power2.in" },
+					11.45,
+				)
+				.to(
+					a5Years.current.filter(Boolean),
+					{ y: 10, autoAlpha: 0, duration: 0.32, stagger: { each: 0.05, from: "end" }, ease: "power2.in" },
 					11.45,
 				)
 				.to(
@@ -796,6 +808,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 				titleCharsRef={a5TitleChars}
 				lineDesktopRef={a5LineDesktop}
 				dotsRef={a5Dots}
+				yearsRef={a5Years}
 				entriesRef={a5Entries}
 				entriesMobileRef={a5EntriesMobile}
 			/>
