@@ -27,7 +27,7 @@ export function HeroAct({
 		<div
 			ref={wrapRef}
 			className="absolute inset-0 z-10 flex flex-col justify-end pt-24 pb-10 md:py-14 px-6 sm:px-10 md:px-16 overflow-hidden">
-			{/* Background video */}
+			{}
 			<div ref={bgVideoRef} className="absolute inset-0 z-0">
 				<video
 					autoPlay

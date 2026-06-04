@@ -11,6 +11,7 @@ interface TimelineActProps {
 	yearsRef: React.RefObject<(HTMLSpanElement | null)[]>;
 	entriesRef: React.RefObject<(HTMLDivElement | null)[]>;
 	entriesMobileRef: React.RefObject<(HTMLDivElement | null)[]>;
+	entriesMobileWrapRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const VB_W = 1200;
@@ -40,6 +41,7 @@ export function TimelineAct({
 	yearsRef,
 	entriesRef,
 	entriesMobileRef,
+	entriesMobileWrapRef,
 }: TimelineActProps) {
 	const entries = ABOUT.timeline.entries;
 
@@ -125,43 +127,29 @@ export function TimelineAct({
 						})}
 					</div>
 
-					{/* Mobile — clean vertical timeline. The old stacked deck of
-					    landscape cards overlapped into unreadable bands; this fits
-					    the screen and reads top-to-bottom. */}
-					<div className="md:hidden relative mx-auto w-full max-w-sm pl-8">
-						{/* spine */}
-						<span
-							aria-hidden
-							className="absolute left-2.25 top-2 bottom-2 w-px bg-gold/30"
-						/>
-						<div className="flex flex-col gap-4">
-							{entries.map((e, i) => (
-								<div
-									key={e.year}
-									ref={(el) => { entriesMobileRef.current[i] = el; }}
-									className="relative flex items-start gap-3.5 will-change-transform">
-									{/* dot on the spine */}
-									<span className="absolute top-2 left-[-1.62rem] w-2.5 h-2.5 rounded-full bg-gold ring-4 ring-plum" />
-									{/* thumbnail */}
-									<div className="relative w-28 h-20 shrink-0 overflow-hidden bg-plum-dark border border-cream/10">
-										<Image src={e.img} alt={e.label} fill className="object-cover" sizes="96px" />
-										<div className="absolute inset-0 bg-linear-to-t from-plum-dark/45 to-transparent" />
-									</div>
-									{/* text */}
-									<div className="min-w-0 pt-0.5">
-										<span className="font-bdscript text-gold leading-none text-3xl">
-											{e.year}
-										</span>
-										<div className="font-serif font-light text-cream tracking-[-0.01em] text-lg leading-tight mt-1 mb-1">
-											{e.label}
-										</div>
-										<p className="font-sans font-light text-cream/65 text-sm leading-snug">
-											{e.desc}
-										</p>
-									</div>
+					<div
+						ref={entriesMobileWrapRef}
+						className="md:hidden flex gap-4 overflow-x-auto overflow-y-hidden snap-x snap-mandatory -mx-6 px-6 sm:-mx-8 sm:px-8 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+						{entries.map((e, i) => (
+							<div
+								key={e.year}
+								ref={(el) => { entriesMobileRef.current[i] = el; }}
+								className="snap-center shrink-0 w-[78%] sm:w-[58%] will-change-transform">
+								<div className="relative w-full aspect-4/3 overflow-hidden bg-plum-dark border border-cream/10">
+									<Image src={e.img} alt={e.label} fill className="object-cover" sizes="80vw" />
+									<div className="absolute inset-0 bg-linear-to-t from-plum-dark/80 via-plum-dark/10 to-transparent" />
+									<span className="absolute bottom-2.5 left-3.5 font-bdscript text-gold leading-none text-4xl drop-shadow-[0_1px_6px_rgba(46,31,36,0.6)]">
+										{e.year}
+									</span>
 								</div>
-							))}
-						</div>
+								<div className="font-serif font-light text-cream tracking-[-0.01em] text-xl leading-tight mt-3 mb-1.5">
+									{e.label}
+								</div>
+								<p className="font-sans font-light text-cream/65 text-sm leading-snug">
+									{e.desc}
+								</p>
+							</div>
+						))}
 					</div>
 				</div>
 			</div>

@@ -7,6 +7,7 @@ import { PROCESS } from "@/lib/studio";
 import { ProcessHeroAct } from "./acts/ProcessHeroAct";
 import { ProcessStepsAct } from "./acts/ProcessStepsAct";
 import { ProcessContactAct } from "./acts/ProcessContactAct";
+import { enableSectionSnap } from "@/lib/sectionSnap";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,6 +34,7 @@ export default function ProcessPinnedScroll({ started }: { started: boolean }) {
 	useEffect(() => {
 		if (!started) return;
 
+		let cleanupSnap: () => void = () => {};
 		const ctx = gsap.context(() => {
 			const VH = window.innerHeight;
 			const steps = PROCESS.steps;
@@ -235,9 +237,19 @@ export default function ProcessPinnedScroll({ started }: { started: boolean }) {
 
 			tl.set(contactWrap.current, { autoAlpha: 1 }, procEnd - 0.05);
 			wipe(contactInner.current, contactLine.current, procEnd);
+
+			tl.addLabel("s-hero", 0);
+			steps.forEach((_, i) => {
+				tl.addLabel(`s-step-${i}`, procStart + i * STEP + 1.2);
+			});
+			tl.addLabel("s-contact", tl.duration());
+			cleanupSnap = enableSectionSnap(tl);
 		}, wrapperRef);
 
-		return () => ctx.revert();
+		return () => {
+			cleanupSnap();
+			ctx.revert();
+		};
 	}, [started]);
 
 	return (

@@ -19,8 +19,6 @@
 
 
 html {
-  /* overflow-x: clip prevents horizontal scroll WITHOUT creating a scroll
-     container — overflow-x: hidden here breaks GSAP ScrollTrigger pinning. */
   overflow-x: visible;
   overflow-y: visible;
 }
@@ -43,16 +41,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .font-bdscript {
   font-family: var(--font-bdscript), cursive;
-  /* BDScript's @font-face is declared italic (it's a 40°-slanted face that
-     reports itself as "Regular"). iOS Safari only matches the face when the
-     element also requests italic — without this it falls back to a system
-     font on iPhone. */
   font-style: italic;
   text-transform: none !important;
-  /* Connecting script — swashes extend past the glyph box. The actual
-     swash-clipping fix lives on the per-word spans (see Words.tsx): iOS clips
-     glyph ink to a transformed element's border box. Keep overflow visible
-     here so nothing clips the ink on the way up. */
   overflow: visible;
 }
 

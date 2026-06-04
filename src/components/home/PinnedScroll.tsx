@@ -9,6 +9,7 @@ import { DisciplinesAct } from "./acts/DisciplinesAct";
 import { PartnersAct } from "./acts/PartnersAct";
 import { VoicesAct } from "./acts/VoicesAct";
 import { InvitationAct } from "./acts/InvitationAct";
+import { enableSectionSnap } from "@/lib/sectionSnap";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -72,6 +73,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 	useEffect(() => {
 		if (!started) return;
 
+		let cleanupSnap: () => void = () => {};
 		const ctx = gsap.context(() => {
 			const VH = window.innerHeight;
 
@@ -210,15 +212,10 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 					0.1,
 				);
 
-			// Paused — played only once fonts are ready, so the BDScript chars
-			// first rasterize with the real font (fixes the iOS Safari
-			// font-swap-on-transformed-element bug on the hero headline).
 			const heroIn = gsap.timeline({
 				delay: 0.5,
 				paused: true,
 				onComplete: () => {
-					// Drop will-change so the headline isn't stuck in a frozen
-					// composited layer on iOS Safari.
 					[
 						...(a1Line1Chars.current ?? []),
 						...(a1Line2Chars.current ?? []),
@@ -279,10 +276,6 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 				)
 				.to(a1Hint.current, { autoAlpha: 1, duration: 0.45 }, "-=0.22");
 
-			// The hero chars render `visibility:hidden` (see Chars.tsx) so WebKit
-			// never rasterizes the fallback font into the 3D-transform layer
-			// before BDScript loads. Once the font is ready, reveal them — the
-			// very first rasterization now uses the correct font.
 			const revealChars = () => {
 				[
 					...(a1Line1Chars.current ?? []),
@@ -292,8 +285,6 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 				});
 			};
 
-			// Start the hero reveal only after BDScript has actually loaded
-			// (fonts.ready alone can resolve before the face starts loading).
 			const playReveal = () => {
 				revealChars();
 				heroIn.play();
@@ -580,7 +571,6 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 				)
 				.to(a5Wrap.current, { autoAlpha: 0, duration: 0.01 }, 6.88)
 
-				// ── Client voices (testimonials) ──
 				.to(avWrap.current, { autoAlpha: 1, duration: 0.01 }, 6.85)
 				.to(
 					avRule.current,
@@ -694,6 +684,14 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 					10.03,
 				);
 
+			tl.addLabel("s-hero", 0)
+				.addLabel("s-philosophy", 2.72)
+				.addLabel("s-disciplines", 4.6)
+				.addLabel("s-partners", 6.38)
+				.addLabel("s-voices", 8.4)
+				.addLabel("s-invitation", tl.duration());
+			cleanupSnap = enableSectionSnap(tl);
+
 			const ctaEl = a6Cta.current;
 			if (ctaEl) {
 				let hovering = false;
@@ -727,7 +725,10 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 			}
 		}, wrapperRef);
 
-		return () => ctx.revert();
+		return () => {
+			cleanupSnap();
+			ctx.revert();
+		};
 	}, [started]);
 
 	return (

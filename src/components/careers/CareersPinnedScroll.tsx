@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CareersHeroAct } from "./acts/CareersHeroAct";
 import { CareersOpeningsAct } from "./acts/CareersOpeningsAct";
 import { CareersInviteAct } from "./acts/CareersInviteAct";
+import { enableSectionSnap } from "@/lib/sectionSnap";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +26,7 @@ export default function CareersPinnedScroll({ started }: { started: boolean }) {
 	useEffect(() => {
 		if (!started) return;
 
+		let cleanupSnap: () => void = () => {};
 		const ctx = gsap.context(() => {
 			const VH = window.innerHeight;
 			const HIDDEN_WORD = {
@@ -184,9 +186,17 @@ export default function CareersPinnedScroll({ started }: { started: boolean }) {
 					},
 					3.35,
 				);
+
+			tl.addLabel("s-hero", 0)
+				.addLabel("s-openings", 1.9)
+				.addLabel("s-invite", tl.duration());
+			cleanupSnap = enableSectionSnap(tl);
 		}, wrapperRef);
 
-		return () => ctx.revert();
+		return () => {
+			cleanupSnap();
+			ctx.revert();
+		};
 	}, [started]);
 
 	return (

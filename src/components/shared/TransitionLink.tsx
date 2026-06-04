@@ -3,6 +3,7 @@
 import Link, { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
 import { forwardRef } from "react";
+import { getLenis } from "@/lib/smoothScroll";
 
 type Props = LinkProps & React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   children?: React.ReactNode;
@@ -21,7 +22,7 @@ const TransitionLink = forwardRef<HTMLAnchorElement, Props>(function TransitionL
   const isSamePage = target === pathname;
   const isExternal = /^https?:\/\//.test(target);
 
-  const skip = isHash || isMailto || isTel || isSamePage || isExternal;
+  const skip = isHash || isMailto || isTel || isExternal;
 
   return (
     <Link
@@ -29,7 +30,17 @@ const TransitionLink = forwardRef<HTMLAnchorElement, Props>(function TransitionL
       href={href}
       onClick={(e) => {
         onClick?.(e);
-        if (skip || e.defaultPrevented) return;
+        if (e.defaultPrevented) return;
+
+        if (isSamePage) {
+          e.preventDefault();
+          const lenis = getLenis();
+          if (lenis) lenis.scrollTo(0, { duration: 1.2 });
+          else window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+
+        if (skip) return;
         e.preventDefault();
         document.dispatchEvent(
           new CustomEvent("page-transition-cover", { detail: { href: target } })

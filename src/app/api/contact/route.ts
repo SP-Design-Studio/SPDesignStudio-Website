@@ -38,7 +38,6 @@ export async function POST(req: Request) {
 	const from = process.env.RESEND_FROM;
 	const to = process.env.CONTACT_TO || STUDIO.email;
 
-	// Not configured yet — accept so the form works, and surface the payload in logs.
 	if (!apiKey || !from) {
 		console.warn("[contact] RESEND not configured; inquiry not emailed:", {
 			kind,

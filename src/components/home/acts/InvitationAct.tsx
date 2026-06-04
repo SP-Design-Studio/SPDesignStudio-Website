@@ -46,7 +46,6 @@ export function InvitationAct({
 					refStore={line2CharsRef}
 					spacing="0.2em"
 					wordStyleByIndex={(i) => ({
-						// "Your" cream, "Design." gold (per word so the script joins).
 						color:
 							i === 0 ? "var(--color-cream)" : "var(--color-gold)",
 					})}

@@ -56,7 +56,6 @@ export function VoicesAct({
 	useEffect(() => {
 		start();
 		return stop;
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [n]);
 
 	useEffect(() => {
@@ -95,7 +94,7 @@ export function VoicesAct({
 				</div>
 				<div ref={ruleRef} className="w-14 h-px bg-gold/70 mt-5 mb-10 md:mb-12" />
 
-				{/* Carousel — the master scroll timeline reveals/hides this block. */}
+				{}
 				<div
 					ref={(el) => {
 						itemsRef.current[0] = el;
@@ -140,7 +139,6 @@ export function VoicesAct({
 						))}
 					</div>
 
-					{/* Custom nav — a gold segment that slides along a hairline. */}
 					<div className="mt-10 md:mt-12 flex items-center justify-center gap-6">
 						<button
 							type="button"

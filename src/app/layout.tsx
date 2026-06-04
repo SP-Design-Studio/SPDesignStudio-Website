@@ -17,19 +17,10 @@ const dmSans = DM_Sans({
   weight: ["300", "400", "500"],
 });
 
-// Self-hosted via next/font — Next bundles it with a hashed URL, preload
-// and correct headers, so it loads reliably on Vercel (no CSS @font-face FOUT/fallback).
 const bdScript = localFont({
   src: "../../public/fonts/BDScript-Regular.woff",
   variable: "--font-bdscript",
   display: "swap",
-  // CRITICAL: BDScript is a 40°-slanted script (post.italicAngle = -40) that
-  // mislabels itself "Regular" in its OS/2 table. iOS Safari/WebKit does strict
-  // style matching and REFUSES to use a slanted face for a `font-style:normal`
-  // request — it silently falls back, which is why the hero headlines rendered
-  // wrong on iPhone but fine on desktop Chrome (which is lenient). Declaring the
-  // face as italic (and requesting italic via `.font-bdscript`, see globals.css)
-  // makes iOS accept it. This matches the working v1 site's config exactly.
   style: "italic",
 });
 

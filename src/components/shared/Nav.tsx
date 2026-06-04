@@ -216,7 +216,7 @@ export default function Nav({ visible }: NavProps) {
           className="block group"
           onClick={() => setOpen(false)}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {}
           <img
             ref={logoImgRef}
             src="/images/logo.svg"

@@ -19,9 +19,9 @@ export function AchievementsAct({ wrapRef }: Props) {
 						{achievements.title}
 					</h2>
 
-					<div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
+					<div className="ach-reveal flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto overflow-y-hidden md:overflow-visible snap-x snap-mandatory md:snap-none -mx-6 px-6 sm:-mx-10 sm:px-10 md:mx-0 md:px-0 pb-3 md:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
 						{achievements.items.map((it) => (
-							<div key={it.title} className="ach-reveal group flex flex-col">
+							<div key={it.title} className="group flex flex-col shrink-0 w-[72%] sm:w-[46%] md:w-auto snap-center">
 								<div className="relative mb-3 aspect-[4/3] overflow-hidden rounded-[2px]">
 									<Image
 										src={it.img}

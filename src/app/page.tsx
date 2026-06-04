@@ -14,14 +14,12 @@ export default function Home() {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    /* eslint-disable react-hooks/set-state-in-effect */
     setHydrated(true);
     if (sessionStorage.getItem("preloaderShown") === "1") {
       setPreloaderDone(true);
     } else {
       setShowPreloader(true);
     }
-    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   useEffect(() => {

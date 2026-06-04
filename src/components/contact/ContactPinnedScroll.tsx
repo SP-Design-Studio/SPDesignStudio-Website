@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ContactHeroAct } from "./acts/ContactHeroAct";
 import { ContactInquiryAct } from "./acts/ContactInquiryAct";
 import { ContactInfoAct } from "./acts/ContactInfoAct";
+import { enableSectionSnap } from "@/lib/sectionSnap";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +26,7 @@ export default function ContactPinnedScroll({ started }: { started: boolean }) {
 	useEffect(() => {
 		if (!started) return;
 
+		let cleanupSnap: () => void = () => {};
 		const ctx = gsap.context(() => {
 			const VH = window.innerHeight;
 			const HIDDEN_WORD = {
@@ -184,9 +186,17 @@ export default function ContactPinnedScroll({ started }: { started: boolean }) {
 					},
 					3.35,
 				);
+
+			tl.addLabel("s-hero", 0)
+				.addLabel("s-inquiry", 1.9)
+				.addLabel("s-form", tl.duration());
+			cleanupSnap = enableSectionSnap(tl);
 		}, wrapperRef);
 
-		return () => ctx.revert();
+		return () => {
+			cleanupSnap();
+			ctx.revert();
+		};
 	}, [started]);
 
 	return (

@@ -9,6 +9,7 @@ import { CollectionAct } from "./acts/CollectionAct";
 import { TimelineAct } from "./acts/TimelineAct";
 import { AchievementsAct } from "./acts/AchievementsAct";
 import { ConnectAct } from "./acts/ConnectAct";
+import { enableSectionSnap } from "@/lib/sectionSnap";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -49,6 +50,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 	const a4Body = useRef<HTMLParagraphElement>(null);
 	const a4Members = useRef<(HTMLDivElement | null)[]>([]);
 	const a4MembersMobile = useRef<(HTMLDivElement | null)[]>([]);
+	const a4MembersMobileWrap = useRef<HTMLDivElement>(null);
 
 	const a5Wrap = useRef<HTMLDivElement>(null);
 	const a5Eyebrow = useRef<HTMLDivElement>(null);
@@ -58,6 +60,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 	const a5Years = useRef<(HTMLSpanElement | null)[]>([]);
 	const a5Entries = useRef<(HTMLDivElement | null)[]>([]);
 	const a5EntriesMobile = useRef<(HTMLDivElement | null)[]>([]);
+	const a5EntriesMobileWrap = useRef<HTMLDivElement>(null);
 
 	const aAchWrap = useRef<HTMLDivElement>(null);
 
@@ -70,6 +73,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 	useEffect(() => {
 		if (!started) return;
 
+		let cleanupSnap: () => void = () => {};
 		const ctx = gsap.context(() => {
 			const VH = window.innerHeight;
 
@@ -140,19 +144,15 @@ export default function AboutPinnedScroll({ started }: Props) {
 				typeof window !== "undefined" &&
 				window.matchMedia("(max-width: 767px)").matches;
 			const teamTargets = isMobile
-				? a4MembersMobile.current.filter(Boolean)
+				? [a4MembersMobileWrap.current].filter(Boolean)
 				: a4Members.current.filter(Boolean);
 
 			gsap.set(
 				teamTargets,
 				isMobile
 					? {
-							y: 280,
-							scale: 0.85,
+							y: 40,
 							autoAlpha: 0,
-							rotateX: -22,
-							transformPerspective: 1200,
-							transformOrigin: "50% 0%",
 						}
 					: {
 							y: 120,
@@ -166,26 +166,20 @@ export default function AboutPinnedScroll({ started }: Props) {
 
 			gsap.set(a5Eyebrow.current, { y: 14, autoAlpha: 0 });
 			gsap.set(a5TitleChars.current, HIDDEN_CHAR_SKEW(12));
-			// Desktop curve draw setup
 			const a5PathD = a5LineDesktop.current;
 			const a5LenD = a5PathD ? a5PathD.getTotalLength() : 0;
 			if (a5PathD) gsap.set(a5PathD, { strokeDasharray: a5LenD, strokeDashoffset: a5LenD });
 			gsap.set(a5Dots.current.filter(Boolean), { scale: 0, autoAlpha: 0, transformOrigin: "50% 50%" });
 			gsap.set(a5Years.current.filter(Boolean), { y: 10, autoAlpha: 0 });
-			// Pick desktop curve-cards or mobile stacked deck
 			const a5Targets = isMobile
-				? a5EntriesMobile.current.filter(Boolean)
+				? [a5EntriesMobileWrap.current].filter(Boolean)
 				: a5Entries.current.filter(Boolean);
 			gsap.set(
 				a5Targets,
 				isMobile
 					? {
-							y: 300,
-							scale: 0.85,
+							y: 40,
 							autoAlpha: 0,
-							rotateX: -22,
-							transformPerspective: 1200,
-							transformOrigin: "50% 0%",
 						}
 					: {
 							rotateY: -78,
@@ -263,15 +257,10 @@ export default function AboutPinnedScroll({ started }: Props) {
 					0.1,
 				);
 
-			// Paused — played only once fonts are ready, so the BDScript chars
-			// first rasterize with the real font (fixes the iOS Safari
-			// font-swap-on-transformed-element bug on the hero headline).
 			const heroIn = gsap.timeline({
 				delay: 1.1,
 				paused: true,
 				onComplete: () => {
-					// Drop will-change so the headline isn't stuck in a frozen
-					// composited layer on iOS Safari.
 					[
 						...(a1Line1Chars.current ?? []),
 						...(a1Line2Chars.current ?? []),
@@ -336,10 +325,6 @@ export default function AboutPinnedScroll({ started }: Props) {
 				)
 				.to(a1Hint.current, { autoAlpha: 1, duration: 0.45 }, "-=0.22");
 
-			// The hero chars render `visibility:hidden` (see Chars.tsx) so WebKit
-			// never rasterizes the fallback font into the 3D-transform layer
-			// before BDScript loads. Once the font is ready, reveal them — the
-			// very first rasterization now uses the correct font.
 			const revealChars = () => {
 				[
 					...(a1Line1Chars.current ?? []),
@@ -349,8 +334,6 @@ export default function AboutPinnedScroll({ started }: Props) {
 				});
 			};
 
-			// Start the hero reveal only after BDScript has actually loaded
-			// (fonts.ready alone can resolve before the face starts loading).
 			const playReveal = () => {
 				revealChars();
 				heroIn.play();
@@ -552,7 +535,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 				.to(
 					teamTargets,
 					{
-						y: isMobile ? -120 : -60,
+						y: isMobile ? -56 : -60,
 						scale: 0.94,
 						autoAlpha: 0,
 						rotateX: isMobile ? -15 : 25,
@@ -618,13 +601,11 @@ export default function AboutPinnedScroll({ started }: Props) {
 					},
 					7.06,
 				)
-				// Gold curve draws (desktop) — the spine of the cascade
 				.to(
 					a5LineDesktop.current,
 					{ strokeDashoffset: 0, duration: 2.0, ease: "power1.inOut" },
 					7.3,
 				)
-				// Dots pop as the curve reaches each node (desktop only)
 				.to(
 					a5Dots.current.filter(Boolean),
 					{
@@ -641,7 +622,6 @@ export default function AboutPinnedScroll({ started }: Props) {
 						{ y: 0, autoAlpha: 1, duration: 0.5, ease: "power3.out", stagger: 0.34 },
 						7.7,
 					)
-					// Cards reveal — desktop flip / mobile stack-deal
 				.to(
 					a5Targets,
 					isMobile
@@ -666,14 +646,11 @@ export default function AboutPinnedScroll({ started }: Props) {
 					7.8,
 				)
 
-				// ── Dwell: everything holds revealed (~1.5 units) ──
-
-				// Exit — cards leave, dots shrink, curve drains
 				.to(
 					a5Targets,
 					isMobile
 						? {
-								y: -140,
+								y: -56,
 								scale: 0.9,
 								rotateX: -14,
 								autoAlpha: 0,
@@ -733,7 +710,6 @@ export default function AboutPinnedScroll({ started }: Props) {
 				)
 				.to(a5Wrap.current, { autoAlpha: 0, duration: 0.01 }, 12.3)
 
-				// ── Achievements (on the same plum-dark bg6) ──
 				.to(aAchWrap.current, { autoAlpha: 1, duration: 0.01 }, 12.25)
 				.to(
 					achEls,
@@ -761,7 +737,6 @@ export default function AboutPinnedScroll({ started }: Props) {
 				)
 				.to(aAchWrap.current, { autoAlpha: 0, duration: 0.01 }, 15.05)
 
-				// ── Connect ──
 				.to(a6Wrap.current, { autoAlpha: 1, duration: 0.01 }, 15.0)
 				.to(
 					a6Line1Chars.current,
@@ -805,9 +780,20 @@ export default function AboutPinnedScroll({ started }: Props) {
 					{ y: 0, autoAlpha: 1, duration: 0.5, ease: "power3.out" },
 					15.53,
 				);
+
+			tl.addLabel("s-hero", 0)
+				.addLabel("s-visionary", 3.0)
+				.addLabel("s-collection", 6.0)
+				.addLabel("s-timeline", 10.6)
+				.addLabel("s-achievements", 13.8)
+				.addLabel("s-connect", tl.duration());
+			cleanupSnap = enableSectionSnap(tl);
 		}, wrapperRef);
 
-		return () => ctx.revert();
+		return () => {
+			cleanupSnap();
+			ctx.revert();
+		};
 	}, [started]);
 
 	return (
@@ -848,6 +834,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 				bodyRef={a4Body}
 				membersRef={a4Members}
 				membersMobileRef={a4MembersMobile}
+				membersMobileWrapRef={a4MembersMobileWrap}
 			/>
 
 			<TimelineAct
@@ -859,6 +846,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 				yearsRef={a5Years}
 				entriesRef={a5Entries}
 				entriesMobileRef={a5EntriesMobile}
+				entriesMobileWrapRef={a5EntriesMobileWrap}
 			/>
 
 			<AchievementsAct wrapRef={aAchWrap} />

@@ -12,8 +12,6 @@ export default function Footer() {
   const itemsRef = useRef<(HTMLElement | null)[]>([]);
   const pillRef = useRef<HTMLSpanElement>(null);
 
-  // Hover: the thin underline grows up to cover the name as a translucent
-  // gold highlight, then collapses back to a 1px line.
   const onEnter = () => {
     gsap.to(pillRef.current, {
       height: "100%",
@@ -74,7 +72,7 @@ export default function Footer() {
       ref={rootRef}
       className="relative overflow-hidden bg-plum-dark px-6 md:px-16 pt-24 pb-12"
     >
-      {/* Oversized faint script wordmark, bleeding off the edges. */}
+      {}
       <div
         ref={wordmarkRef}
         aria-hidden
@@ -117,8 +115,7 @@ export default function Footer() {
             className="relative inline-block cursor-default px-1.5 py-0.5 text-gold/80"
           >
             <span className="relative z-10">Abhiraman Kuntimaddi</span>
-            {/* 1px line that expands up over the name as a translucent gold
-                highlight on hover (see spandana-portfolio Tagline). */}
+            {}
             <span
               ref={pillRef}
               aria-hidden

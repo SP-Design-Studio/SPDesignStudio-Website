@@ -70,9 +70,6 @@ export function AboutHeroAct({
 						spacing="0.18em"
 						initialHidden
 						wordStyleByIndex={(i) => ({
-							// First word cream, remaining word(s) gold — matches the
-							// original "with Soul." cream/gold split, but per word so
-							// the connecting script stays joined.
 							color:
 								i === 0
 									? "var(--color-cream)"

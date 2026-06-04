@@ -69,7 +69,7 @@ export default function PageTransition() {
       aria-hidden
     >
       <div ref={labelRef} className="absolute inset-0 flex items-center justify-center">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        {}
         <img ref={logoRef} src="/images/logo.svg" alt="" className="h-16 md:h-20 w-auto opacity-90" />
       </div>
     </div>

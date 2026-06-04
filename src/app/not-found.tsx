@@ -33,9 +33,6 @@ export default function NotFound() {
 			gsap.set(bodyRef.current, { y: 20, autoAlpha: 0, filter: "blur(4px)" });
 			gsap.set(ctaWrapRef.current, { y: 18, autoAlpha: 0 });
 
-			// Cascade is timed to begin as the page-transition overlay lifts
-			// (~0.55s after mount) so it reveals WITH the page, not after it.
-			// Kept moderately tight so it doesn't trail long once the page is shown.
 			const tl = gsap.timeline({ delay: 0.55, defaults: { ease: "power3.out" } });
 			tl.to(eyebrowRef.current, {
 				y: 0,

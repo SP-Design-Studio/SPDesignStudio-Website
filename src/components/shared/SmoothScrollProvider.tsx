@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { setLenis } from "@/lib/smoothScroll";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,16 +20,13 @@ export default function SmoothScrollProvider({
       duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      // Route touch scrolling through Lenis too. Without this, touch devices
-      // use native momentum scroll while the pinned ScrollTrigger scrub (1.8s
-      // catch-up) lags far behind a fling — leaving the act animations stuck
-      // half-revealed until they slowly catch up. syncTouch makes the scrub
-      // interpolate on touch exactly like it does with the wheel on desktop.
       syncTouch: true,
       syncTouchLerp: 0.09,
+      allowNestedScroll: true,
     });
 
     lenisRef.current = lenis;
+    setLenis(lenis);
 
     lenis.on("scroll", ScrollTrigger.update);
 
@@ -40,6 +38,7 @@ export default function SmoothScrollProvider({
       lenis.off("scroll", ScrollTrigger.update);
       lenis.destroy();
       gsap.ticker.remove(raf);
+      setLenis(null);
     };
   }, []);
 
