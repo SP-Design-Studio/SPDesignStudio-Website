@@ -41,7 +41,7 @@ export function ContactInfoAct({ wrapRef }: Props) {
 												{ch.label}
 											</div>
 											<div className="font-serif font-light text-cream text-lg md:text-xl transition-colors duration-500 group-hover:text-gold">
-												{ch.value}
+												<span className="ulink">{ch.value}</span>
 											</div>
 										</div>
 										<span className="text-cream/30 transition-all duration-500 group-hover:translate-x-1 group-hover:text-gold">

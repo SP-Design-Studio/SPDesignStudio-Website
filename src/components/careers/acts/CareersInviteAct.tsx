@@ -27,7 +27,7 @@ export function CareersInviteAct({ wrapRef }: Props) {
 						onClick={() =>
 							window.dispatchEvent(new CustomEvent("open-application", { detail: {} }))
 						}
-						className="cr-reveal group inline-flex w-fit cursor-pointer items-center gap-3 bg-gold px-9 py-4 font-sans font-light uppercase tracking-[0.28em] text-plum-dark text-xs">
+						className="cr-reveal cta-gold group inline-flex w-fit cursor-pointer items-center gap-3 bg-gold px-9 py-4 font-sans font-light uppercase tracking-[0.28em] text-plum-dark text-xs">
 						{ctaText}
 						<span className="transition-transform duration-500 group-hover:translate-x-1">
 							&rarr;

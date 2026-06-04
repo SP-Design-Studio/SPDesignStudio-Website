@@ -72,6 +72,12 @@ export const SECTIONS = {
 		pillars: ["Authenticity", "Purpose", "Elegance"],
 		ctaText: "Explore the Portfolio",
 		ctaHref: "#work",
+		recognition: {
+			label: "Recognised",
+			items: ["Designer of the Year ’23", "Sustainable Design Award", "300+ Projects"],
+			linkText: "View honours",
+			linkHref: "/about#honours",
+		},
 	},
 	philosophy: {
 		eyebrow: "The Philosophy",

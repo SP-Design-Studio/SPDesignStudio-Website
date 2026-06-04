@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { gsap } from "gsap";
 import { Words } from "@/components/shared/Words";
+import { CloseButton } from "@/components/shared/CloseButton";
 import { SECTIONS } from "@/lib/studio";
 
 interface VoicesActProps {
@@ -194,10 +195,7 @@ export function VoicesAct({
 							type="button"
 							onClick={() => setOpen(true)}
 							className="group cursor-pointer inline-flex items-center gap-2.5 font-sans font-light uppercase tracking-[0.28em] text-[0.62rem] md:text-[0.68rem] text-cream/70 transition-colors duration-300 hover:text-gold">
-							<span className="relative">
-								Read all {n} reflections
-								<span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-gold transition-transform duration-500 ease-out group-hover:scale-x-100" />
-							</span>
+							<span className="ulink">Read all {n} reflections</span>
 							<span className="transition-transform duration-500 group-hover:translate-x-1">
 								&rarr;
 							</span>
@@ -233,13 +231,10 @@ export function VoicesAct({
 										{`${n} stories from the people we’ve built for`}
 									</div>
 								</div>
-								<button
-									type="button"
+								<CloseButton
 									onClick={() => setOpen(false)}
-									aria-label="Close"
-									className="cursor-pointer shrink-0 ml-4 flex h-10 w-10 items-center justify-center rounded-full border border-cream/20 text-cream/70 transition-colors duration-300 hover:border-gold hover:text-gold">
-									<span className="text-lg leading-none">&times;</span>
-								</button>
+									className="shrink-0 ml-4"
+								/>
 							</div>
 
 							<div

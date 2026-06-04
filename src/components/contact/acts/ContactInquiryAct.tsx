@@ -42,7 +42,7 @@ export function ContactInquiryAct({ wrapRef }: Props) {
 								</p>
 								{it.kind === "career" ? (
 									<Link href={it.href} className={ctaCls}>
-										{it.cta}
+										<span className="ulink">{it.cta}</span>
 										<span className="transition-transform duration-500 group-hover/cta:translate-x-1">
 											&rarr;
 										</span>
@@ -58,7 +58,7 @@ export function ContactInquiryAct({ wrapRef }: Props) {
 											)
 										}
 										className={`${ctaCls} cursor-pointer`}>
-										{it.cta}
+										<span className="ulink">{it.cta}</span>
 										<span className="transition-transform duration-500 group-hover/cta:translate-x-1">
 											&rarr;
 										</span>

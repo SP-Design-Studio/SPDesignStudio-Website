@@ -102,7 +102,7 @@ export function InvitationAct({
 				<a
 					ref={ctaRef}
 					href={`mailto:${STUDIO.email}`}
-					className="group inline-flex items-center gap-3 px-8 py-4 font-sans font-light text-sm uppercase tracking-[0.28em] transition-[gap] duration-500 hover:gap-5 bg-gold text-plum-dark will-change-transform">
+					className="cta-gold group inline-flex items-center gap-3 px-8 py-4 font-sans font-light text-sm uppercase tracking-[0.28em] bg-gold text-plum-dark will-change-transform">
 					{SECTIONS.invitation.ctaText}
 					<span className="transition-transform duration-500 group-hover:translate-x-1">
 						→

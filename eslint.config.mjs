@@ -6,7 +6,6 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   {
-    files: ["src/app/page.tsx"],
     rules: { "react-hooks/set-state-in-effect": "off" },
   },
   // Override default ignores of eslint-config-next.

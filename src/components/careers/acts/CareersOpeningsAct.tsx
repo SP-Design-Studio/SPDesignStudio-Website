@@ -45,7 +45,7 @@ export function CareersOpeningsAct({ wrapRef }: Props) {
 											type="button"
 											onClick={() => openApplication(o.role)}
 											className="group inline-flex cursor-pointer items-center gap-2 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.62rem] md:text-xs hover:text-cream transition-colors">
-											Apply
+											<span className="ulink">Apply</span>
 											<span className="transition-transform duration-500 group-hover:translate-x-1">
 												&rarr;
 											</span>

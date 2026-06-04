@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Words } from "@/components/shared/Words";
+import TransitionLink from "@/components/shared/TransitionLink";
 import { SECTIONS } from "@/lib/studio";
 
 interface HeroActProps {
@@ -10,6 +11,7 @@ interface HeroActProps {
 	quoteRef: React.RefObject<HTMLParagraphElement | null>;
 	subRef: React.RefObject<HTMLDivElement | null>;
 	ctaRef: React.RefObject<HTMLDivElement | null>;
+	proofRef: React.RefObject<HTMLDivElement | null>;
 	hintRef: React.RefObject<HTMLDivElement | null>;
 }
 
@@ -21,12 +23,14 @@ export function HeroAct({
 	quoteRef,
 	subRef,
 	ctaRef,
+	proofRef,
 	hintRef,
 }: HeroActProps) {
+	const { recognition } = SECTIONS.hero;
 	return (
 		<div
 			ref={wrapRef}
-			className="absolute inset-0 z-10 flex flex-col justify-end pt-24 pb-10 md:py-14 px-6 sm:px-10 md:px-16 overflow-hidden">
+			className="absolute inset-0 z-10 flex flex-col justify-end pt-24 pb-7 md:py-14 px-6 sm:px-10 md:px-16 overflow-hidden">
 			{}
 			<div ref={bgVideoRef} className="absolute inset-0 z-0">
 				<video
@@ -48,7 +52,7 @@ export function HeroAct({
 				/>
 			</div>
 
-			<div className="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between gap-7 md:gap-8">
+			<div className="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between gap-5 md:gap-8">
 				<div className="flex flex-col">
 					<div
 						className="font-bdscript text-cream leading-none tracking-[-0.015em] text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem]"
@@ -99,16 +103,38 @@ export function HeroAct({
 						<Link
 							href={SECTIONS.hero.ctaHref}
 							className="group flex items-center gap-2 font-sans font-light uppercase text-gold tracking-[0.24em] md:tracking-[0.28em] text-[11px] md:text-xs">
-							<span className="relative">
-								{SECTIONS.hero.ctaText}
-								<span className="absolute -bottom-px left-0 h-px w-0 group-hover:w-full transition-all duration-700 bg-gold" />
-							</span>
+							<span className="ulink">{SECTIONS.hero.ctaText}</span>
 							<span className="transition-transform duration-300 group-hover:translate-x-1">
 								→
 							</span>
 						</Link>
 					</div>
 				</div>
+			</div>
+
+			<div
+				ref={proofRef}
+				className="relative z-10 mt-4 md:mt-7 flex items-center justify-between gap-4 border-t border-cream/12 pt-3.5 md:pt-4">
+				<div className="flex min-w-0 items-center gap-2.5 md:gap-3">
+					<span className="hidden sm:inline font-sans font-light uppercase tracking-[0.3em] text-gold text-[9px] md:text-[10px] shrink-0">
+						{recognition.label}
+					</span>
+					<span className="hidden sm:block h-3 w-px bg-cream/20 shrink-0" />
+					<span className="truncate font-sans font-light uppercase tracking-[0.18em] text-cream/55 text-[9px] md:text-[10px]">
+						<span className="sm:hidden">{recognition.items[0]}</span>
+						<span className="hidden sm:inline">
+							{recognition.items.join("  ·  ")}
+						</span>
+					</span>
+				</div>
+				<TransitionLink
+					href={recognition.linkHref}
+					className="group inline-flex shrink-0 items-center gap-1.5 font-sans font-light uppercase tracking-[0.24em] text-cream/70 transition-colors duration-300 hover:text-gold text-[9px] md:text-[10px]">
+					<span className="ulink">{recognition.linkText}</span>
+					<span className="transition-transform duration-300 group-hover:translate-x-0.5">
+						→
+					</span>
+				</TransitionLink>
 			</div>
 
 			<div

@@ -36,6 +36,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 	const a1Quote = useRef<HTMLParagraphElement>(null);
 	const a1Sub = useRef<HTMLDivElement>(null);
 	const a1Cta = useRef<HTMLDivElement>(null);
+	const a1Proof = useRef<HTMLDivElement>(null);
 	const a1Hint = useRef<HTMLDivElement>(null);
 
 	const a2Wrap = useRef<HTMLDivElement>(null);
@@ -109,6 +110,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 			gsap.set(a1Quote.current, { y: 22, autoAlpha: 0, filter: "blur(4px)" });
 			gsap.set(a1Sub.current, { y: 16, autoAlpha: 0 });
 			gsap.set(a1Cta.current, { y: 14, autoAlpha: 0 });
+			gsap.set(a1Proof.current, { y: 14, autoAlpha: 0 });
 			gsap.set(a1Hint.current, { autoAlpha: 0 });
 
 			gsap.set(
@@ -174,7 +176,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 					0,
 				)
 				.to(
-					[a1Quote.current, a1Sub.current, a1Cta.current],
+					[a1Quote.current, a1Sub.current, a1Cta.current, a1Proof.current],
 					{
 						y: -28,
 						autoAlpha: 0,
@@ -274,6 +276,11 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 					{ y: 0, autoAlpha: 1, duration: 0.55, ease: "power3.out" },
 					"-=0.38",
 				)
+				.to(
+					a1Proof.current,
+					{ y: 0, autoAlpha: 1, duration: 0.55, ease: "power3.out" },
+					"-=0.32",
+				)
 				.to(a1Hint.current, { autoAlpha: 1, duration: 0.45 }, "-=0.22");
 
 			const revealChars = () => {
@@ -312,6 +319,8 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 					onUpdate: (self) => {
 						if (!heroExitFired && self.progress > 0.035) {
 							heroExitFired = true;
+							revealChars();
+							heroIn.progress(1);
 							heroExit.play();
 						} else if (heroExitFired && self.progress < 0.015) {
 							heroExitFired = false;
@@ -746,6 +755,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 				quoteRef={a1Quote}
 				subRef={a1Sub}
 				ctaRef={a1Cta}
+				proofRef={a1Proof}
 				hintRef={a1Hint}
 			/>
 

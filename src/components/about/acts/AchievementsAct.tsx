@@ -1,62 +1,327 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { gsap } from "gsap";
+import { CloseButton } from "@/components/shared/CloseButton";
 import { ABOUT } from "@/lib/studio";
 
 interface Props {
 	wrapRef: React.RefObject<HTMLDivElement | null>;
 }
 
+const ROTATE = 4200;
+
 export function AchievementsAct({ wrapRef }: Props) {
 	const { achievements } = ABOUT;
+	const items = achievements.items;
+	const n = items.length;
+	const [active, setActive] = useState(0);
+	const [paused, setPaused] = useState(false);
+	const [detail, setDetail] = useState<number | null>(null);
+
+	const open = detail !== null;
+	const d = items[detail ?? 0];
+
+	const panelRef = useRef<HTMLDivElement>(null);
+	const imgRef = useRef<HTMLDivElement>(null);
+	const bodyRef = useRef<HTMLDivElement>(null);
+
+	const close = () => {
+		document.body.style.overflow = "";
+		if (!panelRef.current) {
+			setDetail(null);
+			return;
+		}
+		gsap.to(panelRef.current, {
+			clipPath: "inset(100% 0% 0% 0%)",
+			duration: 0.55,
+			ease: "expo.inOut",
+			onComplete: () => setDetail(null),
+		});
+	};
+
+	useEffect(() => {
+		if (paused || detail !== null) return;
+		const id = setInterval(() => setActive((a) => (a + 1) % n), ROTATE);
+		return () => clearInterval(id);
+	}, [paused, detail, n]);
+
+	useEffect(() => {
+		if (!open || !panelRef.current) return;
+		document.body.style.overflow = "hidden";
+		gsap.set(panelRef.current, { clipPath: "inset(0% 0% 100% 0%)" });
+		gsap.to(panelRef.current, {
+			clipPath: "inset(0% 0% 0% 0%)",
+			duration: 0.7,
+			ease: "expo.inOut",
+		});
+		const ctx = gsap.context(() => {
+			gsap.fromTo(
+				".am-static",
+				{ y: 24, autoAlpha: 0 },
+				{
+					y: 0,
+					autoAlpha: 1,
+					duration: 0.6,
+					stagger: 0.08,
+					ease: "power3.out",
+					delay: 0.28,
+				},
+			);
+		});
+		const onKey = (e: KeyboardEvent) => {
+			if (e.key === "Escape") close();
+			else if (e.key === "ArrowRight")
+				setDetail((dd) => (dd === null ? dd : (dd + 1) % n));
+			else if (e.key === "ArrowLeft")
+				setDetail((dd) => (dd === null ? dd : (dd - 1 + n) % n));
+		};
+		window.addEventListener("keydown", onKey);
+		return () => {
+			window.removeEventListener("keydown", onKey);
+			ctx.revert();
+			document.body.style.overflow = "";
+		};
+	}, [open]);
+
+	useEffect(() => {
+		if (detail === null) return;
+		const ctx = gsap.context(() => {
+			gsap.fromTo(
+				imgRef.current,
+				{ autoAlpha: 0, scale: 1.06, y: 14 },
+				{
+					autoAlpha: 1,
+					scale: 1,
+					y: 0,
+					duration: 0.8,
+					ease: "expo.out",
+					delay: 0.18,
+				},
+			);
+			const parts = bodyRef.current ? Array.from(bodyRef.current.children) : [];
+			gsap.fromTo(
+				parts,
+				{ autoAlpha: 0, y: 20, filter: "blur(4px)" },
+				{
+					autoAlpha: 1,
+					y: 0,
+					filter: "blur(0px)",
+					duration: 0.65,
+					ease: "power3.out",
+					stagger: 0.07,
+					delay: 0.24,
+				},
+			);
+		});
+		return () => ctx.revert();
+	}, [detail]);
 
 	return (
 		<div ref={wrapRef} className="absolute inset-0 z-10 invisible overflow-y-auto">
 			<div className="min-h-full flex flex-col justify-center px-6 sm:px-10 md:px-16 py-12 md:py-14">
-				<div className="mx-auto w-full max-w-5xl">
-					<div className="ach-reveal text-center font-sans font-light uppercase tracking-[0.4em] text-gold text-sm md:text-base mb-2.5">
-						{achievements.eyebrow}
+				<div
+					className="mx-auto w-full max-w-6xl"
+					onMouseEnter={() => setPaused(true)}
+					onMouseLeave={() => setPaused(false)}>
+					<div className="mb-7 md:mb-10">
+						<div className="ach-reveal font-sans font-light uppercase tracking-[0.4em] text-gold text-xs md:text-sm mb-3">
+							{achievements.eyebrow}
+						</div>
+						<h2 className="ach-reveal font-bdscript text-cream leading-[0.95] text-4xl sm:text-5xl md:text-6xl">
+							{achievements.title}
+						</h2>
 					</div>
-					<h2 className="ach-reveal text-center font-bdscript text-cream leading-[0.95] text-4xl sm:text-5xl md:text-6xl mb-8 md:mb-12">
-						{achievements.title}
-					</h2>
 
-					<div className="ach-reveal flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto overflow-y-hidden md:overflow-visible snap-x snap-mandatory md:snap-none -mx-6 px-6 sm:-mx-10 sm:px-10 md:mx-0 md:px-0 pb-3 md:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-						{achievements.items.map((it) => (
-							<div key={it.title} className="group flex flex-col shrink-0 w-[72%] sm:w-[46%] md:w-auto snap-center">
-								<div className="relative mb-3 aspect-[4/3] overflow-hidden rounded-[2px]">
-									<Image
-										src={it.img}
-										alt={it.title}
-										fill
-										sizes="(max-width: 768px) 50vw, 33vw"
-										className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-									/>
-									<div
-										className="absolute inset-0"
-										style={{
-											background:
-												"linear-gradient(to top, rgba(46,31,36,0.78) 0%, rgba(46,31,36,0.1) 55%, transparent 100%)",
-										}}
-									/>
-									<div className="absolute left-3 top-3 flex items-center gap-2">
-										<span className="bg-gold px-2 py-0.5 font-sans font-light text-plum-dark text-[0.56rem] tracking-[0.12em] tabular-nums">
+					<div className="md:grid md:grid-cols-12 md:gap-10 lg:gap-14 md:items-stretch">
+						<button
+							type="button"
+							onClick={() => setDetail(active)}
+							aria-label={`Open ${items[active].title}`}
+							className="ach-reveal group relative hidden md:block md:col-span-5 overflow-hidden bg-plum-dark cursor-pointer text-left">
+							{items.map((it, i) => (
+								<Image
+									key={it.title}
+									src={it.img}
+									alt={it.title}
+									fill
+									sizes="40vw"
+									className={`object-cover transition-all duration-700 ease-out group-hover:scale-105 ${i === active ? "opacity-100" : "opacity-0"}`}
+								/>
+							))}
+							<div
+								className="absolute inset-0"
+								style={{
+									background:
+										"linear-gradient(to top, rgba(46,31,36,0.9) 0%, rgba(46,31,36,0.25) 45%, transparent 78%)",
+								}}
+							/>
+							<div className="absolute inset-x-0 bottom-0 p-6">
+								<div className="flex items-center gap-2.5 mb-2">
+									<span className="bg-gold px-2.5 py-1 font-sans font-light text-plum-dark text-[0.58rem] tracking-[0.16em] tabular-nums">
+										{items[active].year}
+									</span>
+									<span className="font-sans font-light uppercase tracking-[0.24em] text-cream/75 text-[0.55rem]">
+										{items[active].by}
+									</span>
+								</div>
+								<div className="font-serif font-light text-cream text-2xl leading-tight">
+									{items[active].title}
+								</div>
+								<span className="mt-3 inline-flex items-center gap-2 font-sans font-light uppercase tracking-[0.24em] text-cream/60 text-[0.6rem] transition-colors duration-300 group-hover:text-gold">
+									<span className="ulink">View milestone</span>
+									<span className="transition-transform duration-300 group-hover:translate-x-1">
+										→
+									</span>
+								</span>
+							</div>
+						</button>
+
+						<ul className="md:col-span-7 flex flex-col">
+							{items.map((it, i) => (
+								<li key={it.title} className="ach-row">
+									<button
+										type="button"
+										onMouseEnter={() => setActive(i)}
+										onFocus={() => setActive(i)}
+										onClick={() => setDetail(i)}
+										className={`group flex w-full items-center gap-4 md:gap-6 border-b border-cream/10 py-4 md:py-5 text-left transition-colors duration-300 ${
+											i === active ? "md:border-gold/30" : ""
+										}`}>
+										<div className="relative h-14 w-20 shrink-0 overflow-hidden bg-plum-dark md:hidden">
+											<Image
+												src={it.img}
+												alt={it.title}
+												fill
+												sizes="80px"
+												className="object-cover"
+											/>
+										</div>
+
+										<span
+											className={`font-bdscript leading-none text-2xl md:text-3xl shrink-0 w-14 md:w-20 transition-colors duration-300 ${
+												i === active ? "text-gold" : "text-gold/55 md:text-cream/30"
+											}`}>
 											{it.year}
 										</span>
-										<span className="font-sans font-light uppercase tracking-[0.22em] text-cream/80 text-[0.5rem] md:text-[0.55rem]">
-											{it.by}
+
+										<div className="min-w-0 flex-1">
+											<div
+												className={`font-serif font-light leading-snug text-lg md:text-xl transition-colors duration-300 ${
+													i === active ? "text-cream" : "text-cream/80 md:text-cream/55"
+												}`}>
+												{it.title}
+											</div>
+											<div className="font-sans font-light uppercase tracking-[0.22em] text-cream/40 text-[0.55rem] md:text-[0.6rem] mt-1.5">
+												{it.by}
+											</div>
+										</div>
+
+										<span
+											aria-hidden
+											className={`shrink-0 text-gold transition-all duration-300 ${
+												i === active
+													? "md:opacity-100 md:translate-x-0"
+													: "md:opacity-0 md:-translate-x-2"
+											} opacity-40`}>
+											→
 										</span>
-									</div>
-								</div>
-								<h3 className="font-serif font-light text-cream text-base md:text-xl leading-snug mb-1.5">
-									{it.title}
-								</h3>
-								<p className="font-sans font-light text-cream/55 text-xs md:text-sm leading-snug md:leading-relaxed">
-									{it.desc}
-								</p>
-							</div>
-						))}
+									</button>
+								</li>
+							))}
+						</ul>
 					</div>
 				</div>
 			</div>
+
+			{open &&
+				createPortal(
+					<div
+						ref={panelRef}
+						className="fixed inset-0 z-[200] overflow-y-auto bg-plum-dark"
+						style={{ clipPath: "inset(0% 0% 100% 0%)" }}>
+						<div className="mx-auto flex min-h-full max-w-7xl flex-col px-6 sm:px-10 md:px-16 py-12 sm:py-16 md:py-20">
+							<div className="am-static mb-9 flex items-start justify-between gap-5 sm:mb-12 md:mb-14">
+								<div>
+									<div className="font-sans font-light uppercase tracking-[0.32em] sm:tracking-[0.42em] text-gold text-[0.58rem] md:text-xs mb-3 md:mb-4">
+										{achievements.eyebrow}
+									</div>
+									<h2 className="font-bdscript text-cream leading-none text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
+										{achievements.title}
+									</h2>
+								</div>
+								<CloseButton onClick={close} />
+							</div>
+
+							<div className="flex flex-1 flex-col items-center justify-center text-center">
+								<div className="w-full max-w-2xl">
+									<div
+										ref={imgRef}
+										className="relative aspect-3/2 w-full overflow-hidden border border-cream/10 bg-plum-dark">
+										<Image
+											key={d.img}
+											src={d.img}
+											alt={d.title}
+											fill
+											sizes="(max-width: 768px) 90vw, 672px"
+											className="object-cover"
+										/>
+									</div>
+
+									<div
+										ref={bodyRef}
+										className="mt-8 md:mt-10 flex flex-col items-center">
+										<div className="flex items-center gap-3">
+											<span className="bg-gold px-2.5 py-1 font-sans font-light text-plum-dark text-[0.6rem] tracking-[0.16em] tabular-nums">
+												{d.year}
+											</span>
+											<span className="font-sans font-light uppercase tracking-[0.24em] text-cream/65 text-[0.6rem]">
+												{d.by}
+											</span>
+										</div>
+										<h3 className="mt-5 font-serif font-light text-cream text-3xl md:text-4xl leading-[1.12] max-w-2xl">
+											{d.title}
+										</h3>
+										<span className="mt-5 block h-px w-10 bg-gold/60" />
+										<p className="mt-5 font-sans font-light text-cream/75 text-base md:text-lg leading-relaxed max-w-xl">
+											{d.desc}
+										</p>
+									</div>
+								</div>
+							</div>
+
+							<div className="am-static mt-10 md:mt-14 flex items-center justify-between border-t border-cream/10 pt-6">
+								<button
+									type="button"
+									onClick={() =>
+										setDetail((x) => (x === null ? x : (x - 1 + n) % n))
+									}
+									className="group cursor-pointer inline-flex items-center gap-2 font-sans font-light uppercase tracking-[0.24em] text-cream/70 transition-colors duration-300 hover:text-gold text-[0.6rem] md:text-xs">
+									<span className="transition-transform duration-300 group-hover:-translate-x-1">
+										←
+									</span>
+									<span className="ulink">Prev</span>
+								</button>
+								<div className="font-sans font-light tracking-[0.2em] text-cream/45 text-[0.6rem] md:text-xs tabular-nums">
+									{String((detail ?? 0) + 1).padStart(2, "0")} /{" "}
+									{String(n).padStart(2, "0")}
+								</div>
+								<button
+									type="button"
+									onClick={() => setDetail((x) => (x === null ? x : (x + 1) % n))}
+									className="group cursor-pointer inline-flex items-center gap-2 font-sans font-light uppercase tracking-[0.24em] text-cream/70 transition-colors duration-300 hover:text-gold text-[0.6rem] md:text-xs">
+									<span className="ulink">Next</span>
+									<span className="transition-transform duration-300 group-hover:translate-x-1">
+										→
+									</span>
+								</button>
+							</div>
+						</div>
+					</div>,
+					document.body,
+				)}
 		</div>
 	);
 }

@@ -52,7 +52,7 @@ export function ConnectAct({
 			<Link
 				ref={ctaRef}
 				href={`mailto:${STUDIO.email}`}
-				className="group inline-flex items-center gap-3 px-7 sm:px-8 py-3.5 sm:py-4 font-sans font-light text-xs sm:text-sm uppercase tracking-[0.28em] transition-[gap] duration-500 hover:gap-5 bg-gold text-plum-dark">
+				className="cta-gold group inline-flex items-center gap-3 px-7 sm:px-8 py-3.5 sm:py-4 font-sans font-light text-xs sm:text-sm uppercase tracking-[0.28em] bg-gold text-plum-dark">
 				{ABOUT.connect.ctaText}
 				<span className="transition-transform duration-500 group-hover:translate-x-1">
 					→

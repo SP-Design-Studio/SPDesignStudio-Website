@@ -65,6 +65,43 @@ h1, h2, h3, h4, h5, h6 {
   background-clip: text;
 }
 
+.ulink {
+  position: relative;
+}
+.ulink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.16em;
+  height: 1px;
+  width: 100%;
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.group:hover .ulink::after,
+a:hover .ulink::after,
+button:hover .ulink::after,
+.ulink:hover::after {
+  transform: scaleX(1);
+}
+
+.cta-gold {
+  transition: opacity 0.4s ease;
+}
+
+.x-close {
+  transition:
+    color 0.35s ease,
+    border-color 0.35s ease,
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .x-close,
+.x-close:hover {
+  transform: scale(1.08);
+}
+
 *,
 *::before,
 *::after {

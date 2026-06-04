@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { gsap } from "gsap";
+import { CloseButton } from "@/components/shared/CloseButton";
 import { CONTACT } from "@/lib/studio";
 
 type Kind = "project" | "partnership";
@@ -97,14 +98,10 @@ export function ContactDrawer() {
 			ref={panelRef}
 			className="fixed inset-0 z-200 overflow-y-auto bg-plum-dark text-cream"
 			style={{ clipPath: "inset(0% 0% 100% 0%)" }}>
-			<button
-				type="button"
+			<CloseButton
 				onClick={close}
-				aria-label="Close"
-				className="cd-reveal fixed right-6 top-6 z-10 flex cursor-pointer items-center gap-2 font-sans font-light uppercase tracking-[0.28em] text-cream/55 text-[0.6rem] md:right-10 md:top-9 md:text-xs hover:text-cream transition-colors">
-				Close
-				<span className="text-xl leading-none">&times;</span>
-			</button>
+				className="cd-reveal fixed right-6 top-6 z-10 md:right-10 md:top-9"
+			/>
 
 			<div className="mx-auto grid min-h-full max-w-6xl grid-cols-1 items-center gap-12 px-6 py-24 sm:px-10 md:px-16 md:py-20 lg:grid-cols-12 lg:gap-16">
 				<div className="lg:col-span-5">
@@ -165,7 +162,7 @@ export function ContactDrawer() {
 							<button
 								type="submit"
 								disabled={status === "sending"}
-								className="cd-reveal group mt-3 inline-flex w-fit cursor-pointer items-center gap-3 bg-gold px-9 py-4 font-sans font-light uppercase tracking-[0.28em] text-plum-dark text-xs transition-opacity disabled:opacity-60">
+								className="cd-reveal cta-gold group mt-3 inline-flex w-fit cursor-pointer items-center gap-3 bg-gold px-9 py-4 font-sans font-light uppercase tracking-[0.28em] text-plum-dark text-xs disabled:opacity-60">
 								{status === "sending" ? "Sending…" : "Send Inquiry"}
 								<span className="transition-transform duration-500 group-hover:translate-x-1">
 									&rarr;

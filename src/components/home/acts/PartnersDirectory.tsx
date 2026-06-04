@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { gsap } from "gsap";
+import { CloseButton } from "@/components/shared/CloseButton";
 import { PARTNER_DIRECTORY } from "@/lib/studio";
 
 export function PartnersDirectory() {
@@ -79,14 +80,7 @@ export function PartnersDirectory() {
 										Trusted Houses
 									</h2>
 								</div>
-								<button
-									type="button"
-									onClick={close}
-									aria-label="Close"
-									className="group flex cursor-pointer items-center gap-2 font-sans font-light uppercase tracking-[0.28em] text-cream/60 text-[0.6rem] md:text-xs transition-colors hover:text-cream">
-									Close
-									<span className="text-xl leading-none">&times;</span>
-								</button>
+								<CloseButton onClick={close} />
 							</div>
 
 							<div className="grid grid-cols-2 gap-x-6 gap-y-9 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-12 md:grid-cols-4">

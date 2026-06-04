@@ -10,6 +10,7 @@ import { TimelineAct } from "./acts/TimelineAct";
 import { AchievementsAct } from "./acts/AchievementsAct";
 import { ConnectAct } from "./acts/ConnectAct";
 import { enableSectionSnap } from "@/lib/sectionSnap";
+import { getLenis } from "@/lib/smoothScroll";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -74,6 +75,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 		if (!started) return;
 
 		let cleanupSnap: () => void = () => {};
+		let jumpRaf = 0;
 		const ctx = gsap.context(() => {
 			const VH = window.innerHeight;
 
@@ -122,6 +124,18 @@ export default function AboutPinnedScroll({ started }: Props) {
 					)
 				: [];
 			gsap.set(achEls, { y: 28, autoAlpha: 0, filter: "blur(5px)" });
+
+			const achRows = aAchWrap.current
+				? gsap.utils.toArray<HTMLElement>(
+						aAchWrap.current.querySelectorAll(".ach-row"),
+					)
+				: [];
+			gsap.set(achRows, {
+				x: -40,
+				autoAlpha: 0,
+				filter: "blur(4px)",
+				transformOrigin: "0% 50%",
+			});
 
 			gsap.set(a3Eyebrow.current, { y: 16, autoAlpha: 0 });
 			gsap.set(a3Title.current, { y: 32, autoAlpha: 0, filter: "blur(6px)" });
@@ -724,6 +738,30 @@ export default function AboutPinnedScroll({ started }: Props) {
 					12.35,
 				)
 				.to(
+					achRows,
+					{
+						x: 0,
+						autoAlpha: 1,
+						filter: "blur(0px)",
+						duration: 0.7,
+						ease: "expo.out",
+						stagger: 0.08,
+					},
+					12.55,
+				)
+				.to(
+					achRows,
+					{
+						x: 44,
+						autoAlpha: 0,
+						filter: "blur(4px)",
+						duration: 0.45,
+						ease: "power2.in",
+						stagger: 0.05,
+					},
+					14.55,
+				)
+				.to(
 					achEls,
 					{
 						y: -26,
@@ -788,9 +826,39 @@ export default function AboutPinnedScroll({ started }: Props) {
 				.addLabel("s-achievements", 13.8)
 				.addLabel("s-connect", tl.duration());
 			cleanupSnap = enableSectionSnap(tl);
+
+			if (
+				typeof window !== "undefined" &&
+				window.location.hash === "#honours"
+			) {
+				let tries = 0;
+				let done = false;
+				const tryJump = () => {
+					if (done) return;
+					const st = tl.scrollTrigger;
+					const lenis = getLenis();
+					const ready =
+						st &&
+						lenis &&
+						document.documentElement.scrollHeight > window.innerHeight * 2;
+					if (!ready) {
+						if (tries++ < 90) jumpRaf = requestAnimationFrame(tryJump);
+						return;
+					}
+					done = true;
+					lenis.resize();
+					const t = tl.labels["s-achievements"];
+					const target =
+						st.start + (t / tl.duration()) * (st.end - st.start);
+					lenis.scrollTo(target, { duration: 1.1, force: true, lock: true });
+					window.history.replaceState(null, "", window.location.pathname);
+				};
+				jumpRaf = requestAnimationFrame(tryJump);
+			}
 		}, wrapperRef);
 
 		return () => {
+			cancelAnimationFrame(jumpRaf);
 			cleanupSnap();
 			ctx.revert();
 		};
