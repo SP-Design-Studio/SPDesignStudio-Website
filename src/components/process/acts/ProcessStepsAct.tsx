@@ -46,8 +46,14 @@ export function ProcessStepsAct({
 								className="object-cover"
 								sizes="(max-width: 768px) 100vw, 50vw"
 								priority={i === 0}
+								style={
+									s.no === "05"
+										? { filter: "contrast(1.12) saturate(1.14) brightness(1.05)" }
+										: undefined
+								}
 							/>
 							<div className="absolute inset-0 bg-plum-dark/25" />
+							<div className="noise-bg" style={{ opacity: 0.2 }} />
 						</div>
 						<span
 							ref={(el) => {

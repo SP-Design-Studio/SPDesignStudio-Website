@@ -45,6 +45,7 @@ export default function RootLayout({
       <body>
         <PageTransition />
         {children}
+        <div className="grain-overlay" aria-hidden />
       </body>
     </html>
   );

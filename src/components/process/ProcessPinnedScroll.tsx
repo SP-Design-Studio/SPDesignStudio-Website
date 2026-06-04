@@ -18,6 +18,7 @@ export default function ProcessPinnedScroll({ started }: { started: boolean }) {
 	const heroEyebrow = useRef<HTMLDivElement>(null);
 	const heroTitle = useRef<(HTMLSpanElement | null)[]>([]);
 	const heroSub = useRef<HTMLParagraphElement>(null);
+	const heroIntro = useRef<HTMLDivElement>(null);
 	const heroHint = useRef<HTMLDivElement>(null);
 
 	const procWrap = useRef<HTMLDivElement>(null);
@@ -58,6 +59,7 @@ export default function ProcessPinnedScroll({ started }: { started: boolean }) {
 			gsap.set(heroEyebrow.current, { y: 16, autoAlpha: 0 });
 			gsap.set(heroTitle.current, HIDDEN_WORD);
 			gsap.set(heroSub.current, { y: 18, autoAlpha: 0, filter: "blur(4px)" });
+			gsap.set(heroIntro.current, { y: 18, autoAlpha: 0, filter: "blur(4px)" });
 			gsap.set(heroHint.current, { autoAlpha: 0 });
 
 			gsap.set(
@@ -101,6 +103,17 @@ export default function ProcessPinnedScroll({ started }: { started: boolean }) {
 					},
 					"-=0.6",
 				)
+				.to(
+					heroIntro.current,
+					{
+						y: 0,
+						autoAlpha: 1,
+						filter: "blur(0px)",
+						duration: 0.7,
+						ease: "power3.out",
+					},
+					"-=0.45",
+				)
 				.to(heroHint.current, { autoAlpha: 1, duration: 0.5 }, "-=0.3");
 
 			if (typeof document !== "undefined" && document.fonts?.load) {
@@ -130,7 +143,7 @@ export default function ProcessPinnedScroll({ started }: { started: boolean }) {
 					0,
 				)
 				.to(
-					[heroEyebrow.current, heroSub.current],
+					[heroEyebrow.current, heroSub.current, heroIntro.current],
 					{
 						y: -30,
 						autoAlpha: 0,
@@ -261,6 +274,7 @@ export default function ProcessPinnedScroll({ started }: { started: boolean }) {
 				eyebrowRef={heroEyebrow}
 				titleWordsRef={heroTitle}
 				subRef={heroSub}
+				introRef={heroIntro}
 				hintRef={heroHint}
 			/>
 			<ProcessStepsAct

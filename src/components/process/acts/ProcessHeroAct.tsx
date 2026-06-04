@@ -6,6 +6,7 @@ interface Props {
 	eyebrowRef: React.RefObject<HTMLDivElement | null>;
 	titleWordsRef: React.RefObject<(HTMLSpanElement | null)[]>;
 	subRef: React.RefObject<HTMLParagraphElement | null>;
+	introRef: React.RefObject<HTMLDivElement | null>;
 	hintRef: React.RefObject<HTMLDivElement | null>;
 }
 
@@ -14,8 +15,10 @@ export function ProcessHeroAct({
 	eyebrowRef,
 	titleWordsRef,
 	subRef,
+	introRef,
 	hintRef,
 }: Props) {
+	const steps = PROCESS.steps;
 	return (
 		<div
 			ref={wrapRef}
@@ -39,6 +42,18 @@ export function ProcessHeroAct({
 				className="font-serif italic font-light text-gold/85 text-2xl sm:text-3xl md:text-4xl max-w-2xl">
 				{PROCESS.subtitle}
 			</p>
+
+			<div ref={introRef} className="mt-8 md:mt-9 flex flex-col items-center">
+				<span className="block h-px w-12 bg-gold/50 mb-6 md:mb-7" />
+				<p className="font-sans font-light text-cream/65 text-sm md:text-base leading-[1.85] max-w-xl">
+					{PROCESS.intro}
+				</p>
+				<div className="mt-7 flex items-center gap-3.5 font-sans font-light tracking-[0.3em] text-cream/45 text-[0.62rem] md:text-xs tabular-nums">
+					<span>{steps[0].no}</span>
+					<span className="h-px w-12 bg-cream/25" />
+					<span>{steps[steps.length - 1].no}</span>
+				</div>
+			</div>
 
 			<div
 				ref={hintRef}

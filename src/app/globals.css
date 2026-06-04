@@ -58,6 +58,18 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 1;
 }
 
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  background-image: url("/noisy.png");
+  background-repeat: repeat;
+  background-size: 160px;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 9999;
+}
+
 .text-gradient-gold {
   background: linear-gradient(to bottom, #d7bf86, #bfa15f);
   -webkit-background-clip: text;
