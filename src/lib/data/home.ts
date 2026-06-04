@@ -101,7 +101,7 @@ export const SECTIONS = {
 		tagline: "Material houses and craft studios — chosen, refined, trusted.",
 	},
 	voices: {
-		title: "In Their Words",
+		title: "Client Reflections",
 		quotes: [
 			{
 				quote:

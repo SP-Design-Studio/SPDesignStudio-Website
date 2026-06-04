@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import TransitionLink from "./TransitionLink";
 import { gsap } from "gsap";
+import { getLenis } from "@/lib/smoothScroll";
 
 interface NavProps {
   visible: boolean;
@@ -214,9 +215,14 @@ export default function Nav({ visible }: NavProps) {
           href="#hero"
           aria-label="SP Design Studio"
           className="block group"
-          onClick={() => setOpen(false)}
+          onClick={(e) => {
+            setOpen(false);
+            e.preventDefault();
+            const lenis = getLenis();
+            if (lenis) lenis.scrollTo(0, { duration: 1.2 });
+            else window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
         >
-          {}
           <img
             ref={logoImgRef}
             src="/images/logo.svg"
