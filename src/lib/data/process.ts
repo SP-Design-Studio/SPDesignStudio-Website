@@ -3,7 +3,7 @@ export const PROCESS = {
 	title: "Our Approach",
 	subtitle: "From Vision to Reality",
 	intro:
-		"Every project moves through six considered stages, from the first conversation to the day you step inside.",
+		"Six considered stages carry every project from that first quiet conversation — through concept, material, and meticulous on-site craft — to the day you finally step inside. Nothing is rushed and nothing is left to chance: each phase builds deliberately on the last, so the finished space listens to how you live and feels entirely your own.",
 	steps: [
 		{
 			no: "01",

@@ -3,6 +3,7 @@ import { Cormorant, DM_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import PageTransition from "@/components/shared/PageTransition";
+import ScrollCue from "@/components/shared/ScrollCue";
 
 const cormorant = Cormorant({
   variable: "--font-cormorant",
@@ -45,6 +46,7 @@ export default function RootLayout({
       <body>
         <PageTransition />
         {children}
+        <ScrollCue />
         <div className="grain-overlay" aria-hidden />
       </body>
     </html>

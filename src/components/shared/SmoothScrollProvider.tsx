@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { setLenis } from "@/lib/smoothScroll";
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.config({ nullTargetWarn: false });
 
 export default function SmoothScrollProvider({
   children,

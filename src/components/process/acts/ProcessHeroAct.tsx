@@ -48,16 +48,16 @@ export function ProcessHeroAct({
 				<p className="font-sans font-light text-cream/65 text-sm md:text-base leading-[1.85] max-w-xl">
 					{PROCESS.intro}
 				</p>
-				<div className="mt-7 flex items-center gap-3.5 font-sans font-light tracking-[0.3em] text-cream/45 text-[0.62rem] md:text-xs tabular-nums">
-					<span>{steps[0].no}</span>
-					<span className="h-px w-12 bg-cream/25" />
-					<span>{steps[steps.length - 1].no}</span>
+				<div className="mt-7 flex items-center gap-3.5 font-sans font-light uppercase tracking-[0.32em] text-cream/45 text-[0.6rem] md:text-[0.7rem]">
+					<span>{steps[0].title.split(" ")[0]}</span>
+					<span className="h-px w-10 bg-gold/40" />
+					<span>{steps[steps.length - 1].title.split(" ").slice(-1)[0]}</span>
 				</div>
 			</div>
 
 			<div
 				ref={hintRef}
-				className="absolute bottom-10 right-10 z-10 hidden md:flex items-center gap-4 rotate-90 origin-right">
+				className="absolute bottom-10 right-10 z-10 hidden items-center gap-4 rotate-90 origin-right">
 				<span className="text-xs uppercase tracking-[0.4em] text-cream/35">
 					Scroll to Begin
 				</span>

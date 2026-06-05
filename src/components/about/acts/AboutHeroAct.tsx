@@ -87,7 +87,7 @@ export function AboutHeroAct({
 
 			<div
 				ref={hintRef}
-				className="absolute bottom-10 right-10 z-10 hidden md:flex items-center gap-4 rotate-90 origin-right">
+				className="absolute bottom-10 right-10 z-10 hidden items-center gap-4 rotate-90 origin-right">
 				<span className="text-xs uppercase tracking-[0.4em] text-cream/35">
 					Scroll to Begin
 				</span>
