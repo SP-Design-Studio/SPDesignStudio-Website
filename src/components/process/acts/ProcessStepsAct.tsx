@@ -53,7 +53,6 @@ export function ProcessStepsAct({
 								}
 							/>
 							<div className="absolute inset-0 bg-plum-dark/25" />
-							<div className="noise-bg" style={{ opacity: 0.22 }} />
 						</div>
 						<span
 							ref={(el) => {
