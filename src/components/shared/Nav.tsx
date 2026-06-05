@@ -219,7 +219,7 @@ export default function Nav({ visible }: NavProps) {
             setOpen(false);
             e.preventDefault();
             const lenis = getLenis();
-            if (lenis) lenis.scrollTo(0, { duration: 1.2 });
+            if (lenis) lenis.scrollTo(0, { duration: 1.2, force: true });
             else window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         >

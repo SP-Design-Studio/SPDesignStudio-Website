@@ -93,7 +93,7 @@ export default function ScrollCue() {
 		}
 		const dist = Math.abs(target - lenis.scroll);
 		const dur = Math.min(2.6, Math.max(1.1, dist / window.innerHeight) * 0.7);
-		lenis.scrollTo(target, { duration: dur, lock: true });
+		lenis.scrollTo(target, { duration: dur, lock: true, force: true });
 	};
 
 	const text = dark ? "text-cream/45" : "text-plum-dark/55";
@@ -115,7 +115,7 @@ export default function ScrollCue() {
 				type="button"
 				onClick={onClick}
 				aria-label="Scroll"
-				className={`group fixed bottom-10 right-10 z-[55] hidden md:flex items-center gap-4 rotate-90 origin-right cursor-pointer transition-opacity duration-500 ${show ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+				className={`group fixed bottom-8 right-8 md:bottom-10 md:right-10 z-[55] flex items-center gap-4 rotate-90 origin-right cursor-pointer transition-opacity duration-500 ${show ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
 				<span
 					key={label}
 					className={`font-sans font-light uppercase tracking-[0.4em] text-[0.7rem] whitespace-nowrap transition-colors duration-300 group-hover:text-gold motion-safe:animate-[cue-text-in_0.55s_cubic-bezier(0.65,0,0.35,1)_both] ${text}`}>
