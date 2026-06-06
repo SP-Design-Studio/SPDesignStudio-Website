@@ -28,11 +28,8 @@ export function ProjectsGridAct({ countRef, stripRef, projects }: Props) {
 					{projects.map((project) => (
 						<article
 							key={project.id}
-							className="pc group relative flex-shrink-0 w-[150px] sm:w-[200px] md:w-[240px] lg:w-[300px] cursor-pointer">
+							className="pc group relative shrink-0 w-37.5 sm:w-50 md:w-60 lg:w-75 cursor-pointer">
 							<div className="pc-copy flex items-center justify-between mb-3 md:mb-4 font-sans font-light uppercase tracking-[0.32em] text-[0.55rem] md:text-[0.6rem] will-change-transform">
-								<span className="text-gold">
-									{String(project._i + 1).padStart(2, "0")}
-								</span>
 								<span className="text-cream/35">{project.type}</span>
 							</div>
 
@@ -45,10 +42,10 @@ export function ProjectsGridAct({ countRef, stripRef, projects }: Props) {
 										alt={project.title}
 										fill
 										sizes="(max-width: 640px) 150px, (max-width: 768px) 200px, (max-width: 1024px) 240px, 300px"
-										className="object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
+										className="object-cover transition-transform duration-1100 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
 									/>
 								</div>
-								<div className="absolute inset-0 bg-gradient-to-t from-plum-dark/65 via-plum-dark/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+								<div className="absolute inset-0 bg-linear-to-t from-plum-dark/65 via-plum-dark/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 							</div>
 
 							<div className="pc-copy mt-4 md:mt-5 will-change-transform">
