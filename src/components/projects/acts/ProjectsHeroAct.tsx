@@ -20,8 +20,10 @@ export function ProjectsHeroAct({
 		<div className="min-h-dvh flex flex-col items-center justify-center text-center px-6">
 			<div
 				ref={eyebrowRef}
-				className="font-sans font-light uppercase tracking-[0.42em] text-gold text-sm md:text-base mb-7 md:mb-9 will-change-transform">
-				{PROJECTS_PAGE.eyebrow}
+				className="flex items-center gap-4 md:gap-5 mb-7 md:mb-9 will-change-transform">
+				<span className="font-sans font-light uppercase tracking-[0.42em] text-gold text-sm md:text-base">
+					{PROJECTS_PAGE.eyebrow}
+				</span>
 			</div>
 
 			<h1

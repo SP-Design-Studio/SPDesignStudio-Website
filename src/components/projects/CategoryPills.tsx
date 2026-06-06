@@ -74,7 +74,7 @@ export function CategoryPills({ active, onSelect, className = "" }: Props) {
 						pillsRef.current[i] = el;
 					}}
 					onClick={() => onSelect(cat.id)}
-					className={`px-5 md:px-7 pb-2.5 pt-0.5 font-sans font-light uppercase tracking-[0.3em] text-[0.62rem] md:text-[0.68rem] transition-colors duration-500 ${
+					className={`cursor-pointer whitespace-nowrap px-3 sm:px-5 md:px-7 pb-2.5 pt-0.5 font-sans font-light uppercase tracking-[0.16em] sm:tracking-[0.24em] md:tracking-[0.3em] text-[0.55rem] sm:text-[0.62rem] md:text-[0.68rem] transition-colors duration-500 ${
 						active === cat.id
 							? "text-cream"
 							: "text-cream/35 hover:text-cream/60"

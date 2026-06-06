@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ProjectsHeroAct } from "./acts/ProjectsHeroAct";
 import { ProjectsGridAct } from "./acts/ProjectsGridAct";
 import { CategoryPills } from "./CategoryPills";
+import { ProjectDetail } from "./ProjectDetail";
 import { getLenis } from "@/lib/smoothScroll";
 import { enableSectionSnapAnchors } from "@/lib/sectionSnap";
 import { PROJECTS, type ProjectCategory } from "@/lib/data/projects";
@@ -40,6 +41,7 @@ export default function ProjectsPinnedScroll({ started }: { started: boolean }) 
 	const pillSlotRef = useRef<HTMLDivElement>(null);
 
 	const [active, setActive] = useState<ProjectCategory | null>(null);
+	const [detail, setDetail] = useState<string | null>(null);
 	const busy = useRef(false);
 	const introDone = useRef(false);
 	const revealed = useRef(false);
@@ -48,6 +50,31 @@ export default function ProjectsPinnedScroll({ started }: { started: boolean }) 
 	const filtered = active
 		? indexed.filter((p) => p.category === active)
 		: indexed;
+
+	const detailIndex = detail
+		? filtered.findIndex((p) => p.id === detail)
+		: -1;
+	const detailProject = detailIndex >= 0 ? filtered[detailIndex] : null;
+
+	const openDetail = useCallback((id: string) => {
+		setDetail(id);
+	}, []);
+
+	const navDetail = useCallback(
+		(dir: 1 | -1) => {
+			setDetail((d) => {
+				if (!d) return d;
+				const list = active
+					? indexed.filter((p) => p.category === active)
+					: indexed;
+				const i = list.findIndex((p) => p.id === d);
+				if (i < 0) return d;
+				return list[(i + dir + list.length) % list.length].id;
+			});
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[active],
+	);
 
 	const allTitleWords = useCallback(
 		() =>
@@ -390,6 +417,7 @@ export default function ProjectsPinnedScroll({ started }: { started: boolean }) 
 					stripRef={stripRef}
 					slotRef={pillSlotRef}
 					projects={filtered}
+					onOpen={openDetail}
 				/>
 			</div>
 
@@ -399,6 +427,17 @@ export default function ProjectsPinnedScroll({ started }: { started: boolean }) 
 				style={{ opacity: 0 }}>
 				<CategoryPills active={active} onSelect={handleCategoryClick} />
 			</div>
+
+			{detailProject && (
+				<ProjectDetail
+					project={detailProject}
+					index={detailIndex}
+					total={filtered.length}
+					onClose={() => setDetail(null)}
+					onPrev={() => navDetail(-1)}
+					onNext={() => navDetail(1)}
+				/>
+			)}
 		</section>
 	);
 }
