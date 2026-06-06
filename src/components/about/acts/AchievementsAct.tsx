@@ -240,7 +240,7 @@ export function AchievementsAct({ wrapRef }: Props) {
 				createPortal(
 					<div
 						ref={panelRef}
-						className="fixed inset-0 z-[200] overflow-y-auto bg-plum-dark"
+						className="fixed inset-0 z-200 overflow-y-auto bg-plum-dark"
 						style={{ clipPath: "inset(0% 0% 100% 0%)" }}>
 						<div className="mx-auto flex min-h-full max-w-7xl flex-col px-6 sm:px-10 md:px-16 py-12 sm:py-16 md:py-20">
 							<div className="am-static mb-9 flex items-start justify-between gap-5 sm:mb-12 md:mb-14">

@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   words: readonly string[];
-  refStore: React.MutableRefObject<(HTMLSpanElement | null)[]>;
+  refStore: React.RefObject<(HTMLSpanElement | null)[]>;
   spacing?: string;
   baseStyle?: React.CSSProperties;
   wordStyleByIndex?: (i: number) => React.CSSProperties | undefined;

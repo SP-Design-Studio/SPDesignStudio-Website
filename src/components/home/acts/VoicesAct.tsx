@@ -209,7 +209,7 @@ export function VoicesAct({
 					<div
 						aria-hidden={!open}
 						inert={!open}
-						className={`fixed inset-0 z-[200] ${open ? "pointer-events-auto" : "pointer-events-none"}`}>
+						className={`fixed inset-0 z-200 ${open ? "pointer-events-auto" : "pointer-events-none"}`}>
 						<div
 							onClick={() => setOpen(false)}
 							className={`absolute inset-0 bg-plum-dark/97 backdrop-blur-sm transition-opacity duration-500 ${open ? "opacity-100" : "opacity-0"}`}
@@ -239,7 +239,7 @@ export function VoicesAct({
 
 							<div
 								data-lenis-prevent
-								className="flex-1 overflow-y-auto overscroll-contain py-10 md:py-14 [scrollbar-width:thin]">
+								className="flex-1 overflow-y-auto overscroll-contain py-10 md:py-14 scrollbar-thin">
 								<ul className="flex flex-col gap-12 md:gap-20">
 									{quotes.map((q, i) => (
 										<li

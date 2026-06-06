@@ -5,13 +5,13 @@ import { getSectionAnchors } from "@/lib/sectionNav";
 import { getLenis } from "@/lib/smoothScroll";
 
 export default function ScrollCue() {
-	const ref = useRef<HTMLButtonElement>(null);
 	const barRef = useRef<HTMLDivElement>(null);
+	const ref = useRef<HTMLButtonElement>(null);
 	const targetRef = useRef(0);
-	const [show, setShow] = useState(false);
 	const [label, setLabel] = useState("Scroll to Begin");
 	const [up, setUp] = useState(false);
 	const [dark, setDark] = useState(true);
+	const [show, setShow] = useState(false);
 
 	useEffect(() => {
 		let raf = 0;
@@ -33,27 +33,31 @@ export default function ScrollCue() {
 				!!document.querySelector("footer") &&
 				max > last + 80;
 			const stops = hasFooter ? [...sections, max] : sections;
-			const next = stops.find((a) => a > cur + 12) ?? null;
-			const atBottom = next == null;
-			targetRef.current = next ?? 0;
-			const vis = sections.length > 0;
-			setShow((p) => (p === vis ? p : vis));
-			setUp((p) => (p === atBottom ? p : atBottom));
-			const lab = atBottom
-				? "Back to Top"
-				: cur < window.innerHeight * 0.85
-					? "Scroll to Begin"
-					: "Continue";
-			setLabel((p) => (p === lab ? p : lab));
+			setShow((s) => {
+				const v = stops.length > 0 && max > 80;
+				return s === v ? s : v;
+			});
 
-			const el = ref.current;
-			if (el) {
-				el.style.visibility = "hidden";
+			const nextIdx = stops.findIndex((sp) => sp > cur + 40);
+			const atEnd = nextIdx === -1;
+			targetRef.current = atEnd ? 0 : stops[nextIdx];
+			setUp((u) => (u === atEnd ? u : atEnd));
+			const nl =
+				cur < window.innerHeight * 0.85
+					? "Scroll to Begin"
+					: atEnd
+						? "Back to Top"
+						: "Continue";
+			setLabel((l) => (l === nl ? l : nl));
+
+			const btn = ref.current;
+			if (btn) {
+				btn.style.visibility = "hidden";
 				const stack = document.elementsFromPoint(
-					window.innerWidth - 48,
-					window.innerHeight - 48,
+					window.innerWidth - 44,
+					window.innerHeight - 44,
 				);
-				el.style.visibility = "";
+				btn.style.visibility = "";
 				let lum = 0.15;
 				for (const node of stack) {
 					const m = getComputedStyle(node).backgroundColor.match(/[\d.]+/g);
@@ -85,24 +89,23 @@ export default function ScrollCue() {
 	}, []);
 
 	const onClick = () => {
+		const t = targetRef.current;
 		const lenis = getLenis();
-		const target = targetRef.current;
 		if (!lenis) {
-			window.scrollTo({ top: target, behavior: "smooth" });
+			window.scrollTo({ top: t, behavior: "smooth" });
 			return;
 		}
-		const dist = Math.abs(target - lenis.scroll);
+		const dist = Math.abs(t - lenis.scroll);
 		const dur = Math.min(2.6, Math.max(1.1, dist / window.innerHeight) * 0.7);
-		lenis.scrollTo(target, { duration: dur, lock: true, force: true });
+		lenis.scrollTo(t, { duration: dur, lock: true, force: true });
 	};
 
 	const text = dark ? "text-cream/45" : "text-plum-dark/55";
-	const line = dark ? "bg-cream/35" : "bg-plum-dark/35";
-	const arrow = dark ? "border-cream/55" : "border-plum-dark/55";
+	const arrow = dark ? "text-cream/60" : "text-plum-dark/60";
 
 	return (
 		<>
-			<div className="fixed top-0 left-0 right-0 h-[2px] z-[70] bg-cream/10 pointer-events-none">
+			<div className="fixed top-0 left-0 right-0 h-0.5 z-70 bg-cream/10 pointer-events-none">
 				<div
 					ref={barRef}
 					className="h-full origin-left bg-gold"
@@ -115,7 +118,7 @@ export default function ScrollCue() {
 				type="button"
 				onClick={onClick}
 				aria-label="Scroll"
-				className={`group fixed bottom-8 right-8 md:bottom-10 md:right-10 z-[55] flex items-center gap-4 rotate-90 origin-right cursor-pointer transition-opacity duration-500 ${show ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+				className={`group fixed bottom-10 right-10 z-55 hidden md:flex items-center gap-4 rotate-90 origin-right cursor-pointer transition-opacity duration-500 ${show ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
 				<span
 					key={label}
 					className={`font-sans font-light uppercase tracking-[0.4em] text-[0.7rem] whitespace-nowrap transition-colors duration-300 group-hover:text-gold motion-safe:animate-[cue-text-in_0.55s_cubic-bezier(0.65,0,0.35,1)_both] ${text}`}>
@@ -123,10 +126,27 @@ export default function ScrollCue() {
 				</span>
 				<span
 					aria-hidden
-					className={`relative block w-12 h-px transition-[background-color,transform] duration-500 group-hover:bg-gold ${line} ${up ? "rotate-180" : ""}`}>
-					<span
-						className={`absolute right-0 top-1/2 w-[7px] h-[7px] border-t border-r transition-colors duration-300 group-hover:border-gold motion-safe:animate-[cue-arrow_1.8s_cubic-bezier(0.65,0,0.35,1)_infinite] ${arrow}`}
-					/>
+					className={`flex items-center transition-transform duration-500 ${up ? "rotate-180" : ""}`}>
+					<svg
+						aria-hidden
+						viewBox="0 0 56 14"
+						fill="none"
+						className={`w-14 h-3.5 will-change-transform transition-colors duration-300 group-hover:text-gold motion-safe:animate-[cue-arrow_2.4s_cubic-bezier(0.45,0,0.55,1)_infinite] ${arrow}`}>
+						<path
+							d="M0 7 H48"
+							stroke="currentColor"
+							strokeWidth="1.2"
+							strokeLinecap="round"
+							strokeOpacity="0.5"
+						/>
+						<path
+							d="M42 2.5 L48 7 L42 11.5"
+							stroke="currentColor"
+							strokeWidth="1.2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
+					</svg>
 				</span>
 			</button>
 		</>

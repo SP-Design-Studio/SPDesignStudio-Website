@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   text: string;
-  refStore: React.MutableRefObject<(HTMLSpanElement | null)[]>;
+  refStore: React.RefObject<(HTMLSpanElement | null)[]>;
   charStyleByIndex?: (i: number) => React.CSSProperties | undefined;
   initialHidden?: boolean;
 };

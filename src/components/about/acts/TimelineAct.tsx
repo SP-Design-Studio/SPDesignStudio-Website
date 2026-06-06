@@ -129,7 +129,7 @@ export function TimelineAct({
 
 					<div
 						ref={entriesMobileWrapRef}
-						className="md:hidden flex gap-4 overflow-x-auto overflow-y-hidden snap-x snap-mandatory -mx-6 px-6 sm:-mx-8 sm:px-8 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+						className="md:hidden flex gap-4 overflow-x-auto overflow-y-hidden snap-x snap-mandatory -mx-6 px-6 sm:-mx-8 sm:px-8 pb-2 scrollbar-none [&::-webkit-scrollbar]:hidden">
 						{entries.map((e, i) => (
 							<div
 								key={e.year}

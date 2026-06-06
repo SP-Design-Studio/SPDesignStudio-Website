@@ -48,12 +48,12 @@ export function VisionaryAct({
 					</div>
 					<p
 						ref={body1Ref}
-						className="font-sans font-light text-plum-dark/80 mb-2.5 md:mb-4 text-sm md:text-base leading-[1.5] md:leading-[1.75] max-w-140">
+						className="font-sans font-light text-plum-dark/80 mb-2.5 md:mb-4 text-sm md:text-base leading-normal md:leading-[1.75] max-w-140">
 						{ABOUT.visionary.body1}
 					</p>
 					<p
 						ref={body2Ref}
-						className="font-sans font-light text-plum-dark/80 mb-3 md:mb-9 text-sm md:text-base leading-[1.5] md:leading-[1.75] max-w-140">
+						className="font-sans font-light text-plum-dark/80 mb-3 md:mb-9 text-sm md:text-base leading-normal md:leading-[1.75] max-w-140">
 						{ABOUT.visionary.body2}
 					</p>
 					<div

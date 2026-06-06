@@ -65,12 +65,10 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes cue-arrow {
   0%,
   100% {
-    transform: translateY(-50%) translateX(-5px) rotate(45deg);
-    opacity: 0.5;
+    transform: translateX(-2px);
   }
   50% {
-    transform: translateY(-50%) translateX(2px) rotate(45deg);
-    opacity: 1;
+    transform: translateX(4px);
   }
 }
 @keyframes cue-text-in {
