@@ -1,22 +1,12 @@
 import { getLenis } from "./smoothScroll";
 import { setSectionAnchors } from "./sectionNav";
 
-export function enableSectionSnap(tl: gsap.core.Timeline): () => void {
+function snap(
+	anchors: () => number[],
+	getStart: () => number,
+	getEnd: () => number,
+): () => void {
 	if (typeof window === "undefined") return () => {};
-
-	const st = tl.scrollTrigger;
-	if (!st) return () => {};
-
-	const labelTimes = Object.values(tl.labels).sort((a, b) => a - b);
-	if (labelTimes.length === 0) return () => {};
-
-	const anchors = () => {
-		const dur = tl.duration();
-		const range = st.end - st.start;
-		return labelTimes
-			.map((t) => st.start + (t / dur) * range)
-			.sort((a, b) => a - b);
-	};
 
 	setSectionAnchors(anchors);
 
@@ -34,7 +24,7 @@ export function enableSectionSnap(tl: gsap.core.Timeline): () => void {
 		if (!lenis || snapping) return;
 
 		const cur = lenis.scroll;
-		if (cur < st.start - 1 || cur > st.end + 1) return;
+		if (cur < getStart() - 1 || cur > getEnd() + 1) return;
 
 		const moved = cur - startScroll;
 		if (Math.abs(moved) < MOVED) return;
@@ -75,4 +65,39 @@ export function enableSectionSnap(tl: gsap.core.Timeline): () => void {
 		window.removeEventListener("touchstart", onTouchStart);
 		window.removeEventListener("touchend", onTouchEnd);
 	};
+}
+
+export function enableSectionSnap(tl: gsap.core.Timeline): () => void {
+	if (typeof window === "undefined") return () => {};
+
+	const st = tl.scrollTrigger;
+	if (!st) return () => {};
+
+	const labelTimes = Object.values(tl.labels).sort((a, b) => a - b);
+	if (labelTimes.length === 0) return () => {};
+
+	const anchors = () => {
+		const dur = tl.duration();
+		const range = st.end - st.start;
+		return labelTimes
+			.map((t) => st.start + (t / dur) * range)
+			.sort((a, b) => a - b);
+	};
+
+	return snap(
+		anchors,
+		() => st.start,
+		() => st.end,
+	);
+}
+
+export function enableSectionSnapAnchors(anchors: () => number[]): () => void {
+	return snap(
+		anchors,
+		() => anchors()[0] ?? 0,
+		() => {
+			const a = anchors();
+			return a[a.length - 1] ?? 0;
+		},
+	);
 }

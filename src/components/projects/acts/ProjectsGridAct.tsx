@@ -6,13 +6,15 @@ type IndexedProject = Project & { _i: number };
 interface Props {
 	countRef: React.RefObject<HTMLDivElement | null>;
 	stripRef: React.RefObject<HTMLDivElement | null>;
+	slotRef: React.RefObject<HTMLDivElement | null>;
 	projects: IndexedProject[];
 }
 
-export function ProjectsGridAct({ countRef, stripRef, projects }: Props) {
+export function ProjectsGridAct({ countRef, stripRef, slotRef, projects }: Props) {
 	return (
 		<div className="relative min-h-dvh flex flex-col">
-			<div className="h-32 md:h-40 shrink-0" />
+			<div className="h-24 md:h-28 shrink-0" />
+			<div ref={slotRef} className="h-12 shrink-0" />
 			<div className="flex-1 flex flex-col justify-center pb-10 md:pb-16">
 			<div
 				ref={countRef}

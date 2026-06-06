@@ -7,7 +7,7 @@ import { ProjectsHeroAct } from "./acts/ProjectsHeroAct";
 import { ProjectsGridAct } from "./acts/ProjectsGridAct";
 import { CategoryPills } from "./CategoryPills";
 import { getLenis } from "@/lib/smoothScroll";
-import { setSectionAnchors } from "@/lib/sectionNav";
+import { enableSectionSnapAnchors } from "@/lib/sectionSnap";
 import { PROJECTS, type ProjectCategory } from "@/lib/data/projects";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -37,6 +37,7 @@ export default function ProjectsPinnedScroll({ started }: { started: boolean }) 
 	const countRef = useRef<HTMLDivElement>(null);
 	const stripRef = useRef<HTMLDivElement>(null);
 	const gridRef = useRef<HTMLDivElement>(null);
+	const pillSlotRef = useRef<HTMLDivElement>(null);
 
 	const [active, setActive] = useState<ProjectCategory | null>(null);
 	const busy = useRef(false);
@@ -211,7 +212,7 @@ export default function ProjectsPinnedScroll({ started }: { started: boolean }) 
 	useEffect(() => {
 		if (!started) return;
 
-		setSectionAnchors(() => {
+		const cleanupSnap = enableSectionSnapAnchors(() => {
 			const grid = gridRef.current;
 			const cur =
 				window.scrollY || document.documentElement.scrollTop || 0;
@@ -234,7 +235,6 @@ export default function ProjectsPinnedScroll({ started }: { started: boolean }) 
 			preHideCards();
 
 			const isMobile = window.innerWidth < 768;
-			const topBar = isMobile ? 80 : 104;
 			const gap = isMobile ? 40 : 56;
 			const computeHeroY = () => {
 				const t = titleRef.current;
@@ -251,30 +251,33 @@ export default function ProjectsPinnedScroll({ started }: { started: boolean }) 
 				});
 			};
 
+			const slotDocTop = () => {
+				const s = pillSlotRef.current;
+				const cur = window.scrollY || 0;
+				return s
+					? s.getBoundingClientRect().top + cur
+					: window.innerHeight + 100;
+			};
+
 			const playIn = () => {
 				revealWords();
 				heroY = computeHeroY();
+				let heroH = heroRef.current?.offsetHeight || window.innerHeight;
+				let dst = slotDocTop();
 				gsap.set(pill, { y: heroY });
 
 				ScrollTrigger.create({
-					trigger: heroRef.current,
+					trigger: wrapperRef.current,
 					start: "top top",
 					end: "bottom top",
 					scrub: true,
 					onUpdate: (self) => {
-						gsap.set(pill, {
-							y: gsap.utils.interpolate(heroY, topBar, self.progress),
-						});
-					},
-				});
-
-				ScrollTrigger.create({
-					trigger: gridRef.current,
-					start: "top top",
-					end: "+=140",
-					scrub: true,
-					onUpdate: (self) => {
-						gsap.set(pill, { autoAlpha: 1 - self.progress });
+						const s = self.scroll();
+						const y =
+							s <= heroH
+								? gsap.utils.interpolate(heroY, dst - heroH, s / heroH)
+								: dst - s;
+						gsap.set(pill, { y });
 					},
 				});
 
@@ -303,6 +306,8 @@ export default function ProjectsPinnedScroll({ started }: { started: boolean }) 
 
 				const onResize = () => {
 					heroY = computeHeroY();
+					heroH = heroRef.current?.offsetHeight || window.innerHeight;
+					dst = slotDocTop();
 					ScrollTrigger.refresh();
 				};
 				window.addEventListener("resize", onResize);
@@ -360,7 +365,7 @@ export default function ProjectsPinnedScroll({ started }: { started: boolean }) 
 
 		return () => {
 			removeResize();
-			setSectionAnchors(null);
+			cleanupSnap();
 			introDone.current = false;
 			revealed.current = false;
 			ctx.revert();
@@ -383,6 +388,7 @@ export default function ProjectsPinnedScroll({ started }: { started: boolean }) 
 				<ProjectsGridAct
 					countRef={countRef}
 					stripRef={stripRef}
+					slotRef={pillSlotRef}
 					projects={filtered}
 				/>
 			</div>
