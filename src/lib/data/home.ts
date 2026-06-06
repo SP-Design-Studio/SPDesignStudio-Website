@@ -70,8 +70,8 @@ export const SECTIONS = {
 		quote:
 			"We don't just decorate rooms \n we craft the spaces where life unfolds.",
 		pillars: ["Authenticity", "Purpose", "Elegance"],
-		ctaText: "Explore the Portfolio",
-		ctaHref: "#work",
+		ctaText: "Explore Our Projects",
+		ctaHref: "/projects",
 		recognition: {
 			label: "Recognised",
 			items: ["Designer of the Year ’23", "Sustainable Design Award", "300+ Projects"],

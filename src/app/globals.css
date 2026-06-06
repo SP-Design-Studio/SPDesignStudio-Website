@@ -126,6 +126,10 @@ button:hover .ulink::after,
   transform: scale(1.08);
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 *,
 *::before,
 *::after {

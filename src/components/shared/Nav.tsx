@@ -8,18 +8,19 @@ import { getLenis } from "@/lib/smoothScroll";
 
 interface NavProps {
   visible: boolean;
+  forceLight?: boolean;
 }
 
 const LINKS = [
   { label: "Home",      href: "/" },
   { label: "About",     href: "/about" },
   { label: "Process",   href: "/process" },
-  { label: "Portfolio", href: "/work" },
+  { label: "Projects", href: "/projects" },
   { label: "Contact",   href: "/contact" },
   { label: "Careers",   href: "/careers" },
 ] as const;
 
-export default function Nav({ visible }: NavProps) {
+export default function Nav({ visible, forceLight = false }: NavProps) {
   const navRef        = useRef<HTMLElement>(null);
   const logoRef       = useRef<HTMLAnchorElement>(null);
   const logoImgRef    = useRef<HTMLImageElement>(null);
@@ -110,8 +111,9 @@ export default function Nav({ visible }: NavProps) {
   }, [visible]);
 
   useEffect(() => {
-    const color = lightBg ? "rgba(61,36,46,0.78)" : "rgba(252,251,247,0.7)";
-    const burgerColor = lightBg ? "#452e36" : "#fcfbf7";
+    const effectiveLight = forceLight || lightBg;
+    const color = effectiveLight ? "rgba(61,36,46,0.78)" : "rgba(252,251,247,0.7)";
+    const burgerColor = effectiveLight ? "#452e36" : "#fcfbf7";
     gsap.to(linkCharsRef.current.flat().filter(Boolean), {
       color, duration: 0.7, ease: "power2.out",
     });
@@ -119,10 +121,10 @@ export default function Nav({ visible }: NavProps) {
       backgroundColor: burgerColor, duration: 0.7, ease: "power2.out",
     });
     gsap.to(logoImgRef.current, {
-      filter: lightBg ? "invert(1) brightness(0.35)" : "invert(0) brightness(1)",
+      filter: effectiveLight ? "invert(1) brightness(0.35)" : "invert(0) brightness(1)",
       duration: 0.7, ease: "power2.out",
     });
-  }, [lightBg]);
+  }, [lightBg, forceLight]);
 
   useEffect(() => {
     if (!menuRef.current) return;
