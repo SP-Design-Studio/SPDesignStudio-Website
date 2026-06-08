@@ -19,37 +19,26 @@ const PHRASES = [
 export default function Preloader({ onCompleteAction }: PreloaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
-  const phraseOutRef = useRef<HTMLSpanElement>(null);
-  const phraseInRef = useRef<HTMLSpanElement>(null);
+  const phraseRef = useRef<HTMLSpanElement>(null);
   const goldLineRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(0);
   const [phraseIndex, setPhraseIndex] = useState(0);
-  const phraseIndexRef = useRef(0);
-  const isSwapping = useRef(false);
 
   const swapPhrase = (newIndex: number) => {
-    isSwapping.current = true;
-    gsap.to(phraseOutRef.current, {
-      y: -18,
+    gsap.to(phraseRef.current, {
+      yPercent: -120,
       opacity: 0,
-      duration: 0.28,
+      duration: 0.24,
       ease: "power2.in",
       onComplete: () => {
         setPhraseIndex(newIndex);
         requestAnimationFrame(() => {
-          gsap.set(phraseOutRef.current, { y: 0, opacity: 1 });
           gsap.fromTo(
-            phraseInRef.current,
-            { y: 18, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.3,
-              ease: "power3.out",
-              onComplete: () => { isSwapping.current = false; },
-            }
+            phraseRef.current,
+            { yPercent: 120, opacity: 0 },
+            { yPercent: 0, opacity: 1, duration: 0.32, ease: "power3.out" }
           );
         });
       },
@@ -69,15 +58,17 @@ export default function Preloader({ onCompleteAction }: PreloaderProps) {
     const ctx = gsap.context(() => {
       gsap.set(textRef.current, { clipPath: "inset(-40px 100% -40px 0px)" });
 
+      const total = 0.85 * PHRASES.length;
+      const per = total / PHRASES.length;
       const proxy = { progress: 0 };
 
       const tl = gsap.timeline({
-        onComplete: () => gsap.delayedCall(0.55, exitAnimation),
+        onComplete: () => gsap.delayedCall(0.4, exitAnimation),
       });
 
       tl.to(proxy, {
         progress: 1,
-        duration: 2.8,
+        duration: total,
         ease: "power1.inOut",
         onUpdate: () => {
           const remaining = 100 - proxy.progress * 100;
@@ -90,26 +81,19 @@ export default function Preloader({ onCompleteAction }: PreloaderProps) {
           goldLineRef.current,
           { scaleX: 0 },
           { scaleX: 1, duration: 0.5, ease: "expo.out", transformOrigin: "left center" },
-          "-=0.2"
+          "-=0.3"
         );
 
       const counter = { val: 0 };
       gsap.to(counter, {
         val: 100,
-        duration: 3.0,
-        ease: "power2.inOut",
-        delay: 0.1,
+        duration: total,
+        ease: "power1.inOut",
         onUpdate: () => {
           const v = Math.floor(counter.val);
           setCount(v);
           if (progressBarRef.current) {
             progressBarRef.current.style.transform = `scaleX(${v / 100})`;
-          }
-
-          const newIndex = Math.min(Math.floor(v / 17), PHRASES.length - 1);
-          if (newIndex !== phraseIndexRef.current && !isSwapping.current) {
-            phraseIndexRef.current = newIndex;
-            swapPhrase(newIndex);
           }
         },
       });
@@ -117,10 +101,13 @@ export default function Preloader({ onCompleteAction }: PreloaderProps) {
       gsap.fromTo(counterRef.current, { opacity: 0 }, { opacity: 1, duration: 0.4, delay: 0.2 });
 
       gsap.fromTo(
-        phraseInRef.current,
-        { y: 16, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, delay: 0.3, ease: "power3.out" }
+        phraseRef.current,
+        { yPercent: 60, opacity: 0 },
+        { yPercent: 0, opacity: 1, duration: 0.45, delay: 0.2, ease: "power3.out" }
       );
+      for (let i = 1; i < PHRASES.length; i++) {
+        gsap.delayedCall(per * i, () => swapPhrase(i));
+      }
     }, containerRef);
 
     return () => ctx.revert();
@@ -188,34 +175,18 @@ export default function Preloader({ onCompleteAction }: PreloaderProps) {
         />
 
         <div
-          className="overflow-hidden relative"
+          className="overflow-hidden relative flex items-center justify-center"
           style={{ height: "clamp(1.1rem, 1.8vw, 1.4rem)" }}
         >
           <span
-            ref={phraseOutRef}
-            className="absolute inset-0 flex items-center justify-center font-serif italic font-light"
+            ref={phraseRef}
+            className="flex w-full items-center justify-center text-center font-serif font-light"
             style={{
               fontSize: "clamp(0.68rem, 1.3vw, 0.95rem)",
               color: "var(--color-plum)",
               letterSpacing: "0.2em",
               textTransform: "uppercase",
               whiteSpace: "nowrap",
-              opacity: 0,
-            }}
-          >
-            {PHRASES[phraseIndex]}
-          </span>
-
-          <span
-            ref={phraseInRef}
-            className="absolute inset-0 flex items-center justify-center font-serif italic font-light"
-            style={{
-              fontSize: "clamp(0.68rem, 1.3vw, 0.95rem)",
-              color: "var(--color-plum)",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              whiteSpace: "nowrap",
-              opacity: 0,
             }}
           >
             {PHRASES[phraseIndex]}
