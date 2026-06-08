@@ -25,7 +25,7 @@ export function AdminNav({ canManage }: { canManage: boolean }) {
 				<Link
 					key={l.href}
 					href={l.href}
-					className={`font-sans font-light uppercase tracking-[0.24em] text-[0.6rem] transition-colors ${
+					className={`font-sans font-light uppercase tracking-[0.24em] text-[0.708rem] transition-colors ${
 						active(l.href) ? "text-gold" : "text-cream/55 hover:text-gold"
 					}`}>
 					{l.label}

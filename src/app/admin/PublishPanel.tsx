@@ -17,18 +17,18 @@ type Row = {
 function StatusChip({ status, count }: { status: PageStatus; count: number }) {
 	if (status === "dirty")
 		return (
-			<span className="rounded-full border border-gold/40 bg-gold/10 px-2.5 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-gold text-[0.5rem]">
+			<span className="rounded-full border border-gold/40 bg-gold/10 px-2.5 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-gold text-[0.59rem]">
 				{count} unpublished change{count === 1 ? "" : "s"}
 			</span>
 		);
 	if (status === "unpublished")
 		return (
-			<span className="rounded-full border border-cream/20 px-2.5 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-cream/40 text-[0.5rem]">
+			<span className="rounded-full border border-cream/20 px-2.5 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-cream/40 text-[0.59rem]">
 				Not published
 			</span>
 		);
 	return (
-		<span className="rounded-full border border-cream/10 px-2.5 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-cream/30 text-[0.5rem]">
+		<span className="rounded-full border border-cream/10 px-2.5 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-cream/30 text-[0.59rem]">
 			Up to date
 		</span>
 	);
@@ -49,12 +49,12 @@ function Item({ row }: { row: Row }) {
 			<div className="flex items-center justify-between gap-4">
 				<div className="min-w-0">
 					<div className="flex items-center gap-3">
-						<span className="font-serif font-light text-cream text-lg">
+						<span className="font-serif font-light text-cream text-xl">
 							{row.label}
 						</span>
 						<StatusChip status={row.status} count={row.changes.length} />
 					</div>
-					<div className="mt-0.5 font-sans font-light text-cream/40 text-[0.62rem]">
+					<div className="mt-0.5 font-sans font-light text-cream/40 text-[0.732rem]">
 						{msg || when}
 					</div>
 				</div>
@@ -64,7 +64,7 @@ function Item({ row }: { row: Row }) {
 							<button
 								type="button"
 								onClick={() => setOpen((v) => !v)}
-								className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-gold/70 text-[0.55rem] transition-colors hover:text-gold">
+								className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-gold/70 text-[0.649rem] transition-colors hover:text-gold">
 								{open ? "Hide" : "Review"}
 							</button>
 							<button
@@ -85,7 +85,7 @@ function Item({ row }: { row: Row }) {
 										router.refresh();
 									});
 								}}
-								className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/40 text-[0.55rem] transition-colors hover:text-gold disabled:opacity-50">
+								className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/40 text-[0.649rem] transition-colors hover:text-gold disabled:opacity-50">
 								Discard
 							</button>
 						</>
@@ -95,7 +95,7 @@ function Item({ row }: { row: Row }) {
 							href={`/preview/${row.key}`}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="font-sans font-light uppercase tracking-[0.2em] text-gold/70 text-[0.55rem] transition-colors hover:text-gold">
+							className="font-sans font-light uppercase tracking-[0.2em] text-gold/70 text-[0.649rem] transition-colors hover:text-gold">
 							Preview draft ↗
 						</a>
 					)}
@@ -103,7 +103,7 @@ function Item({ row }: { row: Row }) {
 						href={row.path}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="font-sans font-light uppercase tracking-[0.2em] text-cream/40 text-[0.55rem] transition-colors hover:text-gold">
+						className="font-sans font-light uppercase tracking-[0.2em] text-cream/40 text-[0.649rem] transition-colors hover:text-gold">
 						View live ↗
 					</a>
 					<button
@@ -118,7 +118,7 @@ function Item({ row }: { row: Row }) {
 								router.refresh();
 							})
 						}
-						className="cta-gold cursor-pointer bg-gold px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-[0.6rem] disabled:cursor-not-allowed disabled:opacity-40">
+						className="cta-gold cursor-pointer bg-gold px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-[0.708rem] disabled:cursor-not-allowed disabled:opacity-40">
 						{pending ? "Publishing…" : "Publish"}
 					</button>
 				</div>
@@ -128,7 +128,7 @@ function Item({ row }: { row: Row }) {
 					{row.changes.map((c, i) => (
 						<li
 							key={i}
-							className="font-sans font-light text-cream/55 text-[0.7rem] leading-relaxed">
+							className="font-sans font-light text-cream/55 text-[0.826rem] leading-relaxed">
 							{c}
 						</li>
 					))}
@@ -161,11 +161,11 @@ export function PublishPanel({ pages }: { pages: Row[] }) {
 							router.refresh();
 						})
 					}
-					className="cursor-pointer border border-gold/40 px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.6rem] transition-colors hover:bg-gold/10 disabled:cursor-not-allowed disabled:opacity-40">
+					className="cursor-pointer border border-gold/40 px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.708rem] transition-colors hover:bg-gold/10 disabled:cursor-not-allowed disabled:opacity-40">
 					{pending ? "Publishing all…" : "Publish all pages"}
 				</button>
 				{msg && (
-					<span className="font-sans font-light text-cream/50 text-xs">
+					<span className="font-sans font-light text-cream/50 text-sm">
 						{msg}
 					</span>
 				)}

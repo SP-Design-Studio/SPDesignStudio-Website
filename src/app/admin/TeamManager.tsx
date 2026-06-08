@@ -37,15 +37,15 @@ function Row({
 		<div className="flex flex-col gap-3 border-b border-cream/10 py-4 last:border-b-0">
 			<div className="flex flex-wrap items-center justify-between gap-4">
 				<div className="min-w-0">
-					<div className="font-serif font-light text-cream text-lg">
+					<div className="font-serif font-light text-cream text-xl">
 						{member.full_name?.trim() || member.email.split("@")[0]}
 						{isSelf && (
-							<span className="ml-2 font-sans font-light uppercase tracking-[0.18em] text-cream/30 text-[0.5rem]">
+							<span className="ml-2 font-sans font-light uppercase tracking-[0.18em] text-cream/30 text-[0.59rem]">
 								You
 							</span>
 						)}
 					</div>
-					<div className="font-sans font-light text-cream/40 text-[0.7rem]">
+					<div className="font-sans font-light text-cream/40 text-[0.826rem]">
 						{member.email}
 					</div>
 				</div>
@@ -61,7 +61,7 @@ function Row({
 								router.refresh();
 							})
 						}
-						className="cursor-pointer border-b border-cream/20 bg-transparent py-1.5 text-cream text-sm outline-none focus:border-gold disabled:cursor-not-allowed disabled:text-cream/40">
+						className="cursor-pointer border-b border-cream/20 bg-transparent py-1.5 text-cream text-base outline-none focus:border-gold disabled:cursor-not-allowed disabled:text-cream/40">
 						{ROLE_OPTIONS.map((r) => (
 							<option key={r} value={r} className="bg-plum-dark">
 								{r.charAt(0).toUpperCase() + r.slice(1)}
@@ -71,7 +71,7 @@ function Row({
 					<button
 						type="button"
 						onClick={() => setShowPw((v) => !v)}
-						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/40 text-[0.55rem] transition-colors hover:text-gold">
+						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/40 text-[0.649rem] transition-colors hover:text-gold">
 						Password
 					</button>
 					{!isSelf && (
@@ -92,7 +92,7 @@ function Row({
 									router.refresh();
 								});
 							}}
-							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/40 text-[0.55rem] transition-colors hover:text-gold disabled:opacity-50">
+							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/40 text-[0.649rem] transition-colors hover:text-gold disabled:opacity-50">
 							Remove
 						</button>
 					)}
@@ -105,7 +105,7 @@ function Row({
 						value={pw}
 						onChange={(e) => setPw(e.target.value)}
 						placeholder="New password (min 8 chars)"
-						className="w-64 border-b border-cream/20 bg-transparent py-1.5 text-cream text-sm outline-none placeholder:text-cream/25 focus:border-gold"
+						className="w-64 border-b border-cream/20 bg-transparent py-1.5 text-cream text-base outline-none placeholder:text-cream/25 focus:border-gold"
 					/>
 					<button
 						type="button"
@@ -119,13 +119,13 @@ function Row({
 								setShowPw(false);
 							})
 						}
-						className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-[0.55rem] disabled:opacity-50">
+						className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-[0.649rem] disabled:opacity-50">
 						Set password
 					</button>
 				</div>
 			)}
 			{msg && (
-				<span className="font-sans font-light text-cream/50 text-xs">{msg}</span>
+				<span className="font-sans font-light text-cream/50 text-sm">{msg}</span>
 			)}
 		</div>
 	);

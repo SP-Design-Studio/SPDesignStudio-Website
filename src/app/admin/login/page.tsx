@@ -29,21 +29,21 @@ export default function AdminLoginPage() {
 	};
 
 	const inputCls =
-		"w-full border-b border-cream/20 bg-transparent py-3 text-cream text-lg outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
+		"w-full border-b border-cream/20 bg-transparent py-3 text-cream text-xl outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
 
 	return (
 		<div className="flex min-h-dvh items-center justify-center px-6">
 			<div className="w-full max-w-sm">
-				<div className="mb-2 font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.6rem]">
+				<div className="mb-2 font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.708rem]">
 					SP Design Studio
 				</div>
-				<h1 className="mb-8 font-serif font-light text-cream text-3xl md:text-4xl">
+				<h1 className="mb-8 font-serif font-light text-cream text-4xl md:text-5xl">
 					Studio CMS
 				</h1>
 
 				<form onSubmit={submit} className="flex flex-col gap-5">
 					<label className="flex flex-col gap-2">
-						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.58rem]">
+						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.684rem]">
 							Email
 						</span>
 						<input
@@ -57,7 +57,7 @@ export default function AdminLoginPage() {
 						/>
 					</label>
 					<label className="flex flex-col gap-2">
-						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.58rem]">
+						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.684rem]">
 							Password
 						</span>
 						<input
@@ -72,13 +72,13 @@ export default function AdminLoginPage() {
 					<button
 						type="submit"
 						disabled={busy}
-						className="cta-gold group mt-2 inline-flex w-fit cursor-pointer items-center gap-3 bg-gold px-8 py-3.5 font-sans font-light uppercase tracking-[0.28em] text-plum-dark text-xs disabled:opacity-60">
+						className="cta-gold group mt-2 inline-flex w-fit cursor-pointer items-center gap-3 bg-gold px-8 py-3.5 font-sans font-light uppercase tracking-[0.28em] text-plum-dark text-sm disabled:opacity-60">
 						{busy ? "Signing in…" : "Sign in"}
 						<span className="transition-transform duration-500 group-hover:translate-x-1">
 							&rarr;
 						</span>
 					</button>
-					{error && <p className="font-sans text-sm text-gold/80">{error}</p>}
+					{error && <p className="font-sans text-base text-gold/80">{error}</p>}
 				</form>
 			</div>
 		</div>

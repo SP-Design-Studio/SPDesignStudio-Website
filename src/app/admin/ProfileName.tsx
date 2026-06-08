@@ -14,7 +14,7 @@ export function ProfileName({ initial }: { initial: string }) {
 	return (
 		<div className="flex flex-wrap items-end gap-3">
 			<label className="flex flex-col gap-1.5">
-				<span className="font-sans font-light uppercase tracking-[0.26em] text-gold/80 text-[0.52rem]">
+				<span className="font-sans font-light uppercase tracking-[0.26em] text-gold/80 text-[0.614rem]">
 					Your name
 				</span>
 				<input
@@ -37,11 +37,11 @@ export function ProfileName({ initial }: { initial: string }) {
 						router.refresh();
 					})
 				}
-				className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.22em] text-plum-dark text-[0.6rem] disabled:opacity-40">
+				className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.22em] text-plum-dark text-[0.708rem] disabled:opacity-40">
 				{pending ? "Saving…" : "Save"}
 			</button>
 			{msg && (
-				<span className="font-sans font-light text-cream/50 text-xs">{msg}</span>
+				<span className="font-sans font-light text-cream/50 text-sm">{msg}</span>
 			)}
 		</div>
 	);

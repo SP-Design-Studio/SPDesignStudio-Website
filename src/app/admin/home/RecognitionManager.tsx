@@ -37,14 +37,14 @@ function Row({
 					type="button"
 					disabled={index === 0}
 					onClick={() => onMove(-1)}
-					className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-xs disabled:opacity-30 hover:border-gold hover:text-gold">
+					className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 					↑
 				</button>
 				<button
 					type="button"
 					disabled={index === total - 1}
 					onClick={() => onMove(1)}
-					className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-xs disabled:opacity-30 hover:border-gold hover:text-gold">
+					className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 					↓
 				</button>
 			</div>
@@ -57,7 +57,7 @@ function Row({
 				}}
 			/>
 			{msg && (
-				<span className="font-sans font-light text-cream/50 text-xs">{msg}</span>
+				<span className="font-sans font-light text-cream/50 text-sm">{msg}</span>
 			)}
 			<button
 				type="button"
@@ -69,7 +69,7 @@ function Row({
 						router.refresh();
 					})
 				}
-				className="cta-gold cursor-pointer bg-gold px-4 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-[0.55rem] disabled:opacity-40">
+				className="cta-gold cursor-pointer bg-gold px-4 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-[0.649rem] disabled:opacity-40">
 				Save
 			</button>
 			<button
@@ -81,7 +81,7 @@ function Row({
 						router.refresh();
 					})
 				}
-				className="cursor-pointer border border-cream/20 px-3 py-2 text-cream/55 text-xs hover:border-gold hover:text-gold">
+				className="cursor-pointer border border-cream/20 px-3 py-2 text-cream/55 text-sm hover:border-gold hover:text-gold">
 				×
 			</button>
 		</div>
@@ -129,10 +129,10 @@ export function RecognitionManager({ initial }: { initial: Recognition[] }) {
 						router.refresh();
 					})
 				}
-				className="w-fit cursor-pointer border border-gold/40 px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.6rem] hover:bg-gold/10 disabled:opacity-60">
+				className="w-fit cursor-pointer border border-gold/40 px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.708rem] hover:bg-gold/10 disabled:opacity-60">
 				+ Add recognition
 			</button>
-			<p className="font-sans font-light text-cream/35 text-xs">
+			<p className="font-sans font-light text-cream/35 text-sm">
 				Shown in the hero footer line (e.g. Designer of the Year · …).
 			</p>
 		</div>

@@ -15,7 +15,7 @@ export function AdminInvite() {
 		<form action={action} className="flex flex-col gap-5">
 			<div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
 				<label className="flex flex-col gap-2">
-					<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.55rem]">
+					<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.649rem]">
 						Full name
 					</span>
 					<input
@@ -26,7 +26,7 @@ export function AdminInvite() {
 					/>
 				</label>
 				<label className="flex flex-col gap-2">
-					<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.55rem]">
+					<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.649rem]">
 						Email
 					</span>
 					<input
@@ -38,7 +38,7 @@ export function AdminInvite() {
 					/>
 				</label>
 				<label className="flex flex-col gap-2">
-					<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.55rem]">
+					<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.649rem]">
 						Role
 					</span>
 					<select
@@ -55,7 +55,7 @@ export function AdminInvite() {
 				</label>
 			</div>
 			<label className="flex flex-col gap-2">
-				<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.55rem]">
+				<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.649rem]">
 					Temporary password
 				</span>
 				<input
@@ -66,21 +66,21 @@ export function AdminInvite() {
 					placeholder="At least 8 characters"
 					className={inputCls}
 				/>
-				<span className="font-sans font-light text-cream/35 text-[0.62rem]">
+				<span className="font-sans font-light text-cream/35 text-[0.732rem]">
 					Share this with them; they can change it later.
 				</span>
 			</label>
 			<button
 				type="submit"
 				disabled={pending}
-				className="cta-gold w-fit cursor-pointer bg-gold px-7 py-3 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-xs disabled:opacity-60">
+				className="cta-gold w-fit cursor-pointer bg-gold px-7 py-3 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-sm disabled:opacity-60">
 				{pending ? "Creating…" : "Create user"}
 			</button>
 			{state.error && (
-				<p className="font-sans text-sm text-gold/80">{state.error}</p>
+				<p className="font-sans text-base text-gold/80">{state.error}</p>
 			)}
 			{state.ok && (
-				<p className="font-sans text-sm text-cream/60">{state.ok}</p>
+				<p className="font-sans text-base text-cream/60">{state.ok}</p>
 			)}
 		</form>
 	);

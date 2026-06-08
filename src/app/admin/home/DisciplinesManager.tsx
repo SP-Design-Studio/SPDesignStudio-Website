@@ -14,7 +14,7 @@ import {
 const inputCls =
 	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
 const labelCls =
-	"font-sans font-light uppercase tracking-[0.26em] text-gold/80 text-[0.52rem] mb-1.5";
+	"font-sans font-light uppercase tracking-[0.26em] text-gold/80 text-[0.614rem] mb-1.5";
 
 function Card({
 	item,
@@ -75,14 +75,14 @@ function Card({
 							type="button"
 							disabled={index === 0}
 							onClick={() => onMove(-1)}
-							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-xs disabled:opacity-30 hover:border-gold hover:text-gold">
+							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 							↑
 						</button>
 						<button
 							type="button"
 							disabled={index === total - 1}
 							onClick={() => onMove(1)}
-							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-xs disabled:opacity-30 hover:border-gold hover:text-gold">
+							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 							↓
 						</button>
 					</div>
@@ -90,7 +90,7 @@ function Card({
 						type="button"
 						onClick={remove}
 						disabled={pending}
-						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/45 text-[0.55rem] hover:text-gold">
+						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/45 text-[0.649rem] hover:text-gold">
 						Delete
 					</button>
 				</div>
@@ -165,11 +165,11 @@ function Card({
 						type="button"
 						onClick={save}
 						disabled={pending}
-						className="cta-gold cursor-pointer bg-gold px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-[0.62rem] disabled:opacity-60">
+						className="cta-gold cursor-pointer bg-gold px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-[0.732rem] disabled:opacity-60">
 						{pending ? "Saving…" : "Save"}
 					</button>
 					{msg && (
-						<span className="font-sans font-light text-cream/50 text-xs">
+						<span className="font-sans font-light text-cream/50 text-sm">
 							{msg}
 						</span>
 					)}
@@ -221,7 +221,7 @@ export function DisciplinesManager({ initial }: { initial: Discipline[] }) {
 				type="button"
 				onClick={add}
 				disabled={pending}
-				className="w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.62rem] transition-colors hover:bg-gold/10 disabled:opacity-60">
+				className="w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.732rem] transition-colors hover:bg-gold/10 disabled:opacity-60">
 				+ Add discipline
 			</button>
 		</div>

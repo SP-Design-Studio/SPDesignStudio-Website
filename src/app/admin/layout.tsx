@@ -18,11 +18,11 @@ export default async function AdminLayout({
 	return (
 		<div className="min-h-dvh bg-plum-dark text-cream">
 			{profile && (
-				<header className="sticky top-0 z-30 flex items-center justify-between border-b border-cream/10 bg-plum-dark/90 px-6 py-4 backdrop-blur md:px-10">
+				<header className="sticky top-0 z-30 flex items-center justify-between border-b border-cream/10 bg-plum-dark/90 px-6 py-5 backdrop-blur md:px-10">
 					<div className="flex items-center gap-8">
 						<Link
 							href="/admin"
-							className="font-sans font-light uppercase tracking-[0.32em] text-gold text-[0.62rem]">
+							className="font-sans font-light uppercase tracking-[0.32em] text-gold text-[0.732rem]">
 							SP · Studio CMS
 						</Link>
 						<AdminNav
@@ -36,22 +36,22 @@ export default async function AdminLayout({
 							href="/"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="group inline-flex items-center gap-1.5 font-sans font-light uppercase tracking-[0.24em] text-cream/55 text-[0.6rem] transition-colors hover:text-gold">
+							className="group inline-flex items-center gap-1.5 font-sans font-light uppercase tracking-[0.24em] text-cream/55 text-[0.708rem] transition-colors hover:text-gold">
 							View site
 							<span className="transition-transform duration-300 group-hover:translate-x-0.5">
 								↗
 							</span>
 						</a>
-						<span className="hidden font-sans font-light text-cream/45 text-[0.62rem] sm:inline">
+						<span className="hidden font-sans font-light text-cream/45 text-[0.732rem] sm:inline">
 							{profile.email}
 						</span>
-						<span className="rounded-full border border-gold/30 px-3 py-1 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.52rem]">
+						<span className="rounded-full border border-gold/30 px-3 py-1 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.614rem]">
 							{profile.role}
 						</span>
 						<form action={signOut}>
 							<button
 								type="submit"
-								className="cursor-pointer font-sans font-light uppercase tracking-[0.24em] text-cream/55 text-[0.6rem] transition-colors hover:text-gold">
+								className="cursor-pointer font-sans font-light uppercase tracking-[0.24em] text-cream/55 text-[0.708rem] transition-colors hover:text-gold">
 								Sign out
 							</button>
 						</form>

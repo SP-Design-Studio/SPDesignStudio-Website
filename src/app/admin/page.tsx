@@ -121,10 +121,10 @@ export default async function AdminHome() {
 				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.6rem] mb-3">
 					Dashboard
 				</div>
-				<h1 className="font-serif font-light text-cream text-3xl md:text-4xl">
+				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
 					Welcome back, {greetName}.
 				</h1>
-				<p className="mt-3 font-sans font-light text-cream/45 text-sm">
+				<p className="mt-3 font-sans font-light text-cream/55 text-base">
 					Manage the studio&rsquo;s public content. Edits are saved as drafts
 					until an admin publishes.
 				</p>
@@ -149,11 +149,11 @@ export default async function AdminHome() {
 							<div className="flex items-baseline justify-between gap-2">
 								<Link
 									href={s.href}
-									className="font-serif font-light text-cream text-lg transition-colors hover:text-gold">
+									className="font-serif font-light text-cream text-xl transition-colors hover:text-gold">
 									{s.label}
 								</Link>
 								{count !== undefined && (
-									<span className="font-sans font-light text-gold/70 text-[0.7rem] tabular-nums">
+									<span className="font-sans font-light text-gold/70 text-sm tabular-nums">
 										{count}
 										<span className="text-cream/30">
 											{" "}
@@ -162,17 +162,17 @@ export default async function AdminHome() {
 									</span>
 								)}
 							</div>
-							<span className="mt-1 font-sans font-light text-cream/40 text-[0.72rem]">
+							<span className="mt-1 font-sans font-light text-cream/45 text-sm">
 								{s.note}
 							</span>
 							{pending && (
-								<span className="mt-2 w-fit rounded-full border border-gold/40 bg-gold/10 px-2 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-gold text-[0.48rem]">
+								<span className="mt-2 w-fit rounded-full border border-gold/40 bg-gold/10 px-2 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-gold text-[0.55rem]">
 									{sectionStatus === "unpublished"
 										? "Not published"
 										: "Draft — needs publish"}
 								</span>
 							)}
-							<div className="mt-3 flex items-center gap-4 font-sans font-light uppercase tracking-[0.2em] text-[0.5rem]">
+							<div className="mt-3 flex items-center gap-4 font-sans font-light uppercase tracking-[0.2em] text-[0.6rem]">
 								<Link
 									href={s.href}
 									className="text-gold/80 transition-colors hover:text-gold">
