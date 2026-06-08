@@ -26,6 +26,15 @@ const bdScript = localFont({
   style: "italic",
 });
 
+const alta = localFont({
+  src: [
+    { path: "../../public/fonts/Alta/Alta_light.otf", weight: "300", style: "normal" },
+    { path: "../../public/fonts/Alta/Alta_regular.otf", weight: "400", style: "normal" },
+  ],
+  variable: "--font-alta",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "SP Design Studio",
@@ -46,7 +55,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${dmSans.variable} ${bdScript.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${dmSans.variable} ${bdScript.variable} ${alta.variable}`}>
       <body>
         <PageTransition />
         {children}

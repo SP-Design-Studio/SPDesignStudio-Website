@@ -160,7 +160,17 @@ export default function Preloader({ onCompleteAction }: PreloaderProps) {
               display: "block",
             }}
           >
-            SP Design Studio
+            <span
+              style={{
+                fontFamily: "var(--font-alta)",
+                fontWeight: 500,
+                fontSize: "0.62em",
+                letterSpacing: "0.04em",
+              }}
+            >
+              SP
+            </span>{" "}
+            Design Studio
           </span>
         </div>
 
