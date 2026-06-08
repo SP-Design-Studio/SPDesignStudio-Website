@@ -9,7 +9,7 @@ import { CategoryPills } from "./CategoryPills";
 import { ProjectDetail } from "./ProjectDetail";
 import { getLenis } from "@/lib/smoothScroll";
 import { enableSectionSnapAnchors } from "@/lib/sectionSnap";
-import { PROJECTS, type ProjectCategory } from "@/lib/data/projects";
+import type { Project, ProjectCategory } from "@/lib/data/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,7 +25,13 @@ const CLIP_HIDDEN = "inset(100% 0% 0% 0% round 0.125rem)";
 const CLIP_SHOWN = "inset(0% 0% 0% 0% round 0.125rem)";
 const CLIP_EXIT = "inset(0% 0% 100% 0% round 0.125rem)";
 
-export default function ProjectsPinnedScroll({ started }: { started: boolean }) {
+export default function ProjectsPinnedScroll({
+	started,
+	projects,
+}: {
+	started: boolean;
+	projects: Project[];
+}) {
 	const wrapperRef = useRef<HTMLDivElement>(null);
 
 	const heroRef = useRef<HTMLDivElement>(null);
@@ -46,7 +52,7 @@ export default function ProjectsPinnedScroll({ started }: { started: boolean }) 
 	const introDone = useRef(false);
 	const revealed = useRef(false);
 
-	const indexed = PROJECTS.map((p, i) => ({ ...p, _i: i }));
+	const indexed = projects.map((p, i) => ({ ...p, _i: i }));
 	const filtered = active
 		? indexed.filter((p) => p.category === active)
 		: indexed;

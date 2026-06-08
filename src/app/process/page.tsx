@@ -1,30 +1,10 @@
-"use client";
+import ProcessClient from "@/components/process/ProcessClient";
+import { getProcessData } from "@/lib/cms/pages";
 
-import { useEffect, useState } from "react";
-import SmoothScrollProvider from "@/components/shared/SmoothScrollProvider";
-import Nav from "@/components/shared/Nav";
-import ProcessPinnedScroll from "@/components/process/ProcessPinnedScroll";
-import Footer from "@/components/shared/Footer";
+export const revalidate = 60;
+export const metadata = { title: "Process" };
 
-export default function ProcessPage() {
-  const [started, setStarted] = useState(false);
-  const [navVisible, setNavVisible] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => {
-      setStarted(true);
-      setNavVisible(true);
-    }, 250);
-    return () => clearTimeout(t);
-  }, []);
-
-  return (
-    <SmoothScrollProvider>
-      <Nav visible={navVisible} />
-      <main>
-        <ProcessPinnedScroll started={started} />
-        <Footer />
-      </main>
-    </SmoothScrollProvider>
-  );
+export default async function ProcessPage() {
+	const { steps } = await getProcessData();
+	return <ProcessClient steps={steps} />;
 }

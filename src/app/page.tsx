@@ -1,43 +1,18 @@
-"use client";
+import HomeClient from "@/components/home/HomeClient";
+import { getHomeData } from "@/lib/cms/pages";
 
-import { useEffect, useState } from "react";
-import SmoothScrollProvider from "@/components/shared/SmoothScrollProvider";
-import Preloader from "@/components/shared/Preloader";
-import Nav from "@/components/shared/Nav";
-import PinnedScroll from "@/components/home/PinnedScroll";
-import Footer from "@/components/shared/Footer";
+export const revalidate = 60;
+export const metadata = { title: { absolute: "Home · SP Design Studio" } };
 
-export default function Home() {
-  const [preloaderDone, setPreloaderDone] = useState(false);
-  const [showPreloader, setShowPreloader] = useState(false);
-  const [navVisible, setNavVisible] = useState(false);
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    setHydrated(true);
-    if (sessionStorage.getItem("preloaderShown") === "1") {
-      setPreloaderDone(true);
-    } else {
-      setShowPreloader(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (preloaderDone) sessionStorage.setItem("preloaderShown", "1");
-  }, [preloaderDone]);
-
-  return (
-    <>
-      {hydrated && showPreloader && !preloaderDone && (
-        <Preloader onCompleteAction={() => setPreloaderDone(true)} />
-      )}
-      <SmoothScrollProvider>
-        <Nav visible={navVisible} />
-        <main suppressHydrationWarning style={{ opacity: hydrated && preloaderDone ? 1 : 0, transition: "opacity 0.35s ease" }}>
-          <PinnedScroll started={preloaderDone} onNavVisibleAction={setNavVisible} />
-          <Footer />
-        </main>
-      </SmoothScrollProvider>
-    </>
-  );
+export default async function Home() {
+	const data = await getHomeData();
+	return (
+		<HomeClient
+			disciplines={data.disciplines}
+			partners={data.partners}
+			partnerCategories={data.partnerCategories}
+			testimonials={data.testimonials}
+			recognition={data.recognition}
+		/>
+	);
 }

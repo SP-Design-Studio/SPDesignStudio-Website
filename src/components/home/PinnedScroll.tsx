@@ -13,12 +13,32 @@ import { enableSectionSnap } from "@/lib/sectionSnap";
 
 gsap.registerPlugin(ScrollTrigger);
 
+import type {
+	Discipline,
+	Partner,
+	PartnerCategory,
+	Testimonial,
+} from "@/lib/cms/types";
+
 interface Props {
 	started: boolean;
 	onNavVisibleAction: (v: boolean) => void;
+	disciplines: Discipline[];
+	partners: Partner[];
+	partnerCategories: PartnerCategory[];
+	testimonials: Testimonial[];
+	recognition: string[];
 }
 
-export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
+export default function PinnedScroll({
+	started,
+	onNavVisibleAction,
+	disciplines,
+	partners,
+	partnerCategories,
+	testimonials,
+	recognition,
+}: Props) {
 	const wrapperRef = useRef<HTMLDivElement>(null);
 	const onNavVisibleRef = useRef(onNavVisibleAction);
 	useEffect(() => {
@@ -757,6 +777,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 				ctaRef={a1Cta}
 				proofRef={a1Proof}
 				hintRef={a1Hint}
+				recognitionItems={recognition}
 			/>
 
 			<PhilosophyAct
@@ -772,6 +793,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 					ruleRef={a3Rule}
 					titleCharsRef={a3TitleChars}
 					itemsRef={a3Items}
+					disciplines={disciplines}
 			/>
 
 			<PartnersAct
@@ -782,6 +804,8 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 				taglineRef={a5Tagline}
 				ctaRef={a5Cta}
 				showcaseRef={a5Showcase}
+				partners={partners}
+				partnerCategories={partnerCategories}
 			/>
 
 			<VoicesAct
@@ -789,6 +813,7 @@ export default function PinnedScroll({ started, onNavVisibleAction }: Props) {
 				ruleRef={avRule}
 				titleWordsRef={avTitleWords}
 				itemsRef={avItems}
+				testimonials={testimonials}
 			/>
 
 			<InvitationAct

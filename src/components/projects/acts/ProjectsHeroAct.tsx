@@ -28,7 +28,7 @@ export function ProjectsHeroAct({
 
 			<h1
 				ref={titleRef}
-				className="font-bdscript leading-[0.98] tracking-[-0.015em] text-cream text-5xl sm:text-7xl md:text-8xl lg:text-9xl"
+				className="font-serif font-light leading-[1.05] tracking-[-0.01em] text-cream text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
 				style={{ perspective: "1200px" }}>
 				<span className="block">
 					<Words
@@ -46,11 +46,11 @@ export function ProjectsHeroAct({
 						initialHidden
 					/>
 				</span>
-				<span className="block text-gold">
+				<span className="mt-2 block font-bdscript leading-[0.95] text-gold text-6xl sm:text-7xl md:text-8xl lg:text-9xl">
 					<Words
 						words={PROJECTS_PAGE.title[2].split(" ")}
 						refStore={title3Ref}
-						spacing="0.18em"
+						spacing="0.06em"
 						initialHidden
 					/>
 				</span>

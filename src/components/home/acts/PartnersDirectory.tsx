@@ -4,9 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { gsap } from "gsap";
 import { CloseButton } from "@/components/shared/CloseButton";
-import { PARTNER_DIRECTORY } from "@/lib/studio";
+import type { PartnerCategory } from "@/lib/cms/types";
 
-export function PartnersDirectory() {
+export function PartnersDirectory({
+	categories,
+}: {
+	categories: PartnerCategory[];
+}) {
 	const [open, setOpen] = useState(false);
 	const panelRef = useRef<HTMLDivElement>(null);
 
@@ -84,8 +88,8 @@ export function PartnersDirectory() {
 							</div>
 
 							<div className="grid grid-cols-2 gap-x-6 gap-y-9 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-12 md:grid-cols-4">
-								{PARTNER_DIRECTORY.map((cat) => (
-									<div key={cat.category} className="pd-col">
+								{categories.map((cat) => (
+									<div key={cat.id} className="pd-col">
 										<h3 className="font-serif italic font-light text-gold text-lg sm:text-xl md:text-2xl mb-3 md:mb-4">
 											{cat.category}
 										</h3>

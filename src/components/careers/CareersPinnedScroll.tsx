@@ -7,10 +7,20 @@ import { CareersHeroAct } from "./acts/CareersHeroAct";
 import { CareersOpeningsAct } from "./acts/CareersOpeningsAct";
 import { CareersInviteAct } from "./acts/CareersInviteAct";
 import { enableSectionSnap } from "@/lib/sectionSnap";
+import { CAREERS } from "@/lib/studio";
+import type { CareerOpening, CareersSettings } from "@/lib/cms/types";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function CareersPinnedScroll({ started }: { started: boolean }) {
+export default function CareersPinnedScroll({
+	started,
+	openings,
+	settings,
+}: {
+	started: boolean;
+	openings: CareerOpening[];
+	settings: CareersSettings | null;
+}) {
 	const wrapperRef = useRef<HTMLDivElement>(null);
 
 	const heroWrap = useRef<HTMLDivElement>(null);
@@ -210,8 +220,13 @@ export default function CareersPinnedScroll({ started }: { started: boolean }) {
 				title2Ref={heroTitle2}
 				subRef={heroSub}
 				hintRef={heroHint}
+				subtitle={settings?.subtitle ?? CAREERS.subtitle}
 			/>
-			<CareersOpeningsAct wrapRef={openingsWrap} />
+			<CareersOpeningsAct
+				wrapRef={openingsWrap}
+				openings={openings}
+				emptyNote={settings?.empty_note ?? CAREERS.emptyNote}
+			/>
 			<CareersInviteAct wrapRef={inviteWrap} />
 		</div>
 	);

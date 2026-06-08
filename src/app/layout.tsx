@@ -27,7 +27,10 @@ const bdScript = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "SP Design Studio",
+  title: {
+    default: "SP Design Studio",
+    template: "%s · SP Design Studio",
+  },
   description: "Interior design studio crafting spaces that merge technical rigor with intentional living.",
 };
 

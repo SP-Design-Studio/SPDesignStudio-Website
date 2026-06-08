@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { PROCESS } from "@/lib/studio";
+import type { ProcessStep } from "@/lib/cms/types";
 
 const SHADES = [
 	"#2e1f24",
@@ -16,6 +16,7 @@ interface Props {
 	imgLineRefs: React.RefObject<(HTMLSpanElement | null)[]>;
 	textInnerRefs: React.RefObject<(HTMLDivElement | null)[]>;
 	textLineRefs: React.RefObject<(HTMLSpanElement | null)[]>;
+	steps: ProcessStep[];
 }
 
 export function ProcessStepsAct({
@@ -24,8 +25,8 @@ export function ProcessStepsAct({
 	imgLineRefs,
 	textInnerRefs,
 	textLineRefs,
+	steps,
 }: Props) {
-	const steps = PROCESS.steps;
 
 	return (
 		<div
@@ -39,19 +40,21 @@ export function ProcessStepsAct({
 								imgInnerRefs.current[i] = el;
 							}}
 							className="absolute inset-0">
-							<Image
-								src={s.img}
-								alt=""
-								fill
-								className="object-cover"
-								sizes="(max-width: 768px) 100vw, 50vw"
-								priority={i === 0}
-								style={
-									s.no === "05"
-										? { filter: "contrast(1.12) saturate(1.14) brightness(1.05)" }
-										: undefined
-								}
-							/>
+							{s.img && (
+								<Image
+									src={s.img}
+									alt=""
+									fill
+									className="object-cover"
+									sizes="(max-width: 768px) 100vw, 50vw"
+									priority={i === 0}
+									style={
+										s.no === "05"
+											? { filter: "contrast(1.12) saturate(1.14) brightness(1.05)" }
+											: undefined
+									}
+								/>
+							)}
 							<div className="absolute inset-0 bg-plum-dark/25" />
 						</div>
 						<span
@@ -97,7 +100,7 @@ export function ProcessStepsAct({
 									))}
 								</h2>
 								<p className="p-desc font-sans font-light text-cream/65 text-sm md:text-base lg:text-lg leading-[1.7]">
-									{s.desc}
+									{s.description}
 								</p>
 							</div>
 						</div>

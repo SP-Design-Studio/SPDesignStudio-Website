@@ -7,12 +7,14 @@ import { gsap } from "gsap";
 import { Words } from "@/components/shared/Words";
 import { CloseButton } from "@/components/shared/CloseButton";
 import { SECTIONS } from "@/lib/studio";
+import type { Testimonial } from "@/lib/cms/types";
 
 interface VoicesActProps {
 	wrapRef: React.RefObject<HTMLDivElement | null>;
 	ruleRef: React.RefObject<HTMLDivElement | null>;
 	titleWordsRef: React.RefObject<(HTMLSpanElement | null)[]>;
 	itemsRef: React.RefObject<(HTMLDivElement | null)[]>;
+	testimonials: Testimonial[];
 }
 
 const INTERVAL = 5200;
@@ -23,14 +25,30 @@ export function VoicesAct({
 	ruleRef,
 	titleWordsRef,
 	itemsRef,
+	testimonials,
 }: VoicesActProps) {
-	const { title, quotes } = SECTIONS.voices;
+	const { title } = SECTIONS.voices;
+	const quotes = testimonials;
 	const n = quotes.length;
 	const [active, setActive] = useState(0);
 	const [open, setOpen] = useState(false);
-	const [mounted, setMounted] = useState(false);
 	const slideRef = useRef<HTMLDivElement>(null);
+	const panelRef = useRef<HTMLDivElement>(null);
 	const activeRef = useRef(0);
+
+	const close = () => {
+		if (!panelRef.current) {
+			setOpen(false);
+			return;
+		}
+		document.body.style.overflow = "";
+		gsap.to(panelRef.current, {
+			clipPath: "inset(100% 0% 0% 0%)",
+			duration: 0.55,
+			ease: "expo.inOut",
+			onComplete: () => setOpen(false),
+		});
+	};
 	const timer = useRef<ReturnType<typeof setInterval> | null>(null);
 
 	const goTo = (i: number) => {
@@ -48,16 +66,12 @@ export function VoicesAct({
 
 	const start = () => {
 		stop();
-		if (open) return;
+		if (open || n <= 1) return;
 		timer.current = setInterval(() => goTo(activeRef.current + 1), INTERVAL);
 	};
 	const stop = () => {
 		if (timer.current) clearInterval(timer.current);
 	};
-
-	useEffect(() => {
-		setMounted(true);
-	}, []);
 
 	useEffect(() => {
 		start();
@@ -70,12 +84,34 @@ export function VoicesAct({
 	}, [open]);
 
 	useEffect(() => {
-		if (!open) return;
+		if (!open || !panelRef.current) return;
+		document.body.style.overflow = "hidden";
+		gsap.set(panelRef.current, { clipPath: "inset(0% 0% 100% 0%)" });
+		gsap.to(panelRef.current, {
+			clipPath: "inset(0% 0% 0% 0%)",
+			duration: 0.7,
+			ease: "expo.inOut",
+		});
+		gsap.fromTo(
+			".tv-row",
+			{ y: 28, autoAlpha: 0 },
+			{
+				y: 0,
+				autoAlpha: 1,
+				duration: 0.6,
+				stagger: 0.05,
+				ease: "power3.out",
+				delay: 0.25,
+			},
+		);
 		const onKey = (e: KeyboardEvent) => {
-			if (e.key === "Escape") setOpen(false);
+			if (e.key === "Escape") close();
 		};
 		window.addEventListener("keydown", onKey);
-		return () => window.removeEventListener("keydown", onKey);
+		return () => {
+			window.removeEventListener("keydown", onKey);
+			document.body.style.overflow = "";
+		};
 	}, [open]);
 
 	useEffect(() => {
@@ -92,6 +128,27 @@ export function VoicesAct({
 			},
 		);
 	}, [active]);
+
+	if (n === 0) {
+		return (
+			<div
+				ref={wrapRef}
+				className="absolute inset-0 z-10 invisible overflow-y-auto">
+				<div className="min-h-full flex flex-col items-center justify-center px-6 py-10 text-center">
+					<div
+						className="font-bdscript text-gold tracking-[-0.005em] text-4xl sm:text-5xl md:text-6xl"
+						style={{ perspective: "1200px" }}>
+						<Words
+							words={title.split(" ")}
+							refStore={titleWordsRef}
+							spacing="0.45em"
+						/>
+					</div>
+					<div ref={ruleRef} className="w-14 h-px bg-gold/70 mt-4" />
+				</div>
+			</div>
+		);
+	}
 
 	const visible = Array.from(
 		{ length: Math.min(WINDOW, n) },
@@ -129,13 +186,15 @@ export function VoicesAct({
 								key={`${active}-${idx}`}
 								className={`flex-col ${idx === 0 ? "flex" : "hidden lg:flex"}`}>
 								<div className="relative aspect-4/3 overflow-hidden border border-cream/10 bg-plum-dark mb-5">
-									<Image
-										src={q.img}
-										alt=""
-										fill
-										className="object-cover"
-										sizes="(max-width: 1024px) 90vw, 360px"
-									/>
+									{q.img && (
+										<Image
+											src={q.img}
+											alt=""
+											fill
+											className="object-cover"
+											sizes="(max-width: 1024px) 90vw, 360px"
+										/>
+									)}
 									<div className="absolute inset-0 bg-linear-to-t from-plum-dark/50 to-transparent" />
 								</div>
 								<span
@@ -204,19 +263,14 @@ export function VoicesAct({
 				</div>
 			</div>
 
-			{mounted &&
+			{open &&
 				createPortal(
 					<div
-						aria-hidden={!open}
-						inert={!open}
-						className={`fixed inset-0 z-200 ${open ? "pointer-events-auto" : "pointer-events-none"}`}>
-						<div
-							onClick={() => setOpen(false)}
-							className={`absolute inset-0 bg-plum-dark/97 backdrop-blur-sm transition-opacity duration-500 ${open ? "opacity-100" : "opacity-0"}`}
-						/>
-
-						<div
-							className={`relative mx-auto flex h-full max-w-5xl flex-col px-6 sm:px-10 transition-all duration-500 ease-out ${open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
+						ref={panelRef}
+						data-lenis-prevent
+						className="fixed inset-0 z-200 overflow-y-auto overscroll-contain bg-plum-dark"
+						style={{ clipPath: "inset(0% 0% 100% 0%)" }}>
+						<div className="relative mx-auto min-h-full max-w-5xl px-6 sm:px-10 pb-16 md:pb-24">
 							<div
 								className="flex items-end justify-between border-b border-cream/10 pb-5"
 								style={{
@@ -231,30 +285,27 @@ export function VoicesAct({
 										{`${n} stories from the people we’ve built for`}
 									</div>
 								</div>
-								<CloseButton
-									onClick={() => setOpen(false)}
-									className="shrink-0 ml-4"
-								/>
+								<CloseButton onClick={close} className="shrink-0 ml-4" />
 							</div>
 
-							<div
-								data-lenis-prevent
-								className="flex-1 overflow-y-auto overscroll-contain py-10 md:py-14 scrollbar-thin">
+							<div className="py-10 md:py-14">
 								<ul className="flex flex-col gap-12 md:gap-20">
 									{quotes.map((q, i) => (
 										<li
-											key={q.name}
-											className="grid grid-cols-1 md:grid-cols-12 md:items-center gap-6 md:gap-10">
+											key={q.id}
+											className="tv-row grid grid-cols-1 md:grid-cols-12 md:items-center gap-6 md:gap-10">
 											<div
 												className={`md:col-span-5 ${i % 2 === 1 ? "md:order-2" : ""}`}>
 												<div className="relative aspect-3/2 sm:aspect-4/3 md:aspect-4/5 overflow-hidden border border-cream/10 bg-plum-dark">
-													<Image
-														src={q.img}
-														alt={q.name}
-														fill
-														className="object-cover"
-														sizes="(max-width: 768px) 90vw, 420px"
-													/>
+													{q.img && (
+														<Image
+															src={q.img}
+															alt={q.name}
+															fill
+															className="object-cover"
+															sizes="(max-width: 768px) 90vw, 420px"
+														/>
+													)}
 													<div className="absolute inset-0 bg-linear-to-t from-plum-dark/40 to-transparent" />
 												</div>
 											</div>

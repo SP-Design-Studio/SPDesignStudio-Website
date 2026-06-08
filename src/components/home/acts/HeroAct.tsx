@@ -13,6 +13,7 @@ interface HeroActProps {
 	ctaRef: React.RefObject<HTMLDivElement | null>;
 	proofRef: React.RefObject<HTMLDivElement | null>;
 	hintRef: React.RefObject<HTMLDivElement | null>;
+	recognitionItems: string[];
 }
 
 export function HeroAct({
@@ -25,6 +26,7 @@ export function HeroAct({
 	ctaRef,
 	proofRef,
 	hintRef,
+	recognitionItems,
 }: HeroActProps) {
 	const { recognition } = SECTIONS.hero;
 	return (
@@ -55,7 +57,7 @@ export function HeroAct({
 			<div className="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between gap-5 md:gap-8">
 				<div className="flex flex-col">
 					<div
-						className="font-bdscript text-cream leading-none tracking-[-0.015em] text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem]"
+						className="font-bdscript text-cream leading-none tracking-[-0.015em] text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem] -mb-4 md:-mb-7"
 						style={{ perspective: "1200px" }}>
 						<Words
 							words={SECTIONS.hero.line1.split(" ")}
@@ -121,9 +123,9 @@ export function HeroAct({
 					</span>
 					<span className="hidden sm:block h-3 w-px bg-cream/20 shrink-0" />
 					<span className="truncate font-sans font-light uppercase tracking-[0.18em] text-cream/55 text-[9px] md:text-[10px]">
-						<span className="sm:hidden">{recognition.items[0]}</span>
+						<span className="sm:hidden">{recognitionItems[0]}</span>
 						<span className="hidden sm:inline">
-							{recognition.items.join("  ·  ")}
+							{recognitionItems.join("  ·  ")}
 						</span>
 					</span>
 				</div>

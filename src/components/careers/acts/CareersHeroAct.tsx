@@ -8,6 +8,7 @@ interface Props {
 	title2Ref: React.RefObject<(HTMLSpanElement | null)[]>;
 	subRef: React.RefObject<HTMLParagraphElement | null>;
 	hintRef: React.RefObject<HTMLDivElement | null>;
+	subtitle: string;
 }
 
 export function CareersHeroAct({
@@ -17,8 +18,9 @@ export function CareersHeroAct({
 	title2Ref,
 	subRef,
 	hintRef,
+	subtitle,
 }: Props) {
-	const { eyebrow, line1, line2, subtitle } = CAREERS;
+	const { eyebrow, line1, line2 } = CAREERS;
 
 	return (
 		<div

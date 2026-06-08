@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { Words } from "@/components/shared/Words";
 import { PartnersDirectory } from "./PartnersDirectory";
 import { SECTIONS } from "@/lib/studio";
-import { brandLogos } from "@/lib/brands";
+import type { Partner, PartnerCategory } from "@/lib/cms/types";
 import { gsap } from "gsap";
 
 interface PartnersActProps {
@@ -15,6 +15,8 @@ interface PartnersActProps {
 	taglineRef: React.RefObject<HTMLParagraphElement | null>;
 	ctaRef: React.RefObject<HTMLDivElement | null>;
 	showcaseRef: React.RefObject<HTMLDivElement | null>;
+	partners: Partner[];
+	partnerCategories: PartnerCategory[];
 }
 
 const STEP_DURATION = 1.0;
@@ -50,16 +52,19 @@ export function PartnersAct({
 	taglineRef,
 	ctaRef,
 	showcaseRef,
+	partners,
+	partnerCategories,
 }: PartnersActProps) {
 	const titleWordsArr = SECTIONS.partners.title.split(" ");
 	const trackRef = useRef<HTMLDivElement | null>(null);
 	const stepRef = useRef(0);
 
-	const reel = [...brandLogos, ...brandLogos];
+	const logos = partners.filter((p) => p.logo);
+	const reel = [...logos, ...logos];
 
 	useEffect(() => {
 		const track = trackRef.current;
-		if (!track) return;
+		if (!track || logos.length === 0) return;
 
 		const tick = () => {
 			const next = stepRef.current + 1;
@@ -68,7 +73,7 @@ export function PartnersAct({
 				duration: STEP_DURATION,
 				ease: "expo.inOut",
 				onComplete: () => {
-					if (next >= brandLogos.length) {
+					if (next >= logos.length) {
 						gsap.set(track, { yPercent: 0 });
 						stepRef.current = 0;
 					} else {
@@ -80,7 +85,7 @@ export function PartnersAct({
 
 		const id = window.setInterval(tick, DWELL_MS + STEP_DURATION * 1000);
 		return () => window.clearInterval(id);
-	}, [reel.length]);
+	}, [reel.length, logos.length]);
 
 	return (
 		<div
@@ -111,7 +116,7 @@ export function PartnersAct({
 						{SECTIONS.partners.tagline}
 					</p>
 					<div ref={ctaRef} className="w-fit">
-						<PartnersDirectory />
+						<PartnersDirectory categories={partnerCategories} />
 					</div>
 				</div>
 
@@ -127,7 +132,7 @@ export function PartnersAct({
 								key={`${b.name}-${i}`}
 								className="shrink-0 flex items-center justify-center"
 								style={{ height: `${100 / reel.length}%` }}>
-								<LogoMask logo={b.logo} name={b.name} />
+								<LogoMask logo={b.logo!} name={b.name} />
 							</div>
 						))}
 					</div>

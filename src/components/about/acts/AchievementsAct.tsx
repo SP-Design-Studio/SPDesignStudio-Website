@@ -6,16 +6,17 @@ import { createPortal } from "react-dom";
 import { gsap } from "gsap";
 import { CloseButton } from "@/components/shared/CloseButton";
 import { ABOUT } from "@/lib/studio";
+import type { Honour } from "@/lib/cms/types";
 
 interface Props {
 	wrapRef: React.RefObject<HTMLDivElement | null>;
+	items: Honour[];
 }
 
 const ROTATE = 4200;
 
-export function AchievementsAct({ wrapRef }: Props) {
+export function AchievementsAct({ wrapRef, items }: Props) {
 	const { achievements } = ABOUT;
-	const items = achievements.items;
 	const n = items.length;
 	const [active, setActive] = useState(0);
 	const [paused, setPaused] = useState(false);
@@ -119,6 +120,26 @@ export function AchievementsAct({ wrapRef }: Props) {
 		return () => ctx.revert();
 	}, [detail]);
 
+	if (n === 0) {
+		return (
+			<div ref={wrapRef} className="absolute inset-0 z-10 invisible overflow-y-auto">
+				<div className="min-h-full flex flex-col justify-center px-6 sm:px-10 md:px-16 py-12 md:py-14">
+					<div className="mx-auto w-full max-w-6xl">
+						<div className="ach-reveal font-sans font-light uppercase tracking-[0.4em] text-gold text-xs md:text-sm mb-3">
+							{achievements.eyebrow}
+						</div>
+						<h2 className="ach-reveal font-bdscript text-cream leading-[0.95] text-4xl sm:text-5xl md:text-6xl">
+							{achievements.title}
+						</h2>
+						<p className="ach-reveal mt-6 font-serif italic font-light text-cream/55 text-xl">
+							Milestones coming soon.
+						</p>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
 	return (
 		<div ref={wrapRef} className="absolute inset-0 z-10 invisible overflow-y-auto">
 			<div className="min-h-full flex flex-col justify-center px-6 sm:px-10 md:px-16 py-12 md:py-14">
@@ -141,16 +162,18 @@ export function AchievementsAct({ wrapRef }: Props) {
 							onClick={() => setDetail(active)}
 							aria-label={`Open ${items[active].title}`}
 							className="ach-reveal group relative hidden md:block md:col-span-5 overflow-hidden bg-plum-dark cursor-pointer text-left">
-							{items.map((it, i) => (
-								<Image
-									key={it.title}
-									src={it.img}
-									alt={it.title}
-									fill
-									sizes="40vw"
-									className={`object-cover transition-all duration-700 ease-out group-hover:scale-105 ${i === active ? "opacity-100" : "opacity-0"}`}
-								/>
-							))}
+							{items.map((it, i) =>
+								it.img ? (
+									<Image
+										key={it.id}
+										src={it.img}
+										alt={it.title}
+										fill
+										sizes="40vw"
+										className={`object-cover transition-all duration-700 ease-out group-hover:scale-105 ${i === active ? "opacity-100" : "opacity-0"}`}
+									/>
+								) : null,
+							)}
 							<div
 								className="absolute inset-0"
 								style={{
@@ -164,7 +187,7 @@ export function AchievementsAct({ wrapRef }: Props) {
 										{items[active].year}
 									</span>
 									<span className="font-sans font-light uppercase tracking-[0.24em] text-cream/75 text-[0.55rem]">
-										{items[active].by}
+										{items[active].by_line}
 									</span>
 								</div>
 								<div className="font-serif font-light text-cream text-2xl leading-tight">
@@ -181,7 +204,7 @@ export function AchievementsAct({ wrapRef }: Props) {
 
 						<ul className="md:col-span-7 flex flex-col">
 							{items.map((it, i) => (
-								<li key={it.title} className="ach-row">
+								<li key={it.id} className="ach-row">
 									<button
 										type="button"
 										onMouseEnter={() => setActive(i)}
@@ -191,13 +214,15 @@ export function AchievementsAct({ wrapRef }: Props) {
 											i === active ? "md:border-gold/30" : ""
 										}`}>
 										<div className="relative h-14 w-20 shrink-0 overflow-hidden bg-plum-dark md:hidden">
-											<Image
-												src={it.img}
-												alt={it.title}
-												fill
-												sizes="80px"
-												className="object-cover"
-											/>
+											{it.img && (
+												<Image
+													src={it.img}
+													alt={it.title}
+													fill
+													sizes="80px"
+													className="object-cover"
+												/>
+											)}
 										</div>
 
 										<span
@@ -215,7 +240,7 @@ export function AchievementsAct({ wrapRef }: Props) {
 												{it.title}
 											</div>
 											<div className="font-sans font-light uppercase tracking-[0.22em] text-cream/40 text-[0.55rem] md:text-[0.6rem] mt-1.5">
-												{it.by}
+												{it.by_line}
 											</div>
 										</div>
 
@@ -260,14 +285,16 @@ export function AchievementsAct({ wrapRef }: Props) {
 									<div
 										ref={imgRef}
 										className="relative aspect-3/2 w-full overflow-hidden border border-cream/10 bg-plum-dark">
-										<Image
-											key={d.img}
-											src={d.img}
-											alt={d.title}
-											fill
-											sizes="(max-width: 768px) 90vw, 672px"
-											className="object-cover"
-										/>
+										{d.img && (
+											<Image
+												key={d.img}
+												src={d.img}
+												alt={d.title}
+												fill
+												sizes="(max-width: 768px) 90vw, 672px"
+												className="object-cover"
+											/>
+										)}
 									</div>
 
 									<div
@@ -278,7 +305,7 @@ export function AchievementsAct({ wrapRef }: Props) {
 												{d.year}
 											</span>
 											<span className="font-sans font-light uppercase tracking-[0.24em] text-cream/65 text-[0.6rem]">
-												{d.by}
+												{d.by_line}
 											</span>
 										</div>
 										<h3 className="mt-5 font-serif font-light text-cream text-3xl md:text-4xl leading-[1.12] max-w-2xl">
@@ -286,7 +313,7 @@ export function AchievementsAct({ wrapRef }: Props) {
 										</h3>
 										<span className="mt-5 block h-px w-10 bg-gold/60" />
 										<p className="mt-5 font-sans font-light text-cream/75 text-base md:text-lg leading-relaxed max-w-xl">
-											{d.desc}
+											{d.description}
 										</p>
 									</div>
 								</div>

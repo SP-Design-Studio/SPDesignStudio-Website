@@ -74,12 +74,18 @@ export function CategoryPills({ active, onSelect, className = "" }: Props) {
 						pillsRef.current[i] = el;
 					}}
 					onClick={() => onSelect(cat.id)}
-					className={`cursor-pointer whitespace-nowrap px-3 sm:px-5 md:px-7 pb-2.5 pt-0.5 font-sans font-light uppercase tracking-[0.16em] sm:tracking-[0.24em] md:tracking-[0.3em] text-[0.55rem] sm:text-[0.62rem] md:text-[0.68rem] transition-colors duration-500 ${
-						active === cat.id
-							? "text-cream"
-							: "text-cream/35 hover:text-cream/60"
-					}`}>
-					{cat.label}
+					className="group relative cursor-pointer whitespace-nowrap overflow-hidden px-3 sm:px-5 md:px-7 pb-2.5 pt-0.5 font-sans font-light uppercase tracking-[0.16em] sm:tracking-[0.24em] md:tracking-[0.3em] text-[0.66rem] sm:text-[0.74rem] md:text-[0.82rem]">
+					<span
+						className={`block transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:-translate-y-[140%] ${
+							active === cat.id ? "text-cream" : "text-cream/40"
+						}`}>
+						{cat.label}
+					</span>
+					<span
+						aria-hidden
+						className="absolute inset-0 flex items-start justify-center px-3 sm:px-5 md:px-7 pt-0.5 translate-y-[140%] text-gold transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:translate-y-0">
+						{cat.label}
+					</span>
 				</button>
 			))}
 		</div>

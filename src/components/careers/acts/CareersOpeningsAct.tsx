@@ -1,9 +1,12 @@
 "use client";
 
 import { CAREERS } from "@/lib/studio";
+import type { CareerOpening } from "@/lib/cms/types";
 
 interface Props {
 	wrapRef: React.RefObject<HTMLDivElement | null>;
+	openings: CareerOpening[];
+	emptyNote: string;
 }
 
 const openApplication = (role?: string) =>
@@ -11,8 +14,8 @@ const openApplication = (role?: string) =>
 		new CustomEvent("open-application", { detail: role ? { role } : {} }),
 	);
 
-export function CareersOpeningsAct({ wrapRef }: Props) {
-	const { openings, openingsTitle, emptyNote } = CAREERS;
+export function CareersOpeningsAct({ wrapRef, openings, emptyNote }: Props) {
+	const { openingsTitle } = CAREERS;
 	const hasRoles = openings.length > 0;
 
 	return (
@@ -27,7 +30,7 @@ export function CareersOpeningsAct({ wrapRef }: Props) {
 						<div className="border-t border-cream/10">
 							{openings.map((o) => (
 								<div
-									key={o.role}
+									key={o.id}
 									className="cr-reveal grid gap-x-8 gap-y-3 border-b border-cream/10 py-6 md:grid-cols-12 md:py-8">
 									<div className="md:col-span-4">
 										<h2 className="font-serif font-light text-cream text-xl sm:text-2xl md:text-3xl leading-tight">
@@ -38,7 +41,7 @@ export function CareersOpeningsAct({ wrapRef }: Props) {
 										</div>
 									</div>
 									<p className="md:col-span-6 font-sans font-light text-cream/60 text-sm md:text-base leading-snug md:leading-[1.7]">
-										{o.desc}
+										{o.description}
 									</p>
 									<div className="md:col-span-2 md:text-right">
 										<button

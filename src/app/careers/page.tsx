@@ -1,32 +1,10 @@
-"use client";
+import CareersClient from "@/components/careers/CareersClient";
+import { getCareersData } from "@/lib/cms/pages";
 
-import { useEffect, useState } from "react";
-import SmoothScrollProvider from "@/components/shared/SmoothScrollProvider";
-import Nav from "@/components/shared/Nav";
-import CareersPinnedScroll from "@/components/careers/CareersPinnedScroll";
-import { CareersDrawer } from "@/components/careers/CareersDrawer";
-import Footer from "@/components/shared/Footer";
+export const revalidate = 60;
+export const metadata = { title: "Careers" };
 
-export default function CareersPage() {
-  const [started, setStarted] = useState(false);
-  const [navVisible, setNavVisible] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => {
-      setStarted(true);
-      setNavVisible(true);
-    }, 250);
-    return () => clearTimeout(t);
-  }, []);
-
-  return (
-    <SmoothScrollProvider>
-      <Nav visible={navVisible} />
-      <main>
-        <CareersPinnedScroll started={started} />
-        <Footer />
-      </main>
-      <CareersDrawer />
-    </SmoothScrollProvider>
-  );
+export default async function CareersPage() {
+	const { openings, settings } = await getCareersData();
+	return <CareersClient openings={openings} settings={settings} />;
 }

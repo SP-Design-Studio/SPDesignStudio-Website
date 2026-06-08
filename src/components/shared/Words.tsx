@@ -31,7 +31,10 @@ export function Words({
           className="inline-block overflow-visible"
           style={{
             paddingInline: pad,
-            marginRight: `calc(${spacing} - ${pad} - ${pad})`,
+            marginRight:
+              i === words.length - 1
+                ? `calc(-1 * ${pad})`
+                : `calc(${spacing} - ${pad} - ${pad})`,
             marginLeft: i === 0 ? `calc(-1 * ${pad})` : "0",
             transformOrigin: "50% 100%",
             ...(initialHidden ? { visibility: "hidden" as const } : {}),

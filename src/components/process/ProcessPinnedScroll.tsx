@@ -3,15 +3,21 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { PROCESS } from "@/lib/studio";
 import { ProcessHeroAct } from "./acts/ProcessHeroAct";
 import { ProcessStepsAct } from "./acts/ProcessStepsAct";
 import { ProcessContactAct } from "./acts/ProcessContactAct";
 import { enableSectionSnap } from "@/lib/sectionSnap";
+import type { ProcessStep } from "@/lib/cms/types";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function ProcessPinnedScroll({ started }: { started: boolean }) {
+export default function ProcessPinnedScroll({
+	started,
+	steps,
+}: {
+	started: boolean;
+	steps: ProcessStep[];
+}) {
 	const wrapperRef = useRef<HTMLDivElement>(null);
 
 	const heroWrap = useRef<HTMLDivElement>(null);
@@ -38,7 +44,6 @@ export default function ProcessPinnedScroll({ started }: { started: boolean }) {
 		let cleanupSnap: () => void = () => {};
 		const ctx = gsap.context(() => {
 			const VH = window.innerHeight;
-			const steps = PROCESS.steps;
 			const STEP = 1.3;
 			const procStart = 0.3;
 			const procEnd = procStart + steps.length * STEP;
@@ -263,7 +268,7 @@ export default function ProcessPinnedScroll({ started }: { started: boolean }) {
 			cleanupSnap();
 			ctx.revert();
 		};
-	}, [started]);
+	}, [started, steps]);
 
 	return (
 		<div
@@ -283,6 +288,7 @@ export default function ProcessPinnedScroll({ started }: { started: boolean }) {
 				imgLineRefs={imgLine}
 				textInnerRefs={textInner}
 				textLineRefs={textLine}
+				steps={steps}
 			/>
 			<ProcessContactAct
 				wrapRef={contactWrap}

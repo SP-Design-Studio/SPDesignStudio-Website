@@ -1,30 +1,10 @@
-"use client";
+import ProjectsClient from "@/components/projects/ProjectsClient";
+import { getProjectsData } from "@/lib/cms/pages";
 
-import { useEffect, useState } from "react";
-import SmoothScrollProvider from "@/components/shared/SmoothScrollProvider";
-import Nav from "@/components/shared/Nav";
-import ProjectsPinnedScroll from "@/components/projects/ProjectsPinnedScroll";
-import Footer from "@/components/shared/Footer";
+export const revalidate = 60;
+export const metadata = { title: "Projects" };
 
-export default function ProjectsPage() {
-  const [started, setStarted] = useState(false);
-  const [navVisible, setNavVisible] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => {
-      setStarted(true);
-      setNavVisible(true);
-    }, 250);
-    return () => clearTimeout(t);
-  }, []);
-
-  return (
-    <SmoothScrollProvider>
-      <Nav visible={navVisible} />
-      <main>
-        <ProjectsPinnedScroll started={started} />
-        <Footer />
-      </main>
-    </SmoothScrollProvider>
-  );
+export default async function ProjectsPage() {
+	const { projects } = await getProjectsData();
+	return <ProjectsClient projects={projects} />;
 }

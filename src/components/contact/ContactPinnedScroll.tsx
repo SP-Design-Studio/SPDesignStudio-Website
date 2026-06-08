@@ -7,10 +7,17 @@ import { ContactHeroAct } from "./acts/ContactHeroAct";
 import { ContactInquiryAct } from "./acts/ContactInquiryAct";
 import { ContactInfoAct } from "./acts/ContactInfoAct";
 import { enableSectionSnap } from "@/lib/sectionSnap";
+import type { SiteSettings } from "@/lib/cms/types";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function ContactPinnedScroll({ started }: { started: boolean }) {
+export default function ContactPinnedScroll({
+	started,
+	settings,
+}: {
+	started: boolean;
+	settings: SiteSettings | null;
+}) {
 	const wrapperRef = useRef<HTMLDivElement>(null);
 
 	const heroWrap = useRef<HTMLDivElement>(null);
@@ -212,7 +219,7 @@ export default function ContactPinnedScroll({ started }: { started: boolean }) {
 				hintRef={heroHint}
 			/>
 			<ContactInquiryAct wrapRef={inquiryWrap} />
-			<ContactInfoAct wrapRef={formWrap} />
+			<ContactInfoAct wrapRef={formWrap} settings={settings} />
 		</div>
 	);
 }

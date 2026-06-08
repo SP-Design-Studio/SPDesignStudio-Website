@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ABOUT } from "@/lib/studio";
 import { Chars } from "@/components/shared/Chars";
+import type { TimelineEntry } from "@/lib/cms/types";
 
 interface TimelineActProps {
 	wrapRef: React.RefObject<HTMLDivElement | null>;
@@ -12,6 +13,7 @@ interface TimelineActProps {
 	entriesRef: React.RefObject<(HTMLDivElement | null)[]>;
 	entriesMobileRef: React.RefObject<(HTMLDivElement | null)[]>;
 	entriesMobileWrapRef: React.RefObject<HTMLDivElement | null>;
+	entries: TimelineEntry[];
 }
 
 const VB_W = 1200;
@@ -42,9 +44,8 @@ export function TimelineAct({
 	entriesRef,
 	entriesMobileRef,
 	entriesMobileWrapRef,
+	entries,
 }: TimelineActProps) {
-	const entries = ABOUT.timeline.entries;
-
 	return (
 		<div ref={wrapRef} className="absolute inset-0 z-10 invisible overflow-y-auto">
 			<div className="min-h-full flex flex-col justify-center px-6 sm:px-8 md:px-10 lg:px-16 pt-20 sm:pt-24 pb-8 md:py-12">
@@ -87,11 +88,12 @@ export function TimelineAct({
 
 						{entries.map((e, i) => {
 							const n = D_NODES[i];
+							if (!n) return null;
 							const leftPct = (n.x / VB_W) * 100;
 							const topPct = (n.y / VB_H) * 100;
 							return (
 								<div
-									key={e.year}
+									key={e.id}
 									className="absolute"
 									style={{ left: `${leftPct}%`, top: `${topPct}%`, transform: "translate(-50%, -50%)" }}>
 									<span
@@ -111,14 +113,16 @@ export function TimelineAct({
 										style={{ perspective: "1000px" }}>
 										<div className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
 											<div className="relative aspect-16/10 overflow-hidden mb-2 bg-plum-dark">
-												<Image src={e.img} alt={e.label} fill className="object-cover" sizes="170px" />
+												{e.img && (
+													<Image src={e.img} alt={e.label} fill className="object-cover" sizes="170px" />
+												)}
 												<div className="absolute inset-0 bg-linear-to-t from-plum-dark/70 to-transparent" />
 											</div>
 											<div className="font-serif font-light text-cream tracking-[-0.01em] text-base lg:text-lg leading-tight mb-1">
 												{e.label}
 											</div>
 											<p className="font-sans font-light text-cream/60 text-xs lg:text-sm leading-relaxed">
-												{e.desc}
+												{e.description}
 											</p>
 										</div>
 									</div>
@@ -132,11 +136,13 @@ export function TimelineAct({
 						className="md:hidden flex gap-4 overflow-x-auto overflow-y-hidden snap-x snap-mandatory -mx-6 px-6 sm:-mx-8 sm:px-8 pb-2 scrollbar-none [&::-webkit-scrollbar]:hidden">
 						{entries.map((e, i) => (
 							<div
-								key={e.year}
+								key={e.id}
 								ref={(el) => { entriesMobileRef.current[i] = el; }}
 								className="snap-center shrink-0 w-[78%] sm:w-[58%] will-change-transform">
 								<div className="relative w-full aspect-4/3 overflow-hidden bg-plum-dark border border-cream/10">
-									<Image src={e.img} alt={e.label} fill className="object-cover" sizes="80vw" />
+									{e.img && (
+										<Image src={e.img} alt={e.label} fill className="object-cover" sizes="80vw" />
+									)}
 									<div className="absolute inset-0 bg-linear-to-t from-plum-dark/80 via-plum-dark/10 to-transparent" />
 									<span className="absolute bottom-2.5 left-3.5 font-bdscript text-gold leading-none text-4xl drop-shadow-[0_1px_6px_rgba(46,31,36,0.6)]">
 										{e.year}
@@ -146,7 +152,7 @@ export function TimelineAct({
 									{e.label}
 								</div>
 								<p className="font-sans font-light text-cream/65 text-sm leading-snug">
-									{e.desc}
+									{e.description}
 								</p>
 							</div>
 						))}

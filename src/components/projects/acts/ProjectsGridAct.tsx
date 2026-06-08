@@ -51,13 +51,15 @@ export function ProjectsGridAct({
 								className="pc-media relative w-full h-[34vh] sm:h-[38vh] md:h-[clamp(200px,42vh,420px)] overflow-hidden rounded-sm will-change-[clip-path]"
 								style={{ clipPath: "inset(0% 0% 0% 0% round 0.125rem)" }}>
 								<div className="pc-media-inner absolute inset-0 will-change-transform">
-									<Image
-										src={project.img}
-										alt={project.title}
-										fill
-										sizes="(max-width: 640px) 150px, (max-width: 768px) 200px, (max-width: 1024px) 240px, 300px"
-										className="object-cover transition-transform duration-1100 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
-									/>
+									{project.img && (
+										<Image
+											src={project.img}
+											alt={project.title}
+											fill
+											sizes="(max-width: 640px) 150px, (max-width: 768px) 200px, (max-width: 1024px) 240px, 300px"
+											className="object-cover transition-transform duration-1100 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
+										/>
+									)}
 								</div>
 								<div className="absolute inset-0 bg-linear-to-t from-plum-dark/65 via-plum-dark/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 							</div>

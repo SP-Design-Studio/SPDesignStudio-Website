@@ -70,7 +70,7 @@ export default function PageTransition() {
     >
       <div ref={labelRef} className="absolute inset-0 flex items-center justify-center">
         {}
-        <img ref={logoRef} src="/images/logo.svg" alt="" className="h-16 md:h-20 w-auto opacity-90" />
+        <img ref={logoRef} src="/images/logo.svg" alt="" className="h-28 md:h-36 w-auto opacity-90" />
       </div>
     </div>
   );

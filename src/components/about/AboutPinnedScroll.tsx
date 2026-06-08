@@ -11,14 +11,23 @@ import { AchievementsAct } from "./acts/AchievementsAct";
 import { ConnectAct } from "./acts/ConnectAct";
 import { enableSectionSnap } from "@/lib/sectionSnap";
 import { getLenis } from "@/lib/smoothScroll";
+import type { TeamMember, TimelineEntry, Honour } from "@/lib/cms/types";
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface Props {
 	started: boolean;
+	team: TeamMember[];
+	timeline: TimelineEntry[];
+	honours: Honour[];
 }
 
-export default function AboutPinnedScroll({ started }: Props) {
+export default function AboutPinnedScroll({
+	started,
+	team,
+	timeline,
+	honours,
+}: Props) {
 	const wrapperRef = useRef<HTMLDivElement>(null);
 
 	const bg2 = useRef<HTMLDivElement>(null);
@@ -903,6 +912,7 @@ export default function AboutPinnedScroll({ started }: Props) {
 				membersRef={a4Members}
 				membersMobileRef={a4MembersMobile}
 				membersMobileWrapRef={a4MembersMobileWrap}
+				members={team}
 			/>
 
 			<TimelineAct
@@ -915,9 +925,10 @@ export default function AboutPinnedScroll({ started }: Props) {
 				entriesRef={a5Entries}
 				entriesMobileRef={a5EntriesMobile}
 				entriesMobileWrapRef={a5EntriesMobileWrap}
-			/>
+							entries={timeline}
+				/>
 
-			<AchievementsAct wrapRef={aAchWrap} />
+			<AchievementsAct wrapRef={aAchWrap} items={honours} />
 
 			<ConnectAct
 				wrapRef={a6Wrap}

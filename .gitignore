@@ -42,3 +42,10 @@ next-env.d.ts
 
 # claude agent config
 /.claude/
+
+# Personal notes / local docs (not committed)
+docs/
+
+# SQL migrations + Supabase setup notes (run manually in the SQL editor; not committed)
+*.sql
+/supabase/

@@ -229,15 +229,17 @@ export function ProjectDetail({
 
 						<div
 							ref={heroRef}
-							className="relative mt-10 md:mt-14 w-full aspect-16/10 overflow-hidden rounded-sm will-change-[clip-path]">
-							<Image
-								src={project.img}
-								alt={project.title}
-								fill
-								priority
-								sizes="(max-width: 1024px) 100vw, 1100px"
-								className="object-cover"
-							/>
+							className="relative mt-10 md:mt-14 w-full aspect-16/10 overflow-hidden rounded-sm bg-plum-dark will-change-[clip-path]">
+							{project.img && (
+								<Image
+									src={project.img}
+									alt={project.title}
+									fill
+									priority
+									sizes="(max-width: 1024px) 100vw, 1100px"
+									className="object-cover"
+								/>
+							)}
 						</div>
 
 						<div className="mt-12 md:mt-16 grid grid-cols-1 gap-10 md:gap-16 lg:grid-cols-12">

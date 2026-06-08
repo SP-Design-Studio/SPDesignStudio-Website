@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ABOUT } from "@/lib/studio";
 import { Chars } from "@/components/shared/Chars";
+import type { TeamMember } from "@/lib/cms/types";
 
 interface CollectionActProps {
 	wrapRef: React.RefObject<HTMLDivElement | null>;
@@ -10,6 +11,7 @@ interface CollectionActProps {
 	membersRef: React.RefObject<(HTMLDivElement | null)[]>;
 	membersMobileRef: React.RefObject<(HTMLDivElement | null)[]>;
 	membersMobileWrapRef: React.RefObject<HTMLDivElement | null>;
+	members: TeamMember[];
 }
 
 export function CollectionAct({
@@ -20,6 +22,7 @@ export function CollectionAct({
 	membersRef,
 	membersMobileRef,
 	membersMobileWrapRef,
+	members,
 }: CollectionActProps) {
 	return (
 		<div
@@ -52,13 +55,13 @@ export function CollectionAct({
 				</div>
 
 				<div className="hidden md:grid mx-auto max-w-200 lg:max-w-220 grid-cols-3 gap-x-5 gap-y-3">
-					{ABOUT.team.members.map((m, i) => {
+					{members.map((m, i) => {
 						const offsetClass =
 							i % 2 === 1 ? "lg:translate-y-4 xl:translate-y-6" : "";
 
 						return (
 							<div
-								key={m.name}
+								key={m.id}
 								ref={(el) => {
 									membersRef.current[i] = el;
 								}}
@@ -105,9 +108,9 @@ export function CollectionAct({
 				<div
 					ref={membersMobileWrapRef}
 					className="md:hidden flex gap-4 overflow-x-auto overflow-y-hidden snap-x snap-mandatory -mx-6 px-6 sm:-mx-8 sm:px-8 pb-2 scrollbar-none [&::-webkit-scrollbar]:hidden">
-					{ABOUT.team.members.map((m, i) => (
+					{members.map((m, i) => (
 						<div
-							key={m.name}
+							key={m.id}
 							ref={(el) => {
 								membersMobileRef.current[i] = el;
 							}}

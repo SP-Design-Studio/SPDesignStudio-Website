@@ -1,15 +1,44 @@
 import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { CONTACT } from "@/lib/studio";
+import type { SiteSettings } from "@/lib/cms/types";
 
 const ICONS = { mail: FiMail, phone: FiPhone, whatsapp: FaWhatsapp };
 
 interface Props {
 	wrapRef: React.RefObject<HTMLDivElement | null>;
+	settings: SiteSettings | null;
 }
 
-export function ContactInfoAct({ wrapRef }: Props) {
+export function ContactInfoAct({ wrapRef, settings }: Props) {
 	const { channels, visit } = CONTACT;
+
+	const email = settings?.email ?? channels.items[0].value;
+	const phone = settings?.phone ?? channels.items[1].value;
+	const whatsappHref = settings?.whatsapp ?? channels.items[2].href;
+	const address = settings?.address ?? visit.address;
+	const city = settings?.location ?? visit.city;
+	const mapsUrl = settings?.maps_url ?? visit.mapsUrl;
+	const hours =
+		settings?.hours && settings.hours.length > 0
+			? settings.hours
+			: visit.hours;
+
+	const items = [
+		{ label: "Email", value: email, href: `mailto:${email}`, icon: "mail" as const },
+		{
+			label: "Phone",
+			value: phone,
+			href: `tel:${phone.replace(/\s/g, "")}`,
+			icon: "phone" as const,
+		},
+		{
+			label: "WhatsApp",
+			value: "Start a chat",
+			href: whatsappHref,
+			icon: "whatsapp" as const,
+		},
+	];
 
 	return (
 		<div
@@ -30,7 +59,7 @@ export function ContactInfoAct({ wrapRef }: Props) {
 						</header>
 
 						<div className="flex flex-col">
-							{channels.items.map((ch) => {
+							{items.map((ch) => {
 								const Icon = ICONS[ch.icon];
 								const external = ch.icon === "whatsapp";
 								return (
@@ -71,17 +100,17 @@ export function ContactInfoAct({ wrapRef }: Props) {
 						</header>
 
 						<a
-							href={visit.mapsUrl}
+							href={mapsUrl}
 							target="_blank"
 							rel="noopener noreferrer"
 							className="c-reveal group flex items-start gap-4 mb-8 md:mb-10">
 							<FiMapPin className="mt-1.5 shrink-0 text-gold" size={18} />
 							<span>
 								<span className="block font-serif italic font-light text-cream/90 text-lg md:text-2xl leading-snug transition-colors duration-500 group-hover:text-gold">
-									{visit.address}
+									{address}
 								</span>
 								<span className="font-sans font-light text-cream/50 text-sm">
-									{visit.city}
+									{city}
 								</span>
 							</span>
 						</a>
@@ -90,7 +119,7 @@ export function ContactInfoAct({ wrapRef }: Props) {
 							Studio Hours
 						</div>
 						<div className="flex max-w-sm flex-col gap-2.5">
-							{visit.hours.map((h) => (
+							{hours.map((h) => (
 								<div
 									key={h.days}
 									className="c-reveal flex items-center justify-between border-b border-cream/5 pb-2.5">

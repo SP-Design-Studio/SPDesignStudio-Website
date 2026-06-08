@@ -1,6 +1,6 @@
 export const PROJECTS_PAGE = {
-	eyebrow: "Selected Work",
-	title: ["Quiet, Considered", "Interiors Shaped", "By How You Live"],
+	eyebrow: "Our Portfolio",
+	title: ["The Work That", "Defines the", "Studio"],
 };
 
 export const PROJECT_CATEGORIES = [
