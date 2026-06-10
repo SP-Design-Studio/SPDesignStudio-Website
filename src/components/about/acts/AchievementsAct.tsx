@@ -226,7 +226,7 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 										</div>
 
 										<span
-											className={`font-alta font-normal tracking-[0.04em] leading-none text-lg md:text-xl shrink-0 w-12 md:w-16 whitespace-nowrap transition-colors duration-300 ${
+											className={`font-serif font-normal tracking-[0.04em] leading-none text-2xl md:text-3xl shrink-0 w-12 md:w-16 whitespace-nowrap transition-colors duration-300 ${
 												i === active ? "text-gold" : "text-gold/55 md:text-cream/72"
 											}`}>
 											{it.year}

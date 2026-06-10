@@ -103,7 +103,7 @@ export function TimelineAct({
 									<span className="pointer-events-none absolute left-1/2 bottom-4 -translate-x-1/2">
 										<span
 											ref={(el) => { yearsRef.current[i] = el; }}
-											className="block font-alta font-normal text-gold leading-none text-xl lg:text-2xl tracking-[0.06em] whitespace-nowrap">
+											className="block font-serif font-normal text-gold leading-none text-2xl lg:text-3xl tracking-[0.06em] whitespace-nowrap">
 											{e.year}
 										</span>
 									</span>
