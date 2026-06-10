@@ -28,7 +28,6 @@ const bdScript = localFont({
 
 const alta = localFont({
   src: [
-    { path: "../../public/fonts/Alta/Alta_light.otf", weight: "300", style: "normal" },
     { path: "../../public/fonts/Alta/Alta_regular.otf", weight: "400", style: "normal" },
   ],
   variable: "--font-alta",
