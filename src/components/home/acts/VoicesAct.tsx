@@ -206,10 +206,10 @@ export function VoicesAct({
 									{q.quote}
 								</blockquote>
 								<figcaption className="mt-auto pt-5">
-									<div className="font-sans font-normal text-gold leading-tight tracking-[0.02em] text-xl md:text-2xl">
+									<div className="font-serif italic font-normal text-gold leading-tight tracking-[0.02em] text-xl md:text-2xl">
 										{q.name}
 									</div>
-									<div className="font-sans font-normal uppercase tracking-[0.22em] text-cream/72 text-[0.627rem] md:text-[0.672rem] mt-2">
+									<div className="font-sans font-normal uppercase tracking-[0.22em] text-cream/72 text-[0.65rem] md:text-[0.717rem] mt-2">
 										{q.detail}
 									</div>
 								</figcaption>
