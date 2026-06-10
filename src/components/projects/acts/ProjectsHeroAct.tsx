@@ -21,14 +21,14 @@ export function ProjectsHeroAct({
 			<div
 				ref={eyebrowRef}
 				className="flex items-center gap-4 md:gap-5 mb-7 md:mb-9 will-change-transform">
-				<span className="font-sans font-light uppercase tracking-[0.42em] text-gold text-sm md:text-base">
+				<span className="font-sans font-normal uppercase tracking-[0.42em] text-gold text-base md:text-lg">
 					{PROJECTS_PAGE.eyebrow}
 				</span>
 			</div>
 
 			<h1
 				ref={titleRef}
-				className="font-serif font-light leading-[1.05] tracking-[-0.01em] text-cream text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
+				className="font-serif font-light leading-[1.05] tracking-[-0.01em] text-cream text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
 				style={{ perspective: "1200px" }}>
 				<span className="block">
 					<Words

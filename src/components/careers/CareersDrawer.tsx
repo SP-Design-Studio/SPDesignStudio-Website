@@ -89,7 +89,7 @@ export function CareersDrawer() {
 	const cfg = CAREERS.apply;
 
 	const inputCls =
-		"w-full bg-transparent border-b border-cream/20 py-3 text-cream text-lg outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
+		"w-full bg-transparent border-b border-cream/20 py-3 text-cream text-xl outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
 
 	return createPortal(
 		<div
@@ -103,14 +103,14 @@ export function CareersDrawer() {
 
 			<div className="mx-auto grid min-h-full max-w-6xl grid-cols-1 items-start gap-9 px-6 py-20 sm:px-10 sm:py-24 md:px-16 md:py-20 lg:grid-cols-12 lg:items-center lg:gap-16">
 				<div className="lg:col-span-5">
-					<div className="ca-reveal font-sans font-light uppercase tracking-[0.42em] text-gold text-[0.6rem] md:text-xs mb-4 md:mb-5">
+					<div className="ca-reveal font-sans font-normal uppercase tracking-[0.42em] text-gold text-[0.672rem] md:text-sm mb-4 md:mb-5">
 						{cfg.eyebrow}
 					</div>
 					<h2 className="ca-reveal font-bdscript text-cream leading-[0.95] text-4xl sm:text-6xl md:text-7xl mb-5 md:mb-7">
 						{cfg.headline}
 					</h2>
 					<span className="ca-reveal block h-px w-16 bg-gold/50 mb-7" />
-					<p className="ca-reveal font-serif italic font-light text-cream/65 text-base md:text-xl leading-[1.6] max-w-sm">
+					<p className="ca-reveal font-serif italic font-light text-cream/76 text-lg md:text-xl leading-[1.6] max-w-sm">
 						{cfg.intro}
 					</p>
 				</div>
@@ -121,7 +121,7 @@ export function CareersDrawer() {
 							<div className="font-bdscript text-gold text-5xl md:text-6xl mb-4">
 								{cfg.successTitle}
 							</div>
-							<p className="font-serif italic font-light text-cream/70 text-lg md:text-xl max-w-md">
+							<p className="font-serif italic font-light text-cream/80 text-xl md:text-xl max-w-md">
 								{cfg.successBody}
 							</p>
 						</div>
@@ -129,7 +129,7 @@ export function CareersDrawer() {
 						<form onSubmit={submit} className="flex flex-col gap-6 sm:gap-8">
 							{cfg.fields.map((f) => (
 								<label key={f.name} className="ca-reveal flex flex-col gap-2.5">
-									<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.58rem]">
+									<span className="font-sans font-normal uppercase tracking-[0.28em] text-gold/80 text-[0.65rem]">
 										{f.label}
 									</span>
 									{f.type === "textarea" ? (
@@ -160,14 +160,14 @@ export function CareersDrawer() {
 							<button
 								type="submit"
 								disabled={status === "sending"}
-								className="ca-reveal cta-gold group mt-3 inline-flex w-fit cursor-pointer items-center gap-3 bg-gold px-9 py-4 font-sans font-light uppercase tracking-[0.28em] text-plum-dark text-xs disabled:opacity-60">
+								className="ca-reveal cta-gold group mt-3 inline-flex w-fit cursor-pointer items-center gap-3 bg-gold px-9 py-4 font-sans font-normal uppercase tracking-[0.28em] text-plum-dark text-sm disabled:opacity-60">
 								{status === "sending" ? "Sending…" : "Submit Application"}
 								<span className="transition-transform duration-500 group-hover:translate-x-1">
 									&rarr;
 								</span>
 							</button>
 							{status === "error" && (
-								<p className="ca-reveal font-sans text-sm text-gold/80">
+								<p className="ca-reveal font-sans text-base text-gold/80">
 									Something went wrong. Please try again or email us directly.
 								</p>
 							)}

@@ -39,7 +39,7 @@ export const PROJECTS: Project[] = [
 		img: "/images/grid-top-left.jpg",
 		year: "2024",
 		blurb:
-			"A warm, light-filled family home where soft plaster, oak, and brass settle into a calm daily rhythm. Every room is shaped around how the family actually lives — unhurried, tactile, and quietly luxurious.",
+			"A warm, light-filled family home where soft plaster, oak, and brass settle into a calm daily rhythm. Every room is shaped around how the family actually lives - unhurried, tactile, and quietly luxurious.",
 		facts: [
 			{ label: "Area", value: "3,400 sq ft" },
 			{ label: "Scope", value: "Full Interior" },
@@ -63,7 +63,7 @@ export const PROJECTS: Project[] = [
 		blurb:
 			"A roll-out retail identity built to scale across cities without losing its warmth. A flexible kit of materials, lighting, and fixtures keeps every store unmistakably the same brand, yet locally at home.",
 		facts: [
-			{ label: "Area", value: "1,200–2,000 sq ft" },
+			{ label: "Area", value: "1,200-2,000 sq ft" },
 			{ label: "Scope", value: "Retail Rollout" },
 			{ label: "Year", value: "2023" },
 			{ label: "Status", value: "Ongoing" },

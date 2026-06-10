@@ -15,7 +15,7 @@ export const CONTACT = {
 			{
 				kind: "project" as const,
 				title: "New Projects",
-				who: "Clients",
+				who: "Inquiries",
 				desc: "Whether you are looking to transform a residence or a commercial space, we are ready to bring your vision to life.",
 				cta: "Start a Project",
 			},
@@ -39,7 +39,7 @@ export const CONTACT = {
 	forms: {
 		project: {
 			eyebrow: "New Projects",
-			title: "Clients",
+			title: "Inquiries",
 			headline: "Start a Project",
 			intro:
 				"Share your space, your timeline, and the life you want it to hold. We will take it from there.",
@@ -160,7 +160,7 @@ export const CONTACT = {
 		city: STUDIO.location,
 		mapsUrl: STUDIO.mapsUrl,
 		hours: [
-			{ days: "Monday — Friday", time: "10:00 AM — 06:00 PM" },
+			{ days: "Monday - Friday", time: "10:00 AM - 06:00 PM" },
 			{ days: "Saturday", time: "By Appointment" },
 			{ days: "Sunday", time: "Closed" },
 		],

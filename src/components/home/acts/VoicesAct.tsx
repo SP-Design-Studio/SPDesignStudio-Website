@@ -184,7 +184,7 @@ export function VoicesAct({
 						{visible.map((q, idx) => (
 							<figure
 								key={`${active}-${idx}`}
-								className={`flex-col ${idx === 0 ? "flex" : "hidden lg:flex"}`}>
+								className={`h-full flex-col ${idx === 0 ? "flex" : "hidden lg:flex"}`}>
 								<div className="relative aspect-4/3 overflow-hidden border border-cream/10 bg-plum-dark mb-5">
 									{q.img && (
 										<Image
@@ -202,14 +202,14 @@ export function VoicesAct({
 									className="font-serif text-gold/35 leading-[0.5] select-none text-5xl">
 									&ldquo;
 								</span>
-								<blockquote className="font-serif italic font-light text-cream/90 leading-normal text-sm md:text-base -mt-2">
+								<blockquote className="font-sans font-normal text-cream/90 leading-normal text-lg md:text-xl lg:text-xl -mt-2">
 									{q.quote}
 								</blockquote>
-								<figcaption className="mt-4">
-									<div className="font-bdscript text-gold leading-none text-xl md:text-2xl">
+								<figcaption className="mt-auto pt-5">
+									<div className="font-alta font-normal text-gold leading-tight tracking-[0.02em] text-xl md:text-2xl">
 										{q.name}
 									</div>
-									<div className="font-sans font-light uppercase tracking-[0.22em] text-cream/45 text-[0.56rem] md:text-[0.6rem] mt-2">
+									<div className="font-sans font-normal uppercase tracking-[0.22em] text-cream/72 text-[0.627rem] md:text-[0.672rem] mt-2">
 										{q.detail}
 									</div>
 								</figcaption>
@@ -225,7 +225,7 @@ export function VoicesAct({
 								start();
 							}}
 							aria-label="Previous testimonial"
-							className="cursor-pointer font-sans text-base text-gold/55 transition-colors duration-300 hover:text-gold">
+							className="cursor-pointer font-sans text-lg text-gold/55 transition-colors duration-300 hover:text-gold">
 							&larr;
 						</button>
 						<div className="relative h-px w-28 md:w-44 bg-cream/15">
@@ -244,7 +244,7 @@ export function VoicesAct({
 								start();
 							}}
 							aria-label="Next testimonial"
-							className="cursor-pointer font-sans text-base text-gold/55 transition-colors duration-300 hover:text-gold">
+							className="cursor-pointer font-sans text-lg text-gold/55 transition-colors duration-300 hover:text-gold">
 							&rarr;
 						</button>
 					</div>
@@ -253,7 +253,7 @@ export function VoicesAct({
 						<button
 							type="button"
 							onClick={() => setOpen(true)}
-							className="group cursor-pointer inline-flex items-center gap-2.5 font-sans font-light uppercase tracking-[0.28em] text-[0.62rem] md:text-[0.68rem] text-cream/70 transition-colors duration-300 hover:text-gold">
+							className="group cursor-pointer inline-flex items-center gap-2.5 font-sans font-normal uppercase tracking-[0.28em] text-[0.694rem] md:text-[0.762rem] text-cream/80 transition-colors duration-300 hover:text-gold">
 							<span className="ulink">Read all {n} reflections</span>
 							<span className="transition-transform duration-500 group-hover:translate-x-1">
 								&rarr;
@@ -278,10 +278,10 @@ export function VoicesAct({
 										"calc(env(safe-area-inset-top, 0px) + 1.75rem)",
 								}}>
 								<div>
-									<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.6rem] md:text-xs">
+									<div className="font-sans font-normal uppercase tracking-[0.4em] text-gold text-[0.672rem] md:text-sm">
 										Client Reflections
 									</div>
-									<div className="font-serif font-light text-cream/55 italic text-sm md:text-base mt-1.5">
+									<div className="font-serif font-light text-cream/78 italic text-base md:text-lg mt-1.5">
 										{`${n} stories from the people we’ve built for`}
 									</div>
 								</div>
@@ -316,16 +316,16 @@ export function VoicesAct({
 													className="block font-serif text-gold/30 leading-[0.4] select-none text-6xl md:text-7xl">
 													&ldquo;
 												</span>
-												<blockquote className="font-serif italic font-light text-cream/90 leading-relaxed text-lg md:text-2xl -mt-3">
+												<blockquote className="font-sans font-normal text-cream/90 leading-relaxed text-xl md:text-2xl -mt-3">
 													{q.quote}
 												</blockquote>
 												<div className="mt-6 flex items-center gap-4">
 													<span className="h-px w-8 bg-gold/60" />
 													<div>
-														<div className="font-bdscript text-gold leading-none text-2xl md:text-3xl">
+														<div className="font-alta font-normal text-gold leading-tight tracking-[0.02em] text-2xl md:text-3xl">
 															{q.name}
 														</div>
-														<div className="font-sans font-light uppercase tracking-[0.22em] text-cream/45 text-[0.58rem] md:text-[0.64rem] mt-2">
+														<div className="font-sans font-normal uppercase tracking-[0.22em] text-cream/72 text-[0.65rem] md:text-[0.717rem] mt-2">
 															{q.detail}
 														</div>
 													</div>

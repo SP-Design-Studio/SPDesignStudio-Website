@@ -11,7 +11,7 @@ export const DISCIPLINES = [
 		topLabel: "I. RESIDENTIAL",
 		img: "/images/grid-top-left.jpg",
 		bigStat: "120",
-		desc: "Warm, expressive interiors designed to feel like home — every detail curated for your lifestyle.",
+		desc: "Warm, expressive interiors designed to feel like home - every detail curated for your lifestyle.",
 		variant: "image" as const,
 		span: "wide" as const,
 	},
@@ -104,14 +104,14 @@ export const SECTIONS = {
 	partners: {
 		eyebrow: "Our Partners",
 		title: "Partnered Brands that bring our Design alive",
-		tagline: "Material houses and craft studios — chosen, refined, trusted.",
+		tagline: "Material houses and craft studios - chosen, refined, trusted.",
 	},
 	voices: {
 		title: "Client Reflections",
 		quotes: [
 			{
 				quote:
-					"They didn't design a house — they listened to how we live, then gave it form. Every room feels inevitable.",
+					"They didn't design a house - they listened to how we live, then gave it form. Every room feels inevitable.",
 				name: "Aarav & Meera Reddy",
 				detail: "Private Villa · Jubilee Hills",
 				img: "/images/grid-top-left.jpg",
@@ -125,7 +125,7 @@ export const SECTIONS = {
 			},
 			{
 				quote:
-					"The detail is obsessive in the best way — light, texture, proportion. Nothing is accidental.",
+					"The detail is obsessive in the best way - light, texture, proportion. Nothing is accidental.",
 				name: "Rohan Iyer",
 				detail: "Studio Office · Gachibowli",
 				img: "/images/grid-bottom-left.jpg",

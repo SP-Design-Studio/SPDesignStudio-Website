@@ -1,6 +1,7 @@
 import { FaInstagram, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
 import { Words } from "@/components/shared/Words";
+import TransitionLink from "@/components/shared/TransitionLink";
 import { STUDIO, SECTIONS } from "@/lib/studio";
 
 const DFS = "clamp(3rem, 11vw, 13rem)";
@@ -69,11 +70,11 @@ export function InvitationAct({
 						{href ? (
 							<a
 								href={href}
-								className="font-serif font-light inline-block transition-opacity duration-500 hover:opacity-100 text-cream/80 text-sm md:text-base">
+								className="font-serif font-light inline-block transition-opacity duration-500 hover:opacity-100 text-cream/80 text-lg md:text-xl">
 								{value}
 							</a>
 						) : (
-							<span className="font-serif font-light text-cream/55 text-sm md:text-base">
+							<span className="font-serif font-light text-cream/78 text-lg md:text-xl">
 								{value}
 							</span>
 						)}
@@ -92,22 +93,22 @@ export function InvitationAct({
 						href={href}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="transition-all duration-500 hover:opacity-100 hover:-translate-y-0.5 text-cream/35">
+						className="transition-all duration-500 hover:opacity-100 hover:-translate-y-0.5 text-cream/74">
 						<Icon size={20} />
 					</a>
 				))}
 			</div>
 
 			<div ref={ctaWrapRef} className="inline-block">
-				<a
+				<TransitionLink
 					ref={ctaRef}
-					href={`mailto:${STUDIO.email}`}
-					className="cta-gold group inline-flex items-center gap-3 px-8 py-4 font-sans font-light text-sm uppercase tracking-[0.28em] bg-gold text-plum-dark will-change-transform">
+					href="/contact?section=inquiry"
+					className="cta-gold group inline-flex items-center gap-3 px-8 py-4 font-sans font-normal text-base uppercase tracking-[0.28em] bg-gold text-plum-dark will-change-transform">
 					{SECTIONS.invitation.ctaText}
 					<span className="transition-transform duration-500 group-hover:translate-x-1">
 						→
 					</span>
-				</a>
+				</TransitionLink>
 			</div>
 			</div>
 		</div>

@@ -60,7 +60,7 @@ export function DisciplinesAct({
 										className="absolute inset-0"
 										style={{
 											background:
-												"linear-gradient(180deg, rgba(69,46,54,0.85) 0%, rgba(69,46,54,0.3) 28%, rgba(69,46,54,0.42) 62%, rgba(69,46,54,0.93) 100%)",
+												"linear-gradient(180deg, rgba(46,31,36,0.92) 0%, rgba(46,31,36,0.55) 38%, rgba(46,31,36,0.6) 66%, rgba(46,31,36,0.96) 100%)",
 										}}
 									/>
 								</>
@@ -69,35 +69,35 @@ export function DisciplinesAct({
 							)}
 
 							{d.variant === "centered" ? (
-								<div className="relative h-full flex flex-col items-center justify-center p-4 sm:p-5 md:p-6 text-center">
-									<span className="w-fit rounded-[3px] bg-plum-dark/55 backdrop-blur-sm px-2.5 py-1 font-sans font-light text-gold tracking-[0.4em] mb-2.5 sm:mb-4 md:mb-5 text-[0.6rem] sm:text-[0.66rem]">
+								<div className="relative h-full flex flex-col items-center justify-center p-4 sm:p-5 md:p-6 text-center [text-shadow:0_1px_12px_rgba(46,31,36,0.7)]">
+									<span className="w-fit rounded-[3px] bg-plum-dark/55 backdrop-blur-sm px-2.5 py-1 font-sans font-normal text-gold tracking-[0.4em] mb-2.5 sm:mb-4 md:mb-5 text-[0.672rem] sm:text-[0.739rem]">
 										{d.top_label}
 									</span>
 									<div className="font-serif italic font-light text-cream leading-none mb-2 sm:mb-3 text-4xl sm:text-5xl">
 										{d.big_stat}
 									</div>
-									<div className="font-sans font-light text-cream/65 tracking-[0.3em] uppercase text-[0.58rem] sm:text-[0.64rem] mb-2.5 sm:mb-4">
+									<div className="font-sans font-normal text-cream/90 tracking-[0.3em] uppercase text-[0.65rem] sm:text-[0.717rem] mb-2.5 sm:mb-4">
 										{d.description}
 									</div>
 									<span className="w-10 h-px bg-gold/55" />
 								</div>
 							) : d.variant === "italic" ? (
-								<div className="relative h-full flex flex-col justify-between p-6 md:p-7">
-									<span className="w-fit rounded-[3px] bg-plum-dark/55 backdrop-blur-sm px-2.5 py-1 font-sans font-light text-gold tracking-[0.36em] text-[0.68rem]">
+								<div className="relative h-full flex flex-col justify-between p-6 md:p-7 [text-shadow:0_1px_12px_rgba(46,31,36,0.7)]">
+									<span className="w-fit rounded-[3px] bg-plum-dark/55 backdrop-blur-sm px-2.5 py-1 font-sans font-normal text-gold tracking-[0.36em] text-[0.762rem]">
 										{d.top_label}
 									</span>
 									<div>
 										<div className="font-serif italic font-light text-cream leading-none mb-3 text-3xl sm:text-4xl md:text-5xl">
 											{d.big_stat}
 										</div>
-										<div className="font-sans font-light text-cream/55 tracking-[0.28em] uppercase text-[0.62rem]">
+										<div className="font-sans font-normal text-cream/90 tracking-[0.28em] uppercase text-[0.694rem]">
 											{d.description}
 										</div>
 									</div>
 								</div>
 							) : (
-								<div className="relative h-full flex flex-col justify-between p-6 md:p-7">
-									<span className="w-fit rounded-[3px] bg-plum-dark/55 backdrop-blur-sm px-2.5 py-1 font-sans font-light text-gold tracking-[0.36em] text-[0.68rem]">
+								<div className="relative h-full flex flex-col justify-between p-6 md:p-7 [text-shadow:0_1px_12px_rgba(46,31,36,0.7)]">
+									<span className="w-fit rounded-[3px] bg-plum-dark/55 backdrop-blur-sm px-2.5 py-1 font-sans font-normal text-gold tracking-[0.36em] text-[0.762rem]">
 										{d.top_label}
 									</span>
 									<div className="flex flex-col gap-1.5 md:flex-row-reverse md:items-end md:justify-between md:gap-3">
@@ -105,11 +105,11 @@ export function DisciplinesAct({
 											{d.big_stat}
 										</span>
 										{d.span === "wide" ? (
-											<p className="font-sans font-light italic text-cream/85 leading-[1.55] md:leading-[1.6] max-w-100 text-xs md:text-sm md:flex-1">
+											<p className="font-sans font-normal italic text-cream/90 leading-[1.55] md:leading-[1.6] max-w-100 text-sm md:text-base md:flex-1">
 												{d.description}
 											</p>
 										) : (
-											<p className="font-sans font-light text-cream/75 tracking-[0.18em] uppercase text-[0.62rem] sm:text-[0.7rem] md:flex-1">
+											<p className="font-sans font-normal text-cream/90 tracking-[0.18em] uppercase text-[0.694rem] sm:text-[0.784rem] md:flex-1">
 												{d.description}
 											</p>
 										)}

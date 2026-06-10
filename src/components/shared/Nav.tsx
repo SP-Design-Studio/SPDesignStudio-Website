@@ -233,7 +233,7 @@ export default function Nav({ visible, forceLight = false }: NavProps) {
           />
         </Link>
 
-        <div className="hidden md:flex items-center gap-7 lg:gap-9 text-[0.7rem] lg:text-[0.74rem] tracking-[0.28em] uppercase font-light relative">
+        <div className="hidden md:flex items-center gap-7 lg:gap-9 text-[0.784rem] lg:text-[0.829rem] tracking-[0.28em] uppercase font-light relative">
           <span
             ref={underlineRef}
             aria-hidden

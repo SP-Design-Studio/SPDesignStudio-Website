@@ -29,12 +29,12 @@ export function ProcessContactAct({
 						spacing="0.2em"
 					/>
 				</h2>
-				<p className="font-serif italic font-light text-cream/70 text-lg md:text-2xl max-w-xl mb-9">
+				<p className="font-serif italic font-light text-cream/80 text-xl md:text-2xl max-w-xl mb-9">
 					Tell us about your space. We&rsquo;ll do the listening.
 				</p>
 				<Link
 					href={`mailto:${STUDIO.email}`}
-					className="cta-gold group inline-flex items-center gap-3 bg-gold px-8 py-4 font-sans font-light uppercase tracking-[0.28em] text-plum-dark text-xs">
+					className="cta-gold group inline-flex items-center gap-3 bg-gold px-8 py-4 font-sans font-normal uppercase tracking-[0.28em] text-plum-dark text-sm">
 					{PROCESS.ctaText}
 					<span className="transition-transform duration-500 group-hover:translate-x-1">
 						&rarr;

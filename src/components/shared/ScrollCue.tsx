@@ -100,8 +100,8 @@ export default function ScrollCue() {
 		lenis.scrollTo(t, { duration: dur, lock: true, force: true });
 	};
 
-	const text = dark ? "text-cream/45" : "text-plum-dark/55";
-	const arrow = dark ? "text-cream/60" : "text-plum-dark/60";
+	const text = dark ? "text-cream/72" : "text-plum-dark/55";
+	const arrow = dark ? "text-cream/72" : "text-plum-dark/60";
 
 	return (
 		<>
@@ -121,7 +121,7 @@ export default function ScrollCue() {
 				className={`group fixed bottom-10 right-10 z-55 hidden md:flex items-center gap-4 rotate-90 origin-right cursor-pointer transition-opacity duration-500 ${show ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
 				<span
 					key={label}
-					className={`font-sans font-light uppercase tracking-[0.4em] text-[0.7rem] whitespace-nowrap transition-colors duration-300 group-hover:text-gold motion-safe:animate-[cue-text-in_0.55s_cubic-bezier(0.65,0,0.35,1)_both] ${text}`}>
+					className={`font-sans font-normal uppercase tracking-[0.4em] text-[0.784rem] whitespace-nowrap transition-colors duration-300 group-hover:text-gold motion-safe:animate-[cue-text-in_0.55s_cubic-bezier(0.65,0,0.35,1)_both] ${text}`}>
 					{label}
 				</span>
 				<span

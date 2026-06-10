@@ -22,7 +22,7 @@ export function CareersOpeningsAct({ wrapRef, openings, emptyNote }: Props) {
 		<div ref={wrapRef} className="absolute inset-0 z-10 invisible overflow-y-auto">
 			<div className="min-h-full flex flex-col justify-center px-6 sm:px-10 md:px-16 py-12 md:py-14">
 				<div className="mx-auto w-full max-w-5xl">
-					<div className="cr-reveal font-sans font-light uppercase tracking-[0.42em] text-gold text-[0.6rem] md:text-xs mb-6 md:mb-10">
+					<div className="cr-reveal font-sans font-normal uppercase tracking-[0.42em] text-gold text-[0.672rem] md:text-sm mb-6 md:mb-10">
 						{openingsTitle}
 					</div>
 
@@ -36,18 +36,18 @@ export function CareersOpeningsAct({ wrapRef, openings, emptyNote }: Props) {
 										<h2 className="font-serif font-light text-cream text-xl sm:text-2xl md:text-3xl leading-tight">
 											{o.role}
 										</h2>
-										<div className="mt-2 font-sans font-light uppercase tracking-[0.24em] text-cream/40 text-[0.56rem] md:text-[0.58rem]">
+										<div className="mt-2 font-sans font-normal uppercase tracking-[0.24em] text-cream/78 text-[0.627rem] md:text-[0.65rem]">
 											{o.type} · {o.location}
 										</div>
 									</div>
-									<p className="md:col-span-6 font-sans font-light text-cream/60 text-sm md:text-base leading-snug md:leading-[1.7]">
+									<p className="md:col-span-6 font-sans font-normal text-cream/72 text-base md:text-lg leading-snug md:leading-[1.7]">
 										{o.description}
 									</p>
 									<div className="md:col-span-2 md:text-right">
 										<button
 											type="button"
 											onClick={() => openApplication(o.role)}
-											className="group inline-flex cursor-pointer items-center gap-2 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.62rem] md:text-xs hover:text-cream transition-colors">
+											className="group inline-flex cursor-pointer items-center gap-2 font-sans font-normal uppercase tracking-[0.24em] text-gold text-[0.694rem] md:text-sm hover:text-cream transition-colors">
 											<span className="ulink">Apply</span>
 											<span className="transition-transform duration-500 group-hover:translate-x-1">
 												&rarr;

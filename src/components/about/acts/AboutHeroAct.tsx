@@ -46,7 +46,7 @@ export function AboutHeroAct({
 			<div className="relative z-10">
 				<div
 					ref={eyebrowRef}
-					className="font-sans font-light uppercase tracking-[0.42em] text-gold text-sm md:text-base mb-5 sm:mb-6">
+					className="font-sans font-normal uppercase tracking-[0.42em] text-gold text-base md:text-lg mb-5 sm:mb-6">
 					{ABOUT.hero.eyebrow}
 				</div>
 
@@ -80,7 +80,7 @@ export function AboutHeroAct({
 
 				<p
 					ref={quoteRef}
-					className="font-serif italic font-light text-cream/80 leading-[1.55] max-w-130 whitespace-pre-line text-sm sm:text-base md:text-lg">
+					className="font-serif italic font-light text-cream/80 leading-[1.55] max-w-130 whitespace-pre-line text-lg sm:text-xl md:text-2xl">
 					{ABOUT.hero.quote}
 				</p>
 			</div>
@@ -88,7 +88,7 @@ export function AboutHeroAct({
 			<div
 				ref={hintRef}
 				className="absolute bottom-10 right-10 z-10 hidden items-center gap-4 rotate-90 origin-right">
-				<span className="text-xs uppercase tracking-[0.4em] text-cream/35">
+				<span className="text-sm uppercase tracking-[0.4em] text-cream/74">
 					Scroll to Begin
 				</span>
 				<div className="flex items-center relative">

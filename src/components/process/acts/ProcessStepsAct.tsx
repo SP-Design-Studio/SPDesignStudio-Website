@@ -80,11 +80,11 @@ export function ProcessStepsAct({
 							className="absolute inset-0 flex flex-col justify-center px-6 sm:px-10 md:px-12 lg:px-20">
 							<span
 								aria-hidden
-								className="pointer-events-none absolute right-4 top-6 md:right-8 md:top-12 font-serif font-light leading-none text-gold/10 text-[8rem] md:text-[14rem]">
+								className="pointer-events-none absolute right-4 top-6 md:right-8 md:top-12 font-serif font-light leading-none text-gold/10 text-[8.96rem] md:text-[15.68rem]">
 								{s.no}
 							</span>
 							<div className="relative max-w-xl">
-								<div className="p-eyebrow font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.6rem] md:text-xs mb-5">
+								<div className="p-eyebrow font-sans font-normal uppercase tracking-[0.4em] text-gold text-[0.672rem] md:text-sm mb-5">
 									Stage {s.no}
 								</div>
 								<h2
@@ -99,7 +99,7 @@ export function ProcessStepsAct({
 										</span>
 									))}
 								</h2>
-								<p className="p-desc font-sans font-light text-cream/65 text-sm md:text-base lg:text-lg leading-[1.7]">
+								<p className="p-desc font-sans font-normal text-cream/76 text-base md:text-lg lg:text-xl leading-[1.7]">
 									{s.description}
 								</p>
 							</div>

@@ -85,7 +85,7 @@ export function ImageUploader({
 						{busy ? "Uploading…" : "Drag & drop or click to upload"}
 					</span>
 					<span className="font-sans font-light text-cream/30 text-[0.62rem]">
-						JPG · PNG · WebP · AVIF — max 8MB
+						JPG · PNG · WebP · AVIF - max 8MB
 					</span>
 				</button>
 			)}

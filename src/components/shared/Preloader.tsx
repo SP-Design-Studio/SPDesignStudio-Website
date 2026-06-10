@@ -196,7 +196,7 @@ export default function Preloader({ onCompleteAction }: PreloaderProps) {
 
       <div className="absolute bottom-10 left-0 right-0 z-10 flex items-end justify-between px-8 md:px-14">
         <span
-          className="hidden md:block text-xs tracking-[0.22em] uppercase font-light"
+          className="hidden md:block text-sm tracking-[0.22em] uppercase font-light"
           style={{ color: "var(--color-plum)", opacity: 0.3 }}
         >
           SP Design Studio

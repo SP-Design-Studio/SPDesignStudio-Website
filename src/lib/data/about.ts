@@ -17,9 +17,9 @@ export const ABOUT = {
 		title: "Led by Spandana Puppala",
 		subtitle: "A Foundation of Passion",
 		body1:
-			"SP Design Studio represents the intersection of intentional architecture and the quiet art of well-being. Guided by Spandana Puppala's belief that our surroundings profoundly shape our internal state, the studio was born to bridge the gap between artistic soul and technical rigor.",
+			"SP Design Studio works where intentional architecture meets the quiet art of well-being. Guided by Spandana Puppala's belief that our surroundings shape how we feel, the studio bridges artistic soul and technical rigor.",
 		body2:
-			"Each project is treated as a unique, personal narrative, meticulously crafted to ensure that beauty never exists at the expense of function.",
+			"Every project is its own personal narrative - crafted so beauty never comes at the expense of function.",
 		quoteBefore: "I design for how people ",
 		quoteEmphasis: "feel",
 		quoteAfter: " in a space, not just how it looks.",
@@ -29,7 +29,7 @@ export const ABOUT = {
 	team: {
 		eyebrow: "The Collection",
 		title: "Hands Behind the Craft",
-		body: "A close studio of architects, designers, and craftspeople. Each project carries the imprint of every hand on it — from drawing board to final styling.",
+		body: "A close studio of architects, designers, and craftspeople. Each project carries the imprint of every hand on it - from drawing board to final styling.",
 		members: [
 			{
 				name: "Senior Designer",
@@ -134,14 +134,14 @@ export const ABOUT = {
 				img: "/images/grid-top-right.jpg",
 				year: "2021",
 				by: "The Studio",
-				title: "Featured — Interior Editorial",
+				title: "Featured - Interior Editorial",
 				desc: "Published for considered detailing and a restrained material palette.",
 			},
 			{
 				img: "/images/about-hero.jpg",
 				year: "2021",
 				by: "The Founder",
-				title: "Speaker — Design Forum",
+				title: "Speaker - Design Forum",
 				desc: "On the quiet relationship between well-being and the spaces we inhabit.",
 			},
 			{

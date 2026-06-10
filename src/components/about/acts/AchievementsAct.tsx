@@ -125,13 +125,13 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 			<div ref={wrapRef} className="absolute inset-0 z-10 invisible overflow-y-auto">
 				<div className="min-h-full flex flex-col justify-center px-6 sm:px-10 md:px-16 py-12 md:py-14">
 					<div className="mx-auto w-full max-w-6xl">
-						<div className="ach-reveal font-sans font-light uppercase tracking-[0.4em] text-gold text-xs md:text-sm mb-3">
+						<div className="ach-reveal font-sans font-normal uppercase tracking-[0.4em] text-gold text-sm md:text-base mb-3">
 							{achievements.eyebrow}
 						</div>
 						<h2 className="ach-reveal font-bdscript text-cream leading-[0.95] text-4xl sm:text-5xl md:text-6xl">
 							{achievements.title}
 						</h2>
-						<p className="ach-reveal mt-6 font-serif italic font-light text-cream/55 text-xl">
+						<p className="ach-reveal mt-6 font-serif italic font-light text-cream/78 text-xl">
 							Milestones coming soon.
 						</p>
 					</div>
@@ -148,7 +148,7 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 					onMouseEnter={() => setPaused(true)}
 					onMouseLeave={() => setPaused(false)}>
 					<div className="mb-7 md:mb-10">
-						<div className="ach-reveal font-sans font-light uppercase tracking-[0.4em] text-gold text-xs md:text-sm mb-3">
+						<div className="ach-reveal font-sans font-normal uppercase tracking-[0.4em] text-gold text-sm md:text-base mb-3">
 							{achievements.eyebrow}
 						</div>
 						<h2 className="ach-reveal font-bdscript text-cream leading-[0.95] text-4xl sm:text-5xl md:text-6xl">
@@ -183,17 +183,17 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 							/>
 							<div className="absolute inset-x-0 bottom-0 p-6">
 								<div className="flex items-center gap-2.5 mb-2">
-									<span className="bg-gold px-2.5 py-1 font-sans font-light text-plum-dark text-[0.58rem] tracking-[0.16em] tabular-nums">
+									<span className="bg-gold px-2.5 py-1 font-sans font-normal text-plum-dark text-[0.65rem] tracking-[0.16em] tabular-nums">
 										{items[active].year}
 									</span>
-									<span className="font-sans font-light uppercase tracking-[0.24em] text-cream/75 text-[0.55rem]">
+									<span className="font-sans font-normal uppercase tracking-[0.24em] text-cream/75 text-[0.616rem]">
 										{items[active].by_line}
 									</span>
 								</div>
 								<div className="font-serif font-light text-cream text-2xl leading-tight">
 									{items[active].title}
 								</div>
-								<span className="mt-3 inline-flex items-center gap-2 font-sans font-light uppercase tracking-[0.24em] text-cream/60 text-[0.6rem] transition-colors duration-300 group-hover:text-gold">
+								<span className="mt-3 inline-flex items-center gap-2 font-sans font-normal uppercase tracking-[0.24em] text-cream/72 text-[0.672rem] transition-colors duration-300 group-hover:text-gold">
 									<span className="ulink">View milestone</span>
 									<span className="transition-transform duration-300 group-hover:translate-x-1">
 										→
@@ -226,20 +226,20 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 										</div>
 
 										<span
-											className={`font-bdscript leading-none text-2xl md:text-3xl shrink-0 w-14 md:w-20 transition-colors duration-300 ${
-												i === active ? "text-gold" : "text-gold/55 md:text-cream/30"
+											className={`font-alta font-normal tracking-[0.04em] leading-none text-lg md:text-xl shrink-0 w-12 md:w-16 whitespace-nowrap transition-colors duration-300 ${
+												i === active ? "text-gold" : "text-gold/55 md:text-cream/72"
 											}`}>
 											{it.year}
 										</span>
 
 										<div className="min-w-0 flex-1">
 											<div
-												className={`font-serif font-light leading-snug text-lg md:text-xl transition-colors duration-300 ${
-													i === active ? "text-cream" : "text-cream/80 md:text-cream/55"
+												className={`font-serif font-light leading-snug text-xl md:text-xl transition-colors duration-300 ${
+													i === active ? "text-cream" : "text-cream/80 md:text-cream/78"
 												}`}>
 												{it.title}
 											</div>
-											<div className="font-sans font-light uppercase tracking-[0.22em] text-cream/40 text-[0.55rem] md:text-[0.6rem] mt-1.5">
+											<div className="font-sans font-normal uppercase tracking-[0.22em] text-cream/78 text-[0.616rem] md:text-[0.672rem] mt-1.5">
 												{it.by_line}
 											</div>
 										</div>
@@ -270,7 +270,7 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 						<div className="mx-auto flex min-h-full max-w-7xl flex-col px-6 sm:px-10 md:px-16 py-12 sm:py-16 md:py-20">
 							<div className="am-static mb-9 flex items-start justify-between gap-5 sm:mb-12 md:mb-14">
 								<div>
-									<div className="font-sans font-light uppercase tracking-[0.32em] sm:tracking-[0.42em] text-gold text-[0.58rem] md:text-xs mb-3 md:mb-4">
+									<div className="font-sans font-normal uppercase tracking-[0.32em] sm:tracking-[0.42em] text-gold text-[0.65rem] md:text-sm mb-3 md:mb-4">
 										{achievements.eyebrow}
 									</div>
 									<h2 className="font-bdscript text-cream leading-none text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
@@ -301,10 +301,10 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 										ref={bodyRef}
 										className="mt-8 md:mt-10 flex flex-col items-center">
 										<div className="flex items-center gap-3">
-											<span className="bg-gold px-2.5 py-1 font-sans font-light text-plum-dark text-[0.6rem] tracking-[0.16em] tabular-nums">
+											<span className="bg-gold px-2.5 py-1 font-sans font-normal text-plum-dark text-[0.672rem] tracking-[0.16em] tabular-nums">
 												{d.year}
 											</span>
-											<span className="font-sans font-light uppercase tracking-[0.24em] text-cream/65 text-[0.6rem]">
+											<span className="font-sans font-normal uppercase tracking-[0.24em] text-cream/76 text-[0.672rem]">
 												{d.by_line}
 											</span>
 										</div>
@@ -312,7 +312,7 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 											{d.title}
 										</h3>
 										<span className="mt-5 block h-px w-10 bg-gold/60" />
-										<p className="mt-5 font-sans font-light text-cream/75 text-base md:text-lg leading-relaxed max-w-xl">
+										<p className="mt-5 font-sans font-normal text-cream/75 text-lg md:text-xl leading-relaxed max-w-xl">
 											{d.description}
 										</p>
 									</div>
@@ -325,20 +325,20 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 									onClick={() =>
 										setDetail((x) => (x === null ? x : (x - 1 + n) % n))
 									}
-									className="group cursor-pointer inline-flex items-center gap-2 font-sans font-light uppercase tracking-[0.24em] text-cream/70 transition-colors duration-300 hover:text-gold text-[0.6rem] md:text-xs">
+									className="group cursor-pointer inline-flex items-center gap-2 font-sans font-normal uppercase tracking-[0.24em] text-cream/80 transition-colors duration-300 hover:text-gold text-[0.672rem] md:text-sm">
 									<span className="transition-transform duration-300 group-hover:-translate-x-1">
 										←
 									</span>
 									<span className="ulink">Prev</span>
 								</button>
-								<div className="font-sans font-light tracking-[0.2em] text-cream/45 text-[0.6rem] md:text-xs tabular-nums">
+								<div className="font-sans font-normal tracking-[0.2em] text-cream/72 text-[0.672rem] md:text-sm tabular-nums">
 									{String((detail ?? 0) + 1).padStart(2, "0")} /{" "}
 									{String(n).padStart(2, "0")}
 								</div>
 								<button
 									type="button"
 									onClick={() => setDetail((x) => (x === null ? x : (x + 1) % n))}
-									className="group cursor-pointer inline-flex items-center gap-2 font-sans font-light uppercase tracking-[0.24em] text-cream/70 transition-colors duration-300 hover:text-gold text-[0.6rem] md:text-xs">
+									className="group cursor-pointer inline-flex items-center gap-2 font-sans font-normal uppercase tracking-[0.24em] text-cream/80 transition-colors duration-300 hover:text-gold text-[0.672rem] md:text-sm">
 									<span className="ulink">Next</span>
 									<span className="transition-transform duration-300 group-hover:translate-x-1">
 										→

@@ -26,11 +26,11 @@ export function ContactHeroAct({
 			className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 sm:px-10 md:px-16">
 			<div
 				ref={eyebrowRef}
-				className="font-sans font-light uppercase tracking-[0.42em] text-gold text-sm md:text-base mb-7">
+				className="font-sans font-normal uppercase tracking-[0.42em] text-gold text-base md:text-lg mb-7">
 				{eyebrow}
 			</div>
 			<h1
-				className="font-bdscript leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl"
+				className="font-bdscript leading-[0.95] text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
 				style={{ perspective: "1000px" }}>
 				<span className="block text-cream">
 					<Words words={line1.split(" ")} refStore={title1Ref} spacing="0.18em" />
@@ -41,14 +41,14 @@ export function ContactHeroAct({
 			</h1>
 			<p
 				ref={subRef}
-				className="font-serif italic font-light text-cream/70 text-base sm:text-lg md:text-xl max-w-xl leading-[1.6] mt-7">
+				className="font-serif italic font-light text-cream/80 text-xl sm:text-2xl md:text-2xl max-w-xl leading-[1.6] mt-7">
 				{subtitle}
 			</p>
 
 			<div
 				ref={hintRef}
 				className="absolute bottom-10 right-10 z-10 hidden items-center gap-4 rotate-90 origin-right">
-				<span className="text-xs uppercase tracking-[0.4em] text-cream/35">
+				<span className="text-sm uppercase tracking-[0.4em] text-cream/74">
 					Scroll to Begin
 				</span>
 				<div className="flex items-center relative">

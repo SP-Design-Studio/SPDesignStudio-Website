@@ -38,27 +38,27 @@ export function VisionaryAct({
 					</div>
 					<div
 						ref={titleRef}
-						className="font-serif font-light text-plum-dark leading-[1.05] tracking-[-0.01em] mb-2 md:mb-4 text-[1.7rem] sm:text-4xl md:text-5xl lg:text-6xl">
+						className="font-serif font-light text-plum-dark leading-[1.05] tracking-[-0.01em] mb-2 md:mb-4 text-[1.904rem] sm:text-4xl md:text-5xl lg:text-6xl">
 						{ABOUT.visionary.title}
 					</div>
 					<div
 						ref={subtitleRef}
-						className="font-serif italic font-light text-plum/55 mb-3 md:mb-7 text-sm sm:text-lg md:text-2xl">
+						className="font-serif italic font-light text-plum/78 mb-3 md:mb-7 text-base sm:text-xl md:text-2xl">
 						{ABOUT.visionary.subtitle}
 					</div>
 					<p
 						ref={body1Ref}
-						className="font-sans font-light text-plum-dark/80 mb-2.5 md:mb-4 text-sm md:text-base leading-normal md:leading-[1.75] max-w-140">
+						className="font-sans font-normal text-plum-dark/80 mb-2.5 md:mb-4 text-base md:text-lg leading-normal md:leading-[1.75] max-w-140">
 						{ABOUT.visionary.body1}
 					</p>
 					<p
 						ref={body2Ref}
-						className="font-sans font-light text-plum-dark/80 mb-3 md:mb-9 text-sm md:text-base leading-normal md:leading-[1.75] max-w-140">
+						className="font-sans font-normal text-plum-dark/80 mb-3 md:mb-9 text-base md:text-lg leading-normal md:leading-[1.75] max-w-140">
 						{ABOUT.visionary.body2}
 					</p>
 					<div
 						ref={quoteRef}
-						className="font-serif italic font-light text-plum-dark border-l-2 border-gold/55 pl-4 md:pl-6 max-w-140 text-base sm:text-lg md:text-2xl leading-normal mb-3 md:mb-5">
+						className="font-serif italic font-light text-plum-dark border-l-2 border-gold/55 pl-4 md:pl-6 max-w-140 text-lg sm:text-xl md:text-2xl leading-normal mb-3 md:mb-5">
 						<span>&ldquo;{ABOUT.visionary.quoteBefore}</span>
 						<span className="text-gold">{ABOUT.visionary.quoteEmphasis}</span>
 						<span>{ABOUT.visionary.quoteAfter}&rdquo;</span>
@@ -66,7 +66,7 @@ export function VisionaryAct({
 					<div
 						ref={attribRef}
 						className="font-bdscript text-gold/85 pl-4 md:pl-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-						— {ABOUT.visionary.attribution}
+						- {ABOUT.visionary.attribution}
 					</div>
 				</div>
 
@@ -86,7 +86,7 @@ export function VisionaryAct({
 								sizes="(min-width: 768px) 40vw, 90vw"
 							/>
 						</div>
-						<div className="mt-2.5 md:mt-4 font-sans uppercase tracking-[0.32em] text-plum/55 text-[0.7rem] text-right">
+						<div className="mt-2.5 md:mt-4 font-sans uppercase tracking-[0.32em] text-plum/78 text-[0.784rem] text-right">
 							Principal Designer
 						</div>
 					</div>

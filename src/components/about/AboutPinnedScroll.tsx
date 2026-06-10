@@ -550,7 +550,7 @@ export default function AboutPinnedScroll({
 						rotateX: 0,
 						duration: isMobile ? 0.85 : 0.7,
 						ease: "expo.out",
-						stagger: isMobile ? 0.42 : 0.38,
+						stagger: isMobile ? 0.42 : 0.12,
 					},
 					4.28,
 				)

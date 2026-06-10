@@ -49,3 +49,7 @@ docs/
 # SQL migrations + Supabase setup notes (run manually in the SQL editor; not committed)
 *.sql
 /supabase/
+
+# agents / skills (local, not committed)
+.agents/
+skills-lock.json

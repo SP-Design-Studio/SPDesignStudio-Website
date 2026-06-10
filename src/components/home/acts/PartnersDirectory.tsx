@@ -61,7 +61,7 @@ export function PartnersDirectory({
 			<button
 				type="button"
 				onClick={() => setOpen(true)}
-				className="group mt-8 inline-flex w-fit cursor-pointer items-center gap-3 border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.28em] text-gold text-[0.62rem] md:text-xs transition-colors duration-500 hover:bg-gold hover:text-plum-dark">
+				className="group mt-8 inline-flex w-fit cursor-pointer items-center gap-3 border border-gold/40 px-6 py-3 font-sans font-normal uppercase tracking-[0.28em] text-gold text-[0.694rem] md:text-sm transition-colors duration-500 hover:bg-gold hover:text-plum-dark">
 				View All Partners
 				<span className="transition-transform duration-500 group-hover:translate-x-1">
 					&rarr;
@@ -77,7 +77,7 @@ export function PartnersDirectory({
 						<div className="mx-auto min-h-full max-w-7xl px-6 sm:px-10 md:px-16 py-12 sm:py-16 md:py-20">
 							<div className="mb-9 flex items-start justify-between gap-5 sm:mb-12 md:mb-16">
 								<div>
-									<div className="font-sans font-light uppercase tracking-[0.32em] sm:tracking-[0.42em] text-gold text-[0.58rem] md:text-xs mb-3 md:mb-4">
+									<div className="font-sans font-normal uppercase tracking-[0.32em] sm:tracking-[0.42em] text-gold text-[0.65rem] md:text-sm mb-3 md:mb-4">
 										Our Network
 									</div>
 									<h2 className="font-bdscript text-cream leading-none text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
@@ -90,14 +90,14 @@ export function PartnersDirectory({
 							<div className="grid grid-cols-2 gap-x-6 gap-y-9 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-12 md:grid-cols-4">
 								{categories.map((cat) => (
 									<div key={cat.id} className="pd-col">
-										<h3 className="font-serif italic font-light text-gold text-lg sm:text-xl md:text-2xl mb-3 md:mb-4">
+										<h3 className="font-serif italic font-light text-gold text-xl sm:text-xl md:text-2xl mb-3 md:mb-4">
 											{cat.category}
 										</h3>
 										<ul className="flex flex-col gap-2 sm:gap-2.5">
 											{cat.brands.map((b) => (
 												<li
 													key={b}
-													className="font-sans font-light text-cream/70 text-[0.82rem] sm:text-sm md:text-base">
+													className="font-sans font-normal text-cream/80 text-[0.918rem] sm:text-base md:text-lg">
 													{b}
 												</li>
 											))}

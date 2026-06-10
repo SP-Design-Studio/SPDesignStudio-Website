@@ -55,7 +55,7 @@ export function PhilosophyAct({
 
       <p
         ref={bodyRef}
-        className="font-sans font-light leading-relaxed text-plum/80 max-w-145 text-sm sm:text-base md:text-lg"
+        className="font-sans font-normal leading-relaxed text-plum/80 max-w-145 text-base sm:text-lg md:text-xl"
         style={{ lineHeight: 1.75 }}
       >
         {SECTIONS.philosophy.body}

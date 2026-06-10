@@ -63,8 +63,8 @@ export function TimelineAct({
 								<Chars text={ABOUT.timeline.title} refStore={titleCharsRef} />
 							</div>
 						</div>
-						<p className="md:col-span-5 font-sans font-light text-cream/65 text-sm md:text-base leading-[1.7] mt-4 md:mt-0 max-w-140 md:border-l md:border-gold/35 md:pl-6">
-							A decade of crafted spaces — milestone moments that shaped how we build.
+						<p className="md:col-span-5 font-sans font-normal text-cream/76 text-base md:text-lg leading-[1.7] mt-4 md:mt-0 max-w-140 md:border-l md:border-gold/35 md:pl-6">
+							A decade of crafted spaces - milestone moments that shaped how we build.
 						</p>
 					</div>
 
@@ -103,7 +103,7 @@ export function TimelineAct({
 									<span className="pointer-events-none absolute left-1/2 bottom-4 -translate-x-1/2">
 										<span
 											ref={(el) => { yearsRef.current[i] = el; }}
-											className="block font-bdscript text-gold leading-none text-3xl lg:text-4xl whitespace-nowrap">
+											className="block font-alta font-normal text-gold leading-none text-xl lg:text-2xl tracking-[0.06em] whitespace-nowrap">
 											{e.year}
 										</span>
 									</span>
@@ -118,10 +118,10 @@ export function TimelineAct({
 												)}
 												<div className="absolute inset-0 bg-linear-to-t from-plum-dark/70 to-transparent" />
 											</div>
-											<div className="font-serif font-light text-cream tracking-[-0.01em] text-base lg:text-lg leading-tight mb-1">
+											<div className="font-serif font-light text-cream tracking-[-0.01em] text-lg lg:text-xl leading-tight mb-1">
 												{e.label}
 											</div>
-											<p className="font-sans font-light text-cream/60 text-xs lg:text-sm leading-relaxed">
+											<p className="font-sans font-normal text-cream/72 text-sm lg:text-base leading-relaxed">
 												{e.description}
 											</p>
 										</div>
@@ -144,14 +144,14 @@ export function TimelineAct({
 										<Image src={e.img} alt={e.label} fill className="object-cover" sizes="80vw" />
 									)}
 									<div className="absolute inset-0 bg-linear-to-t from-plum-dark/80 via-plum-dark/10 to-transparent" />
-									<span className="absolute bottom-2.5 left-3.5 font-bdscript text-gold leading-none text-4xl drop-shadow-[0_1px_6px_rgba(46,31,36,0.6)]">
+									<span className="absolute bottom-2.5 left-3.5 font-alta font-normal text-gold leading-none text-2xl tracking-[0.06em] drop-shadow-[0_1px_6px_rgba(46,31,36,0.6)]">
 										{e.year}
 									</span>
 								</div>
 								<div className="font-serif font-light text-cream tracking-[-0.01em] text-xl leading-tight mt-3 mb-1.5">
 									{e.label}
 								</div>
-								<p className="font-sans font-light text-cream/65 text-sm leading-snug">
+								<p className="font-sans font-normal text-cream/76 text-base leading-snug">
 									{e.description}
 								</p>
 							</div>

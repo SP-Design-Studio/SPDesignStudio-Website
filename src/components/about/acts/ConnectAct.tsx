@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { ABOUT, STUDIO } from "@/lib/studio";
+import TransitionLink from "@/components/shared/TransitionLink";
+import { ABOUT } from "@/lib/studio";
 import { Words } from "@/components/shared/Words";
 
 interface ConnectActProps {
@@ -45,19 +45,19 @@ export function ConnectAct({
 
 			<p
 				ref={bodyRef}
-				className="font-serif italic font-light text-cream/70 max-w-140 mb-8 md:mb-9 text-sm sm:text-base md:text-xl leading-[1.6]">
+				className="font-serif italic font-light text-cream/80 max-w-140 mb-8 md:mb-9 text-base sm:text-lg md:text-xl leading-[1.6]">
 				{ABOUT.connect.body}
 			</p>
 
-			<Link
+			<TransitionLink
 				ref={ctaRef}
-				href={`mailto:${STUDIO.email}`}
-				className="cta-gold group inline-flex items-center gap-3 px-7 sm:px-8 py-3.5 sm:py-4 font-sans font-light text-xs sm:text-sm uppercase tracking-[0.28em] bg-gold text-plum-dark">
+				href="/contact?section=inquiry"
+				className="cta-gold group inline-flex items-center gap-3 px-7 sm:px-8 py-3.5 sm:py-4 font-sans font-normal text-sm sm:text-base uppercase tracking-[0.28em] bg-gold text-plum-dark">
 				{ABOUT.connect.ctaText}
 				<span className="transition-transform duration-500 group-hover:translate-x-1">
 					→
 				</span>
-			</Link>
+			</TransitionLink>
 			</div>
 		</div>
 	);

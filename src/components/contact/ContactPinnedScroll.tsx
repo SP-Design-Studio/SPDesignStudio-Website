@@ -7,6 +7,7 @@ import { ContactHeroAct } from "./acts/ContactHeroAct";
 import { ContactInquiryAct } from "./acts/ContactInquiryAct";
 import { ContactInfoAct } from "./acts/ContactInfoAct";
 import { enableSectionSnap } from "@/lib/sectionSnap";
+import { getLenis } from "@/lib/smoothScroll";
 import type { SiteSettings } from "@/lib/cms/types";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -198,6 +199,35 @@ export default function ContactPinnedScroll({
 				.addLabel("s-inquiry", 1.9)
 				.addLabel("s-form", tl.duration());
 			cleanupSnap = enableSectionSnap(tl);
+
+			const wantInquiry =
+				new URLSearchParams(window.location.search).get("section") ===
+				"inquiry";
+			if (wantInquiry) {
+				heroIn.progress(1);
+				ScrollTrigger.refresh();
+				let tries = 0;
+				const jump = () => {
+					const st = tl.scrollTrigger;
+					const t = tl.labels["s-inquiry"];
+					if (st && t != null && st.end > st.start) {
+						const target =
+							st.start + (t / tl.duration()) * (st.end - st.start);
+						const lenis = getLenis();
+						lenis?.resize();
+						st.scroll(target);
+						lenis?.scrollTo(target, { immediate: true, force: true });
+						requestAnimationFrame(() => {
+							lenis?.resize();
+							st.scroll(target);
+							lenis?.scrollTo(target, { immediate: true, force: true });
+						});
+						return;
+					}
+					if (tries++ < 90) requestAnimationFrame(jump);
+				};
+				requestAnimationFrame(jump);
+			}
 		}, wrapperRef);
 
 		return () => {
