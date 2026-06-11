@@ -14,6 +14,7 @@ import {
 	addGalleryImage,
 	deleteGalleryImage,
 } from "../actions";
+import { useDirty } from "../../useDirty";
 
 const inputCls =
 	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
@@ -43,6 +44,7 @@ export function ProjectEditor({ project }: { project: CmsProject }) {
 		img: project.img,
 	});
 	const [msg, setMsg] = useState("");
+	const { dirty, markSaved } = useDirty(form);
 	const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) =>
 		setForm((f) => ({ ...f, [k]: v }));
 
@@ -59,6 +61,7 @@ export function ProjectEditor({ project }: { project: CmsProject }) {
 				blurb: form.blurb || null,
 			});
 			setMsg(res.error ?? "Saved");
+			if (!res.error) markSaved();
 			router.refresh();
 		});
 
@@ -155,7 +158,7 @@ export function ProjectEditor({ project }: { project: CmsProject }) {
 							<button
 								type="button"
 								onClick={saveMain}
-								disabled={pending}
+								disabled={pending || !dirty}
 								className="cta-gold cursor-pointer bg-gold px-7 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-[0.732rem] disabled:opacity-60">
 								{pending ? "Saving…" : "Save details"}
 							</button>

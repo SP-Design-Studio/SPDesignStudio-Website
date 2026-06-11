@@ -10,6 +10,7 @@ import {
 	deleteHonour,
 	reorderHonours,
 } from "./actions";
+import { useDirty } from "../useDirty";
 
 const inputCls =
 	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
@@ -37,6 +38,7 @@ function Card({
 	});
 	const [pending, start] = useTransition();
 	const [msg, setMsg] = useState("");
+	const { dirty, markSaved } = useDirty(form);
 
 	const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) =>
 		setForm((f) => ({ ...f, [k]: v }));
@@ -50,6 +52,7 @@ function Card({
 				description: form.description || null,
 			});
 			setMsg(res.error ?? "Saved");
+			if (!res.error) markSaved();
 			router.refresh();
 		});
 	const remove = () =>
@@ -137,7 +140,7 @@ function Card({
 						<button
 							type="button"
 							onClick={save}
-							disabled={pending}
+							disabled={pending || !dirty}
 							className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.22em] text-plum-dark text-[0.708rem] disabled:opacity-60">
 							{pending ? "…" : "Save"}
 						</button>

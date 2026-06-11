@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import type { SiteSettings } from "@/lib/cms/types";
 import { saveSiteSettings } from "./actions";
+import { useDirty } from "../useDirty";
 
 const inputCls =
 	"w-full border-b border-cream/20 bg-transparent py-2.5 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
@@ -31,6 +32,7 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 		linkedin: initial?.linkedin ?? "",
 	});
 	const [hours, setHours] = useState<Hour[]>(initial?.hours ?? []);
+	const { dirty, markSaved } = useDirty({ form, hours });
 
 	const set = (k: keyof typeof form, v: string) =>
 		setForm((f) => ({ ...f, [k]: v }));
@@ -46,6 +48,7 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 			setMsg("");
 			const res = await saveSiteSettings({ ...form, hours });
 			setMsg(res.error ? res.error : "Saved");
+			if (!res.error) markSaved();
 			router.refresh();
 		});
 
@@ -145,8 +148,8 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 				<button
 					type="button"
 					onClick={save}
-					disabled={pending}
-					className="cta-gold cursor-pointer bg-gold px-8 py-3 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-sm disabled:opacity-60">
+					disabled={pending || !dirty}
+					className="cta-gold cursor-pointer bg-gold px-8 py-3 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-sm disabled:opacity-40 disabled:cursor-not-allowed">
 					{pending ? "Saving…" : "Save changes"}
 				</button>
 				{msg && (
