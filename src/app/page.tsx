@@ -1,8 +1,9 @@
 import HomeClient from "@/components/home/HomeClient";
+import { pageMeta } from "@/lib/seo";
 import { getHomeData } from "@/lib/cms/pages";
 
 export const revalidate = 60;
-export const metadata = { title: { absolute: "Home · SP Design Studio" } };
+export const metadata = pageMeta("home");
 
 export default async function Home() {
 	const data = await getHomeData();

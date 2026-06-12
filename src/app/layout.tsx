@@ -5,6 +5,13 @@ import "./globals.css";
 import PageTransition from "@/components/shared/PageTransition";
 import ScrollCue from "@/components/shared/ScrollCue";
 import { GRAIN_ENABLED } from "@/lib/config";
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_DESC,
+  OG_IMAGE,
+  organizationLd,
+} from "@/lib/seo";
 
 const cormorant = Cormorant({
   variable: "--font-cormorant",
@@ -35,11 +42,34 @@ const alta = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "SP Design Studio",
-    template: "%s · SP Design Studio",
+    default: SITE_NAME,
+    template: `%s · ${SITE_NAME}`,
   },
-  description: "Interior design studio crafting spaces that merge technical rigor with intentional living.",
+  description: SITE_DESC,
+  applicationName: SITE_NAME,
+  alternates: { canonical: "/" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESC,
+    images: [{ url: OG_IMAGE, width: 1200, height: 800, alt: SITE_NAME }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_DESC,
+    images: [OG_IMAGE],
+  },
+  icons: { icon: "/images/logo.svg" },
 };
 
 export const viewport: Viewport = {
@@ -56,6 +86,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${dmSans.variable} ${bdScript.variable} ${alta.variable}`}>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd()) }}
+        />
         <PageTransition />
         {children}
         <ScrollCue />
