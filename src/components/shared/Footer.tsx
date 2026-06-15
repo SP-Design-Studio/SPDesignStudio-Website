@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -114,7 +115,14 @@ export default function Footer() {
             onMouseLeave={onLeave}
             className="relative inline-block cursor-default px-1.5 py-0.5 text-gold/80"
           >
-            <span className="relative z-10">Abhiraman Kuntimaddi</span>
+            <Link
+              href="https://abhiramankuntimaddi.com"
+              className="relative z-10"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abhiraman Kuntimaddi
+            </Link>
             {}
             <span
               ref={pillRef}
