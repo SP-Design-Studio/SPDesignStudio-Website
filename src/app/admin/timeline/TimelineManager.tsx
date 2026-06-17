@@ -180,7 +180,7 @@ export function TimelineManager({ initial }: { initial: TimelineEntry[] }) {
 					})
 				}
 				className="w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.732rem] hover:bg-gold/10 disabled:opacity-60">
-				+ Add entry
+				{pending ? "Adding…" : "+ Add entry"}
 			</button>
 			<p className="font-sans font-light text-cream/35 text-sm">
 				The desktop timeline curve shows up to 5 entries; all entries appear on

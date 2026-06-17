@@ -181,7 +181,7 @@ export function TestimonialsManager({ initial }: { initial: Testimonial[] }) {
 					})
 				}
 				className="w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.732rem] hover:bg-gold/10 disabled:opacity-60">
-				+ Add reflection
+				{pending ? "Adding…" : "+ Add reflection"}
 			</button>
 		</div>
 	);

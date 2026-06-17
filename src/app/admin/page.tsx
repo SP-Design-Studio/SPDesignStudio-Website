@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { requireRole } from "@/lib/auth";
+import { NavLink } from "./NavLink";
 import { getContentCounts } from "@/lib/cms/queries";
 import { getPageDrafts } from "@/lib/cms/pages";
 
@@ -173,11 +174,11 @@ export default async function AdminHome() {
 								</span>
 							)}
 							<div className="mt-3 flex items-center gap-4 font-sans font-light uppercase tracking-[0.2em] text-[0.6rem]">
-								<Link
+								<NavLink
 									href={s.href}
 									className="text-gold/80 transition-colors hover:text-gold">
 									Manage →
-								</Link>
+								</NavLink>
 								<a
 									href={s.view}
 									target="_blank"

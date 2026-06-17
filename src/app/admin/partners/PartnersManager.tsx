@@ -274,7 +274,7 @@ export function PartnersManager({
 						})
 					}
 					className="mt-5 w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.732rem] hover:bg-gold/10 disabled:opacity-60">
-					+ Add logo
+					{pending ? "Adding…" : "+ Add logo"}
 				</button>
 			</section>
 
@@ -303,7 +303,7 @@ export function PartnersManager({
 						})
 					}
 					className="mt-5 w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.732rem] hover:bg-gold/10 disabled:opacity-60">
-					+ Add category
+					{pending ? "Adding…" : "+ Add category"}
 				</button>
 			</section>
 		</div>

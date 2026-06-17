@@ -130,7 +130,7 @@ export function RecognitionManager({ initial }: { initial: Recognition[] }) {
 					})
 				}
 				className="w-fit cursor-pointer border border-gold/40 px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.708rem] hover:bg-gold/10 disabled:opacity-60">
-				+ Add recognition
+				{pending ? "Adding…" : "+ Add recognition"}
 			</button>
 			<p className="font-sans font-light text-cream/35 text-sm">
 				Shown in the hero footer line (e.g. Designer of the Year · …).

@@ -99,7 +99,7 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 						type="button"
 						onClick={addHour}
 						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-gold text-[0.649rem] hover:opacity-80">
-						+ Add row
+						{pending ? "Adding…" : "+ Add row"}
 					</button>
 				</div>
 				<div className="flex flex-col gap-3">

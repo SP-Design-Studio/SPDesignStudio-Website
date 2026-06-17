@@ -96,7 +96,7 @@ export function ProjectsList({ initial }: { initial: CmsProject[] }) {
 				disabled={pending}
 				onClick={add}
 				className="mt-2 w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.732rem] hover:bg-gold/10 disabled:opacity-60">
-				+ Add project
+				{pending ? "Adding…" : "+ Add project"}
 			</button>
 		</div>
 	);

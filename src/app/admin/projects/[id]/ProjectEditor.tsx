@@ -189,7 +189,7 @@ export function ProjectEditor({ project }: { project: CmsProject }) {
 						})
 					}
 					className="mt-4 w-fit cursor-pointer border border-gold/40 px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.708rem] hover:bg-gold/10 disabled:opacity-60">
-					+ Add fact
+					{pending ? "Adding…" : "+ Add fact"}
 				</button>
 			</section>
 

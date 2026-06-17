@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { requireRole } from "@/lib/auth";
+import { NavLink } from "../NavLink";
 import {
 	getActivityLog,
 	ACTION_LABELS,
@@ -28,11 +28,11 @@ export default async function ActivityPage({
 	return (
 		<div className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-16">
 			<div className="mb-10">
-				<Link
+				<NavLink
 					href="/admin"
 					className="font-sans font-light uppercase tracking-[0.24em] text-cream/45 text-[0.649rem] transition-colors hover:text-gold">
 					← Dashboard
-				</Link>
+				</NavLink>
 				<div className="mt-4 font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.708rem]">
 					Activity
 				</div>
@@ -48,7 +48,7 @@ export default async function ActivityPage({
 				{FILTERS.map((f) => {
 					const active = filter === f.key;
 					return (
-						<Link
+						<NavLink
 							key={f.key || "all"}
 							href={f.key ? `/admin/activity?type=${f.key}` : "/admin/activity"}
 							className={`rounded-full border px-4 py-1.5 font-sans font-light uppercase tracking-[0.2em] text-[0.649rem] transition-colors ${
@@ -57,7 +57,7 @@ export default async function ActivityPage({
 									: "border-cream/15 text-cream/45 hover:border-cream/30 hover:text-cream/70"
 							}`}>
 							{f.label}
-						</Link>
+						</NavLink>
 					);
 				})}
 			</div>
