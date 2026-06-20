@@ -118,7 +118,7 @@ export function TimelineAct({
 												)}
 												<div className="absolute inset-0 bg-linear-to-t from-plum-dark/70 to-transparent" />
 											</div>
-											<div className="font-serif font-light text-cream tracking-[-0.01em] text-lg lg:text-xl leading-tight mb-1">
+											<div className="font-serif font-normal text-gold tracking-[-0.01em] text-lg lg:text-xl leading-tight mb-1">
 												{e.label}
 											</div>
 											<p className="font-sans font-normal text-cream/85 text-sm lg:text-base leading-relaxed">

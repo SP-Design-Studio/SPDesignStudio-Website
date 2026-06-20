@@ -17,7 +17,6 @@
   --font-sans: var(--font-dm-sans);
 }
 
-
 html {
   overflow-x: visible;
   overflow-y: visible;
@@ -33,7 +32,12 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-serif);
   font-weight: 300;
   line-height: 0.9;
@@ -48,42 +52,75 @@ h1, h2, h3, h4, h5, h6 {
 
 .font-alta {
   font-family: var(--font-alta), serif;
-  font-feature-settings: "lnum" 1, "tnum" 1;
+  font-feature-settings:
+    "lnum" 1,
+    "tnum" 1;
 }
 
 @keyframes ig-up {
-  from { transform: translateY(0); }
-  to { transform: translateY(-50%); }
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
 }
 @keyframes ig-down {
-  from { transform: translateY(-50%); }
-  to { transform: translateY(0); }
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
-.ig-up { animation: ig-up 40s linear infinite; }
-.ig-down { animation: ig-down 40s linear infinite; }
+.ig-up {
+  animation: ig-up 40s linear infinite;
+}
+.ig-down {
+  animation: ig-down 40s linear infinite;
+}
 @keyframes ig-left {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
-.ig-left { animation: ig-left 32s linear infinite; }
+.ig-left {
+  animation: ig-left 32s linear infinite;
+}
 
 @keyframes auth-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 @keyframes auth-rise {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes auth-sweep {
-  0% { transform: translateX(-130%); }
-  100% { transform: translateX(430%); }
+  0% {
+    transform: translateX(-130%);
+  }
+  100% {
+    transform: translateX(430%);
+  }
 }
 
 :root {
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.6' intercept='-0.8'/%3E%3CfeFuncG type='linear' slope='2.6' intercept='-0.8'/%3E%3CfeFuncB type='linear' slope='2.6' intercept='-0.8'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)'/%3E%3C/svg%3E");
 }
-
 
 .grain-overlay {
   position: fixed;
@@ -174,4 +211,3 @@ button:hover .ulink::after,
   background: rgba(191, 161, 95, 0.25);
   color: var(--color-cream);
 }
-
