@@ -145,7 +145,7 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 				</div>
 			</section>
 
-			<div className="flex items-center gap-4 border-t border-cream/10 pt-8">
+			<div className="flex items-center gap-4 pt-8">
 				<button
 					type="button"
 					onClick={save}

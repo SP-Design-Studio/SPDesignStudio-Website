@@ -59,7 +59,7 @@ export function ProjectsList({ initial }: { initial: CmsProject[] }) {
 							{p.title}
 						</div>
 						<div className="font-sans font-light text-cream/82 text-[0.732rem] uppercase tracking-[0.2em]">
-							{p.category} · /{p.slug}
+							{p.category} / {p.slug}
 						</div>
 					</div>
 					<div className="flex items-center gap-2">

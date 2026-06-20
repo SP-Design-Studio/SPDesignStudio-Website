@@ -22,7 +22,7 @@ export default async function AdminProjectsPage() {
 					Projects
 				</div>
 				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
-					Case studies
+					Projects List
 				</h1>
 				<p className="mt-3 font-sans font-light text-cream/80 text-base">
 					Add or reorder projects. Open one to edit its details, key facts, and

@@ -69,7 +69,7 @@ const SECTIONS = [
 	},
 	{
 		label: "Projects",
-		note: "Case studies & galleries",
+		note: "Projects & galleries",
 		href: "/admin/projects",
 		view: "/projects",
 		page: "projects",
