@@ -225,7 +225,7 @@ export function ProjectDetail({
 						</h2>
 						<div className="pd-reveal mt-4 flex items-center gap-3 font-sans font-normal uppercase tracking-[0.24em] text-cream/85 text-[0.694rem] md:text-[0.784rem]">
 							{project.location}
-							<span className="w-fit rounded-[3px] bg-plum-dark/55 backdrop-blur-sm px-2.5 py-1 font-sans font-normal uppercase tracking-[0.3em] text-gold text-[0.6rem]">
+							<span className="w-fit rounded-[3px] bg-plum/55 backdrop-blur-xl px-2.5 py-1 font-sans font-normal uppercase tracking-[0.3em] text-gold text-[0.7rem]">
 								{project.delivery === "renovation" ? "Renovation" : "Turnkey"}
 							</span>
 						</div>
