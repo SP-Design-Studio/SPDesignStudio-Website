@@ -22,7 +22,7 @@ interface Props {
 const ROW_FRAME = "w-full max-w-5xl xl:max-w-6xl mx-auto px-6 sm:px-10";
 const ROW_VIEWPORT =
   "relative overflow-x-auto md:overflow-hidden snap-x snap-mandatory md:snap-none scrollbar-none [&::-webkit-scrollbar]:hidden";
-const ROW_TRACK = "flex w-max gap-3 md:gap-5 will-change-transform";
+const ROW_TRACK = "flex w-max gap-3 md:gap-5 md:will-change-transform";
 const FADE_L =
   "pointer-events-none absolute inset-y-0 left-0 z-10 w-8 md:w-28 bg-gradient-to-r from-plum-dark to-transparent";
 const FADE_R =

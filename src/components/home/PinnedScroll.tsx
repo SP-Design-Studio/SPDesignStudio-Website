@@ -878,7 +878,7 @@ export default function PinnedScroll({
         .addLabel("s-disciplines", 4.6)
         .addLabel("s-partners", 6.38)
         .addLabel("s-voices", 8.4)
-        .addLabel("s-instagram", 9.9)
+        .addLabel("s-instagram", 10.5)
         .addLabel("s-invitation", tl.duration());
       cleanupSnap = enableSectionSnap(tl);
 
