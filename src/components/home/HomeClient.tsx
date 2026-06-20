@@ -6,6 +6,8 @@ import Preloader from "@/components/shared/Preloader";
 import Nav from "@/components/shared/Nav";
 import PinnedScroll from "@/components/home/PinnedScroll";
 import Footer from "@/components/shared/Footer";
+import { InstagramGrid } from "@/components/home/InstagramGrid";
+import type { InstaItem } from "@/lib/instagram";
 import type {
 	Discipline,
 	Partner,
@@ -19,12 +21,14 @@ export default function HomeClient({
 	partnerCategories,
 	testimonials,
 	recognition,
+	instagram = [],
 }: {
 	disciplines: Discipline[];
 	partners: Partner[];
 	partnerCategories: PartnerCategory[];
 	testimonials: Testimonial[];
 	recognition: string[];
+	instagram?: InstaItem[];
 }) {
 	const [preloaderDone, setPreloaderDone] = useState(false);
 	const [showPreloader, setShowPreloader] = useState(false);
@@ -66,6 +70,7 @@ export default function HomeClient({
 						testimonials={testimonials}
 						recognition={recognition}
 					/>
+					<InstagramGrid media={instagram} />
 					<Footer />
 				</main>
 			</SmoothScrollProvider>

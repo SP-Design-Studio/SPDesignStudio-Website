@@ -5,6 +5,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { requireRole } from "@/lib/auth";
 import { logActivity } from "@/lib/cms/activity";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 const DiscSchema = z.object({
 	top_label: z.string().min(1, "Label is required."),
@@ -145,5 +146,25 @@ export async function reorderRecognition(ids: string[]): Promise<ActionResult> {
 		),
 	);
 	await revalidateHome();
+	return { ok: true };
+}
+
+export async function saveInstagramSettings(input: {
+	enabled: boolean;
+	count: number;
+	token?: string;
+}): Promise<ActionResult> {
+	await requireRole("admin");
+	const db = createAdminClient();
+	const rows: { key: string; value: string }[] = [
+		{ key: "instagram_enabled", value: String(input.enabled) },
+		{ key: "instagram_count", value: String(input.count) },
+	];
+	if (input.token && input.token.trim())
+		rows.push({ key: "instagram_token", value: input.token.trim() });
+	const { error } = await db.from("app_config").upsert(rows, { onConflict: "key" });
+	if (error) return { error: error.message };
+	await logActivity("edit", "Instagram");
+	revalidatePath("/");
 	return { ok: true };
 }
