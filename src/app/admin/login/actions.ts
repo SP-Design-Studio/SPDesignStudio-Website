@@ -54,8 +54,8 @@ export async function login(
 		typeof token === "string" ? token : null,
 		ip,
 	);
-	if (!human) {
-		return { error: "Verification failed. Please try again." };
+	if (!human.ok) {
+		return { error: `Verification failed [${human.reason}]. Please try again.` };
 	}
 
 	const supabase = await createClient();
