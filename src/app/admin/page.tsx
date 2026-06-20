@@ -3,6 +3,8 @@ import { requireRole } from "@/lib/auth";
 import { NavLink } from "./NavLink";
 import { getContentCounts } from "@/lib/cms/queries";
 import { getPageDrafts } from "@/lib/cms/pages";
+import { getInstagramSettings } from "@/lib/instagram";
+import { InstagramSettings } from "./InstagramSettings";
 
 export const metadata = { title: "Dashboard" };
 
@@ -109,9 +111,11 @@ const SECTIONS = [
 
 export default async function AdminHome() {
 	const profile = await requireRole("editor");
+	const canManage = profile.role === "founder" || profile.role === "admin";
 	const counts = await getContentCounts();
 	const drafts = await getPageDrafts();
 	const draftByKey = new Map(drafts.map((d) => [d.key as string, d]));
+	const ig = canManage ? await getInstagramSettings() : null;
 	const firstName = (profile.full_name?.trim() || profile.email.split("@")[0])
 		.split(" ")[0];
 	const greetName = profile.full_name?.trim() || firstName;
@@ -191,6 +195,24 @@ export default async function AdminHome() {
 					);
 				})}
 			</div>
+
+			{ig && (
+				<div className="mt-14 border-t border-cream/10 pt-10">
+					<div className="font-sans font-light uppercase tracking-[0.32em] text-gold text-[0.684rem] mb-2">
+						Instagram settings
+					</div>
+					<p className="mb-6 font-sans font-light text-cream/55 text-base">
+						The &ldquo;From the Studio&rdquo; section on the home page. Set how
+						many reels and posts to pull, and the access token.
+					</p>
+					<InstagramSettings
+						enabled={ig.enabled}
+						reelsCount={ig.reelsCount}
+						postsCount={ig.postsCount}
+						hasToken={ig.hasToken}
+					/>
+				</div>
+			)}
 		</div>
 	);
 }

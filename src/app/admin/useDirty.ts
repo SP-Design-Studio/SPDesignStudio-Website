@@ -1,13 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 
 export function useDirty<T>(form: T): { dirty: boolean; markSaved: () => void } {
-	const saved = useRef(JSON.stringify(form));
+	const [saved, setSaved] = useState(() => JSON.stringify(form));
 	return {
-		dirty: JSON.stringify(form) !== saved.current,
-		markSaved: () => {
-			saved.current = JSON.stringify(form);
-		},
+		dirty: JSON.stringify(form) !== saved,
+		markSaved: () => setSaved(JSON.stringify(form)),
 	};
 }

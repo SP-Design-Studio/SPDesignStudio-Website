@@ -151,14 +151,16 @@ export async function reorderRecognition(ids: string[]): Promise<ActionResult> {
 
 export async function saveInstagramSettings(input: {
 	enabled: boolean;
-	count: number;
+	reelsCount: number;
+	postsCount: number;
 	token?: string;
 }): Promise<ActionResult> {
 	await requireRole("admin");
 	const db = createAdminClient();
 	const rows: { key: string; value: string }[] = [
 		{ key: "instagram_enabled", value: String(input.enabled) },
-		{ key: "instagram_count", value: String(input.count) },
+		{ key: "instagram_reels_count", value: String(input.reelsCount) },
+		{ key: "instagram_posts_count", value: String(input.postsCount) },
 	];
 	if (input.token && input.token.trim())
 		rows.push({ key: "instagram_token", value: input.token.trim() });

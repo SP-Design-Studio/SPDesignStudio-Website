@@ -10,6 +10,36 @@ export interface InstaItem {
 }
 
 const TOKEN_KEY = "instagram_token";
+const MEDIA_CACHE_KEY = "instagram_media_cache";
+
+async function readMediaCache(): Promise<InstaItem[]> {
+	try {
+		const db = createAdminClient();
+		const { data } = await db
+			.from("app_config")
+			.select("value")
+			.eq("key", MEDIA_CACHE_KEY)
+			.maybeSingle();
+		const raw = (data as { value?: string } | null)?.value;
+		if (!raw) return [];
+		const parsed = JSON.parse(raw);
+		return Array.isArray(parsed) ? (parsed as InstaItem[]) : [];
+	} catch {
+		return [];
+	}
+}
+
+async function writeMediaCache(items: InstaItem[]): Promise<void> {
+	try {
+		const db = createAdminClient();
+		await db
+			.from("app_config")
+			.upsert(
+				{ key: MEDIA_CACHE_KEY, value: JSON.stringify(items) },
+				{ onConflict: "key" },
+			);
+	} catch {}
+}
 
 async function readToken(): Promise<string | null> {
 	try {
@@ -35,9 +65,13 @@ async function writeToken(token: string): Promise<void> {
 
 export interface IgSettings {
 	enabled: boolean;
-	count: number;
+	reelsCount: number;
+	postsCount: number;
 	hasToken: boolean;
 }
+
+const clamp = (n: number, def: number) =>
+	Math.min(Math.max(Number.isFinite(n) ? n : def, 0), 18);
 
 export async function getInstagramSettings(): Promise<IgSettings> {
 	try {
@@ -45,21 +79,31 @@ export async function getInstagramSettings(): Promise<IgSettings> {
 		const { data } = await db
 			.from("app_config")
 			.select("key, value")
-			.in("key", [TOKEN_KEY, "instagram_enabled", "instagram_count"]);
+			.in("key", [
+				TOKEN_KEY,
+				"instagram_enabled",
+				"instagram_reels_count",
+				"instagram_posts_count",
+			]);
 		const map = new Map(
 			(data ?? []).map((r) => [
 				(r as { key: string }).key,
 				(r as { value?: string }).value ?? "",
 			]),
 		);
-		const count = parseInt(map.get("instagram_count") || "9", 10);
 		return {
 			enabled: map.get("instagram_enabled") !== "false",
-			count: Math.min(Math.max(Number.isFinite(count) ? count : 9, 3), 18),
+			reelsCount: clamp(parseInt(map.get("instagram_reels_count") || "6", 10), 6),
+			postsCount: clamp(parseInt(map.get("instagram_posts_count") || "6", 10), 6),
 			hasToken: Boolean((map.get(TOKEN_KEY) || process.env.INSTAGRAM_TOKEN)?.trim()),
 		};
 	} catch {
-		return { enabled: true, count: 9, hasToken: Boolean(process.env.INSTAGRAM_TOKEN) };
+		return {
+			enabled: true,
+			reelsCount: 6,
+			postsCount: 6,
+			hasToken: Boolean(process.env.INSTAGRAM_TOKEN),
+		};
 	}
 }
 
@@ -67,19 +111,27 @@ export async function getInstagramMedia(): Promise<InstaItem[]> {
 	const settings = await getInstagramSettings();
 	if (!settings.enabled) return [];
 	const token = await readToken();
-	if (!token) return [];
+	if (!token) return readMediaCache();
+	const want = settings.reelsCount + settings.postsCount;
+	const limit = Math.min(want * 2 + 6, 50);
 	const fields =
 		"id,caption,media_type,media_product_type,media_url,thumbnail_url,permalink";
-	const url = `https://graph.instagram.com/me/media?fields=${fields}&limit=${settings.count}&access_token=${token}`;
+	const url = `https://graph.instagram.com/me/media?fields=${fields}&limit=${limit}&access_token=${token}`;
 	try {
 		const res = await fetch(url, { next: { revalidate: 3600 } });
-		if (!res.ok) return [];
+		if (!res.ok) return readMediaCache();
 		const json = (await res.json()) as { data?: RawMedia[] };
-		return (json.data ?? [])
+		const all = (json.data ?? [])
 			.map(normalize)
 			.filter((m): m is InstaItem => m !== null);
+		const reels = all.filter((m) => m.isReel).slice(0, settings.reelsCount);
+		const posts = all.filter((m) => !m.isReel).slice(0, settings.postsCount);
+		const result = [...reels, ...posts];
+		if (result.length === 0) return readMediaCache();
+		await writeMediaCache(result);
+		return result;
 	} catch {
-		return [];
+		return readMediaCache();
 	}
 }
 

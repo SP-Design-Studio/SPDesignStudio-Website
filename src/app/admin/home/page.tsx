@@ -3,18 +3,15 @@ import { requireRole } from "@/lib/auth";
 import { getDisciplines, getRecognition } from "@/lib/cms/queries";
 import { DisciplinesManager } from "./DisciplinesManager";
 import { RecognitionManager } from "./RecognitionManager";
-import { InstagramSettings } from "./InstagramSettings";
-import { getInstagramSettings } from "@/lib/instagram";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Homepage" };
 
 export default async function AdminHomePage() {
 	await requireRole("editor");
-	const [disciplines, recognition, ig] = await Promise.all([
+	const [disciplines, recognition] = await Promise.all([
 		getDisciplines(),
 		getRecognition(),
-		getInstagramSettings(),
 	]);
 
 	return (
@@ -56,21 +53,6 @@ export default async function AdminHomePage() {
 					stats, and images; reorder or add tiles.
 				</p>
 				<DisciplinesManager initial={disciplines} />
-			</div>
-
-			<div className="mt-16 border-t border-cream/10 pt-10">
-				<div className="font-sans font-light uppercase tracking-[0.32em] text-gold text-[0.684rem] mb-2">
-					Instagram feed
-				</div>
-				<p className="mb-6 font-sans font-light text-cream/45 text-base">
-					The &ldquo;From the Studio&rdquo; grid on the home page. Pulls your
-					latest posts &amp; reels.
-				</p>
-				<InstagramSettings
-					enabled={ig.enabled}
-					count={ig.count}
-					hasToken={ig.hasToken}
-				/>
 			</div>
 		</div>
 	);

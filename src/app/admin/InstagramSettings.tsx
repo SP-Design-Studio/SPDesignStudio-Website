@@ -2,35 +2,39 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { saveInstagramSettings } from "./actions";
+import { saveInstagramSettings } from "./home/actions";
+
+const labelCls =
+	"font-sans font-light uppercase tracking-[0.26em] text-gold/80 text-[0.614rem] mb-1.5";
+const inputCls =
+	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
 
 export function InstagramSettings({
 	enabled: initEnabled,
-	count: initCount,
+	reelsCount: initReels,
+	postsCount: initPosts,
 	hasToken,
 }: {
 	enabled: boolean;
-	count: number;
+	reelsCount: number;
+	postsCount: number;
 	hasToken: boolean;
 }) {
 	const router = useRouter();
 	const [pending, start] = useTransition();
 	const [enabled, setEnabled] = useState(initEnabled);
-	const [count, setCount] = useState(initCount);
+	const [reelsCount, setReels] = useState(initReels);
+	const [postsCount, setPosts] = useState(initPosts);
 	const [token, setToken] = useState("");
 	const [msg, setMsg] = useState("");
-
-	const labelCls =
-		"font-sans font-light uppercase tracking-[0.26em] text-gold/80 text-[0.614rem] mb-1.5";
-	const inputCls =
-		"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
 
 	const save = () =>
 		start(async () => {
 			setMsg("");
 			const res = await saveInstagramSettings({
 				enabled,
-				count,
+				reelsCount,
+				postsCount,
 				token: token || undefined,
 			});
 			setMsg(res.error ?? "Saved");
@@ -40,7 +44,7 @@ export function InstagramSettings({
 
 	return (
 		<div className="flex flex-col gap-5">
-			<label className="flex items-center gap-3 cursor-pointer w-fit">
+			<label className="flex w-fit cursor-pointer items-center gap-3">
 				<input
 					type="checkbox"
 					checked={enabled}
@@ -52,17 +56,30 @@ export function InstagramSettings({
 				</span>
 			</label>
 
-			<label className="max-w-40">
-				<div className={labelCls}>Posts to show (3–18)</div>
-				<input
-					type="number"
-					min={3}
-					max={18}
-					value={count}
-					onChange={(e) => setCount(Number(e.target.value))}
-					className={inputCls}
-				/>
-			</label>
+			<div className="grid grid-cols-2 gap-5 max-w-sm">
+				<label>
+					<div className={labelCls}>Reels (0–18)</div>
+					<input
+						type="number"
+						min={0}
+						max={18}
+						value={reelsCount}
+						onChange={(e) => setReels(Number(e.target.value))}
+						className={inputCls}
+					/>
+				</label>
+				<label>
+					<div className={labelCls}>Posts (0–18)</div>
+					<input
+						type="number"
+						min={0}
+						max={18}
+						value={postsCount}
+						onChange={(e) => setPosts(Number(e.target.value))}
+						className={inputCls}
+					/>
+				</label>
+			</div>
 
 			<label>
 				<div className={labelCls}>
