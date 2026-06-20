@@ -23,6 +23,7 @@ const ProjectSchema = z.object({
 	location: z.string().nullable().optional(),
 	type: z.string().nullable().optional(),
 	category: z.enum(["residential", "commercial", "hospitality"]),
+	delivery: z.enum(["turnkey", "renovation"]).optional(),
 	img: z.string().nullable().optional(),
 	year: z.string().nullable().optional(),
 	blurb: z.string().nullable().optional(),

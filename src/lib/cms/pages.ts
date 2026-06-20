@@ -134,6 +134,7 @@ export async function buildProjects(): Promise<ProjectsData> {
 		location: p.location ?? "",
 		type: p.type ?? "",
 		category: p.category as ProjectCategory,
+		delivery: p.delivery,
 		img: p.img ?? "",
 		year: p.year ?? "",
 		blurb: p.blurb ?? "",

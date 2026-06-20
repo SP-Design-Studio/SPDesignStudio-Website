@@ -100,6 +100,9 @@ export function ProjectsGridAct({
                     )}
                   </div>
                   <div className="absolute inset-0 bg-linear-to-t from-plum-dark/65 via-plum-dark/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <span className="absolute top-3 left-3 z-10 w-fit rounded-[3px] bg-plum-dark/55 backdrop-blur-sm px-2.5 py-1 font-sans font-normal uppercase tracking-[0.3em] text-gold text-[0.6rem]">
+                    {project.delivery === "renovation" ? "Renovation" : "Turnkey"}
+                  </span>
                 </div>
 
                 <div className="pc-copy mt-4 md:mt-5 will-change-transform">

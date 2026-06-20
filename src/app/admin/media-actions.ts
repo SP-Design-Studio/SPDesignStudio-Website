@@ -28,7 +28,11 @@ export async function uploadImage(formData: FormData): Promise<UploadState> {
 
 	const { error } = await supabase.storage
 		.from("media")
-		.upload(path, file, { contentType: file.type, upsert: false });
+		.upload(path, file, {
+			contentType: file.type,
+			upsert: false,
+			cacheControl: "31536000",
+		});
 	if (error) return { error: error.message };
 
 	const { data } = supabase.storage.from("media").getPublicUrl(path);

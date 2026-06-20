@@ -40,6 +40,7 @@ export function ProjectEditor({ project }: { project: CmsProject }) {
 		location: project.location ?? "",
 		type: project.type ?? "",
 		category: project.category,
+		delivery: project.delivery,
 		year: project.year ?? "",
 		blurb: project.blurb ?? "",
 		img: project.img,
@@ -135,6 +136,22 @@ export function ProjectEditor({ project }: { project: CmsProject }) {
 											{c.label}
 										</option>
 									))}
+								</select>
+							</label>
+							<label>
+								<div className={labelCls}>Delivery</div>
+								<select
+									className={`${inputCls} cursor-pointer`}
+									value={form.delivery}
+									onChange={(e) =>
+										set("delivery", e.target.value as typeof form.delivery)
+									}>
+									<option value="turnkey" className="bg-plum-dark">
+										Turnkey
+									</option>
+									<option value="renovation" className="bg-plum-dark">
+										Renovation
+									</option>
 								</select>
 							</label>
 							<label>

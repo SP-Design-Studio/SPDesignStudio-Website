@@ -44,7 +44,8 @@ export type PageKey =
 	| "projects"
 	| "process"
 	| "contact"
-	| "careers";
+	| "careers"
+	| "atelier";
 
 export const PAGE_SEO: Record<
 	PageKey,
@@ -75,6 +76,11 @@ export const PAGE_SEO: Record<
 		path: "/careers",
 		title: "Careers",
 		desc: "Join the SP Design Studio collective of interior designers, architects, and makers in Hyderabad.",
+	},
+	atelier: {
+		path: "/atelier",
+		title: "Atelier",
+		desc: "Behind the studio — moments, materials, and process from SP Design Studio.",
 	},
 };
 

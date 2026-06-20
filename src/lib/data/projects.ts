@@ -22,6 +22,7 @@ export interface Project {
 	location: string;
 	type: string;
 	category: ProjectCategory;
+	delivery?: "turnkey" | "renovation";
 	img: string;
 	year: string;
 	blurb: string;

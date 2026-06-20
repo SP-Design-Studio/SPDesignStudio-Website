@@ -102,6 +102,7 @@ export interface CmsProject {
 	location: string | null;
 	type: string | null;
 	category: "residential" | "commercial" | "hospitality";
+	delivery: "turnkey" | "renovation";
 	img: string | null;
 	year: string | null;
 	blurb: string | null;

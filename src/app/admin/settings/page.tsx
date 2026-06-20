@@ -1,6 +1,6 @@
 import { requireRole } from "@/lib/auth";
 import { getInstagramSettings } from "@/lib/instagram";
-import { getGrainEnabled } from "@/lib/config";
+import { getGrainSettings } from "@/lib/config";
 import { InstagramSettings } from "./InstagramSettings";
 import { GrainToggle } from "./GrainToggle";
 
@@ -13,7 +13,7 @@ export default async function SettingsPage() {
 	await requireRole("admin");
 	const [ig, grain] = await Promise.all([
 		getInstagramSettings(),
-		getGrainEnabled(),
+		getGrainSettings(),
 	]);
 
 	return (
@@ -28,7 +28,7 @@ export default async function SettingsPage() {
 					Toggle the subtle film-grain texture overlay shown across the public
 					site.
 				</p>
-				<GrainToggle enabled={grain} />
+				<GrainToggle enabled={grain.enabled} intensity={grain.intensity} />
 			</section>
 
 			<section className="mt-14 border-t border-cream/10 pt-10">

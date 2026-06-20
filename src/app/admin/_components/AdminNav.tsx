@@ -14,6 +14,7 @@ export function AdminNav({ canManage }: { canManage: boolean }) {
 
 	const links = [
 		{ href: "/admin", label: "Overview" },
+		{ href: "/admin/atelier", label: "Atelier" },
 		...(canManage
 			? [
 					{ href: "/admin/publish", label: "Publish" },
