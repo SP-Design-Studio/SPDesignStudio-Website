@@ -1,6 +1,7 @@
 "use client";
+import { useSaving } from "@/lib/admin/saving";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { SiteSettings } from "@/lib/cms/types";
 import { saveSiteSettings } from "./actions";
@@ -15,7 +16,7 @@ type Hour = { days: string; time: string };
 
 export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 	const router = useRouter();
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 	const [msg, setMsg] = useState("");
 
 	const [form, setForm] = useState({

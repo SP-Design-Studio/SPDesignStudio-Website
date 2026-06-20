@@ -1,6 +1,7 @@
 "use client";
+import { useSaving } from "@/lib/admin/saving";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { saveInstagramSettings } from "./home/actions";
 
@@ -21,7 +22,7 @@ export function InstagramSettings({
 	hasToken: boolean;
 }) {
 	const router = useRouter();
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 	const [enabled, setEnabled] = useState(initEnabled);
 	const [reelsCount, setReels] = useState(initReels);
 	const [postsCount, setPosts] = useState(initPosts);

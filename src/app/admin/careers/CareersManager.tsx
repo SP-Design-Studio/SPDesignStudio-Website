@@ -1,6 +1,7 @@
 "use client";
+import { useSaving } from "@/lib/admin/saving";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { CareerOpening, CareersSettings } from "@/lib/cms/types";
 import {
@@ -116,7 +117,7 @@ function OpeningCard({
 		location: item.location ?? "",
 		description: item.description ?? "",
 	});
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 	const [msg, setMsg] = useState("");
 	const { dirty, markSaved } = useDirty(form);
 
@@ -226,7 +227,7 @@ export function CareersManager({
 }) {
 	const router = useRouter();
 	const [list, setList] = useState(openings);
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 
 	useEffect(() => {
 		setList(openings);

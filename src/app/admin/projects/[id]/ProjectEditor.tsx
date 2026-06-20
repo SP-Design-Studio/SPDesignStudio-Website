@@ -1,6 +1,7 @@
 "use client";
+import { useSaving } from "@/lib/admin/saving";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ImageUploader } from "@/components/admin/ImageUploader";
@@ -31,7 +32,7 @@ const sectionCls =
 
 export function ProjectEditor({ project }: { project: CmsProject }) {
 	const router = useRouter();
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 
 	const [form, setForm] = useState({
 		slug: project.slug,
@@ -251,7 +252,7 @@ function FactRow({
 	const router = useRouter();
 	const [l, setL] = useState(label);
 	const [v, setV] = useState(value);
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 
 	return (
 		<div className="flex items-end gap-3">

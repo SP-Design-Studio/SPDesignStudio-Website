@@ -1,6 +1,7 @@
 "use client";
+import { useSaving } from "@/lib/admin/saving";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateUserRole, deleteUser, resetUserPassword } from "./actions";
 
@@ -23,7 +24,7 @@ function Row({
 	currentRole: string;
 }) {
 	const router = useRouter();
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 	const [msg, setMsg] = useState("");
 	const [pw, setPw] = useState("");
 	const [showPw, setShowPw] = useState(false);

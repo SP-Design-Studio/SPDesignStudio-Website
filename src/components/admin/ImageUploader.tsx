@@ -48,17 +48,17 @@ export function ImageUploader({
 				<div
 					className={`group relative w-full ${aspect} overflow-hidden rounded-sm border border-cream/10`}>
 					<Image src={value} alt="" fill className="object-cover" />
-					<div className="absolute inset-0 flex items-center justify-center gap-3 bg-plum-dark/70 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+					<div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-plum-dark/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
 						<button
 							type="button"
 							onClick={() => inputRef.current?.click()}
-							className="cursor-pointer border border-cream/40 px-4 py-2 font-sans font-light uppercase tracking-[0.2em] text-cream text-[0.58rem] transition-colors hover:border-gold hover:text-gold">
+							className="w-[78%] cursor-pointer border border-cream/60 bg-plum-dark/50 px-3 py-1.5 text-center font-sans font-light uppercase tracking-[0.2em] text-cream text-[0.6rem] transition-colors hover:border-gold hover:text-gold">
 							Replace
 						</button>
 						<button
 							type="button"
 							onClick={remove}
-							className="cursor-pointer border border-cream/40 px-4 py-2 font-sans font-light uppercase tracking-[0.2em] text-cream text-[0.58rem] transition-colors hover:border-gold hover:text-gold">
+							className="w-[78%] cursor-pointer border border-cream/60 bg-plum-dark/50 px-3 py-1.5 text-center font-sans font-light uppercase tracking-[0.2em] text-cream text-[0.6rem] transition-colors hover:border-gold hover:text-gold">
 							Remove
 						</button>
 					</div>

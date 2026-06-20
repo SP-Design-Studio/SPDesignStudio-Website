@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getProfile } from "@/lib/auth";
 import { signOut } from "./actions";
 import { AdminNav } from "./AdminNav";
+import SignOutButton from "./SignOutButton";
+import { SavingOverlay } from "@/lib/admin/saving";
 
 export const metadata: Metadata = {
 	title: { template: "%s · Studio CMS", default: "Studio CMS" },
@@ -49,16 +51,13 @@ export default async function AdminLayout({
 							{profile.role}
 						</span>
 						<form action={signOut}>
-							<button
-								type="submit"
-								className="cursor-pointer font-sans font-light uppercase tracking-[0.24em] text-cream/82 text-[0.708rem] transition-colors hover:text-gold">
-								Sign out
-							</button>
+							<SignOutButton />
 						</form>
 					</div>
 				</header>
 			)}
 			<main>{children}</main>
+			<SavingOverlay />
 		</div>
 	);
 }

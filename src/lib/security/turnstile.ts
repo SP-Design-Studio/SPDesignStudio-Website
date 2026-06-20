@@ -14,7 +14,7 @@ export async function verifyTurnstile(
 	token: string | null,
 	ip: string,
 ): Promise<TurnstileResult> {
-	const secret = process.env.TURNSTILE_SECRET_KEY;
+	const secret = process.env.TURNSTILE_SECRET_KEY?.trim();
 	if (!secret) return { ok: true };
 	if (!token) {
 		console.error(

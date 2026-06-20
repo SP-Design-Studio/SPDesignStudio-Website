@@ -55,7 +55,7 @@ export async function login(
 		ip,
 	);
 	if (!human.ok) {
-		return { error: `Verification failed [${human.reason}]. Please try again.` };
+		return { error: "Verification failed. Please try again." };
 	}
 
 	const supabase = await createClient();

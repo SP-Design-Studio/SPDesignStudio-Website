@@ -1,6 +1,7 @@
 "use client";
+import { useSaving } from "@/lib/admin/saving";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Recognition } from "@/lib/cms/types";
 import {
@@ -26,7 +27,7 @@ function Row({
 }) {
 	const router = useRouter();
 	const [label, setLabel] = useState(item.label);
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 	const [msg, setMsg] = useState("");
 	const dirty = label !== item.label;
 
@@ -91,7 +92,7 @@ function Row({
 export function RecognitionManager({ initial }: { initial: Recognition[] }) {
 	const router = useRouter();
 	const [list, setList] = useState(initial);
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 
 	useEffect(() => {
 		setList(initial);

@@ -1,6 +1,7 @@
 "use client";
+import { useSaving } from "@/lib/admin/saving";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import type { Testimonial } from "@/lib/cms/types";
@@ -35,7 +36,7 @@ function Card({
 		detail: item.detail ?? "",
 		img: item.img,
 	});
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 	const [msg, setMsg] = useState("");
 	const { dirty, markSaved } = useDirty(form);
 
@@ -142,7 +143,7 @@ function Card({
 export function TestimonialsManager({ initial }: { initial: Testimonial[] }) {
 	const router = useRouter();
 	const [list, setList] = useState(initial);
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 
 	useEffect(() => {
 		setList(initial);

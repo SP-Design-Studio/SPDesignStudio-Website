@@ -1,6 +1,7 @@
 "use client";
+import { useSaving } from "@/lib/admin/saving";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import type { ProcessStep } from "@/lib/cms/types";
@@ -30,7 +31,7 @@ function Card({
 		description: item.description ?? "",
 		img: item.img,
 	});
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 	const [msg, setMsg] = useState("");
 	const { dirty, markSaved } = useDirty(form);
 
@@ -136,7 +137,7 @@ function Card({
 export function ProcessManager({ initial }: { initial: ProcessStep[] }) {
 	const router = useRouter();
 	const [list, setList] = useState(initial);
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 
 	useEffect(() => {
 		setList(initial);

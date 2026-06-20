@@ -1,6 +1,7 @@
 "use client";
+import { useSaving } from "@/lib/admin/saving";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import type { Partner, PartnerCategory } from "@/lib/cms/types";
@@ -63,7 +64,7 @@ function LogoCard({
 	const router = useRouter();
 	const [name, setName] = useState(item.name);
 	const [logo, setLogo] = useState<string | null>(item.logo);
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 	const [msg, setMsg] = useState("");
 
 	const save = () =>
@@ -138,7 +139,7 @@ function CategoryCard({
 	const router = useRouter();
 	const [category, setCategory] = useState(item.category);
 	const [brandsText, setBrandsText] = useState(item.brands.join("\n"));
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 	const [msg, setMsg] = useState("");
 
 	const save = () =>
@@ -214,7 +215,7 @@ export function PartnersManager({
 	const router = useRouter();
 	const [logoList, setLogoList] = useState(logos);
 	const [catList, setCatList] = useState(categories);
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 
 	useEffect(() => {
 		setLogoList(logos);

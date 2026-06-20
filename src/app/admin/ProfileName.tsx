@@ -1,13 +1,14 @@
 "use client";
+import { useSaving } from "@/lib/admin/saving";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateProfileName } from "./actions";
 
 export function ProfileName({ initial }: { initial: string }) {
 	const router = useRouter();
 	const [name, setName] = useState(initial);
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 	const [msg, setMsg] = useState("");
 	const dirty = name.trim() !== initial.trim();
 

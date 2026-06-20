@@ -1,6 +1,7 @@
 "use client";
+import { useSaving } from "@/lib/admin/saving";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { publishPage, publishAll, discardPage } from "./publish-actions";
 import type { PageKey, PageStatus } from "@/lib/cms/pages";
@@ -36,7 +37,7 @@ function StatusChip({ status, count }: { status: PageStatus; count: number }) {
 
 function Item({ row }: { row: Row }) {
 	const router = useRouter();
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 	const [msg, setMsg] = useState("");
 	const [open, setOpen] = useState(false);
 
@@ -140,7 +141,7 @@ function Item({ row }: { row: Row }) {
 
 export function PublishPanel({ pages }: { pages: Row[] }) {
 	const router = useRouter();
-	const [pending, start] = useTransition();
+	const [pending, start] = useSaving();
 	const [msg, setMsg] = useState("");
 	const dirty = pages.filter((p) => p.status !== "clean").length;
 
