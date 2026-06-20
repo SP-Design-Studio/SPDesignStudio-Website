@@ -33,7 +33,7 @@ export function DisciplinesAct({
 			</div>
 			<div ref={ruleRef} className="w-14 h-px bg-gold/70 mb-5 sm:mb-7 md:mb-8" />
 
-			<div className="grid grid-cols-2 md:grid-cols-3 grid-flow-row-dense auto-rows-[clamp(7rem,17vh,13rem)] gap-3 md:gap-4 max-w-6xl lg:max-w-7xl mx-auto w-full">
+			<div className="grid grid-cols-2 md:grid-cols-3 grid-flow-row-dense auto-rows-[clamp(9.5rem,19vh,13rem)] md:auto-rows-[clamp(7rem,17vh,13rem)] gap-3 md:gap-4 max-w-6xl lg:max-w-7xl mx-auto w-full">
 				{disciplines.map((d, i) => {
 					const spanClass =
 						d.span === "wide"
@@ -82,7 +82,7 @@ export function DisciplinesAct({
 									<span className="w-10 h-px bg-gold/55" />
 								</div>
 							) : d.variant === "italic" ? (
-								<div className="relative h-full flex flex-col justify-between p-6 md:p-7 [text-shadow:0_1px_12px_rgba(46,31,36,0.7)]">
+								<div className="relative h-full flex flex-col justify-between p-5 sm:p-6 md:p-7 [text-shadow:0_1px_12px_rgba(46,31,36,0.7)]">
 									<span className="w-fit rounded-[3px] bg-plum-dark/55 backdrop-blur-sm px-2.5 py-1 font-sans font-normal text-gold tracking-[0.36em] text-[0.762rem]">
 										{d.top_label}
 									</span>
@@ -96,7 +96,7 @@ export function DisciplinesAct({
 									</div>
 								</div>
 							) : (
-								<div className="relative h-full flex flex-col justify-between p-6 md:p-7 [text-shadow:0_1px_12px_rgba(46,31,36,0.7)]">
+								<div className="relative h-full flex flex-col justify-between p-5 sm:p-6 md:p-7 [text-shadow:0_1px_12px_rgba(46,31,36,0.7)]">
 									<span className="w-fit rounded-[3px] bg-plum-dark/55 backdrop-blur-sm px-2.5 py-1 font-sans font-normal text-gold tracking-[0.36em] text-[0.762rem]">
 										{d.top_label}
 									</span>
