@@ -49,7 +49,7 @@ export function CollectionAct({
 
 					<p
 						ref={bodyRef}
-						className="md:col-span-5 font-sans font-normal text-cream/76 text-base md:text-lg leading-[1.65] md:leading-[1.7] mt-4 md:mt-0 max-w-140 md:border-l md:border-gold/35 md:pl-6">
+						className="md:col-span-5 font-sans font-normal text-cream/90 text-base md:text-lg leading-[1.65] md:leading-[1.7] mt-4 md:mt-0 max-w-140 md:border-l md:border-gold/35 md:pl-6">
 						{ABOUT.team.body}
 					</p>
 				</div>
@@ -86,7 +86,7 @@ export function CollectionAct({
 										</div>
 									)}
 
-									<span className="absolute top-2.5 left-2.5 font-sans font-normal uppercase tracking-[0.28em] text-cream/75 text-[0.616rem]">
+									<span className="absolute top-2.5 left-2.5 font-sans font-normal uppercase tracking-[0.28em] text-cream/88 text-[0.616rem]">
 										0{i + 1}
 									</span>
 
@@ -97,7 +97,7 @@ export function CollectionAct({
 									{m.name}
 								</div>
 
-								<div className="font-sans font-normal text-cream/74 group-hover:text-cream/75 transition-colors duration-500 text-[0.672rem] uppercase tracking-[0.18em]">
+								<div className="font-sans font-normal text-cream/85 group-hover:text-cream/88 transition-colors duration-500 text-[0.672rem] uppercase tracking-[0.18em]">
 									{m.role}
 								</div>
 							</div>
@@ -137,7 +137,7 @@ export function CollectionAct({
 
 								<div className="absolute inset-0 bg-linear-to-t from-plum-dark/85 via-plum-dark/20 to-transparent" />
 
-								<span className="absolute top-3 left-3.5 font-sans font-normal uppercase tracking-[0.28em] text-cream/80 text-[0.616rem]">
+								<span className="absolute top-3 left-3.5 font-sans font-normal uppercase tracking-[0.28em] text-cream/90 text-[0.616rem]">
 									0{i + 1}
 								</span>
 
@@ -146,7 +146,7 @@ export function CollectionAct({
 										{m.name}
 									</div>
 
-									<div className="font-sans font-normal text-cream/72 text-[0.672rem] uppercase tracking-[0.18em]">
+									<div className="font-sans font-normal text-cream/85 text-[0.672rem] uppercase tracking-[0.18em]">
 										{m.role}
 									</div>
 								</div>

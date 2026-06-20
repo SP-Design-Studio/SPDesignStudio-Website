@@ -77,7 +77,7 @@ export function CategoryPills({ active, onSelect, className = "" }: Props) {
 					className="group relative cursor-pointer whitespace-nowrap overflow-hidden px-3 sm:px-5 md:px-7 pb-2.5 pt-0.5 font-sans font-normal uppercase tracking-[0.16em] sm:tracking-[0.24em] md:tracking-[0.3em] text-[0.739rem] sm:text-[0.829rem] md:text-[0.918rem]">
 					<span
 						className={`block transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:translate-y-[-140%] ${
-							active === cat.id ? "text-cream" : "text-cream/78"
+							active === cat.id ? "text-cream" : "text-cream/90"
 						}`}>
 						{cat.label}
 					</span>

@@ -15,7 +15,7 @@ import { useDirty } from "../useDirty";
 const inputCls =
 	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
 const labelCls =
-	"font-sans font-light uppercase tracking-[0.26em] text-gold/80 text-[0.614rem] mb-1.5";
+	"font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem] mb-1.5";
 
 function Select({
 	value,
@@ -79,13 +79,13 @@ function StringList({
 						<button
 							type="button"
 							onClick={() => onChange(items.filter((_, j) => j !== i))}
-							className="shrink-0 cursor-pointer border border-cream/20 px-2.5 py-2 text-cream/55 text-sm hover:border-gold hover:text-gold">
+							className="shrink-0 cursor-pointer border border-cream/20 px-2.5 py-2 text-cream/82 text-sm hover:border-gold hover:text-gold">
 							×
 						</button>
 					</div>
 				))}
 				{items.length === 0 && (
-					<p className="font-sans font-light text-cream/35 text-sm">
+					<p className="font-sans font-light text-cream/80 text-sm">
 						No options yet.
 					</p>
 				)}
@@ -180,20 +180,20 @@ function OpeningCard({
 						type="button"
 						disabled={index === 0}
 						onClick={() => onMove(-1)}
-						className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
+						className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 						↑
 					</button>
 					<button
 						type="button"
 						disabled={index === total - 1}
 						onClick={() => onMove(1)}
-						className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
+						className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 						↓
 					</button>
 				</div>
 				<div className="flex items-center gap-3">
 					{msg && (
-						<span className="font-sans font-light text-cream/50 text-sm">
+						<span className="font-sans font-light text-cream/80 text-sm">
 							{msg}
 						</span>
 					)}
@@ -201,7 +201,7 @@ function OpeningCard({
 						type="button"
 						onClick={remove}
 						disabled={pending}
-						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/45 text-[0.649rem] hover:text-gold">
+						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/80 text-[0.649rem] hover:text-gold">
 						Delete
 					</button>
 					<button
@@ -271,7 +271,7 @@ export function CareersManager({
 	return (
 		<div className="flex flex-col gap-14">
 			<section>
-				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/45 text-[0.684rem]">
+				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
 					Page settings
 				</div>
 				<div className="flex flex-col gap-5">
@@ -329,7 +329,7 @@ export function CareersManager({
 							{pending ? "Saving…" : "Save settings"}
 						</button>
 						{smsg && (
-							<span className="font-sans font-light text-cream/50 text-base">
+							<span className="font-sans font-light text-cream/80 text-base">
 								{smsg}
 							</span>
 						)}
@@ -338,7 +338,7 @@ export function CareersManager({
 			</section>
 
 			<section>
-				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/45 text-[0.684rem]">
+				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
 					Open roles
 				</div>
 				<div className="flex flex-col gap-4">

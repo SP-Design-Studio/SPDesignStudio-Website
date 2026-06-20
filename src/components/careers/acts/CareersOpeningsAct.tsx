@@ -36,11 +36,11 @@ export function CareersOpeningsAct({ wrapRef, openings, emptyNote }: Props) {
 										<h2 className="font-serif font-light text-cream text-xl sm:text-2xl md:text-3xl leading-tight">
 											{o.role}
 										</h2>
-										<div className="mt-2 font-sans font-normal uppercase tracking-[0.24em] text-cream/78 text-[0.627rem] md:text-[0.65rem]">
+										<div className="mt-2 font-sans font-normal uppercase tracking-[0.24em] text-cream/90 text-[0.627rem] md:text-[0.65rem]">
 											{o.type} · {o.location}
 										</div>
 									</div>
-									<p className="md:col-span-6 font-sans font-normal text-cream/72 text-base md:text-lg leading-snug md:leading-[1.7]">
+									<p className="md:col-span-6 font-sans font-normal text-cream/85 text-base md:text-lg leading-snug md:leading-[1.7]">
 										{o.description}
 									</p>
 									<div className="md:col-span-2 md:text-right">
@@ -59,7 +59,7 @@ export function CareersOpeningsAct({ wrapRef, openings, emptyNote }: Props) {
 						</div>
 					) : (
 						<div className="border-t border-cream/10 pt-10 md:pt-14">
-							<p className="cr-reveal font-serif italic font-light text-cream/80 text-2xl sm:text-3xl md:text-4xl leading-[1.4] max-w-3xl">
+							<p className="cr-reveal font-serif italic font-light text-cream/90 text-2xl sm:text-3xl md:text-4xl leading-[1.4] max-w-3xl">
 								{emptyNote}
 							</p>
 						</div>

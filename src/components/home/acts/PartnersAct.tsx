@@ -112,7 +112,7 @@ export function PartnersAct({
 					</div>
 					<p
 						ref={taglineRef}
-						className="font-serif italic font-light text-cream/76 max-w-130 text-lg sm:text-xl md:text-2xl leading-[1.6]">
+						className="font-serif italic font-light text-cream/90 max-w-130 text-lg sm:text-xl md:text-2xl leading-[1.6]">
 						{SECTIONS.partners.tagline}
 					</p>
 					<div ref={ctaRef} className="w-fit">

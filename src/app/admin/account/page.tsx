@@ -15,7 +15,7 @@ export default async function AccountRoute() {
 				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
 					Your account
 				</h1>
-				<p className="mt-3 font-sans font-light text-cream/45 text-base">
+				<p className="mt-3 font-sans font-light text-cream/80 text-base">
 					Signed in as {profile.email} ({profile.role}). Set the name shown in
 					your greeting.
 				</p>

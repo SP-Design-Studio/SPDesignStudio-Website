@@ -223,7 +223,7 @@ export function ProjectDetail({
 								{project.title}
 							</span>
 						</h2>
-						<div className="pd-reveal mt-4 font-sans font-normal uppercase tracking-[0.24em] text-cream/72 text-[0.694rem] md:text-[0.784rem]">
+						<div className="pd-reveal mt-4 font-sans font-normal uppercase tracking-[0.24em] text-cream/85 text-[0.694rem] md:text-[0.784rem]">
 							{project.location}
 						</div>
 
@@ -243,13 +243,13 @@ export function ProjectDetail({
 						</div>
 
 						<div className="mt-12 md:mt-16 grid grid-cols-1 gap-10 md:gap-16 lg:grid-cols-12">
-							<p className="pd-reveal font-serif italic font-light text-cream/75 text-xl md:text-2xl leading-[1.6] lg:col-span-7">
+							<p className="pd-reveal font-serif italic font-light text-cream/88 text-xl md:text-2xl leading-[1.6] lg:col-span-7">
 								{project.blurb}
 							</p>
 							<div className="pd-reveal grid grid-cols-2 gap-x-8 gap-y-7 self-start lg:col-span-5 lg:border-l lg:border-cream/10 lg:pl-12">
 								{project.facts.map((f) => (
 									<div key={f.label}>
-										<div className="font-sans font-normal uppercase tracking-[0.28em] text-gold/80 text-[0.582rem] md:text-[0.65rem] mb-2">
+										<div className="font-sans font-normal uppercase tracking-[0.28em] text-gold text-[0.582rem] md:text-[0.65rem] mb-2">
 											{f.label}
 										</div>
 										<div className="font-serif font-light text-cream text-xl md:text-xl">
@@ -282,20 +282,20 @@ export function ProjectDetail({
 							<button
 								type="button"
 								onClick={onPrev}
-								className="group inline-flex cursor-pointer items-center gap-3 font-sans font-normal uppercase tracking-[0.28em] text-cream/78 text-[0.672rem] md:text-sm transition-colors duration-300 hover:text-gold">
+								className="group inline-flex cursor-pointer items-center gap-3 font-sans font-normal uppercase tracking-[0.28em] text-cream/90 text-[0.672rem] md:text-sm transition-colors duration-300 hover:text-gold">
 								<span className="transition-transform duration-500 group-hover:-translate-x-1">
 									&larr;
 								</span>
 								Prev
 							</button>
-							<span className="font-sans font-normal tracking-[0.3em] text-cream/74 text-[0.672rem]">
+							<span className="font-sans font-normal tracking-[0.3em] text-cream/85 text-[0.672rem]">
 								{String(index + 1).padStart(2, "0")} /{" "}
 								{String(total).padStart(2, "0")}
 							</span>
 							<button
 								type="button"
 								onClick={onNext}
-								className="group inline-flex cursor-pointer items-center gap-3 font-sans font-normal uppercase tracking-[0.28em] text-cream/78 text-[0.672rem] md:text-sm transition-colors duration-300 hover:text-gold">
+								className="group inline-flex cursor-pointer items-center gap-3 font-sans font-normal uppercase tracking-[0.28em] text-cream/90 text-[0.672rem] md:text-sm transition-colors duration-300 hover:text-gold">
 								Next
 								<span className="transition-transform duration-500 group-hover:translate-x-1">
 									&rarr;

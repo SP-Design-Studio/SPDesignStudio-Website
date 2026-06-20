@@ -129,7 +129,7 @@ export default async function AdminHome() {
 				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
 					Welcome back, {greetName}.
 				</h1>
-				<p className="mt-3 font-sans font-light text-cream/55 text-base">
+				<p className="mt-3 font-sans font-light text-cream/82 text-base">
 					Manage the studio&rsquo;s public content. Edits are saved as drafts
 					until an admin publishes.
 				</p>
@@ -158,7 +158,7 @@ export default async function AdminHome() {
 									{s.label}
 								</Link>
 								{count !== undefined && (
-									<span className="font-sans font-light text-gold/70 text-sm tabular-nums">
+									<span className="font-sans font-light text-gold text-sm tabular-nums">
 										{count}
 										<span className="text-cream/30">
 											{" "}
@@ -167,7 +167,7 @@ export default async function AdminHome() {
 									</span>
 								)}
 							</div>
-							<span className="mt-1 font-sans font-light text-cream/45 text-sm">
+							<span className="mt-1 font-sans font-light text-cream/80 text-sm">
 								{s.note}
 							</span>
 							{pending && (
@@ -180,7 +180,7 @@ export default async function AdminHome() {
 							<div className="mt-3 flex items-center gap-4 font-sans font-light uppercase tracking-[0.2em] text-[0.6rem]">
 								<NavLink
 									href={s.href}
-									className="text-gold/80 transition-colors hover:text-gold">
+									className="text-gold transition-colors hover:text-gold">
 									Manage →
 								</NavLink>
 								<a
@@ -201,7 +201,7 @@ export default async function AdminHome() {
 					<div className="font-sans font-light uppercase tracking-[0.32em] text-gold text-[0.684rem] mb-2">
 						Instagram settings
 					</div>
-					<p className="mb-6 font-sans font-light text-cream/55 text-base">
+					<p className="mb-6 font-sans font-light text-cream/82 text-base">
 						The &ldquo;From the Studio&rdquo; section on the home page. Set how
 						many reels and posts to pull, and the access token.
 					</p>

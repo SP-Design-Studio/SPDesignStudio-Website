@@ -112,7 +112,7 @@ export function ContactDrawer() {
 						{cfg.headline}
 					</h2>
 					<span className="cd-reveal block h-px w-16 bg-gold/50 mb-7" />
-					<p className="cd-reveal font-serif italic font-light text-cream/76 text-lg md:text-xl leading-[1.6] max-w-sm">
+					<p className="cd-reveal font-serif italic font-light text-cream/90 text-lg md:text-xl leading-[1.6] max-w-sm">
 						{cfg.intro}
 					</p>
 				</div>
@@ -123,7 +123,7 @@ export function ContactDrawer() {
 							<div className="font-bdscript text-gold text-5xl md:text-6xl mb-4">
 								{CONTACT.success.title}
 							</div>
-							<p className="font-serif italic font-light text-cream/80 text-xl md:text-xl max-w-md">
+							<p className="font-serif italic font-light text-cream/90 text-xl md:text-xl max-w-md">
 								{CONTACT.success.body}
 							</p>
 						</div>
@@ -131,7 +131,7 @@ export function ContactDrawer() {
 						<form onSubmit={submit} className="flex flex-col gap-8">
 							{cfg.fields.map((f) => (
 								<label key={f.name} className="cd-reveal flex flex-col gap-2.5">
-									<span className="font-sans font-normal uppercase tracking-[0.28em] text-gold/80 text-[0.65rem]">
+									<span className="font-sans font-normal uppercase tracking-[0.28em] text-gold text-[0.65rem]">
 										{f.label}
 									</span>
 									{f.type === "textarea" ? (
@@ -169,7 +169,7 @@ export function ContactDrawer() {
 								</span>
 							</button>
 							{status === "error" && (
-								<p className="cd-reveal font-sans text-base text-gold/80">
+								<p className="cd-reveal font-sans text-base text-gold">
 									Something went wrong. Please try again or email us directly.
 								</p>
 							)}

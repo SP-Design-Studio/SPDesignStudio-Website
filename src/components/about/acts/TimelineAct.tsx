@@ -63,7 +63,7 @@ export function TimelineAct({
 								<Chars text={ABOUT.timeline.title} refStore={titleCharsRef} />
 							</div>
 						</div>
-						<p className="md:col-span-5 font-sans font-normal text-cream/76 text-base md:text-lg leading-[1.7] mt-4 md:mt-0 max-w-140 md:border-l md:border-gold/35 md:pl-6">
+						<p className="md:col-span-5 font-sans font-normal text-cream/90 text-base md:text-lg leading-[1.7] mt-4 md:mt-0 max-w-140 md:border-l md:border-gold/35 md:pl-6">
 							A decade of crafted spaces - milestone moments that shaped how we build.
 						</p>
 					</div>
@@ -121,7 +121,7 @@ export function TimelineAct({
 											<div className="font-serif font-light text-cream tracking-[-0.01em] text-lg lg:text-xl leading-tight mb-1">
 												{e.label}
 											</div>
-											<p className="font-sans font-normal text-cream/72 text-sm lg:text-base leading-relaxed">
+											<p className="font-sans font-normal text-cream/85 text-sm lg:text-base leading-relaxed">
 												{e.description}
 											</p>
 										</div>
@@ -151,7 +151,7 @@ export function TimelineAct({
 								<div className="font-serif font-light text-cream tracking-[-0.01em] text-xl leading-tight mt-3 mb-1.5">
 									{e.label}
 								</div>
-								<p className="font-sans font-normal text-cream/76 text-base leading-snug">
+								<p className="font-sans font-normal text-cream/90 text-base leading-snug">
 									{e.description}
 								</p>
 							</div>

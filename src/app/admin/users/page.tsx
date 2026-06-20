@@ -18,7 +18,7 @@ export default async function UsersRoute() {
 				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
 					Team access
 				</h1>
-				<p className="mt-3 font-sans font-light text-cream/45 text-base">
+				<p className="mt-3 font-sans font-light text-cream/80 text-base">
 					Manage who can sign in. Change roles, reset passwords, or remove
 					accounts.
 				</p>
@@ -32,7 +32,7 @@ export default async function UsersRoute() {
 				<div className="font-sans font-light uppercase tracking-[0.32em] text-gold text-[0.684rem] mb-2">
 					Add a team member
 				</div>
-				<p className="mb-6 font-sans font-light text-cream/45 text-base">
+				<p className="mb-6 font-sans font-light text-cream/80 text-base">
 					They sign in with the email and password you set here.
 				</p>
 				<AdminInvite />

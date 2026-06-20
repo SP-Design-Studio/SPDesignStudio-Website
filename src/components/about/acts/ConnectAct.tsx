@@ -45,7 +45,7 @@ export function ConnectAct({
 
 			<p
 				ref={bodyRef}
-				className="font-serif italic font-light text-cream/80 max-w-140 mb-8 md:mb-9 text-base sm:text-lg md:text-xl leading-[1.6]">
+				className="font-serif italic font-light text-cream/90 max-w-140 mb-8 md:mb-9 text-base sm:text-lg md:text-xl leading-[1.6]">
 				{ABOUT.connect.body}
 			</p>
 

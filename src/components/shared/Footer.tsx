@@ -89,7 +89,7 @@ export default function Footer() {
           ref={(el) => {
             itemsRef.current[0] = el;
           }}
-          className="font-sans font-normal uppercase tracking-[0.32em] text-cream/72 text-[10px] md:text-sm leading-loose"
+          className="font-sans font-normal uppercase tracking-[0.32em] text-cream/85 text-[10px] md:text-sm leading-loose"
         >
           © {year} SP Design Studio - A Canvas of Artistry and Dedication.
         </p>
@@ -98,7 +98,7 @@ export default function Footer() {
           ref={(el) => {
             itemsRef.current[1] = el;
           }}
-          className="font-sans font-normal uppercase tracking-[0.32em] text-cream/74 text-[10px] md:text-sm mt-1.5"
+          className="font-sans font-normal uppercase tracking-[0.32em] text-cream/85 text-[10px] md:text-sm mt-1.5"
         >
           All Rights Tastefully Reserved.
         </p>
@@ -107,13 +107,13 @@ export default function Footer() {
           ref={(el) => {
             itemsRef.current[2] = el;
           }}
-          className="font-sans font-normal uppercase tracking-[0.28em] text-cream/72 text-[10px] md:text-sm mt-7"
+          className="font-sans font-normal uppercase tracking-[0.28em] text-cream/85 text-[10px] md:text-sm mt-7"
         >
           Website Brought to Life by{" "}
           <span
             onMouseEnter={onEnter}
             onMouseLeave={onLeave}
-            className="relative inline-block cursor-default px-1.5 py-0.5 text-gold/80"
+            className="relative inline-block cursor-default px-1.5 py-0.5 text-gold"
           >
             <Link
               href="https://abhiramankuntimaddi.com"

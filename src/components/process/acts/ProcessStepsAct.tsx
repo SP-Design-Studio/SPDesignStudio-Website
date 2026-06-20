@@ -99,7 +99,7 @@ export function ProcessStepsAct({
 										</span>
 									))}
 								</h2>
-								<p className="p-desc font-sans font-normal text-cream/76 text-base md:text-lg lg:text-xl leading-[1.7]">
+								<p className="p-desc font-sans font-normal text-cream/90 text-base md:text-lg lg:text-xl leading-[1.7]">
 									{s.description}
 								</p>
 							</div>

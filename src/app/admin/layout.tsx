@@ -36,13 +36,13 @@ export default async function AdminLayout({
 							href="/"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="group inline-flex items-center gap-1.5 font-sans font-light uppercase tracking-[0.24em] text-cream/55 text-[0.708rem] transition-colors hover:text-gold">
+							className="group inline-flex items-center gap-1.5 font-sans font-light uppercase tracking-[0.24em] text-cream/82 text-[0.708rem] transition-colors hover:text-gold">
 							View site
 							<span className="transition-transform duration-300 group-hover:translate-x-0.5">
 								↗
 							</span>
 						</a>
-						<span className="hidden font-sans font-light text-cream/45 text-[0.732rem] sm:inline">
+						<span className="hidden font-sans font-light text-cream/80 text-[0.732rem] sm:inline">
 							{profile.email}
 						</span>
 						<span className="rounded-full border border-gold/30 px-3 py-1 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.614rem]">
@@ -51,7 +51,7 @@ export default async function AdminLayout({
 						<form action={signOut}>
 							<button
 								type="submit"
-								className="cursor-pointer font-sans font-light uppercase tracking-[0.24em] text-cream/55 text-[0.708rem] transition-colors hover:text-gold">
+								className="cursor-pointer font-sans font-light uppercase tracking-[0.24em] text-cream/82 text-[0.708rem] transition-colors hover:text-gold">
 								Sign out
 							</button>
 						</form>

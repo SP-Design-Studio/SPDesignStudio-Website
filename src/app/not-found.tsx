@@ -107,7 +107,7 @@ export default function NotFound() {
 			<div className="relative z-10 flex flex-col items-center">
 				<div
 					ref={eyebrowRef}
-					className="font-sans font-light uppercase tracking-[0.55em] text-cream/40 text-[0.7rem] sm:text-xs mb-7 sm:mb-9 pl-[0.55em] opacity-0">
+					className="font-sans font-light uppercase tracking-[0.55em] text-cream/82 text-[0.7rem] sm:text-xs mb-7 sm:mb-9 pl-[0.55em] opacity-0">
 					Off the Floorplan
 				</div>
 
@@ -139,7 +139,7 @@ export default function NotFound() {
 
 				<p
 					ref={bodyRef}
-					className="font-sans font-light text-cream/55 max-w-md text-sm sm:text-base leading-relaxed mb-9 sm:mb-11 opacity-0">
+					className="font-sans font-light text-cream/82 max-w-md text-sm sm:text-base leading-relaxed mb-9 sm:mb-11 opacity-0">
 					The page you&apos;re looking for was never drawn. Let&apos;s walk you
 					back to rooms that exist.
 				</p>

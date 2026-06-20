@@ -17,7 +17,7 @@ export default async function PublishRoute() {
 				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
 					Review &amp; publish
 				</h1>
-				<p className="mt-3 font-sans font-light text-cream/45 text-base">
+				<p className="mt-3 font-sans font-light text-cream/80 text-base">
 					Edits are saved as drafts. Review what changed, preview it, then
 					publish to push a page live.
 				</p>

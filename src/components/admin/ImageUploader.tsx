@@ -81,7 +81,7 @@ export function ImageUploader({
 					className={`flex w-full ${aspect} cursor-pointer flex-col items-center justify-center gap-2 rounded-sm border border-dashed text-center transition-colors ${
 						drag ? "border-gold bg-gold/5" : "border-cream/20 hover:border-cream/40"
 					}`}>
-					<span className="font-sans font-light text-cream/55 text-sm">
+					<span className="font-sans font-light text-cream/82 text-sm">
 						{busy ? "Uploading…" : "Drag & drop or click to upload"}
 					</span>
 					<span className="font-sans font-light text-cream/30 text-[0.62rem]">
@@ -101,7 +101,7 @@ export function ImageUploader({
 					e.target.value = "";
 				}}
 			/>
-			{error && <p className="mt-2 font-sans text-sm text-gold/80">{error}</p>}
+			{error && <p className="mt-2 font-sans text-sm text-gold">{error}</p>}
 		</div>
 	);
 }

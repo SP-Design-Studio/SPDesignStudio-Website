@@ -80,14 +80,14 @@ export function HeroAct({
 
 					<p
 						ref={quoteRef}
-						className="font-serif italic font-light text-cream/80 leading-[1.55] md:leading-[1.6] max-w-110 whitespace-pre-line text-lg sm:text-xl md:text-2xl">
+						className="font-serif italic font-light text-cream/90 leading-[1.55] md:leading-[1.6] max-w-110 whitespace-pre-line text-lg sm:text-xl md:text-2xl">
 						{SECTIONS.hero.quote}
 					</p>
 				</div>
 
 				<div className="flex flex-row items-end justify-between gap-6 md:flex-col md:items-end md:gap-6 shrink-0 md:pb-1">
 					<div ref={subRef} className="order-2 md:order-0">
-						<p className="uppercase text-cream/78 tracking-[0.32em] md:tracking-[0.55em] leading-[1.8] md:leading-[1.9] text-[10px] md:text-sm text-right">
+						<p className="uppercase text-cream/90 tracking-[0.32em] md:tracking-[0.55em] leading-[1.8] md:leading-[1.9] text-[10px] md:text-sm text-right">
 							<span className="md:hidden">
 								{SECTIONS.hero.pillars.join(" · ")}
 							</span>
@@ -122,7 +122,7 @@ export function HeroAct({
 						{recognition.label}
 					</span>
 					<span className="hidden sm:block h-3 w-px bg-cream/20 shrink-0" />
-					<span className="truncate font-sans font-normal uppercase tracking-[0.18em] text-cream/78 text-[12px] md:text-[13px]">
+					<span className="truncate font-sans font-normal uppercase tracking-[0.18em] text-cream/90 text-[12px] md:text-[13px]">
 						<span className="sm:hidden">{recognitionItems[0]}</span>
 						<span className="hidden sm:inline">
 							{recognitionItems.join("  ·  ")}
@@ -131,7 +131,7 @@ export function HeroAct({
 				</div>
 				<TransitionLink
 					href={recognition.linkHref}
-					className="group inline-flex shrink-0 items-center gap-1.5 font-sans font-normal uppercase tracking-[0.24em] text-cream/80 transition-colors duration-300 hover:text-gold text-[12px] md:text-[13px]">
+					className="group inline-flex shrink-0 items-center gap-1.5 font-sans font-normal uppercase tracking-[0.24em] text-cream/90 transition-colors duration-300 hover:text-gold text-[12px] md:text-[13px]">
 					<span className="ulink">{recognition.linkText}</span>
 					<span className="transition-transform duration-300 group-hover:translate-x-0.5">
 						→
@@ -142,7 +142,7 @@ export function HeroAct({
 			<div
 				ref={hintRef}
 				className="absolute bottom-10 right-10 z-10 hidden items-center gap-4 rotate-90 origin-right">
-				<span className="text-sm uppercase tracking-[0.4em] text-cream/74">
+				<span className="text-sm uppercase tracking-[0.4em] text-cream/85">
 					Scroll to Begin
 				</span>
 				<div className="flex items-center relative">

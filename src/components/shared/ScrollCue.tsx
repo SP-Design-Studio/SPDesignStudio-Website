@@ -100,8 +100,8 @@ export default function ScrollCue() {
 		lenis.scrollTo(t, { duration: dur, lock: true, force: true });
 	};
 
-	const text = dark ? "text-cream/72" : "text-plum-dark/55";
-	const arrow = dark ? "text-cream/72" : "text-plum-dark/60";
+	const text = dark ? "text-cream/85" : "text-plum-dark/80";
+	const arrow = dark ? "text-cream/85" : "text-plum-dark/80";
 
 	return (
 		<>

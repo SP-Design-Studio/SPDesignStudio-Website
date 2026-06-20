@@ -9,7 +9,7 @@ import { useDirty } from "../useDirty";
 const inputCls =
 	"w-full border-b border-cream/20 bg-transparent py-2.5 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
 const labelCls =
-	"font-sans font-light uppercase tracking-[0.26em] text-gold/80 text-[0.614rem] mb-1.5";
+	"font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem] mb-1.5";
 
 type Hour = { days: string; time: string };
 
@@ -67,7 +67,7 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 	return (
 		<div className="flex flex-col gap-10">
 			<section>
-				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/45 text-[0.684rem]">
+				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
 					Channels
 				</div>
 				<div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -80,7 +80,7 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 			</section>
 
 			<section>
-				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/45 text-[0.684rem]">
+				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
 					Visit
 				</div>
 				<div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -92,7 +92,7 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 
 			<section>
 				<div className="mb-5 flex items-center justify-between">
-					<span className="font-sans font-light uppercase tracking-[0.32em] text-cream/45 text-[0.684rem]">
+					<span className="font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
 						Studio hours
 					</span>
 					<button
@@ -120,13 +120,13 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 							<button
 								type="button"
 								onClick={() => removeHour(i)}
-								className="shrink-0 cursor-pointer border border-cream/20 px-3 py-2 text-cream/55 text-sm hover:border-gold hover:text-gold">
+								className="shrink-0 cursor-pointer border border-cream/20 px-3 py-2 text-cream/82 text-sm hover:border-gold hover:text-gold">
 								×
 							</button>
 						</div>
 					))}
 					{hours.length === 0 && (
-						<p className="font-sans font-light text-cream/35 text-base">
+						<p className="font-sans font-light text-cream/80 text-base">
 							No hours yet — add a row.
 						</p>
 					)}
@@ -134,7 +134,7 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 			</section>
 
 			<section>
-				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/45 text-[0.684rem]">
+				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
 					Studio identity
 				</div>
 				<div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
@@ -153,7 +153,7 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 					{pending ? "Saving…" : "Save changes"}
 				</button>
 				{msg && (
-					<span className="font-sans font-light text-cream/50 text-base">
+					<span className="font-sans font-light text-cream/80 text-base">
 						{msg}
 					</span>
 				)}

@@ -38,7 +38,7 @@ export function AdminNav({ canManage }: { canManage: boolean }) {
 							if (!active(l.href)) setNavTo(l.href);
 						}}
 						className={`inline-flex items-center gap-1.5 font-sans font-light uppercase tracking-[0.24em] text-[0.708rem] transition-colors ${
-							active(l.href) ? "text-gold" : "text-cream/55 hover:text-gold"
+							active(l.href) ? "text-gold" : "text-cream/82 hover:text-gold"
 						}`}>
 						{l.label}
 						{loading && (

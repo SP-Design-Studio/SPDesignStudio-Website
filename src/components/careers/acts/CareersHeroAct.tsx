@@ -43,14 +43,14 @@ export function CareersHeroAct({
 			</h1>
 			<p
 				ref={subRef}
-				className="font-serif italic font-light text-cream/80 text-xl sm:text-2xl md:text-2xl max-w-xl leading-[1.6] mt-7">
+				className="font-serif italic font-light text-cream/90 text-xl sm:text-2xl md:text-2xl max-w-xl leading-[1.6] mt-7">
 				{subtitle}
 			</p>
 
 			<div
 				ref={hintRef}
 				className="absolute bottom-10 right-10 z-10 hidden items-center gap-4 rotate-90 origin-right">
-				<span className="text-sm uppercase tracking-[0.4em] text-cream/74">
+				<span className="text-sm uppercase tracking-[0.4em] text-cream/85">
 					Scroll to Begin
 				</span>
 				<div className="flex items-center relative">

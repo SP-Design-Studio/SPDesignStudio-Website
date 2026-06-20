@@ -45,7 +45,7 @@ function Row({
 							</span>
 						)}
 					</div>
-					<div className="font-sans font-light text-cream/40 text-[0.826rem]">
+					<div className="font-sans font-light text-cream/82 text-[0.826rem]">
 						{member.email}
 					</div>
 				</div>
@@ -71,7 +71,7 @@ function Row({
 					<button
 						type="button"
 						onClick={() => setShowPw((v) => !v)}
-						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/40 text-[0.649rem] transition-colors hover:text-gold">
+						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/82 text-[0.649rem] transition-colors hover:text-gold">
 						Password
 					</button>
 					{!isSelf && (
@@ -92,7 +92,7 @@ function Row({
 									router.refresh();
 								});
 							}}
-							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/40 text-[0.649rem] transition-colors hover:text-gold disabled:opacity-50">
+							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/82 text-[0.649rem] transition-colors hover:text-gold disabled:opacity-50">
 							Remove
 						</button>
 					)}
@@ -125,7 +125,7 @@ function Row({
 				</div>
 			)}
 			{msg && (
-				<span className="font-sans font-light text-cream/50 text-sm">{msg}</span>
+				<span className="font-sans font-light text-cream/80 text-sm">{msg}</span>
 			)}
 		</div>
 	);

@@ -209,7 +209,7 @@ export function VoicesAct({
 									<div className="font-serif italic font-light text-gold leading-tight text-xl md:text-2xl">
 										{q.name}
 									</div>
-									<div className="font-sans font-normal uppercase tracking-[0.22em] text-cream/72 text-[0.65rem] md:text-[0.717rem] mt-2">
+									<div className="font-sans font-normal uppercase tracking-[0.22em] text-cream/85 text-[0.65rem] md:text-[0.717rem] mt-2">
 										{q.detail}
 									</div>
 								</figcaption>
@@ -253,7 +253,7 @@ export function VoicesAct({
 						<button
 							type="button"
 							onClick={() => setOpen(true)}
-							className="group cursor-pointer inline-flex items-center gap-2.5 font-sans font-normal uppercase tracking-[0.28em] text-[0.694rem] md:text-[0.762rem] text-cream/80 transition-colors duration-300 hover:text-gold">
+							className="group cursor-pointer inline-flex items-center gap-2.5 font-sans font-normal uppercase tracking-[0.28em] text-[0.694rem] md:text-[0.762rem] text-cream/90 transition-colors duration-300 hover:text-gold">
 							<span className="ulink">Read all {n} reflections</span>
 							<span className="transition-transform duration-500 group-hover:translate-x-1">
 								&rarr;
@@ -281,7 +281,7 @@ export function VoicesAct({
 									<div className="font-sans font-normal uppercase tracking-[0.4em] text-gold text-[0.672rem] md:text-sm">
 										Client Reflections
 									</div>
-									<div className="font-serif font-light text-cream/78 italic text-base md:text-lg mt-1.5">
+									<div className="font-serif font-light text-cream/90 italic text-base md:text-lg mt-1.5">
 										{`${n} stories from the people we’ve built for`}
 									</div>
 								</div>
@@ -325,7 +325,7 @@ export function VoicesAct({
 														<div className="font-serif italic font-light text-gold leading-tight text-2xl md:text-3xl">
 															{q.name}
 														</div>
-														<div className="font-sans font-normal uppercase tracking-[0.22em] text-cream/72 text-[0.65rem] md:text-[0.717rem] mt-2">
+														<div className="font-sans font-normal uppercase tracking-[0.22em] text-cream/85 text-[0.65rem] md:text-[0.717rem] mt-2">
 															{q.detail}
 														</div>
 													</div>

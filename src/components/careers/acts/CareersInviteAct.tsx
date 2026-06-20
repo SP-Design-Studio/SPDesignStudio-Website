@@ -19,7 +19,7 @@ export function CareersInviteAct({ wrapRef }: Props) {
 					<h2 className="cr-reveal font-bdscript text-cream leading-[0.95] text-4xl sm:text-5xl md:text-7xl mb-6 md:mb-8">
 						{invite.headline}
 					</h2>
-					<p className="cr-reveal mx-auto font-serif italic font-light text-cream/80 text-lg sm:text-xl md:text-xl max-w-xl leading-[1.6] mb-9 md:mb-11">
+					<p className="cr-reveal mx-auto font-serif italic font-light text-cream/90 text-lg sm:text-xl md:text-xl max-w-xl leading-[1.6] mb-9 md:mb-11">
 						{invite.body}
 					</p>
 					<button

@@ -71,14 +71,14 @@ export function ContactInfoAct({ wrapRef, settings }: Props) {
 										className="c-reveal group flex items-center gap-5 border-t border-cream/10 py-4 md:py-5 last:border-b transition-colors duration-500 hover:border-gold/40">
 										<Icon className="shrink-0 text-gold" size={18} />
 										<div className="flex-1">
-											<div className="font-sans font-normal uppercase tracking-[0.28em] text-cream/72 text-[0.72rem] mb-1">
+											<div className="font-sans font-normal uppercase tracking-[0.28em] text-cream/85 text-[0.72rem] mb-1">
 												{ch.label}
 											</div>
 											<div className="font-serif font-light text-cream text-xl md:text-2xl transition-colors duration-500 group-hover:text-gold">
 												<span className="ulink">{ch.value}</span>
 											</div>
 										</div>
-										<span className="text-cream/72 transition-all duration-500 group-hover:translate-x-1 group-hover:text-gold">
+										<span className="text-cream/85 transition-all duration-500 group-hover:translate-x-1 group-hover:text-gold">
 											&rarr;
 										</span>
 									</a>
@@ -109,13 +109,13 @@ export function ContactInfoAct({ wrapRef, settings }: Props) {
 								<span className="block font-serif italic font-light text-cream/90 text-xl md:text-2xl leading-snug transition-colors duration-500 group-hover:text-gold">
 									{address}
 								</span>
-								<span className="font-sans font-normal text-cream/74 text-lg">
+								<span className="font-sans font-normal text-cream/85 text-lg">
 									{city}
 								</span>
 							</span>
 						</a>
 
-						<div className="c-reveal font-sans font-normal uppercase tracking-[0.4em] text-gold/80 text-[0.72rem] mb-4">
+						<div className="c-reveal font-sans font-normal uppercase tracking-[0.4em] text-gold text-[0.72rem] mb-4">
 							Studio Hours
 						</div>
 						<div className="flex max-w-sm flex-col gap-2.5">
@@ -123,10 +123,10 @@ export function ContactInfoAct({ wrapRef, settings }: Props) {
 								<div
 									key={h.days}
 									className="c-reveal flex items-center justify-between border-b border-cream/5 pb-2.5">
-									<span className="font-sans font-normal text-cream/80 text-lg md:text-xl">
+									<span className="font-sans font-normal text-cream/90 text-lg md:text-xl">
 										{h.days}
 									</span>
-									<span className="font-sans font-normal text-cream/72 text-lg md:text-xl">
+									<span className="font-sans font-normal text-cream/85 text-lg md:text-xl">
 										{h.time}
 									</span>
 								</div>

@@ -57,7 +57,7 @@ export function ProjectsList({ initial }: { initial: CmsProject[] }) {
 						<div className="font-serif font-light text-cream text-xl leading-tight">
 							{p.title}
 						</div>
-						<div className="font-sans font-light text-cream/40 text-[0.732rem] uppercase tracking-[0.2em]">
+						<div className="font-sans font-light text-cream/82 text-[0.732rem] uppercase tracking-[0.2em]">
 							{p.category} · /{p.slug}
 						</div>
 					</div>
@@ -66,21 +66,21 @@ export function ProjectsList({ initial }: { initial: CmsProject[] }) {
 							type="button"
 							disabled={i === 0}
 							onClick={() => move(i, -1)}
-							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
+							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 							↑
 						</button>
 						<button
 							type="button"
 							disabled={i === list.length - 1}
 							onClick={() => move(i, 1)}
-							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
+							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 							↓
 						</button>
 						<button
 							type="button"
 							onClick={() => remove(p.id)}
 							disabled={pending}
-							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/45 text-[0.649rem] hover:text-gold">
+							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/80 text-[0.649rem] hover:text-gold">
 							Delete
 						</button>
 						<Link

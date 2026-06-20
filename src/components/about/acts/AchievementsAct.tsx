@@ -131,7 +131,7 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 						<h2 className="ach-reveal font-bdscript text-cream leading-[0.95] text-4xl sm:text-5xl md:text-6xl">
 							{achievements.title}
 						</h2>
-						<p className="ach-reveal mt-6 font-serif italic font-light text-cream/78 text-xl">
+						<p className="ach-reveal mt-6 font-serif italic font-light text-cream/90 text-xl">
 							Milestones coming soon.
 						</p>
 					</div>
@@ -186,14 +186,14 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 									<span className="bg-gold px-2.5 py-1 font-sans font-normal text-plum-dark text-[0.65rem] tracking-[0.16em] tabular-nums">
 										{items[active].year}
 									</span>
-									<span className="font-sans font-normal uppercase tracking-[0.24em] text-cream/75 text-[0.616rem]">
+									<span className="font-sans font-normal uppercase tracking-[0.24em] text-cream/88 text-[0.616rem]">
 										{items[active].by_line}
 									</span>
 								</div>
 								<div className="font-serif font-light text-cream text-2xl leading-tight">
 									{items[active].title}
 								</div>
-								<span className="mt-3 inline-flex items-center gap-2 font-sans font-normal uppercase tracking-[0.24em] text-cream/72 text-[0.672rem] transition-colors duration-300 group-hover:text-gold">
+								<span className="mt-3 inline-flex items-center gap-2 font-sans font-normal uppercase tracking-[0.24em] text-cream/85 text-[0.672rem] transition-colors duration-300 group-hover:text-gold">
 									<span className="ulink">View milestone</span>
 									<span className="transition-transform duration-300 group-hover:translate-x-1">
 										→
@@ -227,7 +227,7 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 
 										<span
 											className={`font-serif font-normal tracking-[0.04em] leading-none text-2xl md:text-3xl shrink-0 w-12 md:w-16 whitespace-nowrap transition-colors duration-300 ${
-												i === active ? "text-gold" : "text-gold/55 md:text-cream/72"
+												i === active ? "text-gold" : "text-gold/55 md:text-cream/85"
 											}`}>
 											{it.year}
 										</span>
@@ -235,11 +235,11 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 										<div className="min-w-0 flex-1">
 											<div
 												className={`font-serif font-light leading-snug text-xl md:text-xl transition-colors duration-300 ${
-													i === active ? "text-cream" : "text-cream/80 md:text-cream/78"
+													i === active ? "text-cream" : "text-cream/90 md:text-cream/90"
 												}`}>
 												{it.title}
 											</div>
-											<div className="font-sans font-normal uppercase tracking-[0.22em] text-cream/78 text-[0.616rem] md:text-[0.672rem] mt-1.5">
+											<div className="font-sans font-normal uppercase tracking-[0.22em] text-cream/90 text-[0.616rem] md:text-[0.672rem] mt-1.5">
 												{it.by_line}
 											</div>
 										</div>
@@ -304,7 +304,7 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 											<span className="bg-gold px-2.5 py-1 font-sans font-normal text-plum-dark text-[0.672rem] tracking-[0.16em] tabular-nums">
 												{d.year}
 											</span>
-											<span className="font-sans font-normal uppercase tracking-[0.24em] text-cream/76 text-[0.672rem]">
+											<span className="font-sans font-normal uppercase tracking-[0.24em] text-cream/90 text-[0.672rem]">
 												{d.by_line}
 											</span>
 										</div>
@@ -312,7 +312,7 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 											{d.title}
 										</h3>
 										<span className="mt-5 block h-px w-10 bg-gold/60" />
-										<p className="mt-5 font-sans font-normal text-cream/75 text-lg md:text-xl leading-relaxed max-w-xl">
+										<p className="mt-5 font-sans font-normal text-cream/88 text-lg md:text-xl leading-relaxed max-w-xl">
 											{d.description}
 										</p>
 									</div>
@@ -325,20 +325,20 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 									onClick={() =>
 										setDetail((x) => (x === null ? x : (x - 1 + n) % n))
 									}
-									className="group cursor-pointer inline-flex items-center gap-2 font-sans font-normal uppercase tracking-[0.24em] text-cream/80 transition-colors duration-300 hover:text-gold text-[0.672rem] md:text-sm">
+									className="group cursor-pointer inline-flex items-center gap-2 font-sans font-normal uppercase tracking-[0.24em] text-cream/90 transition-colors duration-300 hover:text-gold text-[0.672rem] md:text-sm">
 									<span className="transition-transform duration-300 group-hover:-translate-x-1">
 										←
 									</span>
 									<span className="ulink">Prev</span>
 								</button>
-								<div className="font-sans font-normal tracking-[0.2em] text-cream/72 text-[0.672rem] md:text-sm tabular-nums">
+								<div className="font-sans font-normal tracking-[0.2em] text-cream/85 text-[0.672rem] md:text-sm tabular-nums">
 									{String((detail ?? 0) + 1).padStart(2, "0")} /{" "}
 									{String(n).padStart(2, "0")}
 								</div>
 								<button
 									type="button"
 									onClick={() => setDetail((x) => (x === null ? x : (x + 1) % n))}
-									className="group cursor-pointer inline-flex items-center gap-2 font-sans font-normal uppercase tracking-[0.24em] text-cream/80 transition-colors duration-300 hover:text-gold text-[0.672rem] md:text-sm">
+									className="group cursor-pointer inline-flex items-center gap-2 font-sans font-normal uppercase tracking-[0.24em] text-cream/90 transition-colors duration-300 hover:text-gold text-[0.672rem] md:text-sm">
 									<span className="ulink">Next</span>
 									<span className="transition-transform duration-300 group-hover:translate-x-1">
 										→

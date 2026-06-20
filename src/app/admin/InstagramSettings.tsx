@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { saveInstagramSettings } from "./home/actions";
 
 const labelCls =
-	"font-sans font-light uppercase tracking-[0.26em] text-gold/80 text-[0.614rem] mb-1.5";
+	"font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem] mb-1.5";
 const inputCls =
 	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
 
@@ -92,7 +92,7 @@ export function InstagramSettings({
 					placeholder={hasToken ? "•••••• stored" : "Paste long-lived token"}
 					className={inputCls}
 				/>
-				<span className="mt-1 block font-sans font-light text-cream/35 text-[0.7rem]">
+				<span className="mt-1 block font-sans font-light text-cream/80 text-[0.7rem]">
 					Long-lived Instagram Graph token. Auto-refreshes weekly.
 				</span>
 			</label>
@@ -106,7 +106,7 @@ export function InstagramSettings({
 					{pending ? "Saving…" : "Save Instagram settings"}
 				</button>
 				{msg && (
-					<span className="font-sans font-light text-cream/50 text-base">
+					<span className="font-sans font-light text-cream/80 text-base">
 						{msg}
 					</span>
 				)}

@@ -37,7 +37,7 @@ export function ContactInquiryAct({ wrapRef }: Props) {
 								<h3 className="font-serif font-light text-cream text-xl sm:text-2xl md:text-3xl leading-tight mb-2.5 md:mb-5">
 									{it.who}
 								</h3>
-								<p className="font-sans font-normal text-cream/72 text-base md:text-lg leading-snug md:leading-[1.7] mb-4 md:mb-8 flex-1 line-clamp-3 md:line-clamp-none">
+								<p className="font-sans font-normal text-cream/85 text-base md:text-lg leading-snug md:leading-[1.7] mb-4 md:mb-8 flex-1 line-clamp-3 md:line-clamp-none">
 									{it.desc}
 								</p>
 								{it.kind === "career" ? (

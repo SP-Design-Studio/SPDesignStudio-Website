@@ -25,9 +25,9 @@ const slugify = (s: string) =>
 		.replace(/[^a-z0-9]+/g, "-")
 		.replace(/^-+|-+$/g, "");
 const labelCls =
-	"font-sans font-light uppercase tracking-[0.26em] text-gold/80 text-[0.614rem] mb-1.5";
+	"font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem] mb-1.5";
 const sectionCls =
-	"font-sans font-light uppercase tracking-[0.32em] text-cream/45 text-[0.684rem] mb-5";
+	"font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem] mb-5";
 
 export function ProjectEditor({ project }: { project: CmsProject }) {
 	const router = useRouter();
@@ -95,12 +95,12 @@ export function ProjectEditor({ project }: { project: CmsProject }) {
 							<label>
 								<div className={labelCls}>Slug (URL)</div>
 								<input
-									className={`${inputCls} cursor-not-allowed text-cream/50`}
+									className={`${inputCls} cursor-not-allowed text-cream/80`}
 									value={form.slug}
 									disabled
 									aria-readonly="true"
 								/>
-								<span className="mt-1 block font-sans font-light text-cream/35 text-[0.684rem]">
+								<span className="mt-1 block font-sans font-light text-cream/80 text-[0.684rem]">
 									Auto-generated from the title.
 								</span>
 							</label>
@@ -163,7 +163,7 @@ export function ProjectEditor({ project }: { project: CmsProject }) {
 								{pending ? "Saving…" : "Save details"}
 							</button>
 							{msg && (
-								<span className="font-sans font-light text-cream/50 text-base">
+								<span className="font-sans font-light text-cream/80 text-base">
 									{msg}
 								</span>
 							)}
@@ -209,7 +209,7 @@ export function ProjectEditor({ project }: { project: CmsProject }) {
 										router.refresh();
 									})
 								}
-								className="absolute right-1.5 top-1.5 cursor-pointer rounded-full bg-plum-dark/80 px-2 py-0.5 text-cream/80 text-sm opacity-0 transition-opacity group-hover:opacity-100 hover:text-gold">
+								className="absolute right-1.5 top-1.5 cursor-pointer rounded-full bg-plum-dark/80 px-2 py-0.5 text-cream/90 text-sm opacity-0 transition-opacity group-hover:opacity-100 hover:text-gold">
 								×
 							</button>
 						</div>
@@ -228,7 +228,7 @@ export function ProjectEditor({ project }: { project: CmsProject }) {
 						folder="projects"
 						aspect="aspect-[4/3]"
 					/>
-					<p className="mt-2 font-sans font-light text-cream/35 text-[0.732rem]">
+					<p className="mt-2 font-sans font-light text-cream/80 text-[0.732rem]">
 						Upload to add a gallery image.
 					</p>
 				</div>
@@ -284,7 +284,7 @@ function FactRow({
 						router.refresh();
 					})
 				}
-				className="cursor-pointer border border-cream/20 px-3 py-2 text-cream/55 text-sm hover:border-gold hover:text-gold">
+				className="cursor-pointer border border-cream/20 px-3 py-2 text-cream/82 text-sm hover:border-gold hover:text-gold">
 				×
 			</button>
 		</div>

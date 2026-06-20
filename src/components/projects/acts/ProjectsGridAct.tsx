@@ -39,7 +39,7 @@ export function ProjectsGridAct({
       <div className="flex-1 flex flex-col justify-start md:justify-center pb-12 md:pb-16">
         <div
           ref={countRef}
-          className="px-6 md:px-14 mb-5 md:mb-7 flex items-center justify-between text-cream/78 font-sans font-normal text-[0.72rem] md:text-[0.78rem] uppercase tracking-[0.3em] will-change-transform"
+          className="px-6 md:px-14 mb-5 md:mb-7 flex items-center justify-between text-cream/90 font-sans font-normal text-[0.72rem] md:text-[0.78rem] uppercase tracking-[0.3em] will-change-transform"
         >
           <span>{projects.length.toString().padStart(2, "0")} Projects</span>
 
@@ -81,7 +81,7 @@ export function ProjectsGridAct({
                 className="pc group relative w-full md:shrink-0 md:w-60 lg:w-75 cursor-pointer"
               >
                 <div className="pc-copy flex items-center justify-between mb-3 md:mb-4 font-sans font-normal uppercase tracking-[0.32em] text-[0.72rem] md:text-[0.78rem] will-change-transform">
-                  <span className="text-cream/74">{project.type}</span>
+                  <span className="text-cream/85">{project.type}</span>
                 </div>
 
                 <div
@@ -111,7 +111,7 @@ export function ProjectsGridAct({
                   </div>
                   <div className="mt-2 flex items-center gap-3">
                     <span className="h-px w-5 bg-cream/20 transition-all duration-500 group-hover:w-10 group-hover:bg-gold" />
-                    <span className="font-sans font-normal text-cream/72 text-[0.76rem] md:text-[0.8rem] uppercase tracking-[0.22em] truncate">
+                    <span className="font-sans font-normal text-cream/85 text-[0.76rem] md:text-[0.8rem] uppercase tracking-[0.22em] truncate">
                       {project.location}
                     </span>
                   </div>

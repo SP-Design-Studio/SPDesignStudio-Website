@@ -97,7 +97,7 @@ export function PartnersDirectory({
 											{cat.brands.map((b) => (
 												<li
 													key={b}
-													className="font-sans font-normal text-cream/80 text-[0.918rem] sm:text-base md:text-lg">
+													className="font-sans font-normal text-cream/90 text-[0.918rem] sm:text-base md:text-lg">
 													{b}
 												</li>
 											))}

@@ -66,15 +66,15 @@ export function InvitationAct({
 					{ icon: FiMapPin, value: STUDIO.address, href: undefined },
 				].map(({ icon: Icon, value, href }) => (
 					<div key={value} className="group flex items-center gap-3">
-						<Icon size={14} className="text-gold/60 shrink-0" />
+						<Icon size={14} className="text-gold shrink-0" />
 						{href ? (
 							<a
 								href={href}
-								className="font-serif font-light inline-block transition-opacity duration-500 hover:opacity-100 text-cream/80 text-lg md:text-xl">
+								className="font-serif font-light inline-block transition-opacity duration-500 hover:opacity-100 text-cream/90 text-lg md:text-xl">
 								{value}
 							</a>
 						) : (
-							<span className="font-serif font-light text-cream/78 text-lg md:text-xl">
+							<span className="font-serif font-light text-cream/90 text-lg md:text-xl">
 								{value}
 							</span>
 						)}
@@ -93,7 +93,7 @@ export function InvitationAct({
 						href={href}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="transition-all duration-500 hover:opacity-100 hover:-translate-y-0.5 text-cream/74">
+						className="transition-all duration-500 hover:opacity-100 hover:-translate-y-0.5 text-cream/85">
 						<Icon size={20} />
 					</a>
 				))}

@@ -30,7 +30,7 @@ export default async function AdminProjectEditPage({
 		<div className="mx-auto max-w-4xl px-6 py-12 md:px-10 md:py-16">
 			<Link
 				href="/admin/projects"
-				className="font-sans font-light uppercase tracking-[0.24em] text-cream/45 text-[0.708rem] transition-colors hover:text-gold">
+				className="font-sans font-light uppercase tracking-[0.24em] text-cream/80 text-[0.708rem] transition-colors hover:text-gold">
 				&larr; All projects
 			</Link>
 			<div className="mb-10 mt-4">

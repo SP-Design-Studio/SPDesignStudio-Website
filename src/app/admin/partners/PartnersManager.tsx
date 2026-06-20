@@ -18,7 +18,7 @@ import {
 const inputCls =
 	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
 const labelCls =
-	"font-sans font-light uppercase tracking-[0.26em] text-gold/80 text-[0.614rem] mb-1.5";
+	"font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem] mb-1.5";
 
 function MoveButtons({
 	index,
@@ -35,14 +35,14 @@ function MoveButtons({
 				type="button"
 				disabled={index === 0}
 				onClick={() => onMove(-1)}
-				className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
+				className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 				↑
 			</button>
 			<button
 				type="button"
 				disabled={index === total - 1}
 				onClick={() => onMove(1)}
-				className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/60 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
+				className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 				↓
 			</button>
 		</div>
@@ -99,7 +99,7 @@ function LogoCard({
 					<MoveButtons index={index} total={total} onMove={onMove} />
 					<div className="flex items-center gap-3">
 						{msg && (
-							<span className="font-sans font-light text-cream/50 text-sm">
+							<span className="font-sans font-light text-cream/80 text-sm">
 								{msg}
 							</span>
 						)}
@@ -107,7 +107,7 @@ function LogoCard({
 							type="button"
 							onClick={remove}
 							disabled={pending}
-							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/45 text-[0.649rem] hover:text-gold">
+							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/80 text-[0.649rem] hover:text-gold">
 							Delete
 						</button>
 						<button
@@ -180,7 +180,7 @@ function CategoryCard({
 				<MoveButtons index={index} total={total} onMove={onMove} />
 				<div className="flex items-center gap-3">
 					{msg && (
-						<span className="font-sans font-light text-cream/50 text-sm">
+						<span className="font-sans font-light text-cream/80 text-sm">
 							{msg}
 						</span>
 					)}
@@ -188,7 +188,7 @@ function CategoryCard({
 						type="button"
 						onClick={remove}
 						disabled={pending}
-						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/45 text-[0.649rem] hover:text-gold">
+						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/80 text-[0.649rem] hover:text-gold">
 						Delete
 					</button>
 					<button
@@ -250,7 +250,7 @@ export function PartnersManager({
 	return (
 		<div className="flex flex-col gap-14">
 			<section>
-				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/45 text-[0.684rem]">
+				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
 					Brand logos
 				</div>
 				<div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -279,7 +279,7 @@ export function PartnersManager({
 			</section>
 
 			<section>
-				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/45 text-[0.684rem]">
+				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
 					Directory (categories)
 				</div>
 				<div className="grid grid-cols-1 gap-4 md:grid-cols-2">

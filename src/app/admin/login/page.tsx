@@ -43,7 +43,7 @@ export default function AdminLoginPage() {
 
 				<form onSubmit={submit} className="flex flex-col gap-5">
 					<label className="flex flex-col gap-2">
-						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.684rem]">
+						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold text-[0.684rem]">
 							Email
 						</span>
 						<input
@@ -57,7 +57,7 @@ export default function AdminLoginPage() {
 						/>
 					</label>
 					<label className="flex flex-col gap-2">
-						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.684rem]">
+						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold text-[0.684rem]">
 							Password
 						</span>
 						<input
@@ -78,7 +78,7 @@ export default function AdminLoginPage() {
 							&rarr;
 						</span>
 					</button>
-					{error && <p className="font-sans text-base text-gold/80">{error}</p>}
+					{error && <p className="font-sans text-base text-gold">{error}</p>}
 				</form>
 			</div>
 		</div>

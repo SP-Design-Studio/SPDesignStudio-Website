@@ -15,7 +15,7 @@ export function AdminInvite() {
 		<form action={action} className="flex flex-col gap-5">
 			<div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
 				<label className="flex flex-col gap-2">
-					<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.649rem]">
+					<span className="font-sans font-light uppercase tracking-[0.28em] text-gold text-[0.649rem]">
 						Full name
 					</span>
 					<input
@@ -26,7 +26,7 @@ export function AdminInvite() {
 					/>
 				</label>
 				<label className="flex flex-col gap-2">
-					<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.649rem]">
+					<span className="font-sans font-light uppercase tracking-[0.28em] text-gold text-[0.649rem]">
 						Email
 					</span>
 					<input
@@ -38,7 +38,7 @@ export function AdminInvite() {
 					/>
 				</label>
 				<label className="flex flex-col gap-2">
-					<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.649rem]">
+					<span className="font-sans font-light uppercase tracking-[0.28em] text-gold text-[0.649rem]">
 						Role
 					</span>
 					<select
@@ -55,7 +55,7 @@ export function AdminInvite() {
 				</label>
 			</div>
 			<label className="flex flex-col gap-2">
-				<span className="font-sans font-light uppercase tracking-[0.28em] text-gold/80 text-[0.649rem]">
+				<span className="font-sans font-light uppercase tracking-[0.28em] text-gold text-[0.649rem]">
 					Temporary password
 				</span>
 				<input
@@ -66,7 +66,7 @@ export function AdminInvite() {
 					placeholder="At least 8 characters"
 					className={inputCls}
 				/>
-				<span className="font-sans font-light text-cream/35 text-[0.732rem]">
+				<span className="font-sans font-light text-cream/80 text-[0.732rem]">
 					Share this with them; they can change it later.
 				</span>
 			</label>
@@ -77,10 +77,10 @@ export function AdminInvite() {
 				{pending ? "Creating…" : "Create user"}
 			</button>
 			{state.error && (
-				<p className="font-sans text-base text-gold/80">{state.error}</p>
+				<p className="font-sans text-base text-gold">{state.error}</p>
 			)}
 			{state.ok && (
-				<p className="font-sans text-base text-cream/60">{state.ok}</p>
+				<p className="font-sans text-base text-cream/82">{state.ok}</p>
 			)}
 		</form>
 	);

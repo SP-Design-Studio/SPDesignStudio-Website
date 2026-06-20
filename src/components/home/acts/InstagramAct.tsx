@@ -197,7 +197,7 @@ export function InstagramAct({
         {isEmpty && (
           <p
             ref={taglineRef}
-            className="px-8 mx-auto max-w-md text-center font-sans italic text-cream/75 leading-relaxed text-sm md:text-base"
+            className="px-8 mx-auto max-w-md text-center font-sans italic text-cream/88 leading-relaxed text-sm md:text-base"
           >
             Follow along for our latest projects, process, and moments from
             the studio.

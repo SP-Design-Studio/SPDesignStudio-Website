@@ -65,7 +65,7 @@ export function VisionaryAct({
 					</div>
 					<div
 						ref={attribRef}
-						className="font-bdscript text-gold/85 pl-4 md:pl-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+						className="font-bdscript text-gold pl-4 md:pl-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
 						- {ABOUT.visionary.attribution}
 					</div>
 				</div>

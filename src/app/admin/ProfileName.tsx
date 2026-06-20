@@ -14,7 +14,7 @@ export function ProfileName({ initial }: { initial: string }) {
 	return (
 		<div className="flex flex-wrap items-end gap-3">
 			<label className="flex flex-col gap-1.5">
-				<span className="font-sans font-light uppercase tracking-[0.26em] text-gold/80 text-[0.614rem]">
+				<span className="font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem]">
 					Your name
 				</span>
 				<input
@@ -41,7 +41,7 @@ export function ProfileName({ initial }: { initial: string }) {
 				{pending ? "Saving…" : "Save"}
 			</button>
 			{msg && (
-				<span className="font-sans font-light text-cream/50 text-sm">{msg}</span>
+				<span className="font-sans font-light text-cream/80 text-sm">{msg}</span>
 			)}
 		</div>
 	);

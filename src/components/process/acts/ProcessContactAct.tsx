@@ -29,7 +29,7 @@ export function ProcessContactAct({
 						spacing="0.2em"
 					/>
 				</h2>
-				<p className="font-serif italic font-light text-cream/80 text-xl md:text-2xl max-w-xl mb-9">
+				<p className="font-serif italic font-light text-cream/90 text-xl md:text-2xl max-w-xl mb-9">
 					Tell us about your space. We&rsquo;ll do the listening.
 				</p>
 				<Link
