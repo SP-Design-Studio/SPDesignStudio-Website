@@ -52,7 +52,7 @@ function Tile({
         duplicate ? "hidden md:block" : "snap-start"
       } ${
         isReel
-          ? "h-[clamp(150px,22vh,200px)] md:h-[clamp(190px,26vh,300px)] aspect-[9/16]"
+          ? "h-[clamp(150px,22vh,200px)] md:h-[clamp(190px,26vh,300px)] aspect-9/16"
           : "h-[clamp(108px,15vh,150px)] md:h-[clamp(150px,18vh,210px)] aspect-square"
       }`}
     >
@@ -206,7 +206,7 @@ export function InstagramAct({
 
         {posts.length > 0 && (
           <section className="w-full flex flex-col gap-3">
-            <RowHeader label="Latest Posts" headRef={postsHeadRef} />
+            <RowHeader label="Posts" headRef={postsHeadRef} />
             <div className={ROW_FRAME}>
               <div
                 className={ROW_VIEWPORT}
@@ -237,7 +237,7 @@ export function InstagramAct({
 
         {reels.length > 0 && (
           <section className="w-full flex flex-col gap-3">
-            <RowHeader label="Latest Reels" headRef={reelsHeadRef} />
+            <RowHeader label="Reels" headRef={reelsHeadRef} />
             <div className={ROW_FRAME}>
               <div
                 className={ROW_VIEWPORT}

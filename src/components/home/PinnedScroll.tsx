@@ -746,7 +746,7 @@ export default function PinnedScroll({
             filter: "blur(0px)",
             duration: 0.7,
             ease: "back.out(1.4)",
-            stagger: { each: 0.05, from: "center" },
+            stagger: { amount: 0.3, from: "center" },
           },
           9.42,
         )
@@ -764,7 +764,7 @@ export default function PinnedScroll({
             filter: "blur(6px)",
             duration: 0.55,
             ease: "power3.in",
-            stagger: { each: 0.04, from: "edges" },
+            stagger: { amount: 0.24, from: "edges" },
           },
           11.0,
         )
