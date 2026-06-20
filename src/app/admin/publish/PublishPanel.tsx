@@ -3,7 +3,7 @@ import { useSaving } from "@/lib/admin/saving";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { publishPage, publishAll, discardPage } from "./publish-actions";
+import { publishPage, publishAll, discardPage } from "./actions";
 import type { PageKey, PageStatus } from "@/lib/cms/pages";
 
 type Row = {

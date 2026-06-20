@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import type { ProcessStep } from "@/lib/cms/types";
 import { createStep, updateStep, deleteStep, reorderSteps } from "./actions";
-import { useDirty } from "../useDirty";
+import { useDirty } from "@/lib/admin/useDirty";
 
 const inputCls =
 	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";

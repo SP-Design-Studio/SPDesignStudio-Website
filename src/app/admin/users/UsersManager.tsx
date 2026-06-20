@@ -132,7 +132,7 @@ function Row({
 	);
 }
 
-export function TeamManager({
+export function UsersManager({
 	members,
 	currentUserId,
 	currentRole,

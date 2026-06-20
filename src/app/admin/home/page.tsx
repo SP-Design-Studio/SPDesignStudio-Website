@@ -1,4 +1,4 @@
-import { NavLink } from "../NavLink";
+import { NavLink } from "../_components/NavLink";
 import { requireRole } from "@/lib/auth";
 import { getDisciplines, getRecognition } from "@/lib/cms/queries";
 import { DisciplinesManager } from "./DisciplinesManager";

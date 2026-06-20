@@ -1,6 +1,6 @@
 import { requireRole } from "@/lib/auth";
 import { getPageDrafts } from "@/lib/cms/pages";
-import { PublishPanel } from "../PublishPanel";
+import { PublishPanel } from "./PublishPanel";
 
 export const metadata = { title: "Publish" };
 

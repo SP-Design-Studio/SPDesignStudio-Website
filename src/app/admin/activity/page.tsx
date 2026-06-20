@@ -1,5 +1,5 @@
 import { requireRole } from "@/lib/auth";
-import { NavLink } from "../NavLink";
+import { NavLink } from "../_components/NavLink";
 import {
 	getActivityLog,
 	ACTION_LABELS,

@@ -11,7 +11,7 @@ import {
 	deleteOpening,
 	reorderOpenings,
 } from "./actions";
-import { useDirty } from "../useDirty";
+import { useDirty } from "@/lib/admin/useDirty";
 
 const inputCls =
 	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";

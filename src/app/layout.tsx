@@ -4,7 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import PageTransition from "@/components/shared/PageTransition";
 import ScrollCue from "@/components/shared/ScrollCue";
-import { GRAIN_ENABLED } from "@/lib/config";
+import { getGrainEnabled } from "@/lib/config";
 import {
   SITE_URL,
   SITE_NAME,
@@ -88,11 +88,12 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const grainEnabled = await getGrainEnabled();
   return (
     <html lang="en" className={`${cormorant.variable} ${dmSans.variable} ${bdScript.variable} ${alta.variable}`}>
       <body>
@@ -107,7 +108,7 @@ export default function RootLayout({
         <PageTransition />
         {children}
         <ScrollCue />
-        {GRAIN_ENABLED && <div className="grain-overlay" aria-hidden />}
+        {grainEnabled && <div className="grain-overlay" aria-hidden />}
       </body>
     </html>
   );

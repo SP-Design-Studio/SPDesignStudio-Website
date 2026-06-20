@@ -1,7 +1,7 @@
 import { requireRole } from "@/lib/auth";
 import { getProfiles } from "@/lib/cms/activity";
-import { TeamManager } from "../TeamManager";
-import { AdminInvite } from "../AdminInvite";
+import { UsersManager } from "./UsersManager";
+import { AdminInvite } from "./AdminInvite";
 
 export const metadata = { title: "Users" };
 
@@ -23,7 +23,7 @@ export default async function UsersRoute() {
 					accounts.
 				</p>
 			</div>
-			<TeamManager
+			<UsersManager
 				members={members}
 				currentUserId={profile.id}
 				currentRole={profile.role}

@@ -19,6 +19,7 @@ export function AdminNav({ canManage }: { canManage: boolean }) {
 					{ href: "/admin/publish", label: "Publish" },
 					{ href: "/admin/users", label: "Users" },
 					{ href: "/admin/activity", label: "Activity" },
+					{ href: "/admin/settings", label: "Settings" },
 				]
 			: []),
 		{ href: "/admin/account", label: "Account" },

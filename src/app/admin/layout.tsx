@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getProfile } from "@/lib/auth";
-import { signOut } from "./actions";
-import { AdminNav } from "./AdminNav";
-import SignOutButton from "./SignOutButton";
+import { signOut } from "./auth-actions";
+import { AdminNav } from "./_components/AdminNav";
+import SignOutButton from "./_components/SignOutButton";
 import { SavingOverlay } from "@/lib/admin/saving";
 
 export const metadata: Metadata = {

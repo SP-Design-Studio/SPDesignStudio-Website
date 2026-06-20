@@ -1,4 +1,4 @@
-import { NavLink } from "../NavLink";
+import { NavLink } from "../_components/NavLink";
 import { requireRole } from "@/lib/auth";
 import { getTimeline } from "@/lib/cms/queries";
 import { TimelineManager } from "./TimelineManager";

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { SiteSettings } from "@/lib/cms/types";
 import { saveSiteSettings } from "./actions";
-import { useDirty } from "../useDirty";
+import { useDirty } from "@/lib/admin/useDirty";
 
 const inputCls =
 	"w-full border-b border-cream/20 bg-transparent py-2.5 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";

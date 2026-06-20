@@ -1,5 +1,5 @@
 import { requireRole } from "@/lib/auth";
-import { ProfileName } from "../ProfileName";
+import { ProfileName } from "./ProfileName";
 
 export const metadata = { title: "Account" };
 

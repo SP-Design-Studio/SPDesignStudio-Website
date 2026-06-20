@@ -3,7 +3,7 @@ import { useSaving } from "@/lib/admin/saving";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { saveInstagramSettings } from "./home/actions";
+import { saveInstagramSettings } from "../home/actions";
 
 const labelCls =
 	"font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem] mb-1.5";

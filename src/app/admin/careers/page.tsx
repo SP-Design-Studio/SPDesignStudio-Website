@@ -1,4 +1,4 @@
-import { NavLink } from "../NavLink";
+import { NavLink } from "../_components/NavLink";
 import { requireRole } from "@/lib/auth";
 import { getCareerOpenings, getCareersSettings } from "@/lib/cms/queries";
 import { CareersManager } from "./CareersManager";
