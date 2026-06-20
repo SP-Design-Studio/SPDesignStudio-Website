@@ -10,7 +10,9 @@ import {
   SITE_NAME,
   SITE_DESC,
   OG_IMAGE,
+  KEYWORDS,
   organizationLd,
+  websiteLd,
 } from "@/lib/seo";
 
 const cormorant = Cormorant({
@@ -49,19 +51,27 @@ export const metadata: Metadata = {
   },
   description: SITE_DESC,
   applicationName: SITE_NAME,
+  keywords: KEYWORDS,
   alternates: { canonical: "/" },
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
   openGraph: {
     type: "website",
+    locale: "en_IN",
     url: SITE_URL,
     siteName: SITE_NAME,
     title: SITE_NAME,
     description: SITE_DESC,
-    images: [{ url: OG_IMAGE, width: 1200, height: 800, alt: SITE_NAME }],
+    images: [{ url: OG_IMAGE, width: 2000, height: 1055, alt: SITE_NAME }],
   },
   twitter: {
     card: "summary_large_image",
@@ -89,6 +99,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd()) }}
         />
         <PageTransition />
         {children}

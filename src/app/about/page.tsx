@@ -1,4 +1,5 @@
-import { pageMeta } from "@/lib/seo";
+import { pageMeta, breadcrumbLd, webPageLd, founderLd } from "@/lib/seo";
+import JsonLd from "@/components/shared/JsonLd";
 import AboutClient from "@/components/about/AboutClient";
 import { getAboutData } from "@/lib/cms/pages";
 
@@ -7,5 +8,16 @@ export const metadata = pageMeta("about");
 
 export default async function AboutPage() {
 	const { team, timeline, honours } = await getAboutData();
-	return <AboutClient team={team} timeline={timeline} honours={honours} />;
+	return (
+		<>
+			<JsonLd
+				data={[
+					breadcrumbLd("about"),
+					webPageLd("about", "AboutPage"),
+					founderLd(),
+				]}
+			/>
+			<AboutClient team={team} timeline={timeline} honours={honours} />
+		</>
+	);
 }

@@ -1,4 +1,5 @@
-import { pageMeta } from "@/lib/seo";
+import { pageMeta, breadcrumbLd, webPageLd } from "@/lib/seo";
+import JsonLd from "@/components/shared/JsonLd";
 import ProjectsClient from "@/components/projects/ProjectsClient";
 import { getProjectsData } from "@/lib/cms/pages";
 
@@ -7,5 +8,15 @@ export const metadata = pageMeta("projects");
 
 export default async function ProjectsPage() {
 	const { projects } = await getProjectsData();
-	return <ProjectsClient projects={projects} />;
+	return (
+		<>
+			<JsonLd
+				data={[
+					breadcrumbLd("projects"),
+					webPageLd("projects", "CollectionPage"),
+				]}
+			/>
+			<ProjectsClient projects={projects} />
+		</>
+	);
 }
