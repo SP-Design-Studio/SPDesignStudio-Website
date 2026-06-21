@@ -24,6 +24,18 @@ export default function WhoWeArePage() {
 				]}
 			/>
 
+			<div className="border-b border-gold/20 bg-plum/40 px-6 py-3 text-center">
+				<p className="font-sans font-light text-cream/80 text-[0.72rem] tracking-[0.04em]">
+					You&rsquo;re viewing a simplified text version of this page.{" "}
+					<Link
+						href="/about"
+						className="text-gold underline-offset-4 transition-colors hover:text-cream hover:underline"
+					>
+						Visit the full studio experience &rarr;
+					</Link>
+				</p>
+			</div>
+
 			<div className="mx-auto max-w-3xl px-6 py-24 md:py-32">
 				<header className="text-center">
 					<div className={eyebrow}>Who We Are</div>
