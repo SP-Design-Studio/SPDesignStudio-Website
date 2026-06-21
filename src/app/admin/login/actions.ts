@@ -10,6 +10,7 @@ import {
 	getClientIp,
 } from "@/lib/security/throttle";
 import { verifyTurnstile } from "@/lib/security/turnstile";
+import { logLoginAttempt } from "@/lib/security/loginLog";
 
 export interface LoginState {
 	error?: string;
@@ -40,13 +41,15 @@ export async function login(
 	const { email, password } = parsed.data;
 	const ip = await getClientIp();
 
+	const lockMessage = (min: number) =>
+		`Account temporarily locked — too many failed sign-in attempts from your network. Try again in ${min} minute${
+			min === 1 ? "" : "s"
+		}.`;
+
 	const lock = await checkLock(ip, email);
 	if (lock.locked) {
-		return {
-			error: `Too many attempts. Try again in ${lock.retryAfterMin} minute${
-				lock.retryAfterMin === 1 ? "" : "s"
-			}.`,
-		};
+		await logLoginAttempt({ email, ip, reason: "blocked_locked", success: false });
+		return { error: lockMessage(lock.retryAfterMin) };
 	}
 
 	const token = formData.get("cf-turnstile-response");
@@ -55,7 +58,16 @@ export async function login(
 		ip,
 	);
 	if (!human.ok) {
-		return { error: "Verification failed. Please try again." };
+		await logLoginAttempt({
+			email,
+			ip,
+			reason: `captcha_failed:${human.reason ?? "unknown"}`,
+			success: false,
+		});
+		return {
+			error:
+				"Couldn't sign you in — bot verification failed. Please reload and try again.",
+		};
 	}
 
 	const supabase = await createClient();
@@ -65,15 +77,26 @@ export async function login(
 		await recordFailure(ip, email);
 		const after = await checkLock(ip, email);
 		if (after.locked) {
-			return {
-				error: `Too many attempts. Try again in ${after.retryAfterMin} minute${
-					after.retryAfterMin === 1 ? "" : "s"
-				}.`,
-			};
+			await logLoginAttempt({
+				email,
+				ip,
+				reason: "locked_out",
+				success: false,
+			});
+			return { error: lockMessage(after.retryAfterMin) };
 		}
-		return { error: "Invalid email or password." };
+		await logLoginAttempt({
+			email,
+			ip,
+			reason: "invalid_credentials",
+			success: false,
+		});
+		return {
+			error: "Incorrect email or password. Please check and try again.",
+		};
 	}
 
 	await clearFailures(ip, email);
+	await logLoginAttempt({ email, ip, reason: "success", success: true });
 	redirect(safeNext(formData.get("next")));
 }

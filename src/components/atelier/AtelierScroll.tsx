@@ -53,7 +53,7 @@ export default function AtelierScroll({ images }: { images: AtelierImage[] }) {
         chars.forEach((el) => {
           el.style.visibility = "visible";
         });
-        const tl = gsap.timeline({ delay: 0.2 });
+        const tl = gsap.timeline({ delay: 0.4 });
         tl.to(chars, {
           rotateX: 0,
           y: 0,
@@ -121,15 +121,24 @@ export default function AtelierScroll({ images }: { images: AtelierImage[] }) {
             });
           },
           onLeaveBack: (els) => {
-            els.forEach((el) => {
+            els.forEach((el, i) => {
               const media = el.querySelector(".atelier-media");
               const inner = el.querySelector(".atelier-media-inner");
-              if (media && inner) {
-                gsap.set(media, {
+              if (!media || !inner) return;
+              const tl = gsap.timeline();
+              tl.to(
+                media,
+                {
                   clipPath: "inset(100% 0% 0% 0% round 0.125rem)",
-                });
-                gsap.set(inner, { scale: 1.28 });
-              }
+                  duration: 0.7,
+                  ease: "expo.in",
+                },
+                i * 0.06,
+              ).to(
+                inner,
+                { scale: 1.28, duration: 0.8, ease: "expo.in" },
+                i * 0.06,
+              );
             });
           },
         });

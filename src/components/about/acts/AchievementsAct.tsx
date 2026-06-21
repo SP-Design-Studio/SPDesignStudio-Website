@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { gsap } from "gsap";
 import { CloseButton } from "@/components/shared/CloseButton";
+import { useImageLightbox } from "@/components/shared/ImageLightbox";
 import { ABOUT } from "@/lib/studio";
 import type { Honour } from "@/lib/cms/types";
 
@@ -24,6 +25,11 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 
 	const open = detail !== null;
 	const d = items[detail ?? 0];
+
+	const lightboxUrls = items
+		.map((it) => it.img)
+		.filter((u): u is string => !!u);
+	const lightbox = useImageLightbox(lightboxUrls, { nav: false });
 
 	const panelRef = useRef<HTMLDivElement>(null);
 	const imgRef = useRef<HTMLDivElement>(null);
@@ -284,7 +290,12 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 								<div className="w-full max-w-2xl">
 									<div
 										ref={imgRef}
-										className="relative aspect-3/2 w-full overflow-hidden border border-cream/10 bg-plum-dark">
+										onClick={() =>
+											d.img && lightbox.open(lightboxUrls.indexOf(d.img))
+										}
+										className={`relative aspect-3/2 w-full overflow-hidden border border-cream/10 bg-plum-dark ${
+											d.img ? "cursor-pointer" : ""
+										}`}>
 										{d.img && (
 											<Image
 												key={d.img}
@@ -292,10 +303,11 @@ export function AchievementsAct({ wrapRef, items }: Props) {
 												alt={d.title}
 												fill
 												sizes="(max-width: 768px) 90vw, 672px"
-												className="object-cover"
+												className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.03]"
 											/>
 										)}
 									</div>
+									{lightbox.modal}
 
 									<div
 										ref={bodyRef}

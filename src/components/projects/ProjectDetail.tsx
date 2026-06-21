@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import Lenis from "lenis";
 import Image from "next/image";
 import { CloseButton } from "@/components/shared/CloseButton";
+import { useImageLightbox } from "@/components/shared/ImageLightbox";
 import { getLenis } from "@/lib/smoothScroll";
 import type { Project } from "@/lib/data/projects";
 
@@ -38,6 +39,13 @@ export function ProjectDetail({
 	const titleRef = useRef<HTMLSpanElement>(null);
 	const lenisRef = useRef<Lenis | null>(null);
 	const first = useRef(true);
+
+	const lightboxUrls = [
+		...(project.img ? [project.img] : []),
+		...project.gallery,
+	];
+	const galleryBase = project.img ? 1 : 0;
+	const lightbox = useImageLightbox(lightboxUrls);
 
 	useEffect(() => {
 		if (!wrapRef.current || !contentRef.current) return;
@@ -232,7 +240,10 @@ export function ProjectDetail({
 
 						<div
 							ref={heroRef}
-							className="relative mt-10 md:mt-14 w-full aspect-16/10 overflow-hidden rounded-sm bg-plum-dark will-change-[clip-path]">
+							onClick={() => project.img && lightbox.open(0)}
+							className={`relative mt-10 md:mt-14 w-full aspect-16/10 overflow-hidden rounded-sm bg-plum-dark will-change-[clip-path] ${
+								project.img ? "cursor-pointer" : ""
+							}`}>
 							{project.img && (
 								<Image
 									src={project.img}
@@ -240,7 +251,7 @@ export function ProjectDetail({
 									fill
 									priority
 									sizes="(max-width: 1024px) 100vw, 1100px"
-									className="object-cover"
+									className="object-cover transition-transform duration-1200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.03]"
 								/>
 							)}
 						</div>
@@ -267,7 +278,8 @@ export function ProjectDetail({
 							{project.gallery.map((src, i) => (
 								<div
 									key={src + i}
-									className={`pd-img relative overflow-hidden rounded-sm will-change-[clip-path] ${
+									onClick={() => lightbox.open(galleryBase + i)}
+									className={`pd-img relative cursor-pointer overflow-hidden rounded-sm will-change-[clip-path] ${
 										i === 0 ? "md:col-span-2 aspect-video" : "aspect-4/3"
 									}`}>
 									<Image
@@ -308,6 +320,7 @@ export function ProjectDetail({
 					</div>
 				</div>
 			</div>
+			{lightbox.modal}
 		</div>,
 		document.body,
 	);

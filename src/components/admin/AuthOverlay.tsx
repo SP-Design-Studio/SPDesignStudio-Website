@@ -1,5 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+
 export default function AuthOverlay({
   show,
   label,
@@ -7,8 +10,12 @@ export default function AuthOverlay({
   show: boolean;
   label: string;
 }) {
-  if (!show) return null;
-  return (
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  if (!show || !mounted) return null;
+
+  return createPortal(
     <div
       className="fixed inset-0 z-120 flex flex-col items-center justify-center bg-plum-dark animate-[auth-fade-in_0.35s_ease]"
       role="status"
@@ -32,6 +39,7 @@ export default function AuthOverlay({
           {label}…
         </span>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

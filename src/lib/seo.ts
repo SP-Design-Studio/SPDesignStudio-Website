@@ -45,7 +45,8 @@ export type PageKey =
 	| "process"
 	| "contact"
 	| "careers"
-	| "atelier";
+	| "atelier"
+	| "whoWeAre";
 
 export const PAGE_SEO: Record<
 	PageKey,
@@ -81,6 +82,11 @@ export const PAGE_SEO: Record<
 		path: "/atelier",
 		title: "Atelier",
 		desc: "Behind the studio — moments, materials, and process from SP Design Studio.",
+	},
+	whoWeAre: {
+		path: "/who-we-are",
+		title: "Who We Are",
+		desc: `Who we are — SP Design Studio, an interior design studio in Banjara Hills, Hyderabad led by ${STUDIO.founder}. Our mission, philosophy, and the people behind the craft.`,
 	},
 };
 
