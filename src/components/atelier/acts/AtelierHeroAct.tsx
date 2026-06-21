@@ -1,13 +1,13 @@
 "use client";
 
-import { Chars } from "@/components/shared/Chars";
+import { Words } from "@/components/shared/Words";
 
 interface Props {
-  titleCharsRef: React.RefObject<(HTMLSpanElement | null)[]>;
+  titleWordsRef: React.RefObject<(HTMLSpanElement | null)[]>;
   taglineRef: React.RefObject<HTMLParagraphElement | null>;
 }
 
-export function AtelierHeroAct({ titleCharsRef, taglineRef }: Props) {
+export function AtelierHeroAct({ titleWordsRef, taglineRef }: Props) {
   return (
     <section
       id="hero"
@@ -17,7 +17,12 @@ export function AtelierHeroAct({ titleCharsRef, taglineRef }: Props) {
         className="font-bdscript text-gold leading-[0.95] text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
         style={{ perspective: "1200px" }}
       >
-        <Chars text="Atelier" refStore={titleCharsRef} initialHidden />
+        <Words
+          words={["Atelier"]}
+          refStore={titleWordsRef}
+          spacing="0.06em"
+          initialHidden
+        />
       </h1>
       <p
         ref={taglineRef}

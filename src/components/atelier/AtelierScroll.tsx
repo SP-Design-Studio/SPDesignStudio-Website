@@ -10,7 +10,7 @@ import type { AtelierImage } from "@/lib/atelier";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const HIDDEN_CHAR_3D = {
+const HIDDEN_WORD_3D = {
   rotateX: -88,
   y: 70,
   opacity: 0,
@@ -20,7 +20,7 @@ const HIDDEN_CHAR_3D = {
 
 export default function AtelierScroll({ images }: { images: AtelierImage[] }) {
   const scopeRef = useRef<HTMLDivElement>(null);
-  const titleCharsRef = useRef<(HTMLSpanElement | null)[]>([]);
+  const titleWordsRef = useRef<(HTMLSpanElement | null)[]>([]);
   const taglineRef = useRef<HTMLParagraphElement>(null);
   const itemsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -41,8 +41,8 @@ export default function AtelierScroll({ images }: { images: AtelierImage[] }) {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const chars = titleCharsRef.current.filter(Boolean) as HTMLSpanElement[];
-      gsap.set(chars, HIDDEN_CHAR_3D);
+      const words = titleWordsRef.current.filter(Boolean) as HTMLSpanElement[];
+      gsap.set(words, HIDDEN_WORD_3D);
       gsap.set(taglineRef.current, {
         y: 18,
         autoAlpha: 0,
@@ -50,11 +50,11 @@ export default function AtelierScroll({ images }: { images: AtelierImage[] }) {
       });
 
       const playIn = () => {
-        chars.forEach((el) => {
+        words.forEach((el) => {
           el.style.visibility = "visible";
         });
         const tl = gsap.timeline({ delay: 0.4 });
-        tl.to(chars, {
+        tl.to(words, {
           rotateX: 0,
           y: 0,
           opacity: 1,
@@ -63,7 +63,7 @@ export default function AtelierScroll({ images }: { images: AtelierImage[] }) {
           ease: "power4.out",
           stagger: 0.06,
           onComplete: () =>
-            chars.forEach((el) => {
+            words.forEach((el) => {
               el.style.willChange = "auto";
             }),
         }).to(
@@ -151,7 +151,7 @@ export default function AtelierScroll({ images }: { images: AtelierImage[] }) {
 
   return (
     <div ref={scopeRef} className="bg-plum-dark">
-      <AtelierHeroAct titleCharsRef={titleCharsRef} taglineRef={taglineRef} />
+      <AtelierHeroAct titleWordsRef={titleWordsRef} taglineRef={taglineRef} />
       <AtelierGalleryAct images={images} itemsRef={itemsRef} />
     </div>
   );
