@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { gsap } from "gsap";
 import { CloseButton } from "@/components/shared/CloseButton";
@@ -11,13 +11,46 @@ type Status = "idle" | "sending" | "sent" | "error";
 export function CareersDrawer() {
 	const [open, setOpen] = useState(false);
 	const [values, setValues] = useState<Record<string, string>>({});
+	const [files, setFiles] = useState<{
+		portfolio?: { name: string; content: string };
+		resume?: { name: string; content: string };
+	}>({});
+	const [fileError, setFileError] = useState("");
+	const [roleLocked, setRoleLocked] = useState(false);
 	const [status, setStatus] = useState<Status>("idle");
 	const panelRef = useRef<HTMLDivElement>(null);
+
+	const MAX_FILE = 3 * 1024 * 1024;
+	const readPdf = (kind: "portfolio" | "resume", file?: File) => {
+		if (!file) {
+			setFiles((s) => ({ ...s, [kind]: undefined }));
+			return;
+		}
+		if (file.type !== "application/pdf") {
+			setFileError("Please upload a PDF file.");
+			return;
+		}
+		if (file.size > MAX_FILE) {
+			setFileError("Each file must be under 3 MB.");
+			return;
+		}
+		setFileError("");
+		const reader = new FileReader();
+		reader.onload = () => {
+			const result = String(reader.result);
+			const content = result.includes(",")
+				? (result.split(",").pop() ?? "")
+				: result;
+			setFiles((s) => ({ ...s, [kind]: { name: file.name, content } }));
+		};
+		reader.readAsDataURL(file);
+	};
 
 	useEffect(() => {
 		const onOpen = (e: Event) => {
 			const role = (e as CustomEvent).detail?.role as string | undefined;
 			setValues(role ? { role } : {});
+			setRoleLocked(!!role);
 			setStatus("idle");
 			setOpen(true);
 		};
@@ -71,14 +104,43 @@ export function CareersDrawer() {
 
 	const submit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		if (!files.portfolio) {
+			setFileError("Please attach your portfolio (PDF).");
+			return;
+		}
+		if (!files.resume) {
+			setFileError("Please attach your resume (PDF).");
+			return;
+		}
+		const totalB64 =
+			(files.portfolio?.content.length ?? 0) +
+			(files.resume?.content.length ?? 0);
+		if (totalB64 > 4_000_000) {
+			setFileError(
+				"Combined files are too large — please compress to ~2 MB each.",
+			);
+			return;
+		}
+		setFileError("");
 		setStatus("sending");
 		try {
 			const res = await fetch("/api/contact", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ kind: "career", ...values }),
+				body: JSON.stringify({
+					kind: "career",
+					...values,
+					portfolioFile: files.portfolio,
+					resumeFile: files.resume,
+				}),
 			});
-			if (!res.ok) throw new Error("failed");
+			if (!res.ok) {
+				const body = (await res.json().catch(() => null)) as {
+					error?: string;
+				} | null;
+				if (body?.error) setFileError(body.error);
+				throw new Error("failed");
+			}
 			setStatus("sent");
 		} catch {
 			setStatus("error");
@@ -128,35 +190,71 @@ export function CareersDrawer() {
 					) : (
 						<form onSubmit={submit} className="flex flex-col gap-6 sm:gap-8">
 							{cfg.fields.map((f) => (
-								<label key={f.name} className="ca-reveal flex flex-col gap-2.5">
-									<span className="font-sans font-normal uppercase tracking-[0.28em] text-gold text-[0.65rem]">
-										{f.label}
-									</span>
-									{f.type === "textarea" ? (
-										<textarea
-											required={f.required}
-											rows={3}
-											placeholder={f.placeholder}
-											value={values[f.name] ?? ""}
-											onChange={(e) =>
-												setValues((v) => ({ ...v, [f.name]: e.target.value }))
-											}
-											className={`${inputCls} resize-none`}
-										/>
-									) : (
-										<input
-											type={f.type}
-											required={f.required}
-											placeholder={f.placeholder}
-											value={values[f.name] ?? ""}
-											onChange={(e) =>
-												setValues((v) => ({ ...v, [f.name]: e.target.value }))
-											}
-											className={inputCls}
-										/>
-									)}
-								</label>
+								<Fragment key={f.name}>
+									<label className="ca-reveal flex flex-col gap-2.5">
+										<span className="font-sans font-normal uppercase tracking-[0.28em] text-gold text-[0.65rem]">
+											{f.label}
+										</span>
+										{f.type === "textarea" ? (
+											<textarea
+												required={f.required}
+												rows={3}
+												placeholder={f.placeholder}
+												value={values[f.name] ?? ""}
+												onChange={(e) =>
+													setValues((v) => ({ ...v, [f.name]: e.target.value }))
+												}
+												className={`${inputCls} resize-none`}
+											/>
+										) : (
+											<input
+												type={f.type}
+												required={f.required}
+												readOnly={f.name === "role" && roleLocked}
+												placeholder={f.placeholder}
+												value={values[f.name] ?? ""}
+												onChange={(e) =>
+													setValues((v) => ({ ...v, [f.name]: e.target.value }))
+												}
+												className={
+													f.name === "role" && roleLocked
+														? `${inputCls} cursor-not-allowed text-cream/70`
+														: inputCls
+												}
+											/>
+										)}
+									</label>
+									{f.name === "role" &&
+										(["portfolio", "resume"] as const).map((k) => (
+											<label
+												key={k}
+												className="ca-reveal flex flex-col gap-2.5">
+												<span className="font-sans font-normal uppercase tracking-[0.28em] text-gold text-[0.65rem]">
+													{k === "portfolio" ? "Portfolio" : "Resume"} (PDF,
+													required)
+												</span>
+												<input
+													type="file"
+													accept="application/pdf"
+													onChange={(e) => readPdf(k, e.target.files?.[0])}
+													className="cursor-pointer text-cream/80 text-sm file:mr-4 file:cursor-pointer file:rounded-sm file:border file:border-gold/40 file:bg-transparent file:px-4 file:py-2 file:font-sans file:uppercase file:tracking-[0.2em] file:text-gold file:text-[0.6rem] hover:file:border-gold"
+												/>
+												{files[k] && (
+													<span className="font-sans text-cream/70 text-sm">
+														{files[k]!.name}
+													</span>
+												)}
+											</label>
+										))}
+								</Fragment>
 							))}
+
+							{fileError && (
+								<p className="ca-reveal font-sans text-base text-gold">
+									{fileError}
+								</p>
+							)}
+
 							<button
 								type="submit"
 								disabled={status === "sending"}

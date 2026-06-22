@@ -65,13 +65,6 @@ export const CAREERS = {
 				required: true,
 			},
 			{
-				name: "portfolio",
-				label: "Portfolio / Link",
-				placeholder: "https:// …",
-				type: "url",
-				required: false,
-			},
-			{
 				name: "phone",
 				label: "Phone Number",
 				placeholder: "+91 …",
