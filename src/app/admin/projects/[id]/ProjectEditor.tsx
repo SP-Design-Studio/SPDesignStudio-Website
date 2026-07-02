@@ -165,6 +165,9 @@ export function ProjectEditor({
 									<option value="renovation" className="bg-plum-dark">
 										Renovation
 									</option>
+									<option value="design-consultation" className="bg-plum-dark">
+										Design consultation
+									</option>
 								</select>
 							</label>
 							<label>

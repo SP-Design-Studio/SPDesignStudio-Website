@@ -23,7 +23,7 @@ const ProjectSchema = z.object({
 	location: z.string().nullable().optional(),
 	type: z.string().nullable().optional(),
 	category: z.string().min(1, "Category is required."),
-	delivery: z.enum(["turnkey", "renovation"]).optional(),
+	delivery: z.enum(["turnkey", "renovation", "design-consultation"]).optional(),
 	img: z.string().nullable().optional(),
 	year: z.string().nullable().optional(),
 	blurb: z.string().nullable().optional(),
