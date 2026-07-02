@@ -39,7 +39,7 @@ export default function ProjectsPinnedScroll({
 	projects: Project[];
 	categories: ProjectCategoryOption[];
 }) {
-	const cats = categories.length ? categories : DEFAULT_CATEGORIES;
+	const cats = categories?.length ? categories : DEFAULT_CATEGORIES;
 	const wrapperRef = useRef<HTMLDivElement>(null);
 
 	const heroRef = useRef<HTMLDivElement>(null);
