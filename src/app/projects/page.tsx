@@ -7,7 +7,7 @@ export const revalidate = 60;
 export const metadata = pageMeta("projects");
 
 export default async function ProjectsPage() {
-	const { projects } = await getProjectsData();
+	const { projects, categories } = await getProjectsData();
 	return (
 		<>
 			<JsonLd
@@ -16,7 +16,7 @@ export default async function ProjectsPage() {
 					webPageLd("projects", "CollectionPage"),
 				]}
 			/>
-			<ProjectsClient projects={projects} />
+			<ProjectsClient projects={projects} categories={categories} />
 		</>
 	);
 }

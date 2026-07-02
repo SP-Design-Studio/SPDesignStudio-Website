@@ -22,7 +22,7 @@ const ProjectSchema = z.object({
 	title: z.string().min(1, "Title is required."),
 	location: z.string().nullable().optional(),
 	type: z.string().nullable().optional(),
-	category: z.enum(["residential", "commercial", "hospitality"]),
+	category: z.string().min(1, "Category is required."),
 	delivery: z.enum(["turnkey", "renovation"]).optional(),
 	img: z.string().nullable().optional(),
 	year: z.string().nullable().optional(),
@@ -193,5 +193,80 @@ export async function reorderGallery(
 		),
 	);
 	await reval(projectId);
+	return { ok: true };
+}
+
+const CategorySchema = z.object({
+	label: z.string().min(1, "Label is required."),
+	slug: z
+		.string()
+		.min(1, "Slug is required.")
+		.regex(/^[a-z0-9-]+$/, "Slug: lowercase letters, numbers, hyphens only."),
+});
+
+async function revalCategories() {
+	revalidatePath("/admin/projects");
+	await logActivity("edit", "Project types");
+}
+
+export async function createCategory(input: unknown): Promise<ActionResult> {
+	await requireRole("editor");
+	const parsed = CategorySchema.safeParse(input);
+	if (!parsed.success)
+		return { error: parsed.error.issues[0]?.message ?? "Invalid." };
+	const supabase = await createClient();
+	const { data: top } = await supabase
+		.from("project_categories")
+		.select("sort")
+		.order("sort", { ascending: false })
+		.limit(1)
+		.maybeSingle();
+	const { error } = await supabase
+		.from("project_categories")
+		.insert({ ...parsed.data, sort: (top?.sort ?? -1) + 1 });
+	if (error) return { error: error.message };
+	await revalCategories();
+	return { ok: true };
+}
+
+export async function updateCategory(
+	id: string,
+	input: unknown,
+): Promise<ActionResult> {
+	await requireRole("editor");
+	const parsed = CategorySchema.safeParse(input);
+	if (!parsed.success)
+		return { error: parsed.error.issues[0]?.message ?? "Invalid." };
+	const supabase = await createClient();
+	const { error } = await supabase
+		.from("project_categories")
+		.update(parsed.data)
+		.eq("id", id);
+	if (error) return { error: error.message };
+	await revalCategories();
+	return { ok: true };
+}
+
+export async function deleteCategory(id: string): Promise<ActionResult> {
+	await requireRole("editor");
+	const supabase = await createClient();
+	const { error } = await supabase
+		.from("project_categories")
+		.delete()
+		.eq("id", id);
+	if (error) return { error: error.message };
+	await revalCategories();
+	return { ok: true };
+}
+
+export async function reorderCategories(ids: string[]): Promise<ActionResult> {
+	await requireRole("editor");
+	const supabase = await createClient();
+	await Promise.all(
+		ids.map((id, i) =>
+			supabase.from("project_categories").update({ sort: i }).eq("id", id),
+		),
+	);
+	revalidatePath("/admin/projects");
 	return { ok: true };
 }

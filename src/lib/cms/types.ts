@@ -95,13 +95,20 @@ export interface ProjectGalleryImage {
 	sort: number;
 }
 
+export interface ProjectCategoryRow {
+	id: string;
+	label: string;
+	slug: string;
+	sort: number;
+}
+
 export interface CmsProject {
 	id: string;
 	slug: string;
 	title: string;
 	location: string | null;
 	type: string | null;
-	category: "residential" | "commercial" | "hospitality";
+	category: string;
 	delivery: "turnkey" | "renovation";
 	img: string | null;
 	year: string | null;

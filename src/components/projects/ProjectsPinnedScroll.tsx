@@ -9,7 +9,12 @@ import { CategoryPills } from "./CategoryPills";
 import { ProjectDetail } from "./ProjectDetail";
 import { getLenis } from "@/lib/smoothScroll";
 import { enableSectionSnapAnchors } from "@/lib/sectionSnap";
-import type { Project, ProjectCategory } from "@/lib/data/projects";
+import {
+	DEFAULT_CATEGORIES,
+	type Project,
+	type ProjectCategory,
+	type ProjectCategoryOption,
+} from "@/lib/data/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,10 +33,13 @@ const CLIP_EXIT = "inset(0% 0% 100% 0% round 0.125rem)";
 export default function ProjectsPinnedScroll({
 	started,
 	projects,
+	categories,
 }: {
 	started: boolean;
 	projects: Project[];
+	categories: ProjectCategoryOption[];
 }) {
+	const cats = categories.length ? categories : DEFAULT_CATEGORIES;
 	const wrapperRef = useRef<HTMLDivElement>(null);
 
 	const heroRef = useRef<HTMLDivElement>(null);
@@ -431,7 +439,11 @@ export default function ProjectsPinnedScroll({
 				ref={pillWrapRef}
 				className="fixed top-0 left-1/2 z-50 will-change-transform"
 				style={{ opacity: 0 }}>
-				<CategoryPills active={active} onSelect={handleCategoryClick} />
+				<CategoryPills
+					categories={cats}
+					active={active}
+					onSelect={handleCategoryClick}
+				/>
 			</div>
 
 			{detailProject && (

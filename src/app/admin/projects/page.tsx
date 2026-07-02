@@ -1,14 +1,21 @@
 import { NavLink } from "../_components/NavLink";
 import { requireRole } from "@/lib/auth";
-import { getProjectsWithDetails } from "@/lib/cms/queries";
+import {
+	getProjectsWithDetails,
+	getProjectCategories,
+} from "@/lib/cms/queries";
 import { ProjectsList } from "./ProjectsList";
+import { ProjectTypesManager } from "./ProjectTypesManager";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Projects" };
 
 export default async function AdminProjectsPage() {
 	await requireRole("editor");
-	const projects = await getProjectsWithDetails();
+	const [projects, categories] = await Promise.all([
+		getProjectsWithDetails(),
+		getProjectCategories(),
+	]);
 
 	return (
 		<div className="mx-auto max-w-4xl px-6 py-12 md:px-10 md:py-16">
@@ -30,6 +37,7 @@ export default async function AdminProjectsPage() {
 				</p>
 			</div>
 
+			<ProjectTypesManager items={categories} />
 			<ProjectsList initial={projects} />
 		</div>
 	);

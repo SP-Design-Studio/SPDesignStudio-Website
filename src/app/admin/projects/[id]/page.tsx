@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireRole } from "@/lib/auth";
-import { getProjectById } from "@/lib/cms/queries";
+import { getProjectById, getProjectCategories } from "@/lib/cms/queries";
 import { ProjectEditor } from "./ProjectEditor";
 
 export const dynamic = "force-dynamic";
@@ -23,7 +23,10 @@ export default async function AdminProjectEditPage({
 }) {
 	await requireRole("editor");
 	const { id } = await params;
-	const project = await getProjectById(id);
+	const [project, categories] = await Promise.all([
+		getProjectById(id),
+		getProjectCategories(),
+	]);
 	if (!project) notFound();
 
 	return (
@@ -42,7 +45,7 @@ export default async function AdminProjectEditPage({
 				</h1>
 			</div>
 
-			<ProjectEditor project={project} />
+			<ProjectEditor project={project} categories={categories} />
 		</div>
 	);
 }

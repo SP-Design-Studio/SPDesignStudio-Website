@@ -5,8 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ImageUploader } from "@/components/admin/ImageUploader";
-import { PROJECT_CATEGORIES } from "@/lib/data/projects";
-import type { CmsProject } from "@/lib/cms/types";
+import type { CmsProject, ProjectCategoryRow } from "@/lib/cms/types";
 import {
 	updateProject,
 	addFact,
@@ -30,7 +29,13 @@ const labelCls =
 const sectionCls =
 	"font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem] mb-5";
 
-export function ProjectEditor({ project }: { project: CmsProject }) {
+export function ProjectEditor({
+	project,
+	categories,
+}: {
+	project: CmsProject;
+	categories: ProjectCategoryRow[];
+}) {
 	const router = useRouter();
 	const [pending, start] = useSaving();
 
@@ -129,10 +134,18 @@ export function ProjectEditor({ project }: { project: CmsProject }) {
 									className={`${inputCls} cursor-pointer`}
 									value={form.category}
 									onChange={(e) =>
-										set("category", e.target.value as typeof form.category)
+										set("category", e.target.value)
 									}>
-									{PROJECT_CATEGORIES.map((c) => (
-										<option key={c.id} value={c.id} className="bg-plum-dark">
+									{categories.length === 0 && (
+										<option value={form.category} className="bg-plum-dark">
+											{form.category || "—"}
+										</option>
+									)}
+									{categories.map((c) => (
+										<option
+											key={c.id}
+											value={c.slug}
+											className="bg-plum-dark">
 											{c.label}
 										</option>
 									))}

@@ -1,6 +1,6 @@
 import { createPublicClient } from "@/lib/supabase/public";
 import { diffData } from "./diff";
-import type { Project, ProjectCategory } from "@/lib/data/projects";
+import type { Project, ProjectCategoryOption } from "@/lib/data/projects";
 import {
 	getDisciplines,
 	getPartners,
@@ -11,6 +11,7 @@ import {
 	getTimeline,
 	getHonours,
 	getProjectsWithDetails,
+	getProjectCategories,
 	getSiteSettings,
 	getCareerOpenings,
 	getCareersSettings,
@@ -87,6 +88,7 @@ export interface AboutData {
 }
 export interface ProjectsData {
 	projects: Project[];
+	categories: ProjectCategoryOption[];
 }
 export interface ContactData {
 	settings: SiteSettings | null;
@@ -127,13 +129,16 @@ export async function buildAbout(): Promise<AboutData> {
 }
 
 export async function buildProjects(): Promise<ProjectsData> {
-	const db = await getProjectsWithDetails();
+	const [db, cats] = await Promise.all([
+		getProjectsWithDetails(),
+		getProjectCategories(),
+	]);
 	const projects: Project[] = db.map((p) => ({
 		id: p.slug,
 		title: p.title,
 		location: p.location ?? "",
 		type: p.type ?? "",
-		category: p.category as ProjectCategory,
+		category: p.category,
 		delivery: p.delivery,
 		img: p.img ?? "",
 		year: p.year ?? "",
@@ -141,7 +146,11 @@ export async function buildProjects(): Promise<ProjectsData> {
 		facts: (p.facts ?? []).map((f) => ({ label: f.label, value: f.value })),
 		gallery: (p.gallery ?? []).map((g) => g.url),
 	}));
-	return { projects };
+	const categories: ProjectCategoryOption[] = cats.map((c) => ({
+		slug: c.slug,
+		label: c.label,
+	}));
+	return { projects, categories };
 }
 
 export async function buildContact(): Promise<ContactData> {
@@ -178,7 +187,7 @@ const EMPTY_HOME: HomeData = {
 	recognition: [],
 };
 const EMPTY_ABOUT: AboutData = { team: [], timeline: [], honours: [] };
-const EMPTY_PROJECTS: ProjectsData = { projects: [] };
+const EMPTY_PROJECTS: ProjectsData = { projects: [], categories: [] };
 const EMPTY_CONTACT: ContactData = { settings: null };
 const EMPTY_CAREERS: CareersData = { openings: [], settings: null };
 const EMPTY_PROCESS: ProcessData = { steps: [] };

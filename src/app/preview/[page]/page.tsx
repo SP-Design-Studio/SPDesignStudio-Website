@@ -57,7 +57,9 @@ export default async function PreviewPage({
 		}
 		case "projects": {
 			const d = await buildProjects();
-			view = <ProjectsClient projects={d.projects} />;
+			view = (
+				<ProjectsClient projects={d.projects} categories={d.categories} />
+			);
 			break;
 		}
 		case "contact": {

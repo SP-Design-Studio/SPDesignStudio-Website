@@ -11,6 +11,7 @@ import type {
 	TimelineEntry,
 	Honour,
 	CmsProject,
+	ProjectCategoryRow,
 	SiteSettings,
 	CareerOpening,
 	CareersSettings,
@@ -63,6 +64,15 @@ export async function getProjectsWithDetails(): Promise<CmsProject[]> {
 		return [];
 	}
 	return ((data ?? []) as CmsProject[]).map(sortNested);
+}
+
+export async function getProjectCategories(): Promise<ProjectCategoryRow[]> {
+	const db = createPublicClient();
+	const { data } = await db
+		.from("project_categories")
+		.select("id, label, slug, sort")
+		.order("sort", { ascending: true });
+	return (data ?? []) as ProjectCategoryRow[];
 }
 
 export async function getProjectById(id: string): Promise<CmsProject | null> {

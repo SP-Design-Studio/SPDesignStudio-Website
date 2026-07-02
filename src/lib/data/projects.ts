@@ -3,13 +3,19 @@ export const PROJECTS_PAGE = {
 	title: ["The Work That", "Defines the", "Studio"],
 };
 
-export const PROJECT_CATEGORIES = [
-	{ id: "residential", label: "Residential" },
-	{ id: "commercial", label: "Commercial" },
-	{ id: "hospitality", label: "Hospitality" },
-] as const;
+export interface ProjectCategoryOption {
+	slug: string;
+	label: string;
+}
 
-export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number]["id"];
+// Fallback used only when the CMS-managed list hasn't been published yet.
+export const DEFAULT_CATEGORIES: ProjectCategoryOption[] = [
+	{ slug: "residential", label: "Residential" },
+	{ slug: "commercial", label: "Commercial" },
+	{ slug: "hospitality", label: "Hospitality" },
+];
+
+export type ProjectCategory = string;
 
 export interface ProjectFact {
 	label: string;

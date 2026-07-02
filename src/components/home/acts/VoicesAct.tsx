@@ -202,7 +202,7 @@ export function VoicesAct({
 									className="font-serif text-gold/35 leading-[0.5] select-none text-5xl">
 									&ldquo;
 								</span>
-								<blockquote className="font-sans font-normal text-cream/90 leading-normal text-lg md:text-xl lg:text-xl -mt-2">
+								<blockquote className="font-sans font-normal text-cream/90 leading-normal text-base md:text-lg -mt-2">
 									{q.quote}
 								</blockquote>
 								<figcaption className="mt-auto pt-5">
@@ -316,7 +316,7 @@ export function VoicesAct({
 													className="block font-serif text-gold/30 leading-[0.4] select-none text-6xl md:text-7xl">
 													&ldquo;
 												</span>
-												<blockquote className="font-sans font-normal text-cream/90 leading-relaxed text-xl md:text-2xl -mt-3">
+												<blockquote className="font-sans font-normal text-cream/90 leading-relaxed text-lg md:text-xl -mt-3">
 													{q.quote}
 												</blockquote>
 												<div className="mt-6 flex items-center gap-4">

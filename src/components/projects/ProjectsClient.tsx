@@ -5,9 +5,15 @@ import SmoothScrollProvider from "@/components/shared/SmoothScrollProvider";
 import Nav from "@/components/shared/Nav";
 import ProjectsPinnedScroll from "@/components/projects/ProjectsPinnedScroll";
 import Footer from "@/components/shared/Footer";
-import type { Project } from "@/lib/data/projects";
+import type { Project, ProjectCategoryOption } from "@/lib/data/projects";
 
-export default function ProjectsClient({ projects }: { projects: Project[] }) {
+export default function ProjectsClient({
+	projects,
+	categories,
+}: {
+	projects: Project[];
+	categories: ProjectCategoryOption[];
+}) {
 	const [started, setStarted] = useState(false);
 	const [navVisible, setNavVisible] = useState(false);
 
@@ -23,7 +29,11 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
 		<SmoothScrollProvider>
 			<Nav visible={navVisible} />
 			<main>
-				<ProjectsPinnedScroll started={started} projects={projects} />
+				<ProjectsPinnedScroll
+					started={started}
+					projects={projects}
+					categories={categories}
+				/>
 				<Footer />
 			</main>
 		</SmoothScrollProvider>
