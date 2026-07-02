@@ -28,7 +28,7 @@ export interface Project {
 	location: string;
 	type: string;
 	category: ProjectCategory;
-	delivery?: "turnkey" | "renovation";
+	delivery?: "turnkey" | "renovation" | "design-consultation";
 	img: string;
 	year: string;
 	blurb: string;
