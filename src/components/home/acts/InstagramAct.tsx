@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { FaInstagram, FaPlay } from "react-icons/fa";
 import { Words } from "@/components/shared/Words";
@@ -41,6 +40,8 @@ function Tile({
   duplicate?: boolean;
 }) {
   const isReel = kind === "reel";
+  const [broken, setBroken] = useState(false);
+  if (broken) return null;
   return (
     <a
       ref={refCb}
@@ -57,12 +58,12 @@ function Tile({
           : "h-[clamp(108px,15vh,150px)] md:h-[clamp(150px,18vh,210px)] aspect-square"
       }`}
     >
-      <Image
+      <img
         src={m.image}
         alt={isReel ? "Studio reel" : "Studio post"}
-        fill
-        sizes="(max-width: 768px) 45vw, 220px"
-        className="object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
+        loading="lazy"
+        onError={() => setBroken(true)}
+        className="h-full w-full object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
       />
       <div className="absolute inset-0 bg-plum-dark/55 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-[2px]">
         <span className="translate-y-2 group-hover:translate-y-0 transition-transform duration-500 text-[0.6rem] uppercase tracking-[0.3em] text-gold">

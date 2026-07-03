@@ -1,7 +1,7 @@
 import HomeClient from "@/components/home/HomeClient";
 import { pageMeta } from "@/lib/seo";
 import { getHomeData } from "@/lib/cms/pages";
-import { getInstagramMedia } from "@/lib/instagram";
+import { getCuratedInstagram } from "@/lib/instagram";
 
 export const revalidate = 60;
 export const metadata = pageMeta("home");
@@ -9,7 +9,7 @@ export const metadata = pageMeta("home");
 export default async function Home() {
 	const [data, instagram] = await Promise.all([
 		getHomeData(),
-		getInstagramMedia(),
+		getCuratedInstagram(),
 	]);
 	return (
 		<HomeClient

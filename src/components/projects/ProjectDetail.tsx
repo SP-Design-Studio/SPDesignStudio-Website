@@ -286,25 +286,31 @@ export function ProjectDetail({
               </div>
             </div>
 
-            <div className="mt-16 md:mt-24 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
-              {project.gallery.map((src, i) => (
-                <div
-                  key={src + i}
-                  onClick={() => lightbox.open(galleryBase + i)}
-                  className={`pd-img relative cursor-pointer overflow-hidden rounded-sm will-change-[clip-path] ${
-                    i === 0 ? "md:col-span-2 aspect-video" : "aspect-4/3"
-                  }`}
-                >
-                  <Image
-                    src={src}
-                    alt={`${project.title} ${i + 1}`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover transition-transform duration-1200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.04]"
-                  />
+            {project.gallery.length > 0 && (
+              <div className="mt-16 md:mt-24">
+                <div className="pd-reveal mb-6 flex items-center gap-4 font-sans font-normal uppercase tracking-[0.32em] text-gold text-[0.672rem] md:mb-8 md:text-sm">
+                  <span>Gallery</span>
+                  <span className="h-px flex-1 bg-gold/25" />
                 </div>
-              ))}
-            </div>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
+                  {project.gallery.map((src, i) => (
+                    <div
+                      key={src + i}
+                      onClick={() => lightbox.open(galleryBase + i)}
+                      className="pd-img relative aspect-4/3 cursor-pointer overflow-hidden rounded-sm will-change-[clip-path]"
+                    >
+                      <Image
+                        src={src}
+                        alt={`${project.title} ${i + 1}`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover transition-transform duration-1200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.04]"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="pd-reveal mt-16 flex items-center justify-between border-t border-cream/10 pt-8">
               <button

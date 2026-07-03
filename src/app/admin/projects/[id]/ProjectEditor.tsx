@@ -81,7 +81,7 @@ export function ProjectEditor({
 						value={form.img}
 						onChange={(url) => set("img", url)}
 						folder="projects"
-						aspect="aspect-[16/10]"
+						aspect="aspect-[3/4]"
 					/>
 					<div className="flex flex-col gap-4">
 						<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

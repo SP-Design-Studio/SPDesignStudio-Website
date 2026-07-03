@@ -6,6 +6,7 @@ import type {
 	Discipline,
 	Partner,
 	PartnerCategory,
+	InstagramPost,
 	Testimonial,
 	TeamMember,
 	TimelineEntry,
@@ -37,6 +38,8 @@ export const getDisciplines = () => list<Discipline>("home_disciplines");
 export const getPartners = () => list<Partner>("partners");
 export const getPartnerCategories = () =>
 	list<PartnerCategory>("partner_categories");
+export const getInstagramPosts = () =>
+	list<InstagramPost>("instagram_posts");
 export const getTestimonials = () => list<Testimonial>("testimonials");
 export const getTeam = () => list<TeamMember>("team_members");
 export const getTimeline = () => list<TimelineEntry>("timeline_entries");
@@ -125,6 +128,7 @@ export async function getContentCounts(): Promise<Record<string, number>> {
 		"projects",
 		"process_steps",
 		"career_openings",
+		"instagram_posts",
 	];
 	const entries = await Promise.all(
 		tables.map(async (t) => {

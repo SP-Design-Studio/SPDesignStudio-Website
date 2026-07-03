@@ -28,6 +28,14 @@ const SECTIONS = [
 		unit: "logos",
 	},
 	{
+		label: "Instagram",
+		note: "Curated studio feed",
+		href: "/admin/instagram",
+		view: "/",
+		countKey: "instagram_posts",
+		unit: "posts",
+	},
+	{
 		label: "Testimonials",
 		note: "Client reflections",
 		href: "/admin/testimonials",
@@ -134,12 +142,12 @@ export default async function AdminHome() {
 			<div className="grid grid-cols-1 gap-px overflow-hidden rounded-sm border border-cream/10 bg-cream/10 sm:grid-cols-2 lg:grid-cols-3">
 				{SECTIONS.map((s) => {
 					const count = s.countKey ? counts[s.countKey] : undefined;
-					const draft = draftByKey.get(s.page);
+					const draft = s.page ? draftByKey.get(s.page) : undefined;
 					const sectionStatus = !draft
 						? "clean"
 						: draft.status === "unpublished"
 							? "unpublished"
-							: s.keys.some((k) => draft.dirtyKeys.includes(k))
+							: (s.keys ?? []).some((k) => draft.dirtyKeys.includes(k))
 								? "dirty"
 								: "clean";
 					const pending = sectionStatus !== "clean";

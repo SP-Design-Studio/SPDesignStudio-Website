@@ -25,6 +25,7 @@ function parseAspect(cls: string): number {
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new window.Image();
+    img.crossOrigin = "anonymous";
     img.onload = () => resolve(img);
     img.onerror = reject;
     img.src = src;
@@ -75,6 +76,7 @@ export function ImageUploader({
 
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const cropMeta = useRef({ type: "image/jpeg" });
+  const cropIsBlob = useRef(false);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [areaPixels, setAreaPixels] = useState<Area | null>(null);
@@ -92,16 +94,36 @@ export function ImageUploader({
     else if (res.url) onChange(res.url);
   };
 
-  const openCrop = (file: File) => {
-    cropMeta.current = { type: file.type };
+  const startCrop = () => {
     setCrop({ x: 0, y: 0 });
     setZoom(1);
     setAreaPixels(null);
+  };
+
+  const openCrop = (file: File) => {
+    cropMeta.current = { type: file.type };
+    cropIsBlob.current = true;
+    startCrop();
     setCropSrc(URL.createObjectURL(file));
   };
 
+  const openCropFromUrl = (url: string) => {
+    const ext = url.split("?")[0]!.split(".").pop()?.toLowerCase() ?? "";
+    cropMeta.current = {
+      type:
+        ext === "png"
+          ? "image/png"
+          : ext === "webp"
+            ? "image/webp"
+            : "image/jpeg",
+    };
+    cropIsBlob.current = false;
+    startCrop();
+    setCropSrc(url);
+  };
+
   const cancelCrop = () => {
-    if (cropSrc) URL.revokeObjectURL(cropSrc);
+    if (cropSrc && cropIsBlob.current) URL.revokeObjectURL(cropSrc);
     setCropSrc(null);
   };
 
@@ -142,6 +164,13 @@ export function ImageUploader({
               className="w-[78%] cursor-pointer border border-cream/60 bg-plum-dark/50 px-3 py-1.5 text-center font-sans font-light uppercase tracking-[0.2em] text-cream text-[0.6rem] transition-colors hover:border-gold hover:text-gold"
             >
               Replace
+            </button>
+            <button
+              type="button"
+              onClick={() => value && openCropFromUrl(value)}
+              className="w-[78%] cursor-pointer border border-cream/60 bg-plum-dark/50 px-3 py-1.5 text-center font-sans font-light uppercase tracking-[0.2em] text-cream text-[0.6rem] transition-colors hover:border-gold hover:text-gold"
+            >
+              Crop
             </button>
             <button
               type="button"

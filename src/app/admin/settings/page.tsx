@@ -1,7 +1,6 @@
+import Link from "next/link";
 import { requireRole } from "@/lib/auth";
-import { getInstagramSettings } from "@/lib/instagram";
 import { getGrainSettings } from "@/lib/config";
-import { InstagramSettings } from "./InstagramSettings";
 import { GrainToggle } from "./GrainToggle";
 
 export const metadata = { title: "Settings" };
@@ -11,10 +10,7 @@ const sectionLabel =
 
 export default async function SettingsPage() {
 	await requireRole("admin");
-	const [ig, grain] = await Promise.all([
-		getInstagramSettings(),
-		getGrainSettings(),
-	]);
+	const grain = await getGrainSettings();
 
 	return (
 		<div className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-16">
@@ -34,15 +30,14 @@ export default async function SettingsPage() {
 			<section className="mt-14 border-t border-cream/10 pt-10">
 				<div className={sectionLabel}>Instagram</div>
 				<p className="mb-6 font-sans font-light text-cream/82 text-base">
-					The &ldquo;Studio on Instagram&rdquo; section on the home page. Set how
-					many reels and posts to pull, and the access token.
+					The &ldquo;Studio on Instagram&rdquo; section is now a curated feed you
+					manage directly &mdash; no access token or API needed.
 				</p>
-				<InstagramSettings
-					enabled={ig.enabled}
-					reelsCount={ig.reelsCount}
-					postsCount={ig.postsCount}
-					hasToken={ig.hasToken}
-				/>
+				<Link
+					href="/admin/instagram"
+					className="w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.732rem] transition-colors hover:bg-gold/10">
+					Manage Instagram feed &rarr;
+				</Link>
 			</section>
 		</div>
 	);

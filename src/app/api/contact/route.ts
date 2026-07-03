@@ -4,7 +4,7 @@ import { getSiteSettings } from "@/lib/cms/queries";
 import { inquiryNotification, acknowledgement } from "@/lib/email/templates";
 import { scanFile } from "@/lib/security/virusScan";
 
-const MAX_FILE_BYTES = 3 * 1024 * 1024; // 3 MB per file
+const MAX_FILE_BYTES = 4 * 1024 * 1024; // 4 MB per file
 const PDF_MAGIC = [0x25, 0x50, 0x44, 0x46]; // "%PDF"
 
 type UploadField = { name: string; content: string };
@@ -35,7 +35,7 @@ async function prepareAttachment(
   const file = decodeFile(raw);
   if (!file) return { error: `${label}: invalid file.` };
   if (file.bytes.length > MAX_FILE_BYTES)
-    return { error: `${label}: file exceeds 3 MB.` };
+    return { error: `${label}: file exceeds 4 MB.` };
   const isPdf = PDF_MAGIC.every((b, i) => file.bytes[i] === b);
   if (!isPdf) return { error: `${label}: only PDF files are allowed.` };
 
@@ -57,8 +57,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false }, { status: 400 });
   }
 
-  const { kind, name, email, message, portfolioFile, resumeFile, ...restRaw } =
-    data;
+  const {
+    kind,
+    name,
+    email,
+    message,
+    portfolioFile,
+    resumeFile,
+    portfolioLink,
+    ...restRaw
+  } = data;
   if (
     typeof name !== "string" ||
     typeof email !== "string" ||
@@ -73,12 +81,37 @@ export async function POST(req: Request) {
     );
   }
   const rest = restRaw as Record<string, string>;
+  const portfolioLinkStr =
+    typeof portfolioLink === "string" ? portfolioLink.trim() : "";
 
-  if (kind === "career" && (!portfolioFile || !resumeFile)) {
-    return NextResponse.json(
-      { ok: false, error: "Portfolio and resume (PDF) are required." },
-      { status: 422 },
-    );
+  if (kind === "career") {
+    if (!resumeFile)
+      return NextResponse.json(
+        { ok: false, error: "Resume (PDF) is required." },
+        { status: 422 },
+      );
+    if (!portfolioFile && !portfolioLinkStr)
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Attach a portfolio PDF or provide a portfolio link.",
+        },
+        { status: 422 },
+      );
+    if (portfolioLinkStr) {
+      try {
+        new URL(portfolioLinkStr);
+      } catch {
+        return NextResponse.json(
+          {
+            ok: false,
+            error: "Portfolio link must be a valid URL (include https://).",
+          },
+          { status: 422 },
+        );
+      }
+      rest["Portfolio link"] = portfolioLinkStr;
+    }
   }
 
   // Validate + virus-scan uploaded PDFs before attaching.

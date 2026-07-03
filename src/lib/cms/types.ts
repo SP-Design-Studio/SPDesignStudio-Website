@@ -45,6 +45,15 @@ export interface PartnerCategory {
 	sort: number;
 }
 
+export interface InstagramPost {
+	id: string;
+	image: string | null;
+	permalink: string;
+	caption: string;
+	is_reel: boolean;
+	sort: number;
+}
+
 export interface Testimonial {
 	id: string;
 	quote: string;
