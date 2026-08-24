@@ -22,6 +22,11 @@ export interface ProjectFact {
 	value: string;
 }
 
+export interface GalleryImage {
+	url: string;
+	aspect: number | null;
+}
+
 export interface Project {
 	id: string;
 	title: string;
@@ -33,10 +38,12 @@ export interface Project {
 	year: string;
 	blurb: string;
 	facts: ProjectFact[];
-	gallery: string[];
+	gallery: GalleryImage[];
 }
 
-export const PROJECTS: Project[] = [
+type SeedProject = Omit<Project, "gallery"> & { gallery: string[] };
+
+export const PROJECTS: SeedProject[] = [
 	{
 		id: "vanilla-vista",
 		title: "Vanilla Vista",

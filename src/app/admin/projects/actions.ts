@@ -149,6 +149,7 @@ export async function deleteFact(
 export async function addGalleryImage(
 	projectId: string,
 	url: string,
+	aspect?: number,
 ): Promise<ActionResult> {
 	await requireRole("editor");
 	const supabase = await createClient();
@@ -162,8 +163,26 @@ export async function addGalleryImage(
 	const { error } = await supabase.from("project_gallery").insert({
 		project_id: projectId,
 		url,
+		aspect: aspect ?? null,
 		sort: (top?.sort ?? -1) + 1,
 	});
+	if (error) return { error: error.message };
+	await reval(projectId);
+	return { ok: true };
+}
+
+export async function updateGalleryImage(
+	id: string,
+	projectId: string,
+	url: string,
+	aspect?: number,
+): Promise<ActionResult> {
+	await requireRole("editor");
+	const supabase = await createClient();
+	const { error } = await supabase
+		.from("project_gallery")
+		.update({ url, aspect: aspect ?? null })
+		.eq("id", id);
 	if (error) return { error: error.message };
 	await reval(projectId);
 	return { ok: true };

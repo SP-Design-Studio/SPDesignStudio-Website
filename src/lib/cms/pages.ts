@@ -144,7 +144,10 @@ export async function buildProjects(): Promise<ProjectsData> {
 		year: p.year ?? "",
 		blurb: p.blurb ?? "",
 		facts: (p.facts ?? []).map((f) => ({ label: f.label, value: f.value })),
-		gallery: (p.gallery ?? []).map((g) => g.url),
+		gallery: (p.gallery ?? []).map((g) => ({
+			url: g.url,
+			aspect: g.aspect ?? null,
+		})),
 	}));
 	const categories: ProjectCategoryOption[] = cats.map((c) => ({
 		slug: c.slug,

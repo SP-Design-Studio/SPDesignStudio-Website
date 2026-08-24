@@ -42,7 +42,7 @@ export function ProjectDetail({
 
   const lightboxUrls = [
     ...(project.img ? [project.img] : []),
-    ...project.gallery,
+    ...project.gallery.map((g) => g.url),
   ];
   const galleryBase = project.img ? 1 : 0;
   const lightbox = useImageLightbox(lightboxUrls);
@@ -292,15 +292,16 @@ export function ProjectDetail({
                   <span>Gallery</span>
                   <span className="h-px flex-1 bg-gold/25" />
                 </div>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
-                  {project.gallery.map((src, i) => (
+                <div className="columns-1 gap-4 md:columns-2 md:gap-5">
+                  {project.gallery.map((g, i) => (
                     <div
-                      key={src + i}
+                      key={g.url + i}
                       onClick={() => lightbox.open(galleryBase + i)}
-                      className="pd-img relative aspect-4/3 cursor-pointer overflow-hidden rounded-sm will-change-[clip-path]"
+                      style={{ aspectRatio: String(g.aspect ?? 4 / 3) }}
+                      className="pd-img relative mb-4 block w-full cursor-pointer overflow-hidden rounded-sm break-inside-avoid will-change-[clip-path] md:mb-5"
                     >
                       <Image
-                        src={src}
+                        src={g.url}
                         alt={`${project.title} ${i + 1}`}
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"

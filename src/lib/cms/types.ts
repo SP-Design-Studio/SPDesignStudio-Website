@@ -101,6 +101,7 @@ export interface ProjectFact {
 export interface ProjectGalleryImage {
 	id: string;
 	url: string;
+	aspect: number | null;
 	sort: number;
 }
 

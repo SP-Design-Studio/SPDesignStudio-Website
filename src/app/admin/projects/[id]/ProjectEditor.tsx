@@ -3,7 +3,6 @@ import { useSaving } from "@/lib/admin/saving";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import type { CmsProject, ProjectCategoryRow } from "@/lib/cms/types";
 import {
@@ -12,7 +11,9 @@ import {
 	updateFact,
 	deleteFact,
 	addGalleryImage,
+	updateGalleryImage,
 	deleteGalleryImage,
+	reorderGallery,
 } from "../actions";
 import { useDirty } from "@/lib/admin/useDirty";
 
@@ -28,6 +29,23 @@ const labelCls =
 	"font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem] mb-1.5";
 const sectionCls =
 	"font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem] mb-5";
+
+const RATIO_LABELS: [number, string][] = [
+	[1, "1:1"],
+	[4 / 3, "4:3"],
+	[3 / 2, "3:2"],
+	[16 / 9, "16:9"],
+	[21 / 10, "21:10"],
+	[4 / 5, "4:5"],
+	[3 / 4, "3:4"],
+	[9 / 16, "9:16"],
+];
+
+function ratioLabel(aspect: number | null): string {
+	if (!aspect) return "4:3";
+	const hit = RATIO_LABELS.find(([v]) => Math.abs(v - aspect) < 0.02);
+	return hit ? hit[1] : `${aspect.toFixed(2)}:1`;
+}
 
 export function ProjectEditor({
 	project,
@@ -57,6 +75,20 @@ export function ProjectEditor({
 
 	const facts = project.facts ?? [];
 	const gallery = project.gallery ?? [];
+
+	const moveGallery = (i: number, dir: -1 | 1) => {
+		const next = [...gallery];
+		const j = i + dir;
+		if (j < 0 || j >= next.length) return;
+		[next[i], next[j]] = [next[j]!, next[i]!];
+		start(async () => {
+			await reorderGallery(
+				project.id,
+				next.map((g) => g.id),
+			);
+			router.refresh();
+		});
+	};
 
 	const saveMain = () =>
 		start(async () => {
@@ -229,33 +261,63 @@ export function ProjectEditor({
 
 			<section>
 				<div className={sectionCls}>Gallery</div>
+				<p className="mb-4 max-w-2xl font-sans font-light text-cream/80 text-[0.732rem]">
+					Each image keeps its own crop ratio — pick 4:3, 16:9, 21:10 or any
+					other when cropping, and the project page lays the gallery out to
+					match. Hover an image to crop, replace, or remove it.
+				</p>
 				<div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-					{gallery.map((g) => (
-						<div key={g.id} className="group relative">
-							<div className="relative aspect-[4/3] overflow-hidden rounded-sm border border-cream/10 bg-plum-dark">
-								<Image src={g.url} alt="" fill sizes="200px" className="object-cover" />
-							</div>
-							<button
-								type="button"
-								onClick={() =>
+					{gallery.map((g, i) => (
+						<div key={g.id} className="flex flex-col gap-2">
+							<ImageUploader
+								value={g.url}
+								onChange={(url, meta) =>
 									start(async () => {
-										await deleteGalleryImage(g.id, project.id);
+										if (url)
+											await updateGalleryImage(
+												g.id,
+												project.id,
+												url,
+												meta?.aspect,
+											);
+										else await deleteGalleryImage(g.id, project.id);
 										router.refresh();
 									})
 								}
-								className="absolute right-1.5 top-1.5 cursor-pointer rounded-full bg-plum-dark/80 px-2 py-0.5 text-cream/90 text-sm opacity-0 transition-opacity group-hover:opacity-100 hover:text-gold">
-								×
-							</button>
+								folder="projects"
+								aspect={g.aspect ?? 4 / 3}
+							/>
+							<div className="flex items-center justify-between">
+								<span className="font-sans font-light text-cream/60 text-[0.62rem]">
+									{ratioLabel(g.aspect)}
+								</span>
+								<div className="flex gap-1">
+									<button
+										type="button"
+										disabled={i === 0 || pending}
+										onClick={() => moveGallery(i, -1)}
+										className="cursor-pointer border border-cream/20 px-1.5 py-0.5 text-cream/82 text-[0.7rem] disabled:opacity-30 hover:border-gold hover:text-gold">
+										←
+									</button>
+									<button
+										type="button"
+										disabled={i === gallery.length - 1 || pending}
+										onClick={() => moveGallery(i, 1)}
+										className="cursor-pointer border border-cream/20 px-1.5 py-0.5 text-cream/82 text-[0.7rem] disabled:opacity-30 hover:border-gold hover:text-gold">
+										→
+									</button>
+								</div>
+							</div>
 						</div>
 					))}
 				</div>
 				<div className="mt-4 max-w-xs">
 					<ImageUploader
 						value={null}
-						onChange={(url) => {
+						onChange={(url, meta) => {
 							if (!url) return;
 							start(async () => {
-								await addGalleryImage(project.id, url);
+								await addGalleryImage(project.id, url, meta?.aspect);
 								router.refresh();
 							});
 						}}
