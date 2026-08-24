@@ -5,6 +5,12 @@ import Image from "next/image";
 import { createPortal } from "react-dom";
 import Cropper, { type Area, type MediaSize } from "react-easy-crop";
 import { uploadImage, deleteImage } from "@/app/admin/media-actions";
+import {
+	ORIGINAL,
+	RATIO_PRESETS,
+	resolveAspect,
+	type RatioOption,
+} from "@/lib/aspect";
 
 export interface ImageMeta {
 	aspect: number;
@@ -18,41 +24,10 @@ interface Props {
 	className?: string;
 }
 
-interface RatioOption {
-	label: string;
-	value: number;
-}
-
-const ORIGINAL = 0;
-
 const RATIOS: RatioOption[] = [
 	{ label: "Original", value: ORIGINAL },
-	{ label: "1:1", value: 1 },
-	{ label: "4:3", value: 4 / 3 },
-	{ label: "3:2", value: 3 / 2 },
-	{ label: "16:9", value: 16 / 9 },
-	{ label: "21:10", value: 21 / 10 },
-	{ label: "4:5", value: 4 / 5 },
-	{ label: "9:16", value: 9 / 16 },
+	...RATIO_PRESETS,
 ];
-
-function resolveAspect(aspect: string | number): RatioOption {
-	if (typeof aspect === "number") {
-		const match = RATIOS.find(
-			(r) => r.value !== ORIGINAL && Math.abs(r.value - aspect) < 0.02,
-		);
-		return match ?? { label: `${aspect.toFixed(2)}:1`, value: aspect };
-	}
-	if (aspect.includes("square")) return { label: "1:1", value: 1 };
-	if (aspect.includes("video")) return { label: "16:9", value: 16 / 9 };
-	const m = aspect.match(/(\d+)\s*\/\s*(\d+)/);
-	if (m)
-		return {
-			label: `${m[1]}:${m[2]}`,
-			value: Number(m[1]) / Number(m[2]),
-		};
-	return { label: "4:3", value: 4 / 3 };
-}
 
 function mimeFromName(name: string): string {
 	const ext = name.split("?")[0]!.split(".").pop()?.toLowerCase() ?? "";

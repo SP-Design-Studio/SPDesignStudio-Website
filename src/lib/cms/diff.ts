@@ -1,3 +1,5 @@
+import { ratioLabel } from "@/lib/aspect";
+
 type J = unknown;
 
 const IGNORE_KEYS = new Set(["created_at", "updated_at"]);
@@ -34,6 +36,48 @@ function fileName(v: J): string {
 	const clean = v.split("?")[0];
 	const name = clean.slice(clean.lastIndexOf("/") + 1);
 	return name || v;
+}
+
+interface UrlItem extends Record<string, J> {
+	url: string;
+}
+
+const isUrlItem = (v: J): v is UrlItem =>
+	isObj(v) && typeof v.url === "string" && !("id" in v);
+
+function urlItemLabel(x: UrlItem): string {
+	const aspect = typeof x.aspect === "number" ? x.aspect : null;
+	return `${fileName(x.url)} (${ratioLabel(aspect)})`;
+}
+
+function diffUrlItems(
+	a: UrlItem[],
+	b: UrlItem[],
+	path: string,
+	out: string[],
+): void {
+	const am = new Map(a.map((x) => [x.url, x]));
+	const bm = new Map(b.map((x) => [x.url, x]));
+	for (const x of a)
+		if (!bm.has(x.url)) out.push(`${path}: removed ${urlItemLabel(x)}`);
+	for (const x of b)
+		if (!am.has(x.url)) out.push(`${path}: added ${urlItemLabel(x)}`);
+	for (const x of b) {
+		const before = am.get(x.url);
+		if (!before) continue;
+		const from = ratioLabel(
+			typeof before.aspect === "number" ? before.aspect : null,
+		);
+		const to = ratioLabel(typeof x.aspect === "number" ? x.aspect : null);
+		if (from !== to)
+			out.push(`${path}: recropped ${fileName(x.url)} ${from} → ${to}`);
+	}
+	const order = (arr: UrlItem[], other: Map<string, UrlItem>) =>
+		arr
+			.filter((x) => other.has(x.url))
+			.map((x) => x.url)
+			.join(",");
+	if (order(a, bm) !== order(b, am)) out.push(`${path}: reordered`);
 }
 
 export function deepEqual(a: J, b: J): boolean {
@@ -78,6 +122,14 @@ function diffArray(a: J[], b: J[], path: string, out: string[]): void {
 				.map(idOf)
 				.join(",");
 		if (order(a, bm) !== order(b, am)) out.push(`${path}: reordered`);
+		return;
+	}
+	if (
+		(a.length > 0 || b.length > 0) &&
+		a.every(isUrlItem) &&
+		b.every(isUrlItem)
+	) {
+		diffUrlItems(a as UrlItem[], b as UrlItem[], path, out);
 		return;
 	}
 	const img = isImageField(path) || /gallery$/.test(path.toLowerCase());

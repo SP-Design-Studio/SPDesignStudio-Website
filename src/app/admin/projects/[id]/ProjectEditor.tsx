@@ -16,6 +16,7 @@ import {
 	reorderGallery,
 } from "../actions";
 import { useDirty } from "@/lib/admin/useDirty";
+import { ratioLabel } from "@/lib/aspect";
 
 const inputCls =
 	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
@@ -30,22 +31,6 @@ const labelCls =
 const sectionCls =
 	"font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem] mb-5";
 
-const RATIO_LABELS: [number, string][] = [
-	[1, "1:1"],
-	[4 / 3, "4:3"],
-	[3 / 2, "3:2"],
-	[16 / 9, "16:9"],
-	[21 / 10, "21:10"],
-	[4 / 5, "4:5"],
-	[3 / 4, "3:4"],
-	[9 / 16, "9:16"],
-];
-
-function ratioLabel(aspect: number | null): string {
-	if (!aspect) return "4:3";
-	const hit = RATIO_LABELS.find(([v]) => Math.abs(v - aspect) < 0.02);
-	return hit ? hit[1] : `${aspect.toFixed(2)}:1`;
-}
 
 export function ProjectEditor({
 	project,
