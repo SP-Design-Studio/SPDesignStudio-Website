@@ -2,11 +2,9 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { requireRole } from "@/lib/auth";
+import { storageErrorMessage, validateImageFile } from "@/lib/admin/imageFile";
 
-const MAX_BYTES = 8 * 1024 * 1024;
-const TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"];
-
-export type UploadState = { url?: string; error?: string };
+export type UploadState = { url?: string; error?: string; detail?: string };
 
 export async function uploadImage(formData: FormData): Promise<UploadState> {
 	await requireRole("editor");
@@ -17,23 +15,37 @@ export async function uploadImage(formData: FormData): Promise<UploadState> {
 		"",
 	);
 
-	if (!file || file.size === 0) return { error: "No file selected." };
-	if (!TYPES.includes(file.type))
-		return { error: "Use a JPG, PNG, WebP, or AVIF image." };
-	if (file.size > MAX_BYTES) return { error: "Image must be under 8MB." };
+	if (!file) return { error: "No image was received. Pick a file and retry." };
+
+	const problem = validateImageFile({
+		name: file.name,
+		type: file.type,
+		size: file.size,
+	});
+	if (problem) return { error: problem };
 
 	const supabase = await createClient();
 	const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
 	const path = `${folder}/${crypto.randomUUID()}.${ext}`;
 
-	const { error } = await supabase.storage
-		.from("media")
-		.upload(path, file, {
+	try {
+		const { error } = await supabase.storage.from("media").upload(path, file, {
 			contentType: file.type,
 			upsert: false,
 			cacheControl: "31536000",
 		});
-	if (error) return { error: error.message };
+		if (error) {
+			console.error("[upload] storage rejected:", error.message);
+			const friendly = storageErrorMessage(error.message);
+			return { error: friendly.message, detail: friendly.detail };
+		}
+	} catch (e) {
+		console.error("[upload] request failed:", e);
+		const friendly = storageErrorMessage(
+			e instanceof Error ? e.message : String(e),
+		);
+		return { error: friendly.message, detail: friendly.detail };
+	}
 
 	const { data } = supabase.storage.from("media").getPublicUrl(path);
 	return { url: data.publicUrl };
@@ -46,6 +58,15 @@ export async function deleteImage(url: string): Promise<{ error?: string }> {
 	if (idx === -1) return {};
 	const path = url.slice(idx + marker.length);
 	const supabase = await createClient();
-	const { error } = await supabase.storage.from("media").remove([path]);
-	return error ? { error: error.message } : {};
+	try {
+		const { error } = await supabase.storage.from("media").remove([path]);
+		if (error) {
+			console.error("[delete] storage rejected:", error.message);
+			return { error: storageErrorMessage(error.message).message };
+		}
+	} catch (e) {
+		console.error("[delete] request failed:", e);
+		return { error: "Couldn't reach the image server to delete that file." };
+	}
+	return {};
 }

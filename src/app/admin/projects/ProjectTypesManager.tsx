@@ -10,6 +10,9 @@ import {
 	reorderCategories,
 } from "./actions";
 import type { ProjectCategoryRow } from "@/lib/cms/types";
+import { ui } from "@/lib/admin/ui";
+import { ConfirmButton } from "@/components/admin/ConfirmButton";
+import { useFlash } from "@/lib/admin/useFlash";
 
 const slugify = (s: string) =>
 	s
@@ -19,11 +22,6 @@ const slugify = (s: string) =>
 		.replace(/^-|-$/g, "");
 
 type Result = { ok?: boolean; error?: string };
-
-const inputCls =
-	"bg-transparent border-b border-cream/20 py-1.5 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
-const btnCls =
-	"cursor-pointer font-sans font-light uppercase tracking-[0.18em] text-[0.6rem] transition-colors disabled:opacity-30";
 
 function Row({
 	item,
@@ -45,23 +43,25 @@ function Row({
 			<input
 				value={label}
 				onChange={(e) => setLabel(e.target.value)}
-				className={`${inputCls} flex-1`}
+				className={`${ui.input} flex-1`}
 			/>
-			<span className="w-40 truncate font-sans font-light text-cream/50 text-[0.7rem] tabular-nums">
+			<span className="w-40 truncate font-sans font-light text-cream/50 text-tiny tabular-nums">
 				{item.slug}
 			</span>
 			<button
+				aria-label="Move up"
 				type="button"
 				disabled={i === 0}
 				onClick={() => run(async () => ({ ok: true }), -1, i)}
-				className={`${btnCls} text-cream/70 hover:text-gold`}>
+				className={`${ui.btnPrimary} text-cream/70 hover:text-gold`}>
 				↑
 			</button>
 			<button
+				aria-label="Move down"
 				type="button"
 				disabled={i === total - 1}
 				onClick={() => run(async () => ({ ok: true }), 1, i)}
-				className={`${btnCls} text-cream/70 hover:text-gold`}>
+				className={`${ui.btnPrimary} text-cream/70 hover:text-gold`}>
 				↓
 			</button>
 			<button
@@ -70,15 +70,14 @@ function Row({
 				onClick={() =>
 					run(() => updateCategory(item.id, { label: label.trim(), slug: item.slug }))
 				}
-				className={`${btnCls} text-gold hover:text-cream`}>
+				className={`${ui.btnPrimary} text-gold hover:text-cream`}>
 				Save
 			</button>
-			<button
-				type="button"
-				onClick={() => run(() => deleteCategory(item.id))}
-				className={`${btnCls} text-cream/60 hover:text-gold`}>
-				Delete
-			</button>
+			<ConfirmButton
+				label="Delete"
+				onConfirm={() => run(() => deleteCategory(item.id))}
+				className={`${ui.btnPrimary} text-cream/60 hover:text-gold`}
+			/>
 		</div>
 	);
 }
@@ -88,7 +87,7 @@ export function ProjectTypesManager({ items }: { items: ProjectCategoryRow[] }) 
 	const [pending, start] = useSaving();
 	const [order, setOrder] = useState(items);
 	const [newLabel, setNewLabel] = useState("");
-	const [msg, setMsg] = useState("");
+	const [msg, flash] = useFlash();
 
 	useEffect(() => setOrder(items), [items]);
 
@@ -107,7 +106,7 @@ export function ProjectTypesManager({ items }: { items: ProjectCategoryRow[] }) 
 		}
 		start(async () => {
 			const r = await fn();
-			setMsg(r?.error ?? "");
+			flash(r?.error ?? "");
 			router.refresh();
 		});
 	};
@@ -117,18 +116,18 @@ export function ProjectTypesManager({ items }: { items: ProjectCategoryRow[] }) 
 		if (!label) return;
 		start(async () => {
 			const r = await createCategory({ label, slug: slugify(label) });
-			setMsg(r.error ?? "");
+			flash(r.error ?? "");
 			if (!r.error) setNewLabel("");
 			router.refresh();
 		});
 	};
 
 	return (
-		<div className="mb-12 rounded-sm border border-cream/10 p-5">
-			<div className="mb-1 font-sans font-light uppercase tracking-[0.28em] text-gold text-[0.65rem]">
+		<div data-busy={pending || undefined} className="mb-12 rounded-sm border border-cream/10 bg-plum/20 p-5 transition-colors hover:border-cream/25">
+			<div className="mb-1 font-sans font-light uppercase tracking-[0.28em] text-gold text-tiny">
 				Project types
 			</div>
-			<p className="mb-4 font-sans font-light text-cream/80 text-[0.75rem]">
+			<p className="mb-4 font-sans font-light text-cream/80 text-tiny">
 				Categories used by the filter pills. Publish the Projects page for
 				changes to appear on the site.
 			</p>
@@ -144,13 +143,13 @@ export function ProjectTypesManager({ items }: { items: ProjectCategoryRow[] }) 
 					value={newLabel}
 					onChange={(e) => setNewLabel(e.target.value)}
 					placeholder="New type (e.g. Retail)"
-					className={`${inputCls} flex-1`}
+					className={`${ui.input} flex-1`}
 				/>
 				<button
 					type="button"
 					disabled={pending || !newLabel.trim()}
 					onClick={add}
-					className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-[0.6rem] disabled:opacity-60">
+					className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-micro disabled:opacity-60">
 					Add type
 				</button>
 				{msg && (

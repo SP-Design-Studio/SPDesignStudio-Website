@@ -4,6 +4,7 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import Script from "next/script";
 import { login } from "./actions";
 import AuthOverlay from "@/components/admin/AuthOverlay";
+import { ui } from "@/lib/admin/ui";
 
 const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
@@ -85,9 +86,6 @@ export default function AdminLoginPage() {
 		}
 	}, [state]);
 
-	const inputCls =
-		"w-full border-b border-cream/20 bg-transparent py-3 text-cream text-xl outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
-
 	return (
 		<div className="flex min-h-dvh items-center justify-center px-6">
 			<AuthOverlay show={pending} label="Signing you in" />
@@ -98,7 +96,7 @@ export default function AdminLoginPage() {
 				/>
 			)}
 			<div className="w-full max-w-sm">
-				<div className="mb-2 font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.708rem]">
+				<div className="mb-2 font-sans font-light uppercase tracking-[0.4em] text-gold text-tiny">
 					SP Design Studio
 				</div>
 				<h1 className="mb-8 font-serif font-light text-cream text-4xl md:text-5xl">
@@ -111,7 +109,7 @@ export default function AdminLoginPage() {
 						<input type="hidden" name="cf-turnstile-response" value={token} />
 					)}
 					<label className="flex flex-col gap-2">
-						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold text-[0.684rem]">
+						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold text-tiny">
 							Email
 						</span>
 						<input
@@ -121,11 +119,11 @@ export default function AdminLoginPage() {
 							autoFocus
 							autoComplete="username"
 							placeholder="you@example.com"
-							className={inputCls}
+							className={ui.input}
 						/>
 					</label>
 					<label className="flex flex-col gap-2">
-						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold text-[0.684rem]">
+						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold text-tiny">
 							Password
 						</span>
 						<input
@@ -134,7 +132,7 @@ export default function AdminLoginPage() {
 							required
 							autoComplete="current-password"
 							placeholder="••••••••"
-							className={inputCls}
+							className={ui.input}
 						/>
 					</label>
 

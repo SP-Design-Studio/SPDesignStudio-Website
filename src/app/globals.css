@@ -15,6 +15,9 @@
 
   --font-serif: var(--font-cormorant);
   --font-sans: var(--font-dm-sans);
+
+  --text-micro: 0.6875rem;
+  --text-tiny: 0.75rem;
 }
 
 html {
@@ -197,6 +200,11 @@ button:hover .ulink::after,
   transform: scale(1.08);
 }
 
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -210,4 +218,198 @@ button:hover .ulink::after,
 ::selection {
   background: rgba(191, 161, 95, 0.25);
   color: var(--color-cream);
+}
+
+@keyframes admin-busy-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+[data-busy] {
+  position: relative;
+  pointer-events: none;
+  user-select: none;
+}
+
+[data-busy]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  border-radius: inherit;
+  background: rgba(69, 46, 54, 0.78);
+  animation: auth-fade-in 0.18s ease;
+}
+
+[data-busy]::before {
+  content: "";
+  position: absolute;
+  z-index: 21;
+  top: 50%;
+  left: 50%;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin: -0.675rem 0 0 -0.675rem;
+  border: 2px solid rgba(191, 161, 95, 0.3);
+  border-top-color: var(--color-gold);
+  border-radius: 9999px;
+  animation: admin-busy-spin 0.7s linear infinite;
+}
+
+@keyframes admin-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes admin-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes admin-bar {
+  0% {
+    transform: translateX(-100%) scaleX(0.35);
+  }
+  55% {
+    transform: translateX(10%) scaleX(0.8);
+  }
+  100% {
+    transform: translateX(110%) scaleX(0.35);
+  }
+}
+
+@keyframes admin-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.admin-page {
+  animation: admin-page-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.admin-stagger {
+  animation: admin-rise-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-page,
+  .admin-stagger {
+    animation: none;
+  }
+}
+
+.card-trace {
+  position: relative;
+}
+
+.card-trace::before,
+.card-trace::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-image:
+    linear-gradient(var(--color-gold), var(--color-gold)),
+    linear-gradient(var(--color-gold), var(--color-gold));
+}
+
+.card-trace::before {
+  background-position:
+    0 0,
+    100% 0;
+  background-size:
+    0 1px,
+    1px 0;
+  transition: background-size 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-trace::after {
+  background-position:
+    100% 100%,
+    0 100%;
+  background-size:
+    0 1px,
+    1px 0;
+  transition: background-size 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-trace:hover::before,
+.card-trace:focus-visible::before,
+.card-trace:active::before {
+  background-size:
+    100% 1px,
+    1px 100%;
+}
+
+.card-trace:hover::after,
+.card-trace:focus-visible::after,
+.card-trace:active::after {
+  background-size:
+    100% 1px,
+    1px 100%;
+  transition-delay: 0.18s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-trace::before,
+  .card-trace::after {
+    transition: none;
+  }
+}
+
+@keyframes card-trace-in {
+  from {
+    background-size:
+      0 1px,
+      1px 0;
+  }
+  to {
+    background-size:
+      100% 1px,
+      1px 100%;
+  }
+}
+
+@media (hover: none) {
+  @supports (animation-timeline: view()) {
+    .card-trace::before,
+    .card-trace::after {
+      animation: card-trace-in linear both;
+      animation-timeline: view();
+    }
+
+    .card-trace::before {
+      animation-range: entry 18% cover 34%;
+    }
+
+    .card-trace::after {
+      animation-range: entry 26% cover 46%;
+    }
+  }
+}
+
+@media (hover: none) and (prefers-reduced-motion: reduce) {
+  .card-trace::before,
+  .card-trace::after {
+    animation: none;
+  }
 }

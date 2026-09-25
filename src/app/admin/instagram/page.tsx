@@ -1,4 +1,3 @@
-import { NavLink } from "../_components/NavLink";
 import { requireRole } from "@/lib/auth";
 import { getInstagramPosts } from "@/lib/cms/queries";
 import { InstagramManager } from "./InstagramManager";
@@ -12,13 +11,8 @@ export default async function AdminInstagramPage() {
 
 	return (
 		<div className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-16">
-			<NavLink
-				href="/admin"
-				className="font-sans font-light uppercase tracking-[0.24em] text-cream/80 text-[0.708rem] transition-colors hover:text-gold">
-				&larr; Dashboard
-			</NavLink>
 			<div className="mb-10 mt-4">
-				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.708rem] mb-3">
+				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-tiny mb-3">
 					Instagram
 				</div>
 				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">

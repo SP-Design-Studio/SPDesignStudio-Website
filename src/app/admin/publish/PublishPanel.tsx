@@ -1,10 +1,14 @@
 "use client";
-import { useSaving } from "@/lib/admin/saving";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSaving } from "@/lib/admin/saving";
+import { useFlash } from "@/lib/admin/useFlash";
+import { ui } from "@/lib/admin/ui";
 import { publishPage, publishAll, discardPage } from "./actions";
 import type { PageKey, PageStatus } from "@/lib/cms/pages";
+import type { Change } from "@/lib/cms/diff";
+import { DiffViewer } from "./DiffViewer";
 
 type Row = {
 	key: PageKey;
@@ -12,158 +16,204 @@ type Row = {
 	path: string;
 	publishedAt: string | null;
 	status: PageStatus;
-	changes: string[];
+	changes: Change[];
 };
 
-function StatusChip({ status, count }: { status: PageStatus; count: number }) {
-	if (status === "dirty")
-		return (
-			<span className="rounded-full border border-gold/40 bg-gold/10 px-2.5 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-gold text-[0.59rem]">
-				{count} unpublished change{count === 1 ? "" : "s"}
-			</span>
-		);
-	if (status === "unpublished")
-		return (
-			<span className="rounded-full border border-cream/20 px-2.5 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-cream/82 text-[0.59rem]">
-				Not published
-			</span>
-		);
+const DOT: Record<PageStatus, string> = {
+	dirty: "bg-gold",
+	unpublished: "bg-cream/70",
+	clean: "bg-cream/20",
+};
+
+function Tab({
+	row,
+	active,
+	onSelect,
+}: {
+	row: Row;
+	active: boolean;
+	onSelect: () => void;
+}) {
 	return (
-		<span className="rounded-full border border-cream/10 px-2.5 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-cream/30 text-[0.59rem]">
-			Up to date
-		</span>
-	);
-}
-
-function Item({ row }: { row: Row }) {
-	const router = useRouter();
-	const [pending, start] = useSaving();
-	const [msg, setMsg] = useState("");
-	const [open, setOpen] = useState(false);
-
-	const when = row.publishedAt
-		? `Published ${new Date(row.publishedAt).toLocaleString()}`
-		: "Not published yet — nothing live";
-
-	return (
-		<div className="border-b border-cream/10 py-4 last:border-b-0">
-			<div className="flex items-center justify-between gap-4">
-				<div className="min-w-0">
-					<div className="flex items-center gap-3">
-						<span className="font-serif font-light text-cream text-xl">
-							{row.label}
-						</span>
-						<StatusChip status={row.status} count={row.changes.length} />
-					</div>
-					<div className="mt-0.5 font-sans font-light text-cream/82 text-[0.732rem]">
-						{msg || when}
-					</div>
-				</div>
-				<div className="flex items-center gap-4">
-					{row.status === "dirty" && (
-						<>
-							<button
-								type="button"
-								onClick={() => setOpen((v) => !v)}
-								className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-gold text-[0.649rem] transition-colors hover:text-gold">
-								{open ? "Hide" : "Review"}
-							</button>
-							<button
-								type="button"
-								disabled={pending}
-								onClick={() => {
-									if (
-										!window.confirm(
-											`Discard all unpublished changes to ${row.label}? This restores the live published version and cannot be undone.`,
-										)
-									)
-										return;
-									start(async () => {
-										setMsg("");
-										const res = await discardPage(row.key);
-										setMsg(res.error ? res.error : "Draft discarded");
-										setOpen(false);
-										router.refresh();
-									});
-								}}
-								className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/82 text-[0.649rem] transition-colors hover:text-gold disabled:opacity-50">
-								Discard
-							</button>
-						</>
-					)}
-					{row.status !== "clean" && (
-						<a
-							href={`/preview/${row.key}`}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="font-sans font-light uppercase tracking-[0.2em] text-gold text-[0.649rem] transition-colors hover:text-gold">
-							Preview draft ↗
-						</a>
-					)}
-					<a
-						href={row.path}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="font-sans font-light uppercase tracking-[0.2em] text-cream/82 text-[0.649rem] transition-colors hover:text-gold">
-						View live ↗
-					</a>
-					<button
-						type="button"
-						disabled={pending || row.status === "clean"}
-						onClick={() =>
-							start(async () => {
-								setMsg("");
-								const res = await publishPage(row.key);
-								setMsg(res.error ? res.error : "Published");
-								setOpen(false);
-								router.refresh();
-							})
-						}
-						className="cta-gold cursor-pointer bg-gold px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-[0.708rem] disabled:cursor-not-allowed disabled:opacity-40">
-						{pending ? "Publishing…" : "Publish"}
-					</button>
-				</div>
-			</div>
-			{open && row.changes.length > 0 && (
-				<ul className="mt-3 space-y-1 rounded-sm border border-cream/10 bg-plum/40 px-4 py-3">
-					{row.changes.map((c, i) => (
-						<li
-							key={i}
-							className="font-sans font-light text-cream/82 text-[0.826rem] leading-relaxed">
-							{c}
-						</li>
-					))}
-				</ul>
+		<button
+			type="button"
+			onClick={onSelect}
+			className={`flex shrink-0 cursor-pointer items-center gap-2 rounded-full border px-3.5 py-1.5 font-sans font-light text-tiny transition-colors ${
+				active
+					? "border-gold/60 bg-gold/10 text-gold"
+					: "border-cream/15 text-cream/82 hover:border-cream/40 hover:text-cream active:border-gold/50 active:text-gold"
+			}`}>
+			<span
+				className={`h-1.5 w-1.5 shrink-0 rounded-full ${DOT[row.status]} ${
+					row.status === "dirty"
+						? "[animation:admin-pulse_1.6s_ease-in-out_infinite]"
+						: ""
+				}`}
+			/>
+			{row.label}
+			{row.status === "dirty" && (
+				<span className="tabular-nums text-micro opacity-80">
+					{row.changes.length}
+				</span>
 			)}
-		</div>
+			{row.status === "unpublished" && (
+				<span className="text-micro opacity-70">new</span>
+			)}
+		</button>
 	);
 }
 
 export function PublishPanel({ pages }: { pages: Row[] }) {
 	const router = useRouter();
-	const [pending, start] = useSaving();
-	const [msg, setMsg] = useState("");
+	const [pending, start] = useSaving("Publishing");
+	const [msg, flash] = useFlash();
+
+	const firstInteresting =
+		pages.find((p) => p.status === "dirty") ??
+		pages.find((p) => p.status === "unpublished") ??
+		pages[0];
+	const [selected, setSelected] = useState<PageKey | undefined>(
+		firstInteresting?.key,
+	);
+
+	useEffect(() => {
+		if (!pages.some((p) => p.key === selected))
+			setSelected(firstInteresting?.key);
+	}, [pages, selected, firstInteresting]);
+
+	const row = useMemo(
+		() => pages.find((p) => p.key === selected),
+		[pages, selected],
+	);
 	const dirty = pages.filter((p) => p.status !== "clean").length;
+
+	if (!row) return null;
+
+	const when = row.publishedAt
+		? `Published ${new Date(row.publishedAt).toLocaleString()}`
+		: "Never published — nothing is live yet";
+
+	const publish = () =>
+		start(async () => {
+			const res = await publishPage(row.key);
+			flash(res.error ? res.error : "Published");
+			router.refresh();
+		});
+
+	const discard = () => {
+		if (
+			!window.confirm(
+				`Discard all unpublished changes to ${row.label}? This restores the live published version and cannot be undone.`,
+			)
+		)
+			return;
+		start(async () => {
+			const res = await discardPage(row.key);
+			flash(res.error ? res.error : "Draft discarded");
+			router.refresh();
+		});
+	};
 
 	return (
 		<div className="flex flex-col">
-			{pages.map((row) => (
-				<Item key={row.key} row={row} />
-			))}
-			<div className="mt-5 flex items-center gap-4">
+			<div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+				{pages.map((p) => (
+					<Tab
+						key={p.key}
+						row={p}
+						active={p.key === selected}
+						onSelect={() => setSelected(p.key)}
+					/>
+				))}
+			</div>
+
+			<div
+				data-busy={pending || undefined}
+				className="mt-6 rounded-sm border border-cream/10 bg-plum/15">
+				<div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3 border-b border-cream/10 px-4 py-3.5">
+					<div className="min-w-0">
+						<div className="flex items-baseline gap-2.5">
+							<span className="font-serif font-light text-cream text-xl">
+								{row.label}
+							</span>
+							<span className="font-sans font-light text-cream/80 text-tiny">
+								{row.status === "dirty"
+									? `${row.changes.length} unpublished change${row.changes.length === 1 ? "" : "s"}`
+									: row.status === "unpublished"
+										? "Not published"
+										: "Up to date"}
+							</span>
+						</div>
+						<div className="mt-0.5 font-sans font-light text-cream/80 text-micro">
+							{msg || when}
+						</div>
+					</div>
+
+					<div className="flex flex-wrap items-center gap-4">
+						{row.status !== "clean" && (
+							<a
+								href={`/preview/${row.key}`}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="font-sans font-light uppercase tracking-[0.2em] text-cream/70 text-tiny transition-colors hover:text-gold">
+								Preview ↗
+							</a>
+						)}
+						<a
+							href={row.path}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="font-sans font-light uppercase tracking-[0.2em] text-cream/70 text-tiny transition-colors hover:text-gold">
+							Live ↗
+						</a>
+						{row.status === "dirty" && (
+							<button
+								type="button"
+								disabled={pending}
+								onClick={discard}
+								className={ui.btnDanger}>
+								Discard
+							</button>
+						)}
+						<button
+							type="button"
+							disabled={pending || row.status === "clean"}
+							onClick={publish}
+							className={`${ui.btnPrimary} disabled:cursor-not-allowed disabled:opacity-40`}>
+							{pending ? "Publishing…" : "Publish"}
+						</button>
+					</div>
+				</div>
+
+				{row.changes.length > 0 ? (
+					<DiffViewer changes={row.changes} />
+				) : (
+					<div className="flex flex-col items-center gap-2 px-4 py-14 text-center">
+						<span className="h-1.5 w-1.5 rounded-full bg-cream/25" />
+						<p className="font-sans font-light text-cream/82 text-sm">
+							{row.status === "unpublished"
+								? "This page has never been published — publish to put it live."
+								: "No unpublished changes on this page."}
+						</p>
+					</div>
+				)}
+			</div>
+
+			<div className="mt-5 flex flex-wrap items-center gap-4">
 				<button
 					type="button"
 					disabled={pending || dirty === 0}
 					onClick={() =>
 						start(async () => {
-							setMsg("");
 							const res = await publishAll();
-							setMsg(res.error ? res.error : "All pages published");
+							flash(res.error ? res.error : "All pages published");
 							router.refresh();
 						})
 					}
-					className="cursor-pointer border border-gold/40 px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.708rem] transition-colors hover:bg-gold/10 disabled:cursor-not-allowed disabled:opacity-40">
-					{pending ? "Publishing all…" : "Publish all pages"}
+					className={`${ui.btnGhost} border-gold/40 text-gold hover:bg-gold/10 disabled:cursor-not-allowed disabled:opacity-40`}>
+					{pending
+						? "Publishing all…"
+						: `Publish all${dirty ? ` (${dirty})` : ""}`}
 				</button>
 				{msg && (
 					<span className="font-sans font-light text-cream/80 text-sm">

@@ -30,10 +30,10 @@ export default async function ActivityPage({
 			<div className="mb-10">
 				<NavLink
 					href="/admin"
-					className="font-sans font-light uppercase tracking-[0.24em] text-cream/80 text-[0.649rem] transition-colors hover:text-gold">
+					className="font-sans font-light uppercase tracking-[0.24em] text-cream/80 text-tiny transition-colors hover:text-gold">
 					← Dashboard
 				</NavLink>
-				<div className="mt-4 font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.708rem]">
+				<div className="mt-4 font-sans font-light uppercase tracking-[0.4em] text-gold text-tiny">
 					Activity
 				</div>
 				<h1 className="mt-2 font-serif font-light text-cream text-4xl md:text-5xl">
@@ -51,7 +51,7 @@ export default async function ActivityPage({
 						<NavLink
 							key={f.key || "all"}
 							href={f.key ? `/admin/activity?type=${f.key}` : "/admin/activity"}
-							className={`rounded-full border px-4 py-1.5 font-sans font-light uppercase tracking-[0.2em] text-[0.649rem] transition-colors ${
+							className={`rounded-full border px-4 py-1.5 font-sans font-light uppercase tracking-[0.2em] text-tiny transition-colors ${
 								active
 									? "border-gold/50 bg-gold/10 text-gold"
 									: "border-cream/15 text-cream/80 hover:border-cream/30 hover:text-cream/85"
@@ -79,7 +79,7 @@ export default async function ActivityPage({
 								{a.target && <span className="text-cream/90"> · {a.target}</span>}
 								{a.detail && <span className="text-cream/82"> — {a.detail}</span>}
 							</span>
-							<span className="font-sans font-light text-cream/80 text-[0.826rem]">
+							<span className="font-sans font-light text-cream/80 text-sm">
 								{a.actor_name?.trim() || a.actor_email || "—"} ·{" "}
 								{new Date(a.created_at).toLocaleString()}
 							</span>

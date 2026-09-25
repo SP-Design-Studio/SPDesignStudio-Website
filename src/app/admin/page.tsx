@@ -3,201 +3,192 @@ import { requireRole } from "@/lib/auth";
 import { NavLink } from "./_components/NavLink";
 import { getContentCounts } from "@/lib/cms/queries";
 import { getPageDrafts } from "@/lib/cms/pages";
+import { getRecentActivity, ACTION_LABELS } from "@/lib/cms/activity";
+import { CONTENT_GROUPS, type AdminSection } from "@/lib/admin/sections";
 
 export const metadata = { title: "Dashboard" };
 
-const SECTIONS = [
-	{
-		label: "Homepage",
-		note: "Disciplines grid & hero accolades",
-		href: "/admin/home",
-		view: "/",
-		page: "home",
-		keys: ["disciplines", "recognition"],
-		countKey: "home_disciplines",
-		unit: "tiles",
-	},
-	{
-		label: "Partners",
-		note: "Logos & directory",
-		href: "/admin/partners",
-		view: "/",
-		page: "home",
-		keys: ["partners", "partnerCategories"],
-		countKey: "partners",
-		unit: "logos",
-	},
-	{
-		label: "Instagram",
-		note: "Curated studio feed",
-		href: "/admin/instagram",
-		view: "/",
-		countKey: "instagram_posts",
-		unit: "posts",
-	},
-	{
-		label: "Testimonials",
-		note: "Client reflections",
-		href: "/admin/testimonials",
-		view: "/",
-		page: "home",
-		keys: ["testimonials"],
-		countKey: "testimonials",
-		unit: "quotes",
-	},
-	{
-		label: "The Collection",
-		note: "Team members",
-		href: "/admin/team",
-		view: "/about",
-		page: "about",
-		keys: ["team"],
-		countKey: "team_members",
-		unit: "members",
-	},
-	{
-		label: "Studio Evolution",
-		note: "Timeline entries",
-		href: "/admin/timeline",
-		view: "/about",
-		page: "about",
-		keys: ["timeline"],
-		countKey: "timeline_entries",
-		unit: "entries",
-	},
-	{
-		label: "Honours & Milestones",
-		note: "Awards & recognition",
-		href: "/admin/honours",
-		view: "/about",
-		page: "about",
-		keys: ["honours"],
-		countKey: "honours",
-		unit: "milestones",
-	},
-	{
-		label: "Projects",
-		note: "Projects & galleries",
-		href: "/admin/projects",
-		view: "/projects",
-		page: "projects",
-		keys: ["projects"],
-		countKey: "projects",
-		unit: "projects",
-	},
-	{
-		label: "Process",
-		note: "Studio steps & images",
-		href: "/admin/process",
-		view: "/process",
-		page: "process",
-		keys: ["steps"],
-		countKey: "process_steps",
-		unit: "steps",
-	},
-	{
-		label: "Contact",
-		note: "Channels & studio info",
-		href: "/admin/contact",
-		view: "/contact",
-		page: "contact",
-		keys: ["settings"],
-	},
-	{
-		label: "Careers",
-		note: "Openings & details",
-		href: "/admin/careers",
-		view: "/careers",
-		page: "careers",
-		keys: ["openings", "settings"],
-		countKey: "career_openings",
-		unit: "roles",
-	},
-];
+type Status = "clean" | "dirty" | "unpublished";
+
+function timeAgo(iso: string): string {
+	const mins = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
+	if (mins < 1) return "just now";
+	if (mins < 60) return `${mins}m ago`;
+	const hrs = Math.round(mins / 60);
+	if (hrs < 24) return `${hrs}h ago`;
+	const days = Math.round(hrs / 24);
+	if (days < 30) return `${days}d ago`;
+	return new Date(iso).toLocaleDateString();
+}
 
 export default async function AdminHome() {
 	const profile = await requireRole("editor");
-	const counts = await getContentCounts();
-	const drafts = await getPageDrafts();
+	const canManage = profile.role === "founder" || profile.role === "admin";
+
+	const [counts, drafts, activity] = await Promise.all([
+		getContentCounts(),
+		getPageDrafts(),
+		canManage ? getRecentActivity(6) : Promise.resolve([]),
+	]);
+
 	const draftByKey = new Map(drafts.map((d) => [d.key as string, d]));
-	const firstName = (profile.full_name?.trim() || profile.email.split("@")[0])
-		.split(" ")[0];
-	const greetName = profile.full_name?.trim() || firstName;
+	const greetName =
+		profile.full_name?.trim() || profile.email.split("@")[0]!.split(" ")[0]!;
+
+	const statusOf = (s: AdminSection): Status => {
+		const draft = s.page ? draftByKey.get(s.page) : undefined;
+		if (!draft) return "clean";
+		if (draft.status === "unpublished") return "unpublished";
+		return (s.keys ?? []).some((k) => draft.dirtyKeys.includes(k))
+			? "dirty"
+			: "clean";
+	};
+
+	const waiting = CONTENT_GROUPS.flatMap((g) => g.items).filter(
+		(s) => statusOf(s) !== "clean",
+	).length;
+
+	const lastPublished = drafts
+		.map((d) => d.publishedAt)
+		.filter((d): d is string => Boolean(d))
+		.sort()
+		.at(-1);
+
+	let delay = 0;
+	const next = () => ({ animationDelay: `${(delay += 60)}ms` });
+	let n = 0;
 
 	return (
 		<div className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-16">
-			<div className="mb-12">
-				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.6rem] mb-3">
-					Dashboard
+			<header className="admin-stagger" style={next()}>
+				<div className="mb-3 font-sans font-light uppercase tracking-[0.4em] text-gold text-micro">
+					Studio CMS
 				</div>
-				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
-					Welcome back, {greetName}.
+				<h1 className="font-serif font-light text-cream text-4xl leading-[1.1] md:text-6xl">
+					Welcome back,
+					<br />
+					{greetName}.
 				</h1>
-				<p className="mt-3 font-sans font-light text-cream/82 text-base">
-					Manage the studio&rsquo;s public content. Edits are saved as drafts
-					until an admin publishes.
-				</p>
+			</header>
+
+			<div
+				style={next()}
+				className="admin-stagger mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 border-y border-cream/10 py-4">
+				<span
+					className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+						waiting
+							? "bg-gold [animation:admin-pulse_1.6s_ease-in-out_infinite]"
+							: "bg-cream/30"
+					}`}
+				/>
+				<span className="font-sans font-light text-cream/85 text-sm">
+					{waiting
+						? `${waiting} section${waiting === 1 ? "" : "s"} awaiting publish`
+						: "Everything published — the live site is up to date."}
+				</span>
+				{lastPublished && (
+					<span className="font-sans font-light text-cream/80 text-micro">
+						Last published {timeAgo(lastPublished)}
+					</span>
+				)}
+				{canManage && waiting > 0 && (
+					<NavLink
+						href="/admin/publish"
+						className="ml-auto font-sans font-light uppercase tracking-[0.24em] text-gold text-tiny transition-colors hover:text-cream">
+						Review &amp; publish →
+					</NavLink>
+				)}
 			</div>
 
-			<div className="grid grid-cols-1 gap-px overflow-hidden rounded-sm border border-cream/10 bg-cream/10 sm:grid-cols-2 lg:grid-cols-3">
-				{SECTIONS.map((s) => {
-					const count = s.countKey ? counts[s.countKey] : undefined;
-					const draft = s.page ? draftByKey.get(s.page) : undefined;
-					const sectionStatus = !draft
-						? "clean"
-						: draft.status === "unpublished"
-							? "unpublished"
-							: (s.keys ?? []).some((k) => draft.dirtyKeys.includes(k))
-								? "dirty"
-								: "clean";
-					const pending = sectionStatus !== "clean";
-					return (
-						<div
-							key={s.label}
-							className="group flex flex-col bg-plum-dark px-5 py-6">
-							<div className="flex items-baseline justify-between gap-2">
-								<Link
-									href={s.href}
-									className="font-serif font-light text-cream text-xl transition-colors hover:text-gold">
-									{s.label}
-								</Link>
-								{count !== undefined && (
-									<span className="font-sans font-light text-gold text-sm tabular-nums">
-										{count}
-										<span className="text-cream/30">
-											{" "}
-											{s.unit}
-										</span>
-									</span>
-								)}
-							</div>
-							<span className="mt-1 font-sans font-light text-cream/80 text-sm">
-								{s.note}
-							</span>
-							{pending && (
-								<span className="mt-2 w-fit rounded-full border border-gold/40 bg-gold/10 px-2 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-gold text-[0.55rem]">
-									{sectionStatus === "unpublished"
-										? "Not published"
-										: "Draft — needs publish"}
-								</span>
-							)}
-							<div className="mt-3 flex items-center gap-4 font-sans font-light uppercase tracking-[0.2em] text-[0.6rem]">
-								<NavLink
-									href={s.href}
-									className="text-gold transition-colors hover:text-gold">
-									Manage →
-								</NavLink>
+			<div className="mt-14 flex flex-col gap-12">
+				{CONTENT_GROUPS.map((group) => (
+					<section key={group.title} style={next()} className="admin-stagger">
+						<div className="mb-1 flex items-baseline justify-between gap-4 border-b border-cream/15 pb-2">
+							<h2 className="font-sans font-light uppercase tracking-[0.34em] text-cream/82 text-tiny">
+								{group.title}
+							</h2>
+							{group.view && (
 								<a
-									href={s.view}
+									href={group.view}
 									target="_blank"
 									rel="noopener noreferrer"
-									className="text-cream/30 transition-colors hover:text-gold">
+									className="font-sans font-light uppercase tracking-[0.2em] text-cream/80 text-micro transition-colors hover:text-gold">
 									View ↗
 								</a>
-							</div>
+							)}
 						</div>
-					);
-				})}
+
+						{group.items.map((s) => {
+							const count = s.countKey ? counts[s.countKey] : undefined;
+							const status = statusOf(s);
+							n += 1;
+							return (
+								<Link
+									key={s.href}
+									href={s.href}
+									className="card-trace group flex items-baseline gap-4 border-b border-cream/5 px-3 py-4 transition-colors hover:bg-plum/25 active:bg-plum/40">
+									<span className="w-6 shrink-0 font-sans font-light tabular-nums text-gold/45 text-micro transition-colors group-hover:text-gold group-active:text-gold">
+										{String(n).padStart(2, "0")}
+									</span>
+									<span className="font-serif font-light text-cream text-xl leading-none transition-colors group-hover:text-gold group-active:text-gold">
+										{s.label}
+									</span>
+									<span className="hidden truncate font-sans font-light text-cream/80 text-tiny lg:block">
+										{s.note}
+									</span>
+									<span className="ml-auto flex shrink-0 items-center gap-4">
+										{status !== "clean" && (
+											<span className="rounded-full border border-gold/40 bg-gold/10 px-2 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-gold text-micro">
+												{status === "unpublished" ? "Not published" : "Draft"}
+											</span>
+										)}
+										{count !== undefined && (
+											<span className="font-sans font-light tabular-nums text-cream/82 text-tiny">
+												<span className="text-gold">{count}</span> {s.unit}
+											</span>
+										)}
+										<span className="text-cream/80 text-sm transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-gold group-active:translate-x-0.5 group-active:text-gold">
+											›
+										</span>
+									</span>
+								</Link>
+							);
+						})}
+					</section>
+				))}
+
+				{canManage && activity.length > 0 && (
+					<section style={next()} className="admin-stagger">
+						<div className="mb-1 flex items-baseline justify-between gap-4 border-b border-cream/15 pb-2">
+							<h2 className="font-sans font-light uppercase tracking-[0.34em] text-cream/82 text-tiny">
+								Recent activity
+							</h2>
+							<NavLink
+								href="/admin/activity"
+								className="font-sans font-light uppercase tracking-[0.2em] text-cream/80 text-micro transition-colors hover:text-gold">
+								Full log →
+							</NavLink>
+						</div>
+						<ul className="flex flex-col">
+							{activity.map((a) => (
+								<li
+									key={a.id}
+									className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-cream/5 px-3 py-3 last:border-b-0">
+									<span className="font-sans font-light uppercase tracking-[0.2em] text-gold/80 text-micro">
+										{ACTION_LABELS[a.action] ?? a.action}
+									</span>
+									<span className="font-serif font-light text-cream/90 text-base">
+										{a.target ?? "—"}
+									</span>
+									<span className="ml-auto font-sans font-light text-cream/80 text-micro">
+										{a.actor_name || a.actor_email || "system"} ·{" "}
+										{timeAgo(a.created_at)}
+									</span>
+								</li>
+							))}
+						</ul>
+					</section>
+				)}
 			</div>
 		</div>
 	);

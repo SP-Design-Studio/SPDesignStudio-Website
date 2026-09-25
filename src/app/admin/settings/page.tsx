@@ -2,11 +2,9 @@ import Link from "next/link";
 import { requireRole } from "@/lib/auth";
 import { getGrainSettings } from "@/lib/config";
 import { GrainToggle } from "./GrainToggle";
+import { ui } from "@/lib/admin/ui";
 
 export const metadata = { title: "Settings" };
-
-const sectionLabel =
-	"font-sans font-light uppercase tracking-[0.32em] text-gold text-[0.684rem] mb-2";
 
 export default async function SettingsPage() {
 	await requireRole("admin");
@@ -19,7 +17,7 @@ export default async function SettingsPage() {
 			</h1>
 
 			<section>
-				<div className={sectionLabel}>Appearance</div>
+				<div className={ui.sectionTitle}>Appearance</div>
 				<p className="mb-6 font-sans font-light text-cream/82 text-base">
 					Toggle the subtle film-grain texture overlay shown across the public
 					site.
@@ -28,14 +26,14 @@ export default async function SettingsPage() {
 			</section>
 
 			<section className="mt-14 border-t border-cream/10 pt-10">
-				<div className={sectionLabel}>Instagram</div>
+				<div className={ui.sectionTitle}>Instagram</div>
 				<p className="mb-6 font-sans font-light text-cream/82 text-base">
 					The &ldquo;Studio on Instagram&rdquo; section is now a curated feed you
 					manage directly &mdash; no access token or API needed.
 				</p>
 				<Link
 					href="/admin/instagram"
-					className="w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.732rem] transition-colors hover:bg-gold/10">
+					className="w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-tiny transition-colors hover:bg-gold/10">
 					Manage Instagram feed &rarr;
 				</Link>
 			</section>

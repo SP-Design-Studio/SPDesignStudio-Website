@@ -11,6 +11,8 @@ import {
 	reorderAtelierImages,
 } from "./actions";
 import type { AtelierImage } from "@/lib/atelier";
+import { ConfirmButton } from "@/components/admin/ConfirmButton";
+import { useDragReorder } from "@/lib/admin/useDragReorder";
 
 export function AtelierManager({ images }: { images: AtelierImage[] }) {
 	const router = useRouter();
@@ -48,14 +50,20 @@ export function AtelierManager({ images }: { images: AtelierImage[] }) {
 		});
 	};
 
+	const persist = (next: AtelierImage[]) => {
+		setOrder(next);
+		run(() => reorderAtelierImages(next.map((m) => m.id)));
+	};
+
 	const move = (i: number, dir: -1 | 1) => {
 		const j = i + dir;
 		if (j < 0 || j >= order.length) return;
 		const next = [...order];
 		[next[i], next[j]] = [next[j]!, next[i]!];
-		setOrder(next);
-		run(() => reorderAtelierImages(next.map((m) => m.id)));
+		persist(next);
 	};
+
+	const drag = useDragReorder(order, persist);
 
 	return (
 		<div className="flex flex-col gap-8">
@@ -72,21 +80,22 @@ export function AtelierManager({ images }: { images: AtelierImage[] }) {
 					type="button"
 					disabled={pending}
 					onClick={() => fileRef.current?.click()}
-					className="cta-gold cursor-pointer bg-gold px-7 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-[0.732rem] disabled:opacity-60"
+					className="cta-gold cursor-pointer bg-gold px-7 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-tiny disabled:opacity-60"
 				>
 					{pending ? progress || "Uploading…" : "Upload images"}
 				</button>
-				<p className="mt-2 font-sans font-light text-cream/80 text-[0.7rem]">
+				<p className="mt-2 font-sans font-light text-cream/80 text-tiny">
 					Select multiple images at once. JPG, PNG, WebP, or AVIF.
 				</p>
 			</div>
 
 			{order.length > 0 && (
-				<div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+				<div data-busy={pending || undefined} className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
 					{order.map((img, i) => (
 						<div
 							key={img.id}
-							className="group relative aspect-square overflow-hidden rounded-sm border border-cream/10 bg-plum"
+							{...drag.handlers(i)}
+							className={`group relative aspect-square cursor-grab overflow-hidden rounded-sm border border-cream/10 bg-plum active:cursor-grabbing ${drag.itemClass(i)}`}
 						>
 							<Image
 								src={img.url}
@@ -95,8 +104,9 @@ export function AtelierManager({ images }: { images: AtelierImage[] }) {
 								sizes="200px"
 								className="object-cover"
 							/>
-							<div className="absolute inset-0 flex items-center justify-center gap-2 bg-plum-dark/70 opacity-0 transition-opacity group-hover:opacity-100">
+							<div className="absolute inset-0 flex items-center justify-center gap-2 bg-plum-dark/70 opacity-0 transition-opacity group-hover:opacity-100 pointer-coarse:bg-plum-dark/50 pointer-coarse:opacity-100">
 								<button
+									aria-label="Move left"
 									type="button"
 									disabled={pending || i === 0}
 									onClick={() => move(i, -1)}
@@ -104,15 +114,14 @@ export function AtelierManager({ images }: { images: AtelierImage[] }) {
 								>
 									←
 								</button>
-								<button
-									type="button"
+								<ConfirmButton
+									label="Delete"
 									disabled={pending}
-									onClick={() => run(() => deleteAtelierImage(img.id, img.url))}
-									className="cursor-pointer rounded-full border border-cream/50 bg-plum-dark/50 px-3 py-1 font-sans uppercase tracking-[0.2em] text-cream text-[0.55rem] hover:border-gold hover:text-gold"
-								>
-									Delete
-								</button>
+									onConfirm={() => run(() => deleteAtelierImage(img.id, img.url))}
+									className="cursor-pointer rounded-full border border-cream/50 bg-plum-dark/50 px-3 py-1 font-sans uppercase tracking-[0.2em] text-cream text-micro hover:border-gold hover:text-gold"
+								/>
 								<button
+									aria-label="Move right"
 									type="button"
 									disabled={pending || i === order.length - 1}
 									onClick={() => move(i, 1)}

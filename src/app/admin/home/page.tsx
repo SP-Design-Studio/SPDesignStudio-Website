@@ -1,4 +1,3 @@
-import { NavLink } from "../_components/NavLink";
 import { requireRole } from "@/lib/auth";
 import { getDisciplines, getRecognition } from "@/lib/cms/queries";
 import { DisciplinesManager } from "./DisciplinesManager";
@@ -16,13 +15,8 @@ export default async function AdminHomePage() {
 
 	return (
 		<div className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-16">
-			<NavLink
-				href="/admin"
-				className="font-sans font-light uppercase tracking-[0.24em] text-cream/80 text-[0.708rem] transition-colors hover:text-gold">
-				&larr; Dashboard
-			</NavLink>
 			<div className="mb-10 mt-4">
-				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.708rem] mb-3">
+				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-tiny mb-3">
 					Homepage
 				</div>
 				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
@@ -35,7 +29,7 @@ export default async function AdminHomePage() {
 			</div>
 
 			<div className="mb-16">
-				<div className="font-sans font-light uppercase tracking-[0.32em] text-gold text-[0.684rem] mb-2">
+				<div className="font-sans font-light uppercase tracking-[0.32em] text-gold text-tiny mb-2">
 					Hero recognition
 				</div>
 				<p className="mb-6 font-sans font-light text-cream/80 text-base">
@@ -45,7 +39,7 @@ export default async function AdminHomePage() {
 			</div>
 
 			<div className="border-t border-cream/10 pt-10">
-				<div className="font-sans font-light uppercase tracking-[0.32em] text-gold text-[0.684rem] mb-2">
+				<div className="font-sans font-light uppercase tracking-[0.32em] text-gold text-tiny mb-2">
 					Disciplines grid
 				</div>
 				<p className="mb-6 font-sans font-light text-cream/80 text-base">

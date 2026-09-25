@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSaving } from "@/lib/admin/saving";
 import { saveGrain } from "./actions";
+import { useFlash } from "@/lib/admin/useFlash";
 
 export function GrainToggle({
 	enabled: initEnabled,
@@ -16,17 +17,17 @@ export function GrainToggle({
 	const [pending, start] = useSaving();
 	const [enabled, setEnabled] = useState(initEnabled);
 	const [intensity, setIntensity] = useState(initIntensity);
-	const [msg, setMsg] = useState("");
+	const [msg, flash] = useFlash();
 
 	const persist = (en: boolean, inten: number) =>
 		start(async () => {
 			const res = await saveGrain(en, inten);
-			setMsg(res.error ?? "Saved");
+			flash(res.error ?? "Saved");
 			router.refresh();
 		});
 
 	return (
-		<div className="flex flex-col gap-4">
+		<div data-busy={pending || undefined} className="flex flex-col gap-4">
 			<label className="flex w-fit cursor-pointer items-center gap-3">
 				<input
 					type="checkbox"
@@ -50,7 +51,7 @@ export function GrainToggle({
 
 			{enabled && (
 				<label className="flex max-w-sm flex-col gap-1.5">
-					<span className="font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem]">
+					<span className="font-sans font-light uppercase tracking-[0.26em] text-gold text-micro">
 						Intensity — {Math.round((intensity / 0.4) * 100)}%
 					</span>
 					<input

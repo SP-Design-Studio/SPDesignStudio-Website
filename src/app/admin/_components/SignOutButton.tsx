@@ -10,7 +10,7 @@ export default function SignOutButton() {
 			<button
 				type="submit"
 				disabled={pending}
-				className="cursor-pointer font-sans font-light uppercase tracking-[0.24em] text-cream/82 text-[0.708rem] transition-colors hover:text-gold disabled:opacity-60">
+				className="cursor-pointer font-sans font-light uppercase tracking-[0.24em] text-cream/82 text-tiny transition-colors hover:text-gold disabled:opacity-60">
 				Sign out
 			</button>
 			<AuthOverlay show={pending} label="Signing out" />

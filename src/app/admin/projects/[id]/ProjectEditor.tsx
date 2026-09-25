@@ -17,30 +17,29 @@ import {
 } from "../actions";
 import { useDirty } from "@/lib/admin/useDirty";
 import { ratioLabel } from "@/lib/aspect";
+import { SuggestInput } from "@/components/admin/SuggestInput";
+import { ui } from "@/lib/admin/ui";
+import { useFlash } from "@/lib/admin/useFlash";
 
-const inputCls =
-	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
 const slugify = (s: string) =>
 	s
 		.toLowerCase()
 		.trim()
 		.replace(/[^a-z0-9]+/g, "-")
 		.replace(/^-+|-+$/g, "");
-const labelCls =
-	"font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem] mb-1.5";
-const sectionCls =
-	"font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem] mb-5";
-
 
 export function ProjectEditor({
 	project,
 	categories,
+	suggestions,
 }: {
 	project: CmsProject;
 	categories: ProjectCategoryRow[];
+	suggestions: { types: string[]; locations: string[] };
 }) {
 	const router = useRouter();
 	const [pending, start] = useSaving();
+	const [savingMain, startSaveMain] = useSaving();
 
 	const [form, setForm] = useState({
 		slug: project.slug,
@@ -53,7 +52,7 @@ export function ProjectEditor({
 		blurb: project.blurb ?? "",
 		img: project.img,
 	});
-	const [msg, setMsg] = useState("");
+	const [msg, flash] = useFlash();
 	const { dirty, markSaved } = useDirty(form);
 	const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) =>
 		setForm((f) => ({ ...f, [k]: v }));
@@ -76,7 +75,7 @@ export function ProjectEditor({
 	};
 
 	const saveMain = () =>
-		start(async () => {
+		startSaveMain(async () => {
 			const res = await updateProject(project.id, {
 				...form,
 				location: form.location || null,
@@ -84,16 +83,16 @@ export function ProjectEditor({
 				year: form.year || null,
 				blurb: form.blurb || null,
 			});
-			setMsg(res.error ?? "Saved");
+			flash(res.error ?? "Saved");
 			if (!res.error) markSaved();
 			router.refresh();
 		});
 
 	return (
 		<div className="flex flex-col gap-14">
-			<section>
-				<div className={sectionCls}>Details</div>
-				<div className="grid grid-cols-1 gap-5 md:grid-cols-[200px_1fr]">
+			<section data-busy={savingMain || undefined}>
+				<div className={ui.sectionTitle}>Details</div>
+				<div className="grid grid-cols-1 gap-5 sm:grid-cols-[200px_1fr]">
 					<ImageUploader
 						value={form.img}
 						onChange={(url) => set("img", url)}
@@ -103,9 +102,9 @@ export function ProjectEditor({
 					<div className="flex flex-col gap-4">
 						<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 							<label>
-								<div className={labelCls}>Title</div>
+								<div className={ui.label}>Title</div>
 								<input
-									className={inputCls}
+									className={ui.input}
 									value={form.title}
 									onChange={(e) =>
 										setForm((f) => ({
@@ -117,38 +116,39 @@ export function ProjectEditor({
 								/>
 							</label>
 							<label>
-								<div className={labelCls}>Slug (URL)</div>
+								<div className={ui.label}>Slug (URL)</div>
 								<input
-									className={`${inputCls} cursor-not-allowed text-cream/80`}
+									className={`${ui.input} cursor-not-allowed text-cream/80`}
 									value={form.slug}
 									disabled
 									aria-readonly="true"
 								/>
-								<span className="mt-1 block font-sans font-light text-cream/80 text-[0.684rem]">
+								<span className="mt-1 block font-sans font-light text-cream/80 text-tiny">
 									Auto-generated from the title.
 								</span>
 							</label>
 							<label>
-								<div className={labelCls}>Location</div>
-								<input
-									className={inputCls}
+								<div className={ui.label}>Location</div>
+								<SuggestInput
 									value={form.location}
-									onChange={(e) => set("location", e.target.value)}
+									onChange={(v) => set("location", v)}
+									options={suggestions.locations}
+									ariaLabel="Location"
 								/>
 							</label>
 							<label>
-								<div className={labelCls}>Type label</div>
-								<input
-									className={inputCls}
+								<div className={ui.label}>Type label</div>
+								<SuggestInput
 									value={form.type}
-									placeholder="Residential / Studio / …"
-									onChange={(e) => set("type", e.target.value)}
+									onChange={(v) => set("type", v)}
+									options={suggestions.types}
+									ariaLabel="Type"
 								/>
 							</label>
 							<label>
-								<div className={labelCls}>Category</div>
+								<div className={ui.label}>Category</div>
 								<select
-									className={`${inputCls} cursor-pointer`}
+									className={`${ui.input} cursor-pointer`}
 									value={form.category}
 									onChange={(e) =>
 										set("category", e.target.value)
@@ -169,9 +169,9 @@ export function ProjectEditor({
 								</select>
 							</label>
 							<label>
-								<div className={labelCls}>Delivery</div>
+								<div className={ui.label}>Delivery</div>
 								<select
-									className={`${inputCls} cursor-pointer`}
+									className={`${ui.input} cursor-pointer`}
 									value={form.delivery}
 									onChange={(e) =>
 										set("delivery", e.target.value as typeof form.delivery)
@@ -188,19 +188,19 @@ export function ProjectEditor({
 								</select>
 							</label>
 							<label>
-								<div className={labelCls}>Year</div>
+								<div className={ui.label}>Year</div>
 								<input
-									className={inputCls}
+									className={ui.input}
 									value={form.year}
 									onChange={(e) => set("year", e.target.value)}
 								/>
 							</label>
 						</div>
 						<label>
-							<div className={labelCls}>Blurb</div>
+							<div className={ui.label}>Blurb</div>
 							<textarea
 								rows={3}
-								className={`${inputCls} resize-none`}
+								className={`${ui.input} resize-none`}
 								value={form.blurb}
 								onChange={(e) => set("blurb", e.target.value)}
 							/>
@@ -209,9 +209,9 @@ export function ProjectEditor({
 							<button
 								type="button"
 								onClick={saveMain}
-								disabled={pending || !dirty}
-								className="cta-gold cursor-pointer bg-gold px-7 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-[0.732rem] disabled:opacity-60">
-								{pending ? "Saving…" : "Save details"}
+								disabled={pending || savingMain || !dirty}
+								className="cta-gold cursor-pointer bg-gold px-7 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-tiny disabled:opacity-60">
+								{savingMain ? "Saving…" : "Save details"}
 							</button>
 							{msg && (
 								<span className="font-sans font-light text-cream/80 text-base">
@@ -224,7 +224,7 @@ export function ProjectEditor({
 			</section>
 
 			<section>
-				<div className={sectionCls}>Key facts</div>
+				<div className={ui.sectionTitle}>Key facts</div>
 				<div className="flex flex-col gap-3">
 					{facts.map((f) => (
 						<FactRow key={f.id} projectId={project.id} id={f.id} label={f.label} value={f.value} />
@@ -239,14 +239,14 @@ export function ProjectEditor({
 							router.refresh();
 						})
 					}
-					className="mt-4 w-fit cursor-pointer border border-gold/40 px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.708rem] hover:bg-gold/10 disabled:opacity-60">
+					className="mt-4 w-fit cursor-pointer border border-gold/40 px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-gold text-tiny hover:bg-gold/10 disabled:opacity-60">
 					{pending ? "Adding…" : "+ Add fact"}
 				</button>
 			</section>
 
 			<section>
-				<div className={sectionCls}>Gallery</div>
-				<p className="mb-4 max-w-2xl font-sans font-light text-cream/80 text-[0.732rem]">
+				<div className={ui.sectionTitle}>Gallery</div>
+				<p className="mb-4 max-w-2xl font-sans font-light text-cream/80 text-tiny">
 					Each image keeps its own crop ratio — pick 4:3, 16:9, 21:10 or any
 					other when cropping, and the project page lays the gallery out to
 					match. Hover an image to crop, replace, or remove it.
@@ -273,22 +273,24 @@ export function ProjectEditor({
 								aspect={g.aspect ?? 4 / 3}
 							/>
 							<div className="flex items-center justify-between">
-								<span className="font-sans font-light text-cream/60 text-[0.62rem]">
+								<span className="font-sans font-light text-cream/60 text-micro">
 									{ratioLabel(g.aspect)}
 								</span>
 								<div className="flex gap-1">
 									<button
+										aria-label="Move left"
 										type="button"
 										disabled={i === 0 || pending}
 										onClick={() => moveGallery(i, -1)}
-										className="cursor-pointer border border-cream/20 px-1.5 py-0.5 text-cream/82 text-[0.7rem] disabled:opacity-30 hover:border-gold hover:text-gold">
+										className="cursor-pointer border border-cream/20 px-1.5 py-0.5 text-cream/82 text-tiny disabled:opacity-30 hover:border-gold hover:text-gold">
 										←
 									</button>
 									<button
+										aria-label="Move right"
 										type="button"
 										disabled={i === gallery.length - 1 || pending}
 										onClick={() => moveGallery(i, 1)}
-										className="cursor-pointer border border-cream/20 px-1.5 py-0.5 text-cream/82 text-[0.7rem] disabled:opacity-30 hover:border-gold hover:text-gold">
+										className="cursor-pointer border border-cream/20 px-1.5 py-0.5 text-cream/82 text-tiny disabled:opacity-30 hover:border-gold hover:text-gold">
 										→
 									</button>
 								</div>
@@ -308,9 +310,10 @@ export function ProjectEditor({
 						}}
 						folder="projects"
 						aspect="aspect-[4/3]"
+						multiple
 					/>
-					<p className="mt-2 font-sans font-light text-cream/80 text-[0.732rem]">
-						Upload to add a gallery image.
+					<p className="mt-2 font-sans font-light text-cream/80 text-tiny">
+						Select several images at once — you&rsquo;ll crop each in turn.
 					</p>
 				</div>
 			</section>
@@ -335,14 +338,14 @@ function FactRow({
 	const [pending, start] = useSaving();
 
 	return (
-		<div className="flex items-end gap-3">
+		<div data-busy={pending || undefined} className="flex items-end gap-3">
 			<label className="flex-1">
-				<div className={labelCls}>Label</div>
-				<input className={inputCls} value={l} onChange={(e) => setL(e.target.value)} />
+				<div className={ui.label}>Label</div>
+				<input className={ui.input} value={l} onChange={(e) => setL(e.target.value)} />
 			</label>
 			<label className="flex-1">
-				<div className={labelCls}>Value</div>
-				<input className={inputCls} value={v} onChange={(e) => setV(e.target.value)} />
+				<div className={ui.label}>Value</div>
+				<input className={ui.input} value={v} onChange={(e) => setV(e.target.value)} />
 			</label>
 			<button
 				type="button"
@@ -353,7 +356,7 @@ function FactRow({
 						router.refresh();
 					})
 				}
-				className="cta-gold cursor-pointer bg-gold px-4 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-[0.649rem] disabled:opacity-60">
+				className="cta-gold cursor-pointer bg-gold px-4 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-tiny disabled:opacity-60">
 				Save
 			</button>
 			<button

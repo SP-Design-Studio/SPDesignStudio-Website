@@ -11,6 +11,14 @@ import {
 	resolveAspect,
 	type RatioOption,
 } from "@/lib/aspect";
+import {
+	ACCEPTED_IMAGE_ATTR,
+	formatBytes,
+	MAX_IMAGE_BYTES,
+	validateImageFile,
+	type UploadProblem,
+} from "@/lib/admin/imageFile";
+import { beginTask } from "@/lib/admin/saving";
 
 export interface ImageMeta {
 	aspect: number;
@@ -22,6 +30,7 @@ interface Props {
 	folder: string;
 	aspect?: string | number;
 	className?: string;
+	multiple?: boolean;
 }
 
 const RATIOS: RatioOption[] = [
@@ -51,7 +60,12 @@ async function getCroppedBlob(
 	area: Area,
 	mime: string,
 ): Promise<Blob> {
-	const img = await loadImage(src);
+	let img: HTMLImageElement;
+	try {
+		img = await loadImage(src);
+	} catch {
+		throw new Error("load");
+	}
 	const canvas = document.createElement("canvas");
 	canvas.width = Math.round(area.width);
 	canvas.height = Math.round(area.height);
@@ -77,7 +91,21 @@ async function getCroppedBlob(
 }
 
 const overlayBtnCls =
-	"w-[78%] cursor-pointer border border-cream/60 bg-plum-dark/50 px-3 py-1.5 text-center font-sans font-light uppercase tracking-[0.2em] text-cream text-[0.6rem] transition-colors hover:border-gold hover:text-gold";
+	"w-[78%] cursor-pointer border border-cream/60 bg-plum-dark/50 px-3 py-1.5 text-center font-sans font-light uppercase tracking-[0.2em] text-cream text-micro transition-colors hover:border-gold hover:text-gold";
+
+function BusyVeil({ label }: { label: string }) {
+	return (
+		<div
+			role="status"
+			aria-live="polite"
+			className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2.5 bg-plum-dark/85 backdrop-blur-[1px] [animation:auth-fade-in_0.2s_ease]">
+			<span className="h-5 w-5 animate-spin rounded-full border-2 border-gold/30 border-t-gold" />
+			<span className="font-sans font-light uppercase tracking-[0.24em] text-gold text-micro">
+				{label}…
+			</span>
+		</div>
+	);
+}
 
 export function ImageUploader({
 	value,
@@ -85,11 +113,12 @@ export function ImageUploader({
 	folder,
 	aspect = "aspect-[4/3]",
 	className = "",
+	multiple = false,
 }: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);
-	const [busy, setBusy] = useState(false);
+	const [busy, setBusy] = useState<string | null>(null);
 	const [drag, setDrag] = useState(false);
-	const [error, setError] = useState("");
+	const [error, setError] = useState<UploadProblem | null>(null);
 
 	const [cropSrc, setCropSrc] = useState<string | null>(null);
 	const cropMime = useRef("image/jpeg");
@@ -98,6 +127,8 @@ export function ImageUploader({
 	const [zoom, setZoom] = useState(1);
 	const [areaPixels, setAreaPixels] = useState<Area | null>(null);
 	const [naturalRatio, setNaturalRatio] = useState(0);
+	const queue = useRef<File[]>([]);
+	const [queued, setQueued] = useState(0);
 
 	const layout = useMemo(() => resolveAspect(aspect), [aspect]);
 	const [choice, setChoice] = useState(layout.value);
@@ -115,15 +146,45 @@ export function ImageUploader({
 		typeof aspect === "number" ? { aspectRatio: String(aspect) } : undefined;
 
 	const upload = async (file: File, meta: ImageMeta) => {
-		setBusy(true);
-		setError("");
+		setBusy("Uploading");
+		setError(null);
+		const endTask = beginTask("Uploading image");
 		const fd = new FormData();
 		fd.set("file", file);
 		fd.set("folder", folder);
-		const res = await uploadImage(fd);
-		setBusy(false);
-		if (res.error) setError(res.error);
-		else if (res.url) onChange(res.url, meta);
+		try {
+			const res = await uploadImage(fd);
+			if (res.error) setError({ message: res.error, detail: res.detail });
+			else if (res.url) onChange(res.url, meta);
+		} catch {
+			setError({
+				message:
+					"The upload didn't reach the server. Check your connection and try again.",
+			});
+		} finally {
+			endTask();
+			setBusy(null);
+		}
+	};
+
+	const startNext = () => {
+		const file = queue.current.shift();
+		setQueued(queue.current.length);
+		if (!file) return;
+		openCrop(URL.createObjectURL(file), file.type, true);
+	};
+
+	const pickFiles = (files?: FileList | null) => {
+		const picked = Array.from(files ?? []);
+		if (picked.length === 0) return;
+		const bad = picked.map(validateImageFile).find(Boolean);
+		if (bad) {
+			setError({ message: bad });
+			return;
+		}
+		setError(null);
+		queue.current = multiple ? picked : picked.slice(0, 1);
+		startNext();
 	};
 
 	const openCrop = (src: string, mime: string, isBlob: boolean) => {
@@ -137,9 +198,20 @@ export function ImageUploader({
 		setCropSrc(src);
 	};
 
-	const cancelCrop = () => {
+	const closeCrop = () => {
 		if (cropSrc && cropIsBlob.current) URL.revokeObjectURL(cropSrc);
 		setCropSrc(null);
+	};
+
+	const cancelCrop = () => {
+		queue.current = [];
+		setQueued(0);
+		closeCrop();
+	};
+
+	const skipCrop = () => {
+		closeCrop();
+		startNext();
 	};
 
 	const applyCrop = async () => {
@@ -151,18 +223,37 @@ export function ImageUploader({
 			const blob = await getCroppedBlob(cropSrc, areaPixels, mime);
 			const file = new File([blob], `image.${ext}`, { type: mime });
 			const cropped = areaPixels.width / areaPixels.height;
-			cancelCrop();
+			closeCrop();
 			await upload(file, { aspect: cropped });
-		} catch {
-			setError("Could not process the image.");
+			startNext();
+		} catch (e) {
+			queue.current = [];
+			setQueued(0);
+			setError({
+				message:
+					e instanceof Error && e.message === "load"
+						? "Couldn't open this image for cropping — it may have been moved or deleted from storage."
+						: "This image couldn't be processed in your browser. Try uploading the original file again instead of cropping.",
+			});
 			cancelCrop();
 		}
 	};
 
 	const remove = async () => {
 		const old = value;
-		onChange(null);
-		if (old) await deleteImage(old);
+		if (!old) {
+			onChange(null);
+			return;
+		}
+		setBusy("Removing");
+		const endTask = beginTask("Removing image");
+		try {
+			onChange(null);
+			await deleteImage(old);
+		} finally {
+			endTask();
+			setBusy(null);
+		}
 	};
 
 	return (
@@ -171,8 +262,18 @@ export function ImageUploader({
 				<div
 					className={`group relative w-full ${boxCls} overflow-hidden rounded-sm border border-cream/10`}
 					style={boxStyle}>
-					<Image src={value} alt="" fill className="object-cover" />
-					<div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-plum-dark/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+					<Image
+						src={value}
+						alt=""
+						fill
+						sizes="(max-width: 640px) 100vw, 320px"
+						className="object-cover"
+					/>
+					{busy && <BusyVeil label={busy} />}
+					<div
+						className={`absolute inset-0 flex flex-col items-center justify-center gap-2 bg-plum-dark/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-coarse:bg-plum-dark/50 pointer-coarse:opacity-100 ${
+							busy ? "pointer-events-none" : ""
+						}`}>
 						<button
 							type="button"
 							onClick={() => inputRef.current?.click()}
@@ -204,20 +305,21 @@ export function ImageUploader({
 					onDrop={(e) => {
 						e.preventDefault();
 						setDrag(false);
-						const f = e.dataTransfer.files?.[0];
-						if (f) openCrop(URL.createObjectURL(f), f.type, true);
+						pickFiles(e.dataTransfer.files);
 					}}
 					style={boxStyle}
-					className={`flex w-full ${boxCls} cursor-pointer flex-col items-center justify-center gap-2 rounded-sm border border-dashed text-center transition-colors ${
+					disabled={!!busy}
+					className={`relative flex w-full ${boxCls} cursor-pointer flex-col items-center justify-center gap-2 rounded-sm border border-dashed text-center transition-colors ${
 						drag
 							? "border-gold bg-gold/5"
 							: "border-cream/20 hover:border-cream/40"
 					}`}>
+					{busy && <BusyVeil label={busy} />}
 					<span className="font-sans font-light text-cream/82 text-sm">
-						{busy ? "Uploading…" : "Drag & drop or click to upload"}
+						Drag &amp; drop or click to upload
 					</span>
-					<span className="font-sans font-light text-cream/30 text-[0.62rem]">
-						JPG · PNG · WebP · AVIF - max 8MB
+					<span className="font-sans font-light text-cream/30 text-micro">
+						JPG · PNG · WebP · AVIF — max {formatBytes(MAX_IMAGE_BYTES)}
 					</span>
 				</button>
 			)}
@@ -225,25 +327,47 @@ export function ImageUploader({
 			<input
 				ref={inputRef}
 				type="file"
-				accept="image/jpeg,image/png,image/webp,image/avif"
+				accept={ACCEPTED_IMAGE_ATTR}
+				multiple={multiple}
 				className="hidden"
 				onChange={(e) => {
-					const f = e.target.files?.[0];
-					if (f) openCrop(URL.createObjectURL(f), f.type, true);
+					pickFiles(e.target.files);
 					e.target.value = "";
 				}}
 			/>
-			{error && <p className="mt-2 font-sans text-sm text-gold">{error}</p>}
+			{error && (
+				<div
+					role="alert"
+					className="mt-2 rounded-sm border border-gold/40 bg-gold/5 px-3 py-2">
+					<div className="flex items-start justify-between gap-3">
+						<p className="font-sans font-light text-gold text-tiny leading-relaxed">
+							{error.message}
+						</p>
+						<button
+							type="button"
+							onClick={() => setError(null)}
+							aria-label="Dismiss"
+							className="cursor-pointer font-sans text-cream/50 text-sm leading-none transition-colors hover:text-gold">
+							×
+						</button>
+					</div>
+					{error.detail && (
+						<p className="mt-1.5 font-sans font-light text-cream/55 text-micro leading-relaxed">
+							{error.detail}
+						</p>
+					)}
+				</div>
+			)}
 
 			{cropSrc &&
 				createPortal(
 					<div className="fixed inset-0 z-130 flex flex-col bg-plum-dark/95 p-4 md:p-8">
-						<div className="mx-auto mb-4 font-sans font-light uppercase tracking-[0.3em] text-gold text-[0.66rem]">
+						<div className="mx-auto mb-4 font-sans font-light uppercase tracking-[0.3em] text-gold text-tiny">
 							Adjust image
 						</div>
 
 						<div className="mx-auto mb-4 flex w-full max-w-3xl flex-wrap items-center gap-2">
-							<span className="mr-1 font-sans font-light uppercase tracking-[0.2em] text-cream/70 text-[0.6rem]">
+							<span className="mr-1 font-sans font-light uppercase tracking-[0.2em] text-cream/70 text-micro">
 								Ratio
 							</span>
 							{options.map((r) => (
@@ -251,7 +375,7 @@ export function ImageUploader({
 									key={r.label}
 									type="button"
 									onClick={() => setChoice(r.value)}
-									className={`cursor-pointer border px-3 py-1.5 font-sans font-light uppercase tracking-[0.16em] text-[0.6rem] transition-colors ${
+									className={`cursor-pointer border px-3 py-1.5 font-sans font-light uppercase tracking-[0.16em] text-micro transition-colors ${
 										choice === r.value
 											? "border-gold bg-gold/10 text-gold"
 											: "border-cream/20 text-cream/70 hover:border-gold hover:text-gold"
@@ -276,12 +400,12 @@ export function ImageUploader({
 							/>
 						</div>
 
-						<p className="mx-auto mt-3 w-full max-w-3xl font-sans font-light text-cream/60 text-[0.68rem]">
+						<p className="mx-auto mt-3 w-full max-w-3xl font-sans font-light text-cream/60 text-tiny">
 							{layout.label} matches how this image is displayed on the site.
 						</p>
 
 						<div className="mx-auto mt-3 flex w-full max-w-3xl flex-wrap items-center gap-4">
-							<span className="font-sans font-light uppercase tracking-[0.2em] text-cream/70 text-[0.6rem]">
+							<span className="font-sans font-light uppercase tracking-[0.2em] text-cream/70 text-micro">
 								Zoom
 							</span>
 							<input
@@ -293,16 +417,24 @@ export function ImageUploader({
 								onChange={(e) => setZoom(Number(e.target.value))}
 								className="min-w-40 flex-1 cursor-pointer accent-gold"
 							/>
+							{queued > 0 && (
+								<button
+									type="button"
+									onClick={skipCrop}
+									className="cursor-pointer border border-cream/40 px-5 py-2 font-sans font-light uppercase tracking-[0.2em] text-cream/80 text-micro transition-colors hover:border-gold hover:text-gold">
+									Skip
+								</button>
+							)}
 							<button
 								type="button"
 								onClick={cancelCrop}
-								className="cursor-pointer border border-cream/40 px-5 py-2 font-sans font-light uppercase tracking-[0.2em] text-cream/80 text-[0.6rem] transition-colors hover:border-gold hover:text-gold">
-								Cancel
+								className="cursor-pointer border border-cream/40 px-5 py-2 font-sans font-light uppercase tracking-[0.2em] text-cream/80 text-micro transition-colors hover:border-gold hover:text-gold">
+								{queued > 0 ? "Cancel all" : "Cancel"}
 							</button>
 							<button
 								type="button"
 								onClick={applyCrop}
-								className="cta-gold cursor-pointer bg-gold px-6 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-[0.6rem]">
+								className="cta-gold cursor-pointer bg-gold px-6 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-micro">
 								Use crop
 							</button>
 						</div>

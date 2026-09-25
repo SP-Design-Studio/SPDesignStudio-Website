@@ -1,7 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireRole } from "@/lib/auth";
-import { getProjectById, getProjectCategories } from "@/lib/cms/queries";
+import {
+	getProjectById,
+	getProjectCategories,
+	getProjects,
+} from "@/lib/cms/queries";
 import { ProjectEditor } from "./ProjectEditor";
 
 export const dynamic = "force-dynamic";
@@ -23,9 +27,10 @@ export default async function AdminProjectEditPage({
 }) {
 	await requireRole("editor");
 	const { id } = await params;
-	const [project, categories] = await Promise.all([
+	const [project, categories, all] = await Promise.all([
 		getProjectById(id),
 		getProjectCategories(),
+		getProjects(),
 	]);
 	if (!project) notFound();
 
@@ -33,11 +38,11 @@ export default async function AdminProjectEditPage({
 		<div className="mx-auto max-w-4xl px-6 py-12 md:px-10 md:py-16">
 			<Link
 				href="/admin/projects"
-				className="font-sans font-light uppercase tracking-[0.24em] text-cream/80 text-[0.708rem] transition-colors hover:text-gold">
+				className="font-sans font-light uppercase tracking-[0.24em] text-cream/80 text-tiny transition-colors hover:text-gold">
 				&larr; All projects
 			</Link>
 			<div className="mb-10 mt-4">
-				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-[0.708rem] mb-3">
+				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-tiny mb-3">
 					Project
 				</div>
 				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
@@ -45,7 +50,14 @@ export default async function AdminProjectEditPage({
 				</h1>
 			</div>
 
-			<ProjectEditor project={project} categories={categories} />
+			<ProjectEditor
+				project={project}
+				categories={categories}
+				suggestions={{
+					types: all.map((p) => p.type ?? "").filter(Boolean),
+					locations: all.map((p) => p.location ?? "").filter(Boolean),
+				}}
+			/>
 		</div>
 	);
 }

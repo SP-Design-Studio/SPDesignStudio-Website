@@ -10,9 +10,8 @@ import {
 	deleteRecognition,
 	reorderRecognition,
 } from "./actions";
-
-const inputCls =
-	"flex-1 border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
+import { ui } from "@/lib/admin/ui";
+import { useFlash } from "@/lib/admin/useFlash";
 
 function Row({
 	item,
@@ -28,13 +27,14 @@ function Row({
 	const router = useRouter();
 	const [label, setLabel] = useState(item.label);
 	const [pending, start] = useSaving();
-	const [msg, setMsg] = useState("");
+	const [msg, flash] = useFlash();
 	const dirty = label !== item.label;
 
 	return (
-		<div className="flex items-center gap-3">
+		<div data-busy={pending || undefined} className="flex items-center gap-3">
 			<div className="flex gap-1">
 				<button
+					aria-label="Move up"
 					type="button"
 					disabled={index === 0}
 					onClick={() => onMove(-1)}
@@ -42,6 +42,7 @@ function Row({
 					↑
 				</button>
 				<button
+					aria-label="Move down"
 					type="button"
 					disabled={index === total - 1}
 					onClick={() => onMove(1)}
@@ -50,11 +51,11 @@ function Row({
 				</button>
 			</div>
 			<input
-				className={inputCls}
+				className={ui.input}
 				value={label}
 				onChange={(e) => {
 					setLabel(e.target.value);
-					setMsg("");
+					flash("");
 				}}
 			/>
 			{msg && (
@@ -66,11 +67,11 @@ function Row({
 				onClick={() =>
 					start(async () => {
 						const res = await updateRecognition(item.id, { label });
-						setMsg(res.error ?? "Saved");
+						flash(res.error ?? "Saved");
 						router.refresh();
 					})
 				}
-				className="cta-gold cursor-pointer bg-gold px-4 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-[0.649rem] disabled:opacity-40">
+				className="cta-gold cursor-pointer bg-gold px-4 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-tiny disabled:opacity-40">
 				Save
 			</button>
 			<button
@@ -130,7 +131,7 @@ export function RecognitionManager({ initial }: { initial: Recognition[] }) {
 						router.refresh();
 					})
 				}
-				className="w-fit cursor-pointer border border-gold/40 px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.708rem] hover:bg-gold/10 disabled:opacity-60">
+				className="w-fit cursor-pointer border border-gold/40 px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-gold text-tiny hover:bg-gold/10 disabled:opacity-60">
 				{pending ? "Adding…" : "+ Add recognition"}
 			</button>
 			<p className="font-sans font-light text-cream/80 text-sm">

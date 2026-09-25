@@ -2,6 +2,24 @@ import { ratioLabel } from "@/lib/aspect";
 
 type J = unknown;
 
+export type ChangeKind =
+	| "added"
+	| "removed"
+	| "edited"
+	| "reordered"
+	| "recropped";
+
+export interface Change {
+	path: string;
+	field: string;
+	kind: ChangeKind;
+	before?: string;
+	after?: string;
+	beforeImage?: string;
+	afterImage?: string;
+	text: string;
+}
+
 const IGNORE_KEYS = new Set(["created_at", "updated_at"]);
 const LABEL_KEYS = ["title", "name", "label", "role", "author", "quote", "id"];
 
@@ -31,6 +49,9 @@ const isImageField = (path: string): boolean => {
 	return /(img|image|url|photo|logo|avatar|cover)$/.test(key);
 };
 
+const isImageUrl = (v: J): v is string =>
+	typeof v === "string" && /\.(jpe?g|png|webp|avif|gif|svg)(\?|$)/i.test(v);
+
 function fileName(v: J): string {
 	if (typeof v !== "string" || !v) return shortVal(v);
 	const clean = v.split("?")[0];
@@ -38,46 +59,10 @@ function fileName(v: J): string {
 	return name || v;
 }
 
-interface UrlItem extends Record<string, J> {
-	url: string;
-}
+const fieldOf = (path: string) => (path.split("·").pop() ?? path).trim();
 
-const isUrlItem = (v: J): v is UrlItem =>
-	isObj(v) && typeof v.url === "string" && !("id" in v);
-
-function urlItemLabel(x: UrlItem): string {
-	const aspect = typeof x.aspect === "number" ? x.aspect : null;
-	return `${fileName(x.url)} (${ratioLabel(aspect)})`;
-}
-
-function diffUrlItems(
-	a: UrlItem[],
-	b: UrlItem[],
-	path: string,
-	out: string[],
-): void {
-	const am = new Map(a.map((x) => [x.url, x]));
-	const bm = new Map(b.map((x) => [x.url, x]));
-	for (const x of a)
-		if (!bm.has(x.url)) out.push(`${path}: removed ${urlItemLabel(x)}`);
-	for (const x of b)
-		if (!am.has(x.url)) out.push(`${path}: added ${urlItemLabel(x)}`);
-	for (const x of b) {
-		const before = am.get(x.url);
-		if (!before) continue;
-		const from = ratioLabel(
-			typeof before.aspect === "number" ? before.aspect : null,
-		);
-		const to = ratioLabel(typeof x.aspect === "number" ? x.aspect : null);
-		if (from !== to)
-			out.push(`${path}: recropped ${fileName(x.url)} ${from} → ${to}`);
-	}
-	const order = (arr: UrlItem[], other: Map<string, UrlItem>) =>
-		arr
-			.filter((x) => other.has(x.url))
-			.map((x) => x.url)
-			.join(",");
-	if (order(a, bm) !== order(b, am)) out.push(`${path}: reordered`);
+function push(out: Change[], c: Omit<Change, "field"> & { field?: string }) {
+	out.push({ ...c, field: c.field ?? fieldOf(c.path) } as Change);
 }
 
 export function deepEqual(a: J, b: J): boolean {
@@ -102,15 +87,92 @@ function keyed(arr: J[]): arr is Record<string, J>[] {
 	return arr.length > 0 && arr.every((x) => isObj(x) && "id" in x);
 }
 
-function diffArray(a: J[], b: J[], path: string, out: string[]): void {
+interface UrlItem extends Record<string, J> {
+	url: string;
+}
+
+const isUrlItem = (v: J): v is UrlItem =>
+	isObj(v) && typeof v.url === "string" && !("id" in v);
+
+function urlItemLabel(x: UrlItem): string {
+	const aspect = typeof x.aspect === "number" ? x.aspect : null;
+	return `${fileName(x.url)} (${ratioLabel(aspect)})`;
+}
+
+function diffUrlItems(
+	a: UrlItem[],
+	b: UrlItem[],
+	path: string,
+	out: Change[],
+): void {
+	const am = new Map(a.map((x) => [x.url, x]));
+	const bm = new Map(b.map((x) => [x.url, x]));
+	for (const x of a)
+		if (!bm.has(x.url))
+			push(out, {
+				path,
+				kind: "removed",
+				beforeImage: x.url,
+				before: urlItemLabel(x),
+				text: `${path}: removed ${urlItemLabel(x)}`,
+			});
+	for (const x of b)
+		if (!am.has(x.url))
+			push(out, {
+				path,
+				kind: "added",
+				afterImage: x.url,
+				after: urlItemLabel(x),
+				text: `${path}: added ${urlItemLabel(x)}`,
+			});
+	for (const x of b) {
+		const before = am.get(x.url);
+		if (!before) continue;
+		const from = ratioLabel(
+			typeof before.aspect === "number" ? before.aspect : null,
+		);
+		const to = ratioLabel(typeof x.aspect === "number" ? x.aspect : null);
+		if (from !== to)
+			push(out, {
+				path,
+				kind: "recropped",
+				beforeImage: x.url,
+				afterImage: x.url,
+				before: from,
+				after: to,
+				text: `${path}: recropped ${fileName(x.url)} ${from} → ${to}`,
+			});
+	}
+	const order = (arr: UrlItem[], other: Map<string, UrlItem>) =>
+		arr
+			.filter((x) => other.has(x.url))
+			.map((x) => x.url)
+			.join(",");
+	if (order(a, bm) !== order(b, am))
+		push(out, { path, kind: "reordered", text: `${path}: reordered` });
+}
+
+function diffArray(a: J[], b: J[], path: string, out: Change[]): void {
 	if (keyed(a) && keyed(b)) {
 		const idOf = (x: Record<string, J>) => String(x.id);
 		const am = new Map(a.map((x) => [idOf(x), x]));
 		const bm = new Map(b.map((x) => [idOf(x), x]));
 		for (const x of a)
-			if (!bm.has(idOf(x))) out.push(`${path}: removed “${labelOf(x)}”`);
+			if (!bm.has(idOf(x)))
+				push(out, {
+					path,
+					kind: "removed",
+					before: labelOf(x),
+					text: `${path}: removed “${labelOf(x)}”`,
+				});
 		for (const x of b)
-			if (!am.has(idOf(x))) out.push(`${path}: added “${labelOf(x)}”`);
+			if (!am.has(idOf(x)))
+				push(out, {
+					path,
+					kind: "added",
+					after: labelOf(x),
+					text: `${path}: added “${labelOf(x)}”`,
+				});
 		for (const x of b) {
 			const before = am.get(idOf(x));
 			if (before && !deepEqual(before, x))
@@ -121,9 +183,11 @@ function diffArray(a: J[], b: J[], path: string, out: string[]): void {
 				.filter((x) => other.has(idOf(x)))
 				.map(idOf)
 				.join(",");
-		if (order(a, bm) !== order(b, am)) out.push(`${path}: reordered`);
+		if (order(a, bm) !== order(b, am))
+			push(out, { path, kind: "reordered", text: `${path}: reordered` });
 		return;
 	}
+
 	if (
 		(a.length > 0 || b.length > 0) &&
 		a.every(isUrlItem) &&
@@ -132,18 +196,33 @@ function diffArray(a: J[], b: J[], path: string, out: string[]): void {
 		diffUrlItems(a as UrlItem[], b as UrlItem[], path, out);
 		return;
 	}
+
 	const img = isImageField(path) || /gallery$/.test(path.toLowerCase());
 	const show = (v: J) => (img ? fileName(v) : shortVal(v));
 	const enc = (v: J) => JSON.stringify(v);
 	const as = new Set(a.map(enc));
 	const bs = new Set(b.map(enc));
 	for (const v of a)
-		if (!bs.has(enc(v))) out.push(`${path}: removed ${show(v)}`);
+		if (!bs.has(enc(v)))
+			push(out, {
+				path,
+				kind: "removed",
+				before: show(v),
+				beforeImage: isImageUrl(v) ? v : undefined,
+				text: `${path}: removed ${show(v)}`,
+			});
 	for (const v of b)
-		if (!as.has(enc(v))) out.push(`${path}: added ${show(v)}`);
+		if (!as.has(enc(v)))
+			push(out, {
+				path,
+				kind: "added",
+				after: show(v),
+				afterImage: isImageUrl(v) ? v : undefined,
+				text: `${path}: added ${show(v)}`,
+			});
 }
 
-function walk(a: J, b: J, path: string, out: string[]): void {
+function walk(a: J, b: J, path: string, out: Change[]): void {
 	if (deepEqual(a, b)) return;
 	if (Array.isArray(a) && Array.isArray(b)) {
 		diffArray(a, b, path, out);
@@ -159,14 +238,32 @@ function walk(a: J, b: J, path: string, out: string[]): void {
 		return;
 	}
 	if (isImageField(path) && (typeof a === "string" || typeof b === "string")) {
-		out.push(`${path}: image ${fileName(a)} → ${fileName(b)}`);
+		push(out, {
+			path,
+			kind: "edited",
+			before: fileName(a),
+			after: fileName(b),
+			beforeImage: isImageUrl(a) ? a : undefined,
+			afterImage: isImageUrl(b) ? b : undefined,
+			text: `${path}: image ${fileName(a)} → ${fileName(b)}`,
+		});
 		return;
 	}
-	out.push(`${path || "value"}: ${shortVal(a)} → ${shortVal(b)}`);
+	push(out, {
+		path: path || "value",
+		kind: "edited",
+		before: typeof a === "string" ? a : shortVal(a),
+		after: typeof b === "string" ? b : shortVal(b),
+		text: `${path || "value"}: ${shortVal(a)} → ${shortVal(b)}`,
+	});
+}
+
+export function diffDetailed(published: J, draft: J): Change[] {
+	const out: Change[] = [];
+	walk(published, draft, "", out);
+	return out;
 }
 
 export function diffData(published: J, draft: J): string[] {
-	const out: string[] = [];
-	walk(published, draft, "", out);
-	return out;
+	return diffDetailed(published, draft).map((c) => c.text);
 }

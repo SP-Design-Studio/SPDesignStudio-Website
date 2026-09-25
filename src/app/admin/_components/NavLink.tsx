@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { useLinkStatus } from "next/link";
 
-function Spinner() {
+export function LinkSpinner({ className = "ml-1.5" }: { className?: string }) {
 	const { pending } = useLinkStatus();
 	if (!pending) return null;
 	return (
 		<span
 			aria-hidden
-			className="ml-1.5 inline-block h-2.5 w-2.5 animate-spin rounded-full border border-gold/40 border-t-gold align-middle"
+			className={`inline-block h-2.5 w-2.5 animate-spin rounded-full border border-gold/40 border-t-gold align-middle ${className}`}
 		/>
 	);
 }
@@ -26,7 +26,7 @@ export function NavLink({
 	return (
 		<Link href={href} className={className}>
 			{children}
-			<Spinner />
+			<LinkSpinner />
 		</Link>
 	);
 }

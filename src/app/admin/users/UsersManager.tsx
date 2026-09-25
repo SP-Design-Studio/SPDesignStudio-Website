@@ -4,6 +4,7 @@ import { useSaving } from "@/lib/admin/saving";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateUserRole, deleteUser, resetUserPassword } from "./actions";
+import { useFlash } from "@/lib/admin/useFlash";
 
 type Member = {
 	id: string;
@@ -25,7 +26,7 @@ function Row({
 }) {
 	const router = useRouter();
 	const [pending, start] = useSaving();
-	const [msg, setMsg] = useState("");
+	const [msg, flash] = useFlash();
 	const [pw, setPw] = useState("");
 	const [showPw, setShowPw] = useState(false);
 
@@ -35,18 +36,18 @@ function Row({
 		isSelf || (member.role === "founder" && !canEditFounder);
 
 	return (
-		<div className="flex flex-col gap-3 border-b border-cream/10 py-4 last:border-b-0">
+		<div data-busy={pending || undefined} className="flex flex-col gap-3 border-b border-cream/10 py-4 last:border-b-0">
 			<div className="flex flex-wrap items-center justify-between gap-4">
 				<div className="min-w-0">
 					<div className="font-serif font-light text-cream text-xl">
 						{member.full_name?.trim() || member.email.split("@")[0]}
 						{isSelf && (
-							<span className="ml-2 font-sans font-light uppercase tracking-[0.18em] text-cream/30 text-[0.59rem]">
+							<span className="ml-2 font-sans font-light uppercase tracking-[0.18em] text-cream/30 text-micro">
 								You
 							</span>
 						)}
 					</div>
-					<div className="font-sans font-light text-cream/82 text-[0.826rem]">
+					<div className="font-sans font-light text-cream/82 text-sm">
 						{member.email}
 					</div>
 				</div>
@@ -56,9 +57,9 @@ function Row({
 						disabled={pending || lockedRole}
 						onChange={(e) =>
 							start(async () => {
-								setMsg("");
+								flash("");
 								const res = await updateUserRole(member.id, e.target.value);
-								setMsg(res.error ? res.error : "Role updated");
+								flash(res.error ? res.error : "Role updated");
 								router.refresh();
 							})
 						}
@@ -72,7 +73,7 @@ function Row({
 					<button
 						type="button"
 						onClick={() => setShowPw((v) => !v)}
-						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/82 text-[0.649rem] transition-colors hover:text-gold">
+						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/82 text-tiny transition-colors hover:text-gold">
 						Password
 					</button>
 					{!isSelf && (
@@ -87,13 +88,13 @@ function Row({
 								)
 									return;
 								start(async () => {
-									setMsg("");
+									flash("");
 									const res = await deleteUser(member.id);
-									setMsg(res.error ? res.error : "Removed");
+									flash(res.error ? res.error : "Removed");
 									router.refresh();
 								});
 							}}
-							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/82 text-[0.649rem] transition-colors hover:text-gold disabled:opacity-50">
+							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/82 text-tiny transition-colors hover:text-gold disabled:opacity-50">
 							Remove
 						</button>
 					)}
@@ -113,14 +114,14 @@ function Row({
 						disabled={pending || pw.length < 8}
 						onClick={() =>
 							start(async () => {
-								setMsg("");
+								flash("");
 								const res = await resetUserPassword(member.id, pw);
-								setMsg(res.error ? res.error : "Password set");
+								flash(res.error ? res.error : "Password set");
 								setPw("");
 								setShowPw(false);
 							})
 						}
-						className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-[0.649rem] disabled:opacity-50">
+						className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-tiny disabled:opacity-50">
 						Set password
 					</button>
 				</div>

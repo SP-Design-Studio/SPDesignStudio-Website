@@ -6,18 +6,15 @@ import { useRouter } from "next/navigation";
 import type { SiteSettings } from "@/lib/cms/types";
 import { saveSiteSettings } from "./actions";
 import { useDirty } from "@/lib/admin/useDirty";
-
-const inputCls =
-	"w-full border-b border-cream/20 bg-transparent py-2.5 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
-const labelCls =
-	"font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem] mb-1.5";
+import { ui } from "@/lib/admin/ui";
+import { useFlash } from "@/lib/admin/useFlash";
 
 type Hour = { days: string; time: string };
 
 export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 	const router = useRouter();
 	const [pending, start] = useSaving();
-	const [msg, setMsg] = useState("");
+	const [msg, flash] = useFlash();
 
 	const [form, setForm] = useState({
 		name: initial?.name ?? "",
@@ -46,18 +43,18 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 
 	const save = () =>
 		start(async () => {
-			setMsg("");
+			flash("");
 			const res = await saveSiteSettings({ ...form, hours });
-			setMsg(res.error ? res.error : "Saved");
+			flash(res.error ? res.error : "Saved");
 			if (!res.error) markSaved();
 			router.refresh();
 		});
 
 	const field = (k: keyof typeof form, label: string, placeholder = "") => (
 		<label>
-			<div className={labelCls}>{label}</div>
+			<div className={ui.label}>{label}</div>
 			<input
-				className={inputCls}
+				className={ui.input}
 				value={form[k]}
 				placeholder={placeholder}
 				onChange={(e) => set(k, e.target.value)}
@@ -66,9 +63,9 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 	);
 
 	return (
-		<div className="flex flex-col gap-10">
+		<div data-busy={pending || undefined} className="flex flex-col gap-10">
 			<section>
-				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
+				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-tiny">
 					Channels
 				</div>
 				<div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -81,7 +78,7 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 			</section>
 
 			<section>
-				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
+				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-tiny">
 					Visit
 				</div>
 				<div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -93,13 +90,13 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 
 			<section>
 				<div className="mb-5 flex items-center justify-between">
-					<span className="font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
+					<span className="font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-tiny">
 						Studio hours
 					</span>
 					<button
 						type="button"
 						onClick={addHour}
-						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-gold text-[0.649rem] hover:opacity-80">
+						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-gold text-tiny hover:opacity-80">
 						{pending ? "Adding…" : "+ Add row"}
 					</button>
 				</div>
@@ -107,13 +104,13 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 					{hours.map((h, i) => (
 						<div key={i} className="flex items-center gap-3">
 							<input
-								className={inputCls}
+								className={ui.input}
 								value={h.days}
 								placeholder="Monday — Friday"
 								onChange={(e) => setHour(i, "days", e.target.value)}
 							/>
 							<input
-								className={inputCls}
+								className={ui.input}
 								value={h.time}
 								placeholder="10:00 AM — 06:00 PM"
 								onChange={(e) => setHour(i, "time", e.target.value)}
@@ -135,7 +132,7 @@ export function ContactManager({ initial }: { initial: SiteSettings | null }) {
 			</section>
 
 			<section>
-				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
+				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-tiny">
 					Studio identity
 				</div>
 				<div className="grid grid-cols-1 gap-5 sm:grid-cols-3">

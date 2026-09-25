@@ -12,11 +12,13 @@ import {
 	reorderOpenings,
 } from "./actions";
 import { useDirty } from "@/lib/admin/useDirty";
-
-const inputCls =
-	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
-const labelCls =
-	"font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem] mb-1.5";
+import { ui } from "@/lib/admin/ui";
+import { SearchBox } from "@/components/admin/SearchBox";
+import { DragHandle } from "@/components/admin/DragHandle";
+import { useSearch } from "@/lib/admin/useSearch";
+import { useDragReorder } from "@/lib/admin/useDragReorder";
+import { ConfirmButton } from "@/components/admin/ConfirmButton";
+import { useFlash } from "@/lib/admin/useFlash";
 
 function Select({
 	value,
@@ -30,7 +32,7 @@ function Select({
 	const has = options.includes(value);
 	return (
 		<select
-			className={`${inputCls} cursor-pointer`}
+			className={`${ui.input} cursor-pointer`}
 			value={value}
 			onChange={(e) => onChange(e.target.value)}>
 			{!has && value && (
@@ -59,11 +61,11 @@ function StringList({
 	return (
 		<div>
 			<div className="mb-2 flex items-center justify-between">
-				<span className={labelCls}>{label}</span>
+				<span className={ui.label}>{label}</span>
 				<button
 					type="button"
 					onClick={() => onChange([...items, ""])}
-					className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-gold text-[0.614rem] hover:opacity-80">
+					className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-gold text-micro hover:opacity-80">
 					+ Add
 				</button>
 			</div>
@@ -71,7 +73,7 @@ function StringList({
 				{items.map((it, i) => (
 					<div key={i} className="flex items-center gap-2">
 						<input
-							className={inputCls}
+							className={ui.input}
 							value={it}
 							onChange={(e) =>
 								onChange(items.map((x, j) => (j === i ? e.target.value : x)))
@@ -102,6 +104,7 @@ function OpeningCard({
 	roleOptions,
 	typeOptions,
 	onMove,
+	reorderable = true,
 }: {
 	item: CareerOpening;
 	index: number;
@@ -109,6 +112,7 @@ function OpeningCard({
 	roleOptions: string[];
 	typeOptions: string[];
 	onMove: (dir: -1 | 1) => void;
+	reorderable?: boolean;
 }) {
 	const router = useRouter();
 	const [form, setForm] = useState({
@@ -118,7 +122,7 @@ function OpeningCard({
 		description: item.description ?? "",
 	});
 	const [pending, start] = useSaving();
-	const [msg, setMsg] = useState("");
+	const [msg, flash] = useFlash();
 	const { dirty, markSaved } = useDirty(form);
 
 	const set = (k: keyof typeof form, v: string) =>
@@ -127,7 +131,7 @@ function OpeningCard({
 	const save = () =>
 		start(async () => {
 			const res = await updateOpening(item.id, form);
-			setMsg(res.error ?? "Saved");
+			flash(res.error ?? "Saved");
 			if (!res.error) markSaved();
 			router.refresh();
 		});
@@ -138,10 +142,10 @@ function OpeningCard({
 		});
 
 	return (
-		<div className="flex flex-col gap-4 border border-cream/10 p-5">
+		<div data-busy={pending || undefined} className="flex flex-col gap-4 rounded-sm border border-cream/10 bg-plum/20 p-5 transition-colors hover:border-cream/25">
 			<div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
 				<label>
-					<div className={labelCls}>Role</div>
+					<div className={ui.label}>Role</div>
 					<Select
 						value={form.role}
 						options={roleOptions}
@@ -149,7 +153,7 @@ function OpeningCard({
 					/>
 				</label>
 				<label>
-					<div className={labelCls}>Type</div>
+					<div className={ui.label}>Type</div>
 					<Select
 						value={form.type}
 						options={typeOptions}
@@ -157,9 +161,9 @@ function OpeningCard({
 					/>
 				</label>
 				<label>
-					<div className={labelCls}>Location</div>
+					<div className={ui.label}>Location</div>
 					<input
-						className={inputCls}
+						className={ui.input}
 						value={form.location}
 						placeholder="Hyderabad"
 						onChange={(e) => set("location", e.target.value)}
@@ -167,26 +171,29 @@ function OpeningCard({
 				</label>
 			</div>
 			<label>
-				<div className={labelCls}>Description</div>
+				<div className={ui.label}>Description</div>
 				<textarea
 					rows={2}
-					className={`${inputCls} resize-none`}
+					className={`${ui.input} resize-none`}
 					value={form.description}
 					onChange={(e) => set("description", e.target.value)}
 				/>
 			</label>
 			<div className="flex items-center justify-between">
-				<div className="flex gap-1">
+				<div className="flex items-center gap-1">
+					{reorderable && <DragHandle label="role" />}
 					<button
+						aria-label="Move up"
 						type="button"
-						disabled={index === 0}
+						disabled={index === 0 || !reorderable}
 						onClick={() => onMove(-1)}
 						className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 						↑
 					</button>
 					<button
+						aria-label="Move down"
 						type="button"
-						disabled={index === total - 1}
+						disabled={index === total - 1 || !reorderable}
 						onClick={() => onMove(1)}
 						className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 						↓
@@ -198,18 +205,16 @@ function OpeningCard({
 							{msg}
 						</span>
 					)}
-					<button
-						type="button"
-						onClick={remove}
+					<ConfirmButton
+						label="Delete"
+						onConfirm={remove}
 						disabled={pending}
-						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/80 text-[0.649rem] hover:text-gold">
-						Delete
-					</button>
+					/>
 					<button
 						type="button"
 						onClick={save}
 						disabled={pending || !dirty}
-						className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.22em] text-plum-dark text-[0.708rem] disabled:opacity-60">
+						className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.22em] text-plum-dark text-tiny disabled:opacity-60">
 						{pending ? "…" : "Save"}
 					</button>
 				</div>
@@ -257,11 +262,7 @@ export function CareersManager({
 			router.refresh();
 		});
 
-	const move = (i: number, dir: -1 | 1) => {
-		const next = [...list];
-		const j = i + dir;
-		if (j < 0 || j >= next.length) return;
-		[next[i], next[j]] = [next[j], next[i]];
+	const persist = (next: CareerOpening[]) => {
 		setList(next);
 		start(async () => {
 			await reorderOpenings(next.map((x) => x.id));
@@ -269,27 +270,43 @@ export function CareersManager({
 		});
 	};
 
+	const move = (i: number, dir: -1 | 1) => {
+		const next = [...list];
+		const j = i + dir;
+		if (j < 0 || j >= next.length) return;
+		[next[i], next[j]] = [next[j], next[i]];
+		persist(next);
+	};
+
+	const search = useSearch(list, (o) => [
+		o.role,
+		o.type,
+		o.location,
+		o.description,
+	]);
+	const drag = useDragReorder(list, persist);
+
 	return (
-		<div className="flex flex-col gap-14">
+		<div data-busy={pending || undefined} className="flex flex-col gap-14">
 			<section>
-				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
+				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-tiny">
 					Page settings
 				</div>
 				<div className="flex flex-col gap-5">
 					<label>
-						<div className={labelCls}>Hero subtitle</div>
+						<div className={ui.label}>Hero subtitle</div>
 						<textarea
 							rows={2}
-							className={`${inputCls} resize-none`}
+							className={`${ui.input} resize-none`}
 							value={s.subtitle}
 							onChange={(e) => setS((p) => ({ ...p, subtitle: e.target.value }))}
 						/>
 					</label>
 					<label>
-						<div className={labelCls}>Empty state note (when no roles)</div>
+						<div className={ui.label}>Empty state note (when no roles)</div>
 						<textarea
 							rows={2}
-							className={`${inputCls} resize-none`}
+							className={`${ui.input} resize-none`}
 							value={s.empty_note}
 							onChange={(e) =>
 								setS((p) => ({ ...p, empty_note: e.target.value }))
@@ -297,9 +314,9 @@ export function CareersManager({
 						/>
 					</label>
 					<label>
-						<div className={labelCls}>Applications email</div>
+						<div className={ui.label}>Applications email</div>
 						<input
-							className={inputCls}
+							className={ui.input}
 							value={s.apply_email}
 							placeholder="careers@studio.com"
 							onChange={(e) =>
@@ -326,7 +343,7 @@ export function CareersManager({
 							type="button"
 							onClick={saveSettings}
 							disabled={pending}
-							className="cta-gold cursor-pointer bg-gold px-7 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-[0.732rem] disabled:opacity-60">
+							className="cta-gold cursor-pointer bg-gold px-7 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-tiny disabled:opacity-60">
 							{pending ? "Saving…" : "Save settings"}
 						</button>
 						{smsg && (
@@ -339,20 +356,40 @@ export function CareersManager({
 			</section>
 
 			<section>
-				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-[0.684rem]">
+				<div className="mb-5 font-sans font-light uppercase tracking-[0.32em] text-cream/80 text-tiny">
 					Open roles
 				</div>
+				{list.length > 4 && (
+					<SearchBox
+						value={search.q}
+						onChange={search.setQ}
+						shown={search.shown.length}
+						total={list.length}
+						noun="roles"
+						placeholder="Search role, type, location…"
+					/>
+				)}
 				<div className="flex flex-col gap-4">
-					{list.map((item, i) => (
-						<OpeningCard
+					{search.active && search.shown.length === 0 && (
+						<p className="rounded-sm border border-dashed border-cream/15 px-4 py-8 text-center font-sans font-light text-cream/80 text-tiny">
+							No roles match &ldquo;{search.q.trim()}&rdquo;.
+						</p>
+					)}
+					{search.shown.map((item, i) => (
+						<div
 							key={item.id}
-							item={item}
-							index={i}
-							total={list.length}
-							roleOptions={roleOptions}
-							typeOptions={typeOptions}
-							onMove={(dir) => move(i, dir)}
-						/>
+							{...(search.active ? {} : drag.handlers(i))}
+							className={search.active ? "" : drag.itemClass(i)}>
+							<OpeningCard
+								item={item}
+								index={i}
+								total={list.length}
+								roleOptions={roleOptions}
+								typeOptions={typeOptions}
+								reorderable={!search.active}
+								onMove={(dir) => move(i, dir)}
+							/>
+						</div>
 					))}
 				</div>
 				<button
@@ -364,7 +401,7 @@ export function CareersManager({
 							router.refresh();
 						})
 					}
-					className="mt-5 w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.732rem] hover:bg-gold/10 disabled:opacity-60">
+					className="mt-5 w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-tiny hover:bg-gold/10 disabled:opacity-60">
 					{pending ? "Adding…" : "+ Add role"}
 				</button>
 			</section>

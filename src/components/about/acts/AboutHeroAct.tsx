@@ -30,6 +30,7 @@ export function AboutHeroAct({
 					src="/images/about-hero.jpg"
 					alt=""
 					fill
+					sizes="100vw"
 					priority
 					className="object-cover"
 					style={{ opacity: 0.95 }}

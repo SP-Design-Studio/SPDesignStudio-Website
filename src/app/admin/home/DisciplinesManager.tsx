@@ -12,22 +12,27 @@ import {
 	reorderDisciplines,
 } from "./actions";
 import { useDirty } from "@/lib/admin/useDirty";
-
-const inputCls =
-	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
-const labelCls =
-	"font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem] mb-1.5";
+import { ui } from "@/lib/admin/ui";
+import { ConfirmButton } from "@/components/admin/ConfirmButton";
+import { useFlash } from "@/lib/admin/useFlash";
+import { EmptyState } from "@/components/admin/EmptyState";
+import { SearchBox } from "@/components/admin/SearchBox";
+import { DragHandle } from "@/components/admin/DragHandle";
+import { useSearch } from "@/lib/admin/useSearch";
+import { useDragReorder } from "@/lib/admin/useDragReorder";
 
 function Card({
 	item,
 	index,
 	total,
 	onMove,
+	reorderable = true,
 }: {
 	item: Discipline;
 	index: number;
 	total: number;
 	onMove: (dir: -1 | 1) => void;
+	reorderable?: boolean;
 }) {
 	const router = useRouter();
 	const [form, setForm] = useState({
@@ -39,7 +44,7 @@ function Card({
 		img: item.img,
 	});
 	const [pending, start] = useSaving();
-	const [msg, setMsg] = useState("");
+	const [msg, flash] = useFlash();
 	const { dirty, markSaved } = useDirty(form);
 
 	const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) =>
@@ -47,13 +52,13 @@ function Card({
 
 	const save = () =>
 		start(async () => {
-			setMsg("");
+			flash("");
 			const res = await updateDiscipline(item.id, {
 				...form,
 				big_stat: form.big_stat || null,
 				description: form.description || null,
 			});
-			setMsg(res.error ? res.error : "Saved");
+			flash(res.error ? res.error : "Saved");
 			if (!res.error) markSaved();
 			router.refresh();
 		});
@@ -65,7 +70,7 @@ function Card({
 		});
 
 	return (
-		<div className="grid grid-cols-1 gap-5 border border-cream/10 p-5 md:grid-cols-[180px_1fr]">
+		<div data-busy={pending || undefined} className="grid grid-cols-1 gap-5 rounded-sm border border-cream/10 bg-plum/20 p-5 transition-colors hover:border-cream/25 sm:grid-cols-[180px_1fr]">
 			<div className="flex flex-col gap-3">
 				<ImageUploader
 					value={form.img}
@@ -74,65 +79,66 @@ function Card({
 					aspect="aspect-[4/3]"
 				/>
 				<div className="flex items-center justify-between">
-					<div className="flex gap-1">
+					<div className="flex items-center gap-1">
+						{reorderable && <DragHandle label="discipline" />}
 						<button
+							aria-label="Move up"
 							type="button"
-							disabled={index === 0}
+							disabled={index === 0 || !reorderable}
 							onClick={() => onMove(-1)}
 							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 							↑
 						</button>
 						<button
+							aria-label="Move down"
 							type="button"
-							disabled={index === total - 1}
+							disabled={index === total - 1 || !reorderable}
 							onClick={() => onMove(1)}
 							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 							↓
 						</button>
 					</div>
-					<button
-						type="button"
-						onClick={remove}
+					<ConfirmButton
+						label="Delete"
+						onConfirm={remove}
 						disabled={pending}
-						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/80 text-[0.649rem] hover:text-gold">
-						Delete
-					</button>
+					/>
 				</div>
 			</div>
 
 			<div className="flex flex-col gap-4">
 				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 					<label>
-						<div className={labelCls}>Top label</div>
+						<div className={ui.label}>Top label</div>
 						<input
-							className={inputCls}
+							className={ui.input}
 							value={form.top_label}
 							onChange={(e) => set("top_label", e.target.value)}
 						/>
 					</label>
 					<label>
-						<div className={labelCls}>Big stat</div>
+						<div className={ui.label}>Big stat</div>
 						<input
-							className={inputCls}
+							className={ui.input}
 							value={form.big_stat}
 							onChange={(e) => set("big_stat", e.target.value)}
 						/>
 					</label>
 				</div>
 				<label>
-					<div className={labelCls}>Description</div>
+					<div className={ui.label}>Description</div>
 					<textarea
 						rows={2}
-						className={`${inputCls} resize-none`}
+						className={`${ui.input} resize-none`}
 						value={form.description}
 						onChange={(e) => set("description", e.target.value)}
 					/>
 				</label>
 				<div className="grid grid-cols-2 gap-4">
 					<label>
-						<div className={labelCls}>Variant</div>
+						<div className={ui.label}>Variant</div>
 						<select
-							className={`${inputCls} cursor-pointer`}
+							className={`${ui.input} cursor-pointer`}
 							value={form.variant}
 							onChange={(e) => set("variant", e.target.value)}>
 							<option value="image" className="bg-plum-dark">
@@ -147,9 +153,9 @@ function Card({
 						</select>
 					</label>
 					<label>
-						<div className={labelCls}>Span</div>
+						<div className={ui.label}>Span</div>
 						<select
-							className={`${inputCls} cursor-pointer`}
+							className={`${ui.input} cursor-pointer`}
 							value={form.span}
 							onChange={(e) => set("span", e.target.value)}>
 							<option value="normal" className="bg-plum-dark">
@@ -169,7 +175,7 @@ function Card({
 						type="button"
 						onClick={save}
 						disabled={pending || !dirty}
-						className="cta-gold cursor-pointer bg-gold px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-[0.732rem] disabled:opacity-60">
+						className="cta-gold cursor-pointer bg-gold px-6 py-2.5 font-sans font-light uppercase tracking-[0.24em] text-plum-dark text-tiny disabled:opacity-60">
 						{pending ? "Saving…" : "Save"}
 					</button>
 					{msg && (
@@ -198,11 +204,7 @@ export function DisciplinesManager({ initial }: { initial: Discipline[] }) {
 			router.refresh();
 		});
 
-	const move = (index: number, dir: -1 | 1) => {
-		const next = [...items];
-		const j = index + dir;
-		if (j < 0 || j >= next.length) return;
-		[next[index], next[j]] = [next[j], next[index]];
+	const persist = (next: Discipline[]) => {
 		setItems(next);
 		start(async () => {
 			await reorderDisciplines(next.map((d) => d.id));
@@ -210,22 +212,63 @@ export function DisciplinesManager({ initial }: { initial: Discipline[] }) {
 		});
 	};
 
+	const move = (index: number, dir: -1 | 1) => {
+		const next = [...items];
+		const j = index + dir;
+		if (j < 0 || j >= next.length) return;
+		[next[index], next[j]] = [next[j], next[index]];
+		persist(next);
+	};
+
+	const search = useSearch(items, (d) => [
+		d.top_label,
+		d.big_stat,
+		d.description,
+	]);
+	const drag = useDragReorder(items, persist);
+
 	return (
 		<div className="flex flex-col gap-5">
-			{items.map((item, i) => (
-				<Card
-					key={item.id}
-					item={item}
-					index={i}
+			{items.length > 4 && (
+				<SearchBox
+					value={search.q}
+					onChange={search.setQ}
+					shown={search.shown.length}
 					total={items.length}
-					onMove={(dir) => move(i, dir)}
+					noun="disciplines"
+					placeholder="Search label, stat or text…"
 				/>
+			)}
+			{items.length === 0 && (
+				<EmptyState
+					title="No disciplines yet"
+					body="The disciplines grid on the home page. Add the services the studio offers, each with an image."
+				/>
+			)}
+			{search.active && search.shown.length === 0 && (
+				<p className="rounded-sm border border-dashed border-cream/15 px-4 py-8 text-center font-sans font-light text-cream/80 text-tiny">
+					No disciplines match &ldquo;{search.q.trim()}&rdquo;.
+				</p>
+			)}
+			{search.shown.map((item, i) => (
+				<div
+					key={item.id}
+					{...(search.active ? {} : drag.handlers(i))}
+					className={search.active ? "" : drag.itemClass(i)}>
+					<Card
+						item={item}
+						index={i}
+						total={items.length}
+						reorderable={!search.active}
+						onMove={(dir) => move(i, dir)}
+					/>
+				</div>
 			))}
 			<button
 				type="button"
 				onClick={add}
 				disabled={pending}
-				className="w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.732rem] transition-colors hover:bg-gold/10 disabled:opacity-60">
+				className="w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-tiny transition-colors hover:bg-gold/10 disabled:opacity-60">
 				{pending ? "Adding…" : "+ Add discipline"}
 			</button>
 		</div>

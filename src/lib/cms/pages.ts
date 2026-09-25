@@ -1,5 +1,5 @@
 import { createPublicClient } from "@/lib/supabase/public";
-import { diffData } from "./diff";
+import { diffDetailed, type Change } from "./diff";
 import type { Project, ProjectCategoryOption } from "@/lib/data/projects";
 import {
 	getDisciplines,
@@ -233,7 +233,7 @@ export interface PageDraft {
 	path: string;
 	publishedAt: string | null;
 	status: PageStatus;
-	changes: string[];
+	changes: Change[];
 	dirtyKeys: string[];
 }
 
@@ -264,9 +264,9 @@ export async function getPageDrafts(): Promise<PageDraft[]> {
 			});
 			continue;
 		}
-		const changes = diffData(snap.data, draft);
+		const changes = diffDetailed(snap.data, draft);
 		const dirtyKeys = [
-			...new Set(changes.map((c) => c.split(/[:·]/)[0].trim())),
+			...new Set(changes.map((c) => c.path.split("·")[0]!.trim())),
 		];
 		rows.push({
 			key,

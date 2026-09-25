@@ -12,22 +12,27 @@ import {
 	reorderEntries,
 } from "./actions";
 import { useDirty } from "@/lib/admin/useDirty";
-
-const inputCls =
-	"w-full border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold";
-const labelCls =
-	"font-sans font-light uppercase tracking-[0.26em] text-gold text-[0.614rem] mb-1.5";
+import { ui } from "@/lib/admin/ui";
+import { ConfirmButton } from "@/components/admin/ConfirmButton";
+import { useFlash } from "@/lib/admin/useFlash";
+import { EmptyState } from "@/components/admin/EmptyState";
+import { SearchBox } from "@/components/admin/SearchBox";
+import { DragHandle } from "@/components/admin/DragHandle";
+import { useSearch } from "@/lib/admin/useSearch";
+import { useDragReorder } from "@/lib/admin/useDragReorder";
 
 function Card({
 	item,
 	index,
 	total,
 	onMove,
+	reorderable = true,
 }: {
 	item: TimelineEntry;
 	index: number;
 	total: number;
 	onMove: (dir: -1 | 1) => void;
+	reorderable?: boolean;
 }) {
 	const router = useRouter();
 	const [form, setForm] = useState({
@@ -37,7 +42,7 @@ function Card({
 		img: item.img,
 	});
 	const [pending, start] = useSaving();
-	const [msg, setMsg] = useState("");
+	const [msg, flash] = useFlash();
 	const { dirty, markSaved } = useDirty(form);
 
 	const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) =>
@@ -49,7 +54,7 @@ function Card({
 				...form,
 				description: form.description || null,
 			});
-			setMsg(res.error ?? "Saved");
+			flash(res.error ?? "Saved");
 			if (!res.error) markSaved();
 			router.refresh();
 		});
@@ -60,7 +65,7 @@ function Card({
 		});
 
 	return (
-		<div className="grid grid-cols-[140px_1fr] gap-4 border border-cream/10 p-4">
+		<div data-busy={pending || undefined} className="grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-4 rounded-sm border border-cream/10 bg-plum/20 p-4 transition-colors hover:border-cream/25">
 			<ImageUploader
 				value={form.img}
 				onChange={(url) => set("img", url)}
@@ -68,45 +73,48 @@ function Card({
 				aspect="aspect-[16/10]"
 			/>
 			<div className="flex flex-col gap-3">
-				<div className="grid grid-cols-[100px_1fr] gap-3">
+				<div className="grid grid-cols-1 sm:grid-cols-[100px_1fr] gap-3">
 					<label>
-						<div className={labelCls}>Year</div>
+						<div className={ui.label}>Year</div>
 						<input
-							className={inputCls}
+							className={ui.input}
 							value={form.year}
 							onChange={(e) => set("year", e.target.value)}
 						/>
 					</label>
 					<label>
-						<div className={labelCls}>Label</div>
+						<div className={ui.label}>Label</div>
 						<input
-							className={inputCls}
+							className={ui.input}
 							value={form.label}
 							onChange={(e) => set("label", e.target.value)}
 						/>
 					</label>
 				</div>
 				<label>
-					<div className={labelCls}>Description</div>
+					<div className={ui.label}>Description</div>
 					<textarea
 						rows={2}
-						className={`${inputCls} resize-none`}
+						className={`${ui.input} resize-none`}
 						value={form.description}
 						onChange={(e) => set("description", e.target.value)}
 					/>
 				</label>
 				<div className="mt-auto flex items-center justify-between">
-					<div className="flex gap-1">
+					<div className="flex items-center gap-1">
+						{reorderable && <DragHandle label="entry" />}
 						<button
+							aria-label="Move up"
 							type="button"
-							disabled={index === 0}
+							disabled={index === 0 || !reorderable}
 							onClick={() => onMove(-1)}
 							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 							↑
 						</button>
 						<button
+							aria-label="Move down"
 							type="button"
-							disabled={index === total - 1}
+							disabled={index === total - 1 || !reorderable}
 							onClick={() => onMove(1)}
 							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 							↓
@@ -118,18 +126,16 @@ function Card({
 								{msg}
 							</span>
 						)}
-						<button
-							type="button"
-							onClick={remove}
+						<ConfirmButton
+							label="Delete"
+							onConfirm={remove}
 							disabled={pending}
-							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/80 text-[0.649rem] hover:text-gold">
-							Delete
-						</button>
+						/>
 						<button
 							type="button"
 							onClick={save}
 							disabled={pending || !dirty}
-							className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.22em] text-plum-dark text-[0.708rem] disabled:opacity-60">
+							className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.22em] text-plum-dark text-tiny disabled:opacity-60">
 							{pending ? "…" : "Save"}
 						</button>
 					</div>
@@ -148,11 +154,7 @@ export function TimelineManager({ initial }: { initial: TimelineEntry[] }) {
 		setList(initial);
 	}, [initial]);
 
-	const move = (i: number, dir: -1 | 1) => {
-		const next = [...list];
-		const j = i + dir;
-		if (j < 0 || j >= next.length) return;
-		[next[i], next[j]] = [next[j], next[i]];
+	const persist = (next: TimelineEntry[]) => {
 		setList(next);
 		start(async () => {
 			await reorderEntries(next.map((x) => x.id));
@@ -160,16 +162,53 @@ export function TimelineManager({ initial }: { initial: TimelineEntry[] }) {
 		});
 	};
 
+	const move = (i: number, dir: -1 | 1) => {
+		const next = [...list];
+		const j = i + dir;
+		if (j < 0 || j >= next.length) return;
+		[next[i], next[j]] = [next[j], next[i]];
+		persist(next);
+	};
+
+	const search = useSearch(list, (t) => [t.year, t.label, t.description]);
+	const drag = useDragReorder(list, persist);
+
 	return (
 		<div className="flex flex-col gap-5">
-			{list.map((item, i) => (
-				<Card
-					key={item.id}
-					item={item}
-					index={i}
+			{list.length > 4 && (
+				<SearchBox
+					value={search.q}
+					onChange={search.setQ}
+					shown={search.shown.length}
 					total={list.length}
-					onMove={(dir) => move(i, dir)}
+					noun="entries"
+					placeholder="Search year, label or text…"
 				/>
+			)}
+			{list.length === 0 && (
+				<EmptyState
+					title="No timeline entries yet"
+					body="Studio Evolution on the About page. Add milestones in order — each with a year, title and image."
+				/>
+			)}
+			{search.active && search.shown.length === 0 && (
+				<p className="rounded-sm border border-dashed border-cream/15 px-4 py-8 text-center font-sans font-light text-cream/80 text-tiny">
+					No entries match &ldquo;{search.q.trim()}&rdquo;.
+				</p>
+			)}
+			{search.shown.map((item, i) => (
+				<div
+					key={item.id}
+					{...(search.active ? {} : drag.handlers(i))}
+					className={search.active ? "" : drag.itemClass(i)}>
+					<Card
+						item={item}
+						index={i}
+						total={list.length}
+						onMove={(dir) => move(i, dir)}
+						reorderable={!search.active}
+					/>
+				</div>
 			))}
 			<button
 				type="button"
@@ -180,7 +219,7 @@ export function TimelineManager({ initial }: { initial: TimelineEntry[] }) {
 						router.refresh();
 					})
 				}
-				className="w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-[0.732rem] hover:bg-gold/10 disabled:opacity-60">
+				className="w-fit cursor-pointer border border-gold/40 px-6 py-3 font-sans font-light uppercase tracking-[0.24em] text-gold text-tiny hover:bg-gold/10 disabled:opacity-60">
 				{pending ? "Adding…" : "+ Add entry"}
 			</button>
 			<p className="font-sans font-light text-cream/80 text-sm">

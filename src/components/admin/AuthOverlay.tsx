@@ -26,7 +26,7 @@ export default function AuthOverlay({
           <span className="font-alta text-gold text-5xl tracking-[0.04em] leading-none">
             SP
           </span>
-          <span className="font-sans uppercase tracking-[0.4em] text-cream/80 text-[0.62rem]">
+          <span className="font-sans uppercase tracking-[0.4em] text-cream/80 text-micro">
             Studio CMS
           </span>
         </div>
@@ -35,7 +35,7 @@ export default function AuthOverlay({
           <div className="absolute inset-y-0 w-1/3 bg-gold animate-[auth-sweep_1.1s_ease-in-out_infinite]" />
         </div>
 
-        <span className="font-sans uppercase tracking-[0.32em] text-gold text-[0.66rem]">
+        <span className="font-sans uppercase tracking-[0.32em] text-gold text-tiny">
           {label}…
         </span>
       </div>
