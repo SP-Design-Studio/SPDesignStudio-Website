@@ -38,7 +38,7 @@ function Row({
 					type="button"
 					disabled={index === 0}
 					onClick={() => onMove(-1)}
-					className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
+					className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm pointer-coarse:min-h-10 pointer-coarse:min-w-10 disabled:opacity-30 hover:border-gold hover:text-gold">
 					↑
 				</button>
 				<button
@@ -46,7 +46,7 @@ function Row({
 					type="button"
 					disabled={index === total - 1}
 					onClick={() => onMove(1)}
-					className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
+					className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm pointer-coarse:min-h-10 pointer-coarse:min-w-10 disabled:opacity-30 hover:border-gold hover:text-gold">
 					↓
 				</button>
 			</div>

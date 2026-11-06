@@ -98,7 +98,7 @@ export function AdminShell({ email, role, canManage, children }: Props) {
 
 	return (
 		<div className="min-h-dvh bg-plum-dark text-cream lg:flex">
-			<aside className="sticky top-0 z-40 flex items-center justify-between gap-4 border-b border-cream/10 bg-plum-dark/95 px-6 py-4 backdrop-blur lg:hidden">
+			<aside className="sticky top-0 z-40 flex items-center justify-between gap-4 border-b border-cream/10 bg-plum-dark/95 px-6 pb-4 pt-[max(1rem,env(safe-area-inset-top))] backdrop-blur lg:hidden">
 				<Link
 					href="/admin"
 					className="font-sans font-light uppercase tracking-[0.32em] text-gold text-tiny">
@@ -125,7 +125,7 @@ export function AdminShell({ email, role, canManage, children }: Props) {
 			)}
 
 			<div
-				className={`fixed inset-y-0 left-0 z-50 flex w-72 shrink-0 flex-col justify-between overflow-y-auto border-r border-cream/10 bg-plum-dark px-6 py-7 transition-transform duration-300 lg:sticky lg:top-0 lg:z-auto lg:h-dvh lg:w-64 lg:translate-x-0 ${
+				className={`fixed inset-y-0 left-0 z-50 flex w-72 shrink-0 flex-col justify-between overflow-y-auto border-r border-cream/10 bg-plum-dark px-6 pb-[max(1.75rem,env(safe-area-inset-bottom))] pt-[max(1.75rem,env(safe-area-inset-top))] transition-transform duration-300 lg:sticky lg:top-0 lg:z-auto lg:h-dvh lg:w-64 lg:translate-x-0 ${
 					open ? "translate-x-0" : "-translate-x-full"
 				}`}>
 				<div className="flex flex-col gap-8">

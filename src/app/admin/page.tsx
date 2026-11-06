@@ -126,7 +126,7 @@ export default async function AdminHome() {
 								<Link
 									key={s.href}
 									href={s.href}
-									className="card-trace group flex items-baseline gap-4 border-b border-cream/5 px-3 py-4 transition-colors hover:bg-plum/25 active:bg-plum/40">
+									className="card-trace group flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-cream/5 px-3 py-4 transition-colors hover:bg-plum/25 active:bg-plum/40">
 									<span className="w-6 shrink-0 font-sans font-light tabular-nums text-gold/45 text-micro transition-colors group-hover:text-gold group-active:text-gold">
 										{String(n).padStart(2, "0")}
 									</span>

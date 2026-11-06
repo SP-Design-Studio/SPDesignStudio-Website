@@ -70,7 +70,7 @@ export function SavingOverlay() {
 	if (!label) return null;
 	return (
 		<div
-			className="fixed bottom-5 right-5 z-[120] flex items-center gap-3 rounded-full border border-gold/30 bg-plum-dark/90 px-5 py-3 backdrop-blur [animation:auth-rise_0.3s_ease]"
+			className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))] z-[120] flex items-center gap-3 rounded-full border border-gold/30 bg-plum-dark/90 px-5 py-3 backdrop-blur [animation:auth-rise_0.3s_ease]"
 			role="status"
 			aria-live="polite"
 		>

@@ -282,7 +282,7 @@ export function ProjectEditor({
 										type="button"
 										disabled={i === 0 || pending}
 										onClick={() => moveGallery(i, -1)}
-										className="cursor-pointer border border-cream/20 px-1.5 py-0.5 text-cream/82 text-tiny disabled:opacity-30 hover:border-gold hover:text-gold">
+										className="cursor-pointer border border-cream/20 px-1.5 py-0.5 text-cream/82 text-tiny pointer-coarse:min-h-10 pointer-coarse:min-w-10 disabled:opacity-30 hover:border-gold hover:text-gold">
 										←
 									</button>
 									<button
@@ -290,7 +290,7 @@ export function ProjectEditor({
 										type="button"
 										disabled={i === gallery.length - 1 || pending}
 										onClick={() => moveGallery(i, 1)}
-										className="cursor-pointer border border-cream/20 px-1.5 py-0.5 text-cream/82 text-tiny disabled:opacity-30 hover:border-gold hover:text-gold">
+										className="cursor-pointer border border-cream/20 px-1.5 py-0.5 text-cream/82 text-tiny pointer-coarse:min-h-10 pointer-coarse:min-w-10 disabled:opacity-30 hover:border-gold hover:text-gold">
 										→
 									</button>
 								</div>

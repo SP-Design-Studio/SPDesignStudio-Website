@@ -128,7 +128,7 @@ function Row({
 						value={pw}
 						onChange={(e) => setPw(e.target.value)}
 						placeholder="New password (min 8 chars)"
-						className="w-64 border-b border-cream/20 bg-transparent py-1.5 text-cream text-base outline-none placeholder:text-cream/25 focus:border-gold"
+						className="w-full max-w-64 border-b border-cream/20 bg-transparent py-1.5 text-cream text-base outline-none placeholder:text-cream/25 focus:border-gold"
 					/>
 					<button
 						type="button"

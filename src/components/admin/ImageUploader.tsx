@@ -364,7 +364,7 @@ export function ImageUploader({
 
 			{cropSrc &&
 				createPortal(
-					<div className="fixed inset-0 z-130 flex flex-col bg-plum-dark/95 p-4 md:p-8">
+					<div className="fixed inset-0 z-130 flex flex-col overscroll-contain bg-plum-dark/95 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] md:p-8">
 						<div className="mx-auto mb-4 font-sans font-light uppercase tracking-[0.3em] text-gold text-tiny">
 							Adjust image
 						</div>

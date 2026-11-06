@@ -100,7 +100,7 @@ function Card({
 						onChange={(e) => set("description", e.target.value)}
 					/>
 				</label>
-				<div className="mt-auto flex items-center justify-between">
+				<div className="mt-auto flex flex-wrap items-center justify-between gap-3">
 					<div className="flex items-center gap-1">
 						{reorderable && <DragHandle label="entry" />}
 						<button
@@ -108,7 +108,7 @@ function Card({
 							type="button"
 							disabled={index === 0 || !reorderable}
 							onClick={() => onMove(-1)}
-							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
+							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm pointer-coarse:min-h-10 pointer-coarse:min-w-10 disabled:opacity-30 hover:border-gold hover:text-gold">
 							↑
 						</button>
 						<button
@@ -116,7 +116,7 @@ function Card({
 							type="button"
 							disabled={index === total - 1 || !reorderable}
 							onClick={() => onMove(1)}
-							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
+							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm pointer-coarse:min-h-10 pointer-coarse:min-w-10 disabled:opacity-30 hover:border-gold hover:text-gold">
 							↓
 						</button>
 					</div>

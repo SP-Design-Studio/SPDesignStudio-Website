@@ -26,7 +26,7 @@ export function ProfileName({ initial }: { initial: string }) {
 						setName(e.target.value);
 						flash("");
 					}}
-					className="w-64 border-b border-cream/20 bg-transparent py-2 text-cream outline-none transition-colors placeholder:text-cream/25 focus:border-gold"
+					className="w-full max-w-64 border-b border-cream/20 bg-transparent py-2 text-cream text-base outline-none transition-colors placeholder:text-cream/25 focus:border-gold"
 				/>
 			</label>
 			<button
