@@ -77,8 +77,8 @@ export default async function AdminHome() {
 				<span
 					className={`h-1.5 w-1.5 shrink-0 rounded-full ${
 						waiting
-							? "bg-gold [animation:admin-pulse_1.6s_ease-in-out_infinite]"
-							: "bg-cream/30"
+							? "bg-warn [animation:admin-pulse_1.6s_ease-in-out_infinite]"
+							: "bg-ok"
 					}`}
 				/>
 				<span className="font-sans font-light text-cream/85 text-sm">
@@ -94,7 +94,7 @@ export default async function AdminHome() {
 				{canManage && waiting > 0 && (
 					<NavLink
 						href="/admin/publish"
-						className="ml-auto font-sans font-light uppercase tracking-[0.24em] text-gold text-tiny transition-colors hover:text-cream">
+						className="ml-auto font-sans font-light uppercase tracking-[0.24em] text-ok text-tiny transition-colors hover:brightness-110">
 						Review &amp; publish →
 					</NavLink>
 				)}
@@ -138,7 +138,7 @@ export default async function AdminHome() {
 									</span>
 									<span className="ml-auto flex shrink-0 items-center gap-4">
 										{status !== "clean" && (
-											<span className="rounded-full border border-gold/40 bg-gold/10 px-2 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-gold text-micro">
+											<span className="rounded-full border border-warn/45 bg-warn/10 px-2 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-warn text-micro">
 												{status === "unpublished" ? "Not published" : "Draft"}
 											</span>
 										)}

@@ -8,6 +8,7 @@ import Image from "next/image";
 import type { CmsProject } from "@/lib/cms/types";
 import { createProject, deleteProject, reorderProjects } from "./actions";
 import { ui } from "@/lib/admin/ui";
+import { ConfirmButton } from "@/components/admin/ConfirmButton";
 import { SearchBox } from "@/components/admin/SearchBox";
 import { DragHandle } from "@/components/admin/DragHandle";
 import { useSearch } from "@/lib/admin/useSearch";
@@ -52,7 +53,6 @@ export function ProjectsList({ initial }: { initial: CmsProject[] }) {
 
 	const remove = (id: string) =>
 		start(async () => {
-			if (!confirm("Delete this project and its facts/gallery?")) return;
 			await deleteProject(id);
 			router.refresh();
 		});
@@ -109,13 +109,13 @@ export function ProjectsList({ initial }: { initial: CmsProject[] }) {
 							className="cursor-pointer border border-cream/20 px-2 py-1 text-cream/82 text-sm disabled:opacity-30 hover:border-gold hover:text-gold">
 							↓
 						</button>
-						<button
-							type="button"
-							onClick={() => remove(p.id)}
+						<ConfirmButton
+							label="Delete"
+							title="Delete this project?"
+							message="Its facts and gallery are deleted with it. This can't be undone."
 							disabled={pending}
-							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/80 text-tiny hover:text-gold">
-							Delete
-						</button>
+							onConfirm={() => remove(p.id)}
+						/>
 						<Link
 							href={`/admin/projects/${p.id}`}
 							className="cta-gold bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.22em] text-plum-dark text-tiny">

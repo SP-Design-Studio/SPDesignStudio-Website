@@ -99,6 +99,7 @@ function Card({
 						</button>
 					</div>
 					<ConfirmButton
+						title="Delete this discipline?"
 						label="Delete"
 						onConfirm={remove}
 						disabled={pending}

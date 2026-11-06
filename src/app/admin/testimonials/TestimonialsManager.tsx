@@ -128,6 +128,7 @@ function Card({
 							</span>
 						)}
 						<ConfirmButton
+							title="Delete this testimonial?"
 							label="Delete"
 							onConfirm={remove}
 							disabled={pending}

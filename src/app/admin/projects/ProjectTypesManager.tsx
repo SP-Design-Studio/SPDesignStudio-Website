@@ -74,6 +74,7 @@ function Row({
 				Save
 			</button>
 			<ConfirmButton
+				title="Delete this project type?"
 				label="Delete"
 				onConfirm={() => run(() => deleteCategory(item.id))}
 				className={`${ui.btnPrimary} text-cream/60 hover:text-gold`}

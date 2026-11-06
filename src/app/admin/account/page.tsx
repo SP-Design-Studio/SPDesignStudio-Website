@@ -14,7 +14,7 @@ export default async function AccountRoute() {
 	if (profile.mfa === "enroll") {
 		return (
 			<AuthScreen title="Secure your account">
-				<div className="flex flex-col gap-7">
+				<div className="auth-stagger flex flex-col gap-7">
 					<p className="font-sans font-light text-cream/90 text-base leading-relaxed">
 						Your role needs two-step sign-in. Set it up once with an
 						authenticator app, and you&rsquo;re in.

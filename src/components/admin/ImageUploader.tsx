@@ -93,6 +93,9 @@ async function getCroppedBlob(
 const overlayBtnCls =
 	"w-[78%] cursor-pointer border border-cream/60 bg-plum-dark/50 px-3 py-1.5 text-center font-sans font-light uppercase tracking-[0.2em] text-cream text-micro transition-colors hover:border-gold hover:text-gold";
 
+const removeBtnCls =
+	"w-[78%] cursor-pointer border border-bad/60 bg-plum-dark/50 px-3 py-1.5 text-center font-sans font-light uppercase tracking-[0.2em] text-bad text-micro transition-colors hover:bg-bad/10";
+
 function BusyVeil({ label }: { label: string }) {
 	return (
 		<div
@@ -288,7 +291,7 @@ export function ImageUploader({
 							className={overlayBtnCls}>
 							Crop
 						</button>
-						<button type="button" onClick={remove} className={overlayBtnCls}>
+						<button type="button" onClick={remove} className={removeBtnCls}>
 							Remove
 						</button>
 					</div>
@@ -338,9 +341,9 @@ export function ImageUploader({
 			{error && (
 				<div
 					role="alert"
-					className="mt-2 rounded-sm border border-gold/40 bg-gold/5 px-3 py-2">
+					className="mt-2 rounded-sm border border-bad/40 bg-bad/10 px-3 py-2">
 					<div className="flex items-start justify-between gap-3">
-						<p className="font-sans font-light text-gold text-tiny leading-relaxed">
+						<p className="font-sans font-light text-bad text-tiny leading-relaxed">
 							{error.message}
 						</p>
 						<button

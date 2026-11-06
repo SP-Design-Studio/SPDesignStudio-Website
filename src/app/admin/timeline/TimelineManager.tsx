@@ -127,6 +127,7 @@ function Card({
 							</span>
 						)}
 						<ConfirmButton
+							title="Delete this timeline entry?"
 							label="Delete"
 							onConfirm={remove}
 							disabled={pending}

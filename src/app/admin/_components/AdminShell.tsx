@@ -2,12 +2,13 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { visibleGroups } from "@/lib/admin/sections";
 import { hasUnsavedWork, subscribeDirty } from "@/lib/admin/useDirty";
 import { signOut } from "../auth-actions";
 import SignOutButton from "./SignOutButton";
 import { NavProgress, NavWatch } from "./NavProgress";
+import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 
 interface Props {
 	email: string;
@@ -18,20 +19,18 @@ interface Props {
 
 export function AdminShell({ email, role, canManage, children }: Props) {
 	const path = usePathname();
+	const router = useRouter();
 	const [open, setOpen] = useState(false);
+	const [leaveTo, setLeaveTo] = useState<string | null>(null);
 	const [navLabel, setNavLabel] = useState<string | null>(null);
 	const [unsaved, setUnsaved] = useState(false);
 
 	useEffect(() => subscribeDirty((n) => setUnsaved(n > 0)), []);
 
-	const guardNav = useCallback((e: React.MouseEvent) => {
+	const guardNav = useCallback((e: React.MouseEvent, href: string) => {
 		if (!hasUnsavedWork()) return;
-		if (
-			!window.confirm(
-				"You have unsaved changes on this page. Leave without saving?",
-			)
-		)
-			e.preventDefault();
+		e.preventDefault();
+		setLeaveTo(href);
 	}, []);
 	const groups = visibleGroups(canManage);
 
@@ -60,7 +59,7 @@ export function AdminShell({ email, role, canManage, children }: Props) {
 		<nav className="flex flex-col gap-7">
 			<Link
 				href="/admin"
-				onClick={guardNav}
+				onClick={(e) => guardNav(e, "/admin")}
 				className={`flex items-center gap-2 border-l py-0.5 pl-3 font-sans font-light uppercase tracking-[0.24em] text-tiny transition-colors ${
 					path === "/admin"
 						? "border-gold text-gold"
@@ -81,7 +80,7 @@ export function AdminShell({ email, role, canManage, children }: Props) {
 							<Link
 								key={item.href}
 								href={item.href}
-								onClick={guardNav}
+								onClick={(e) => guardNav(e, item.href)}
 								className={`group flex items-center gap-2 border-l pl-3 py-0.5 font-sans font-light text-tiny transition-colors ${
 									active
 										? "border-gold text-gold"
@@ -150,9 +149,9 @@ export function AdminShell({ email, role, canManage, children }: Props) {
 						</span>
 					</a>
 					{unsaved && (
-						<div className="flex items-center gap-2 rounded-sm border border-gold/35 bg-gold/5 px-2.5 py-1.5">
-							<span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold [animation:admin-pulse_1.6s_ease-in-out_infinite]" />
-							<span className="font-sans font-light text-gold text-micro">
+						<div className="flex items-center gap-2 rounded-sm border border-warn/40 bg-warn/10 px-2.5 py-1.5">
+							<span className="h-1.5 w-1.5 shrink-0 rounded-full bg-warn [animation:admin-pulse_1.6s_ease-in-out_infinite]" />
+							<span className="font-sans font-light text-warn text-micro">
 								Unsaved changes
 							</span>
 						</div>
@@ -171,6 +170,19 @@ export function AdminShell({ email, role, canManage, children }: Props) {
 				</div>
 			</div>
 
+			<ConfirmDialog
+				open={leaveTo !== null}
+				title="Leave without saving?"
+				message="You have unsaved changes on this page. They'll be lost if you leave."
+				confirmLabel="Leave"
+				cancelLabel="Stay"
+				onCancel={() => setLeaveTo(null)}
+				onConfirm={() => {
+					const href = leaveTo;
+					setLeaveTo(null);
+					if (href) router.push(href);
+				}}
+			/>
 			<main className="relative min-w-0 flex-1">
 				<NavProgress label={navLabel} />
 				<div key={path} className="admin-page">

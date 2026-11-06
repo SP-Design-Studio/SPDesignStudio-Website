@@ -206,6 +206,7 @@ function OpeningCard({
 						</span>
 					)}
 					<ConfirmButton
+						title="Delete this role?"
 						label="Delete"
 						onConfirm={remove}
 						disabled={pending}

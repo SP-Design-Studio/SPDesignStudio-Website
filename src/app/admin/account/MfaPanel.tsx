@@ -53,7 +53,7 @@ export function MfaSetupFlow() {
 					{pending ? "Starting…" : "Set up authenticator app"}
 				</button>
 				{error && (
-					<p role="alert" className="font-sans text-base text-gold">
+					<p role="alert" className="font-sans text-base text-bad">
 						{error}
 					</p>
 				)}
@@ -118,7 +118,7 @@ export function MfaSetupFlow() {
 				</button>
 			</div>
 			{error && (
-				<p role="alert" className="font-sans text-base text-gold">
+				<p role="alert" className="font-sans text-base text-bad">
 					{error}
 				</p>
 			)}
@@ -145,7 +145,7 @@ export function MfaPanel({
 			{factorId ? (
 				<div className="flex flex-col gap-5">
 					<div className="flex flex-wrap items-center gap-3">
-						<span className="rounded-full border border-gold/40 bg-gold/10 px-2.5 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-gold text-micro">
+						<span className="rounded-full border border-ok/45 bg-ok/10 px-2.5 py-0.5 font-sans font-light uppercase tracking-[0.18em] text-ok text-micro">
 							On
 						</span>
 						<span className="font-sans font-light text-cream/80 text-base">
@@ -161,7 +161,12 @@ export function MfaPanel({
 					<div>
 						<ConfirmButton
 							label="Turn off"
-							confirmLabel="Yes, turn it off"
+							title="Turn off two-step sign-in?"
+							message={
+								required
+									? "Your role requires it, so you'll be asked to set it up again straight away."
+									: "Your account will be protected by your password alone."
+							}
 							disabled={pending}
 							onConfirm={() =>
 								start(async () => {
@@ -174,7 +179,7 @@ export function MfaPanel({
 						/>
 					</div>
 					{error && (
-						<p role="alert" className="font-sans text-base text-gold">
+						<p role="alert" className="font-sans text-base text-bad">
 							{error}
 						</p>
 					)}

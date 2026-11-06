@@ -122,6 +122,7 @@ function LogoCard({
 							</span>
 						)}
 						<ConfirmButton
+							title="Delete this logo?"
 							label="Delete"
 							onConfirm={remove}
 							disabled={pending}
@@ -209,6 +210,7 @@ function CategoryCard({
 						</span>
 					)}
 					<ConfirmButton
+						title="Delete this category?"
 						label="Delete"
 						onConfirm={remove}
 						disabled={pending}

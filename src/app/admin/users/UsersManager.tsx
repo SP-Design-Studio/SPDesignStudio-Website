@@ -85,7 +85,8 @@ function Row({
 					{!isSelf && !(member.role === "founder" && !canEditFounder) && (
 						<ConfirmButton
 							label="Reset 2FA"
-							confirmLabel="Confirm reset?"
+							title="Reset two-step sign-in?"
+							message={`${member.email} will set up a new authenticator at their next sign-in.`}
 							disabled={pending}
 							onConfirm={() =>
 								start(async () => {
@@ -102,26 +103,21 @@ function Row({
 						/>
 					)}
 					{!isSelf && (
-						<button
-							type="button"
+						<ConfirmButton
+							label="Remove"
+							title={`Remove ${member.email}?`}
+							message="This permanently deletes their account."
 							disabled={pending}
-							onClick={() => {
-								if (
-									!window.confirm(
-										`Remove ${member.email}? This permanently deletes their account.`,
-									)
-								)
-									return;
+							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-bad text-tiny transition-colors hover:brightness-110 disabled:opacity-50"
+							onConfirm={() =>
 								start(async () => {
 									flash("");
 									const res = await deleteUser(member.id);
 									flash(res.error ? res.error : "Removed");
 									router.refresh();
-								});
-							}}
-							className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/82 text-tiny transition-colors hover:text-gold disabled:opacity-50">
-							Remove
-						</button>
+								})
+							}
+						/>
 					)}
 				</div>
 			</div>
@@ -146,7 +142,7 @@ function Row({
 								setShowPw(false);
 							})
 						}
-						className="cta-gold cursor-pointer bg-gold px-5 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-tiny disabled:opacity-50">
+						className="cta-warn cursor-pointer bg-warn px-5 py-2 font-sans font-light uppercase tracking-[0.2em] text-plum-dark text-tiny disabled:opacity-50">
 						Set password
 					</button>
 				</div>

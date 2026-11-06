@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSaving } from "@/lib/admin/saving";
 import { useFlash } from "@/lib/admin/useFlash";
 import { ui } from "@/lib/admin/ui";
+import { ConfirmButton } from "@/components/admin/ConfirmButton";
 import { publishPage, publishAll, discardPage } from "./actions";
 import type { PageKey, PageStatus } from "@/lib/cms/pages";
 import type { Change } from "@/lib/cms/diff";
@@ -20,7 +21,7 @@ type Row = {
 };
 
 const DOT: Record<PageStatus, string> = {
-	dirty: "bg-gold",
+	dirty: "bg-warn",
 	unpublished: "bg-cream/70",
 	clean: "bg-cream/20",
 };
@@ -40,7 +41,7 @@ function Tab({
 			onClick={onSelect}
 			className={`flex shrink-0 cursor-pointer items-center gap-2 rounded-full border px-3.5 py-1.5 font-sans font-light text-tiny transition-colors ${
 				active
-					? "border-gold/60 bg-gold/10 text-gold"
+					? "border-warn/60 bg-warn/10 text-warn"
 					: "border-cream/15 text-cream/82 hover:border-cream/40 hover:text-cream active:border-gold/50 active:text-gold"
 			}`}>
 			<span
@@ -101,12 +102,6 @@ export function PublishPanel({ pages }: { pages: Row[] }) {
 		});
 
 	const discard = () => {
-		if (
-			!window.confirm(
-				`Discard all unpublished changes to ${row.label}? This restores the live published version and cannot be undone.`,
-			)
-		)
-			return;
 		start(async () => {
 			const res = await discardPage(row.key);
 			flash(res.error ? res.error : "Draft discarded");
@@ -167,19 +162,19 @@ export function PublishPanel({ pages }: { pages: Row[] }) {
 							Live ↗
 						</a>
 						{row.status === "dirty" && (
-							<button
-								type="button"
+							<ConfirmButton
+								label="Discard"
+								title={`Discard changes to ${row.label}?`}
+								message="This restores the live published version and can't be undone."
 								disabled={pending}
-								onClick={discard}
-								className={ui.btnDanger}>
-								Discard
-							</button>
+								onConfirm={discard}
+							/>
 						)}
 						<button
 							type="button"
 							disabled={pending || row.status === "clean"}
 							onClick={publish}
-							className={`${ui.btnPrimary} disabled:cursor-not-allowed disabled:opacity-40`}>
+							className={`${ui.btnOk} disabled:cursor-not-allowed disabled:opacity-40`}>
 							{pending ? "Publishing…" : "Publish"}
 						</button>
 					</div>
@@ -210,7 +205,7 @@ export function PublishPanel({ pages }: { pages: Row[] }) {
 							router.refresh();
 						})
 					}
-					className={`${ui.btnGhost} border-gold/40 text-gold hover:bg-gold/10 disabled:cursor-not-allowed disabled:opacity-40`}>
+					className={`${ui.btnGhost} border-ok/50 text-ok hover:bg-ok/10 disabled:cursor-not-allowed disabled:opacity-40`}>
 					{pending
 						? "Publishing all…"
 						: `Publish all${dirty ? ` (${dirty})` : ""}`}

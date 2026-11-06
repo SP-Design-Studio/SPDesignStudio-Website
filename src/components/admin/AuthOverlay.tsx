@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { createPortal } from "react-dom";
 
 export default function AuthOverlay({
@@ -21,7 +22,18 @@ export default function AuthOverlay({
       role="status"
       aria-live="polite"
     >
-      <div className="flex flex-col items-center gap-7 animate-[auth-rise_0.5s_ease]">
+      <div aria-hidden className="auth-photo">
+        <Image
+          src="/images/auth-bg.jpg"
+          alt=""
+          fill
+          priority
+          quality={70}
+          sizes="100vw"
+        />
+      </div>
+      <div aria-hidden className="auth-veil" />
+      <div className="relative z-10 flex flex-col items-center gap-7 animate-[auth-rise_0.5s_ease]">
         <div className="flex flex-col items-center gap-2">
           <span className="font-alta text-gold text-5xl tracking-[0.04em] leading-none">
             SP

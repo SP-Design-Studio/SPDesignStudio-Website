@@ -122,6 +122,7 @@ function Card({
 							</span>
 						)}
 						<ConfirmButton
+							title="Delete this process step?"
 							label="Delete"
 							onConfirm={remove}
 							disabled={pending}

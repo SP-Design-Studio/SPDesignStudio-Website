@@ -152,6 +152,7 @@ function PostCard({
 							</span>
 						)}
 						<ConfirmButton
+							title="Delete this post?"
 							label="Delete"
 							onConfirm={remove}
 							disabled={pending}

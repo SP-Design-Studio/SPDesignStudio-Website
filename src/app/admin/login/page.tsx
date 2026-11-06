@@ -4,7 +4,12 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import Script from "next/script";
 import { login } from "./actions";
 import AuthOverlay from "@/components/admin/AuthOverlay";
-import { ui } from "@/lib/admin/ui";
+import {
+	AuthScreen,
+	AUTH_BTN,
+	AUTH_FIELD,
+	AUTH_LABEL,
+} from "@/components/admin/AuthScreen";
 
 const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
@@ -87,7 +92,7 @@ export default function AdminLoginPage() {
 	}, [state]);
 
 	return (
-		<div className="flex min-h-dvh items-center justify-center px-6">
+		<AuthScreen title="Sign in">
 			<AuthOverlay show={pending} label="Signing you in" />
 			{SITE_KEY && (
 				<Script
@@ -95,23 +100,14 @@ export default function AdminLoginPage() {
 					strategy="afterInteractive"
 				/>
 			)}
-			<div className="w-full max-w-sm">
-				<div className="mb-2 font-sans font-light uppercase tracking-[0.4em] text-gold text-tiny">
-					SP Design Studio
-				</div>
-				<h1 className="mb-8 font-serif font-light text-cream text-4xl md:text-5xl">
-					Studio CMS
-				</h1>
-
-				<form action={formAction} className="flex flex-col gap-5">
-					<input type="hidden" name="next" value={next} />
-					{SITE_KEY && (
-						<input type="hidden" name="cf-turnstile-response" value={token} />
-					)}
+			<form action={formAction} className="flex flex-col gap-6">
+				<input type="hidden" name="next" value={next} />
+				{SITE_KEY && (
+					<input type="hidden" name="cf-turnstile-response" value={token} />
+				)}
+				<div className="auth-stagger flex flex-col gap-7">
 					<label className="flex flex-col gap-2">
-						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold text-tiny">
-							Email
-						</span>
+						<span className={AUTH_LABEL}>Email</span>
 						<input
 							type="email"
 							name="email"
@@ -119,39 +115,34 @@ export default function AdminLoginPage() {
 							autoFocus
 							autoComplete="username"
 							placeholder="you@example.com"
-							className={ui.input}
+							className={AUTH_FIELD}
 						/>
 					</label>
 					<label className="flex flex-col gap-2">
-						<span className="font-sans font-light uppercase tracking-[0.28em] text-gold text-tiny">
-							Password
-						</span>
+						<span className={AUTH_LABEL}>Password</span>
 						<input
 							type="password"
 							name="password"
 							required
 							autoComplete="current-password"
 							placeholder="••••••••"
-							className={ui.input}
+							className={AUTH_FIELD}
 						/>
 					</label>
-
 					{SITE_KEY && <div ref={boxRef} className="min-h-[65px]" />}
-
-					<button
-						type="submit"
-						disabled={pending}
-						className="cta-gold group mt-2 inline-flex w-fit cursor-pointer items-center gap-3 bg-gold px-8 py-3.5 font-sans font-light uppercase tracking-[0.28em] text-plum-dark text-sm disabled:opacity-60">
+					<button type="submit" disabled={pending} className={AUTH_BTN}>
 						{pending ? "Signing in…" : "Sign in"}
 						<span className="transition-transform duration-500 group-hover:translate-x-1">
 							&rarr;
 						</span>
 					</button>
-					{state.error && (
-						<p className="font-sans text-base text-gold">{state.error}</p>
-					)}
-				</form>
-			</div>
-		</div>
+				</div>
+				{state.error && (
+					<p role="alert" className="font-sans text-base text-bad">
+						{state.error}
+					</p>
+				)}
+			</form>
+		</AuthScreen>
 	);
 }

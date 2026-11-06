@@ -115,10 +115,11 @@ export function AtelierManager({ images }: { images: AtelierImage[] }) {
 									←
 								</button>
 								<ConfirmButton
+									title="Delete this image?"
 									label="Delete"
 									disabled={pending}
 									onConfirm={() => run(() => deleteAtelierImage(img.id, img.url))}
-									className="cursor-pointer rounded-full border border-cream/50 bg-plum-dark/50 px-3 py-1 font-sans uppercase tracking-[0.2em] text-cream text-micro hover:border-gold hover:text-gold"
+									className="cursor-pointer rounded-full border border-bad/60 bg-plum-dark/50 px-3 py-1 font-sans uppercase tracking-[0.2em] text-bad text-micro hover:bg-bad/10"
 								/>
 								<button
 									aria-label="Move right"

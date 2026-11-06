@@ -8,12 +8,12 @@ const KIND: Record<ChangeKind, { label: string; sign: string; cls: string }> = {
 	added: {
 		label: "Added",
 		sign: "+",
-		cls: "border-emerald-400/40 bg-emerald-400/10 text-emerald-200",
+		cls: "border-ok/45 bg-ok/10 text-ok",
 	},
 	removed: {
 		label: "Removed",
 		sign: "−",
-		cls: "border-red-400/40 bg-red-400/10 text-red-200",
+		cls: "border-bad/45 bg-bad/10 text-bad",
 	},
 	edited: {
 		label: "Edited",
@@ -28,7 +28,7 @@ const KIND: Record<ChangeKind, { label: string; sign: string; cls: string }> = {
 	recropped: {
 		label: "Recropped",
 		sign: "⧉",
-		cls: "border-sky-400/40 bg-sky-400/10 text-sky-200",
+		cls: "border-warn/45 bg-warn/10 text-warn",
 	},
 };
 
@@ -79,7 +79,7 @@ function Thumb({ src, tone }: { src: string; tone: "before" | "after" }) {
 	return (
 		<div
 			className={`relative h-16 w-24 shrink-0 overflow-hidden rounded-sm border bg-plum-dark ${
-				tone === "before" ? "border-red-400/30" : "border-emerald-400/30"
+				tone === "before" ? "border-bad/40" : "border-ok/40"
 			}`}>
 			<Image src={src} alt="" fill sizes="96px" className="object-cover" />
 		</div>
@@ -95,7 +95,7 @@ function TextChange({ before, after }: { before: string; after: string }) {
 					<span
 						key={i}
 						className={
-							w.hit ? "rounded-[2px] bg-red-400/15 text-red-200/90 line-through" : ""
+							w.hit ? "rounded-[2px] bg-bad/15 text-bad line-through" : ""
 						}>
 						{w.t}
 					</span>
@@ -106,7 +106,7 @@ function TextChange({ before, after }: { before: string; after: string }) {
 					<span
 						key={i}
 						className={
-							w.hit ? "rounded-[2px] bg-emerald-400/15 text-emerald-100" : ""
+							w.hit ? "rounded-[2px] bg-ok/15 text-ok" : ""
 						}>
 						{w.t}
 					</span>

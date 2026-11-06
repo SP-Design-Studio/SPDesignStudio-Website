@@ -75,7 +75,7 @@ export function AdminInvite() {
 				{pending ? "Creating…" : "Create user"}
 			</button>
 			{state.error && (
-				<p className="font-sans text-base text-gold">{state.error}</p>
+				<p className="font-sans text-base text-bad">{state.error}</p>
 			)}
 			{state.ok && (
 				<p className="font-sans text-base text-cream/82">{state.ok}</p>
