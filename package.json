@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "bootstrap:admin": "node --env-file=.env.local scripts/bootstrap-admin.mjs",
+    "reset:mfa": "node --env-file=.env.local scripts/reset-mfa.mjs",
     "seed": "node --env-file=.env.local --import tsx scripts/seed.ts",
     "publish:all": "node --env-file=.env.local --import tsx scripts/publish-all.ts"
   },

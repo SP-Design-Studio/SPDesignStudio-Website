@@ -19,12 +19,19 @@ export const ACTION_LABELS: Record<string, string> = {
 	update_role: "Changed role",
 	delete_user: "Removed user",
 	reset_password: "Reset password",
+	reset_mfa: "Reset 2FA",
 };
 
 export const ACTIVITY_FILTERS: Record<string, string[]> = {
 	edits: ["edit"],
 	publishes: ["publish", "discard"],
-	team: ["create_user", "update_role", "delete_user", "reset_password"],
+	team: [
+		"create_user",
+		"update_role",
+		"delete_user",
+		"reset_password",
+		"reset_mfa",
+	],
 };
 
 export async function logActivity(

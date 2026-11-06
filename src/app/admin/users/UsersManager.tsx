@@ -3,7 +3,13 @@ import { useSaving } from "@/lib/admin/saving";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { updateUserRole, deleteUser, resetUserPassword } from "./actions";
+import {
+	updateUserRole,
+	deleteUser,
+	resetUserPassword,
+	resetMemberMfa,
+} from "./actions";
+import { ConfirmButton } from "@/components/admin/ConfirmButton";
 import { useFlash } from "@/lib/admin/useFlash";
 
 type Member = {
@@ -76,6 +82,25 @@ function Row({
 						className="cursor-pointer font-sans font-light uppercase tracking-[0.2em] text-cream/82 text-tiny transition-colors hover:text-gold">
 						Password
 					</button>
+					{!isSelf && !(member.role === "founder" && !canEditFounder) && (
+						<ConfirmButton
+							label="Reset 2FA"
+							confirmLabel="Confirm reset?"
+							disabled={pending}
+							onConfirm={() =>
+								start(async () => {
+									flash("");
+									const res = await resetMemberMfa(member.id);
+									flash(
+										res.error
+											? res.error
+											: "Two-step sign-in reset. They set up a new authenticator at next sign-in.",
+									);
+									router.refresh();
+								})
+							}
+						/>
+					)}
 					{!isSelf && (
 						<button
 							type="button"

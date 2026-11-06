@@ -14,7 +14,7 @@ export default async function AdminLayout({
 }) {
 	const profile = await getProfile();
 
-	if (!profile)
+	if (!profile || profile.mfa !== "ok")
 		return (
 			<div className="min-h-dvh bg-plum-dark text-cream">
 				{children}

@@ -165,3 +165,32 @@ export async function resetUserPassword(
 	await logActivity("reset_password", target.email, "Reset password");
 	return { ok: true };
 }
+
+export async function resetMemberMfa(id: string): Promise<TeamResult> {
+	const actor = await requireRole("admin");
+	if (id === actor.id)
+		return { error: "Turn off your own on the Account page." };
+
+	const target = await loadTarget(id);
+	if (!target) return { error: "User not found." };
+	if (target.role === "founder" && actor.role !== "founder")
+		return { error: "Only a founder can reset a founder's two-step sign-in." };
+
+	const admin = createAdminClient();
+	const { data, error } = await admin.auth.admin.mfa.listFactors({
+		userId: id,
+	});
+	if (error) return { error: error.message };
+	if (!data?.factors.length)
+		return { error: "They don't have two-step sign-in set up." };
+
+	for (const f of data.factors) {
+		const res = await admin.auth.admin.mfa.deleteFactor({
+			id: f.id,
+			userId: id,
+		});
+		if (res.error) return { error: res.error.message };
+	}
+	await logActivity("reset_mfa", target.email, "Reset two-step sign-in");
+	return { ok: true };
+}
