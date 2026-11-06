@@ -1,3 +1,15 @@
 {
-	"crons": [{ "path": "/api/instagram/refresh", "schedule": "0 3 * * 1" }]
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"schedules": {
+		"supabase-keepalive": {
+			"schedule": "0 6 * * *",
+			"path": "/api/keepalive",
+			"requestMethod": "GET"
+		},
+		"instagram-refresh": {
+			"schedule": "0 3 * * 1",
+			"path": "/api/instagram/refresh",
+			"requestMethod": "GET"
+		}
+	}
 }
