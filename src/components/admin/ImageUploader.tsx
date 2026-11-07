@@ -4,7 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import Cropper, { type Area, type MediaSize } from "react-easy-crop";
-import { uploadImage, deleteImage } from "@/app/admin/media-actions";
+import { uploadImage } from "@/app/admin/media-actions";
 import {
 	ORIGINAL,
 	RATIO_PRESETS,
@@ -242,22 +242,7 @@ export function ImageUploader({
 		}
 	};
 
-	const remove = async () => {
-		const old = value;
-		if (!old) {
-			onChange(null);
-			return;
-		}
-		setBusy("Removing");
-		const endTask = beginTask("Removing image");
-		try {
-			onChange(null);
-			await deleteImage(old);
-		} finally {
-			endTask();
-			setBusy(null);
-		}
-	};
+	const remove = () => onChange(null);
 
 	return (
 		<div className={className}>

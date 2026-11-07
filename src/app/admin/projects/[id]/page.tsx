@@ -7,6 +7,7 @@ import {
 	getProjects,
 } from "@/lib/cms/queries";
 import { ProjectEditor } from "./ProjectEditor";
+import { PageHeader } from "@/components/admin/PageHeader";
 
 export const dynamic = "force-dynamic";
 
@@ -41,14 +42,7 @@ export default async function AdminProjectEditPage({
 				className="font-sans font-light uppercase tracking-[0.24em] text-cream/80 text-tiny transition-colors hover:text-gold">
 				&larr; All projects
 			</Link>
-			<div className="mb-10 mt-4">
-				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-tiny mb-3">
-					Project
-				</div>
-				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
-					{project.title}
-				</h1>
-			</div>
+			<PageHeader eyebrow="Project" title={project.title} draft={{ page: "projects" }} />
 
 			<ProjectEditor
 				project={project}

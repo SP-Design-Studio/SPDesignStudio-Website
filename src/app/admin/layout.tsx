@@ -25,7 +25,7 @@ export default async function AdminLayout({
 	return (
 		<>
 			<AdminShell
-				email={profile.email}
+				name={profile.full_name?.trim() || profile.email.split("@")[0]!}
 				role={profile.role}
 				canManage={profile.role === "founder" || profile.role === "admin"}>
 				{children}

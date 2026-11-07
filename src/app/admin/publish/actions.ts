@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { requireRole } from "@/lib/auth";
 import { logActivity } from "@/lib/cms/activity";
 import {
@@ -16,7 +16,7 @@ import {
 export type PublishState = { ok?: boolean; error?: string; at?: string };
 
 async function captureRaw(
-	supabase: Awaited<ReturnType<typeof createClient>>,
+	supabase: ReturnType<typeof createAdminClient>,
 	page: PageKey,
 ): Promise<Record<string, unknown[]>> {
 	const raw: Record<string, unknown[]> = {};
@@ -30,7 +30,7 @@ async function captureRaw(
 async function snapshot(page: PageKey): Promise<string | null> {
 	const data = await buildPage(page);
 	const at = new Date().toISOString();
-	const supabase = await createClient();
+	const supabase = createAdminClient();
 	const raw = await captureRaw(supabase, page);
 	const { error } = await supabase
 		.from("page_snapshots")
@@ -64,7 +64,7 @@ export async function publishAll(): Promise<PublishState> {
 export async function discardPage(page: PageKey): Promise<PublishState> {
 	await requireRole("admin");
 	if (!PAGE_KEYS.includes(page)) return { error: "Unknown page." };
-	const supabase = await createClient();
+	const supabase = createAdminClient();
 	const { data: snap } = await supabase
 		.from("page_snapshots")
 		.select("raw")

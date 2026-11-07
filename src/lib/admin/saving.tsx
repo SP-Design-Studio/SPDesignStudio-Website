@@ -10,6 +10,7 @@ import {
 let seq = 0;
 const active = new Map<number, string>();
 const subs = new Set<(label: string | null) => void>();
+const idleSubs = new Set<() => void>();
 
 const currentLabel = (): string | null => {
 	let last: string | null = null;
@@ -32,6 +33,7 @@ const bus = {
 	dec(id: number) {
 		active.delete(id);
 		emit();
+		if (active.size === 0) idleSubs.forEach((s) => s());
 	},
 	sub(fn: (label: string | null) => void) {
 		subs.add(fn);
@@ -41,6 +43,13 @@ const bus = {
 		};
 	},
 };
+
+export function subscribeIdle(fn: () => void) {
+	idleSubs.add(fn);
+	return () => {
+		idleSubs.delete(fn);
+	};
+}
 
 export function beginTask(label: string): () => void {
 	const id = bus.inc(label);

@@ -247,34 +247,10 @@ button:hover .ulink::after,
 }
 
 [data-busy] {
-  position: relative;
   pointer-events: none;
   user-select: none;
-}
-
-[data-busy]::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  border-radius: inherit;
-  background: rgba(69, 46, 54, 0.78);
-  animation: auth-fade-in 0.18s ease;
-}
-
-[data-busy]::before {
-  content: "";
-  position: absolute;
-  z-index: 21;
-  top: 50%;
-  left: 50%;
-  width: 1.35rem;
-  height: 1.35rem;
-  margin: -0.675rem 0 0 -0.675rem;
-  border: 2px solid rgba(191, 161, 95, 0.3);
-  border-top-color: var(--color-gold);
-  border-radius: 9999px;
-  animation: admin-busy-spin 0.7s linear infinite;
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
 }
 
 @keyframes admin-page-in {
@@ -583,4 +559,12 @@ button:hover .ulink::after,
   .auth-photo > img {
     animation: none;
   }
+}
+
+html:not([data-reorder="on"]) button[aria-label^="Move "] {
+  display: none;
+}
+
+html[data-reorder="on"] [draggable="true"] {
+  cursor: grab;
 }

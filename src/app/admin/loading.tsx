@@ -13,7 +13,7 @@ export default function AdminLoading() {
 						<div
 							key={i}
 							style={{ animationDelay: `${i * 70}ms` }}
-							className="flex flex-col gap-3 rounded-sm border border-cream/10 bg-plum/20 px-5 py-5 [animation:admin-pulse_1.6s_ease-in-out_infinite]">
+							className="flex flex-col gap-3 rounded-sm border border-cream/[0.07] bg-plum/10 px-5 py-5 [animation:admin-pulse_1.6s_ease-in-out_infinite]">
 							<div className="h-4 w-32 rounded-sm bg-cream/10" />
 							<div className="h-3 w-40 rounded-full bg-cream/5" />
 						</div>

@@ -64,7 +64,13 @@ function Tab({
 	);
 }
 
-export function PublishPanel({ pages }: { pages: Row[] }) {
+export function PublishPanel({
+	pages,
+	initial,
+}: {
+	pages: Row[];
+	initial?: PageKey;
+}) {
 	const router = useRouter();
 	const [pending, start] = useSaving("Publishing");
 	const [msg, flash] = useFlash();
@@ -74,7 +80,9 @@ export function PublishPanel({ pages }: { pages: Row[] }) {
 		pages.find((p) => p.status === "unpublished") ??
 		pages[0];
 	const [selected, setSelected] = useState<PageKey | undefined>(
-		firstInteresting?.key,
+		initial && pages.some((p) => p.key === initial)
+			? initial
+			: firstInteresting?.key,
 	);
 
 	useEffect(() => {

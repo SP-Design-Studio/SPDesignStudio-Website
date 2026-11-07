@@ -1,16 +1,13 @@
 import HomeClient from "@/components/home/HomeClient";
 import { pageMeta } from "@/lib/seo";
 import { getHomeData } from "@/lib/cms/pages";
-import { getCuratedInstagram } from "@/lib/instagram";
+import { toInstaItems } from "@/lib/instagram";
 
 export const revalidate = 60;
 export const metadata = pageMeta("home");
 
 export default async function Home() {
-	const [data, instagram] = await Promise.all([
-		getHomeData(),
-		getCuratedInstagram(),
-	]);
+	const data = await getHomeData();
 	return (
 		<HomeClient
 			disciplines={data.disciplines}
@@ -18,7 +15,7 @@ export default async function Home() {
 			partnerCategories={data.partnerCategories}
 			testimonials={data.testimonials}
 			recognition={data.recognition}
-			instagram={instagram}
+			instagram={toInstaItems(data.instagram)}
 		/>
 	);
 }

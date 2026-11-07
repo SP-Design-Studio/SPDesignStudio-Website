@@ -20,8 +20,9 @@ export interface Change {
 	text: string;
 }
 
-const IGNORE_KEYS = new Set(["created_at", "updated_at"]);
-const LABEL_KEYS = ["title", "name", "label", "role", "author", "quote", "id"];
+const IGNORE_KEYS = new Set(["created_at", "updated_at", "sort"]);
+const LABEL_KEYS = ["title", "name", "label", "role", "author", "quote", "caption", "year"];
+const IMAGE_KEYS = ["img", "image", "url", "logo", "photo", "avatar", "cover"];
 
 const isObj = (v: J): v is Record<string, J> =>
 	typeof v === "object" && v !== null && !Array.isArray(v);
@@ -32,7 +33,8 @@ function labelOf(o: Record<string, J>): string {
 		if (typeof v === "string" && v.trim())
 			return v.length > 40 ? `${v.slice(0, 37)}…` : v;
 	}
-	return "item";
+	const img = imageOf(o);
+	return img ? fileName(img) : "item";
 }
 
 function shortVal(v: J): string {
@@ -51,6 +53,14 @@ const isImageField = (path: string): boolean => {
 
 const isImageUrl = (v: J): v is string =>
 	typeof v === "string" && /\.(jpe?g|png|webp|avif|gif|svg)(\?|$)/i.test(v);
+
+function imageOf(o: Record<string, J>): string | undefined {
+	for (const k of IMAGE_KEYS) {
+		const v = o[k];
+		if (isImageUrl(v)) return v;
+	}
+	return undefined;
+}
 
 function fileName(v: J): string {
 	if (typeof v !== "string" || !v) return shortVal(v);
@@ -163,6 +173,7 @@ function diffArray(a: J[], b: J[], path: string, out: Change[]): void {
 					path,
 					kind: "removed",
 					before: labelOf(x),
+					beforeImage: imageOf(x),
 					text: `${path}: removed “${labelOf(x)}”`,
 				});
 		for (const x of b)
@@ -171,6 +182,7 @@ function diffArray(a: J[], b: J[], path: string, out: Change[]): void {
 					path,
 					kind: "added",
 					after: labelOf(x),
+					afterImage: imageOf(x),
 					text: `${path}: added “${labelOf(x)}”`,
 				});
 		for (const x of b) {

@@ -78,7 +78,7 @@ export function ProjectsList({ initial }: { initial: CmsProject[] }) {
 				<div
 					key={p.id}
 					{...(term ? {} : drag.handlers(i))}
-					className={`flex items-center gap-4 rounded-sm border border-cream/10 bg-plum/20 p-3 transition-colors hover:border-cream/25 ${term ? "" : drag.itemClass(i)}`}>
+					className={`flex items-center gap-4 rounded-sm border border-cream/[0.07] bg-plum/10 p-3 transition-colors hover:border-cream/15 ${term ? "" : drag.itemClass(i)}`}>
 					<div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-sm bg-plum-dark">
 						{p.img && (
 							<Image src={p.img} alt="" fill sizes="96px" className="object-cover" />
@@ -112,7 +112,7 @@ export function ProjectsList({ initial }: { initial: CmsProject[] }) {
 						<ConfirmButton
 							label="Delete"
 							title="Delete this project?"
-							message="Its facts and gallery are deleted with it. This can't be undone."
+							message="Its facts and gallery go with it. It comes off the live site when you publish, and you can restore it until then."
 							disabled={pending}
 							onConfirm={() => remove(p.id)}
 						/>

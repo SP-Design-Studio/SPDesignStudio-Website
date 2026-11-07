@@ -1,6 +1,8 @@
 import { requireRole } from "@/lib/auth";
 import { getHonours } from "@/lib/cms/queries";
 import { HonoursManager } from "./HonoursManager";
+import { PageHeader } from "@/components/admin/PageHeader";
+import { PendingDeletes } from "@/components/admin/PendingDeletes";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Honours & Milestones" };
@@ -11,20 +13,10 @@ export default async function AdminHonoursPage() {
 
 	return (
 		<div className="mx-auto max-w-4xl px-6 py-12 md:px-10 md:py-16">
-			<div className="mb-10 mt-4">
-				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-tiny mb-3">
-					Honours &amp; Milestones
-				</div>
-				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
-					Awards &amp; recognition
-				</h1>
-				<p className="mt-3 font-sans font-light text-cream/80 text-base">
-					The recognition section on the About page. Each milestone has a title,
-					year, by-line, description, and image.
-				</p>
-			</div>
+			<PageHeader eyebrow="Honours &amp; Milestones" title="Awards &amp; recognition" draft={{ page: "about", keys: ["honours"] }} reorder />
 
 			<HonoursManager initial={honours} />
+			<PendingDeletes page="about" tables={["honours"]} />
 		</div>
 	);
 }

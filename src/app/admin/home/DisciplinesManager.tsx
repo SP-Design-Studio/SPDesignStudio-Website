@@ -70,7 +70,7 @@ function Card({
 		});
 
 	return (
-		<div data-busy={pending || undefined} className="grid grid-cols-1 gap-5 rounded-sm border border-cream/10 bg-plum/20 p-5 transition-colors hover:border-cream/25 sm:grid-cols-[180px_1fr]">
+		<div data-busy={pending || undefined} className="grid grid-cols-1 gap-5 rounded-sm border border-cream/[0.07] bg-plum/10 p-5 transition-colors hover:border-cream/15 sm:grid-cols-[180px_1fr]">
 			<div className="flex flex-col gap-3">
 				<ImageUploader
 					value={form.img}

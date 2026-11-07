@@ -142,7 +142,7 @@ function OpeningCard({
 		});
 
 	return (
-		<div data-busy={pending || undefined} className="flex flex-col gap-4 rounded-sm border border-cream/10 bg-plum/20 p-5 transition-colors hover:border-cream/25">
+		<div data-busy={pending || undefined} className="flex flex-col gap-4 rounded-sm border border-cream/[0.07] bg-plum/10 p-5 transition-colors hover:border-cream/15">
 			<div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
 				<label>
 					<div className={ui.label}>Role</div>

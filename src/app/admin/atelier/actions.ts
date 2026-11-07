@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { requireRole } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { deleteImage } from "@/app/admin/media-actions";
 import { logActivity } from "@/lib/cms/activity";
 
 type Result = { ok?: boolean; error?: string };
@@ -23,7 +22,6 @@ export async function addAtelierImage(url: string): Promise<Result> {
 		.insert({ url, sort: nextSort });
 	if (error) return { error: error.message };
 	await logActivity("edit", "Atelier", "Added image");
-	revalidatePath("/atelier");
 	revalidatePath("/admin/atelier");
 	return { ok: true };
 }
@@ -44,22 +42,16 @@ export async function addAtelierImages(urls: string[]): Promise<Result> {
 	const { error } = await db.from("atelier_images").insert(rows);
 	if (error) return { error: error.message };
 	await logActivity("edit", "Atelier", `Added ${clean.length} image(s)`);
-	revalidatePath("/atelier");
 	revalidatePath("/admin/atelier");
 	return { ok: true };
 }
 
-export async function deleteAtelierImage(
-	id: string,
-	url: string,
-): Promise<Result> {
+export async function deleteAtelierImage(id: string): Promise<Result> {
 	await requireRole("editor");
 	const db = createAdminClient();
 	const { error } = await db.from("atelier_images").delete().eq("id", id);
 	if (error) return { error: error.message };
-	if (url) await deleteImage(url);
 	await logActivity("edit", "Atelier", "Removed image");
-	revalidatePath("/atelier");
 	revalidatePath("/admin/atelier");
 	return { ok: true };
 }
@@ -72,7 +64,6 @@ export async function reorderAtelierImages(ids: string[]): Promise<Result> {
 			db.from("atelier_images").update({ sort: i }).eq("id", id),
 		),
 	);
-	revalidatePath("/atelier");
 	revalidatePath("/admin/atelier");
 	return { ok: true };
 }

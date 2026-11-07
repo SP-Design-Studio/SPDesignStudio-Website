@@ -50,23 +50,3 @@ export async function uploadImage(formData: FormData): Promise<UploadState> {
 	const { data } = supabase.storage.from("media").getPublicUrl(path);
 	return { url: data.publicUrl };
 }
-
-export async function deleteImage(url: string): Promise<{ error?: string }> {
-	await requireRole("editor");
-	const marker = "/media/";
-	const idx = url.indexOf(marker);
-	if (idx === -1) return {};
-	const path = url.slice(idx + marker.length);
-	const supabase = await createClient();
-	try {
-		const { error } = await supabase.storage.from("media").remove([path]);
-		if (error) {
-			console.error("[delete] storage rejected:", error.message);
-			return { error: storageErrorMessage(error.message).message };
-		}
-	} catch (e) {
-		console.error("[delete] request failed:", e);
-		return { error: "Couldn't reach the image server to delete that file." };
-	}
-	return {};
-}

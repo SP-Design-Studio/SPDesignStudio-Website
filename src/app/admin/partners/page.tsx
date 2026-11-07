@@ -1,6 +1,8 @@
 import { requireRole } from "@/lib/auth";
 import { getPartners, getPartnerCategories } from "@/lib/cms/queries";
 import { PartnersManager } from "./PartnersManager";
+import { PageHeader } from "@/components/admin/PageHeader";
+import { PendingDeletes } from "@/components/admin/PendingDeletes";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Partners" };
@@ -14,21 +16,10 @@ export default async function AdminPartnersPage() {
 
 	return (
 		<div className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-16">
-			<div className="mb-10 mt-4">
-				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-tiny mb-3">
-					Partners
-				</div>
-				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
-					Logos & directory
-				</h1>
-				<p className="mt-3 font-sans font-light text-cream/80 text-base">
-					The rotating logo reel and the &ldquo;View All Partners&rdquo;
-					directory on the home page. Use transparent PNG/SVG logos for the
-					reel (they&rsquo;re tinted gold).
-				</p>
-			</div>
+			<PageHeader eyebrow="Partners" title="Logos & directory" draft={{ page: "home", keys: ["partners", "partnerCategories"] }} reorder />
 
 			<PartnersManager logos={logos} categories={categories} />
+			<PendingDeletes page="home" tables={["partners", "partner_categories"]} />
 		</div>
 	);
 }

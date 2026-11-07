@@ -7,6 +7,7 @@ import {
 	buildContact,
 	buildCareers,
 	buildProcess,
+	buildAtelier,
 	PAGE_KEYS,
 	PAGE_LABELS,
 	PAGE_PATHS,
@@ -19,6 +20,8 @@ import ProjectsClient from "@/components/projects/ProjectsClient";
 import ContactClient from "@/components/contact/ContactClient";
 import CareersClient from "@/components/careers/CareersClient";
 import ProcessClient from "@/components/process/ProcessClient";
+import AtelierClient from "@/components/atelier/AtelierClient";
+import { toInstaItems } from "@/lib/instagram";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Draft preview" };
@@ -44,6 +47,7 @@ export default async function PreviewPage({
 					partnerCategories={d.partnerCategories}
 					testimonials={d.testimonials}
 					recognition={d.recognition}
+					instagram={toInstaItems(d.instagram)}
 				/>
 			);
 			break;
@@ -75,6 +79,11 @@ export default async function PreviewPage({
 		case "process": {
 			const d = await buildProcess();
 			view = <ProcessClient steps={d.steps} />;
+			break;
+		}
+		case "atelier": {
+			const d = await buildAtelier();
+			view = <AtelierClient images={d.images} />;
 			break;
 		}
 	}

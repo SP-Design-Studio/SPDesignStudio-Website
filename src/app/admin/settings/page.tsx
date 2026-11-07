@@ -3,6 +3,7 @@ import { requireRole } from "@/lib/auth";
 import { getGrainSettings } from "@/lib/config";
 import { GrainToggle } from "./GrainToggle";
 import { ui } from "@/lib/admin/ui";
+import { PageHeader } from "@/components/admin/PageHeader";
 
 export const metadata = { title: "Settings" };
 
@@ -12,15 +13,16 @@ export default async function SettingsPage() {
 
 	return (
 		<div className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-16">
-			<h1 className="mb-12 font-serif font-light text-cream text-4xl md:text-5xl">
-				Settings
-			</h1>
+			<PageHeader eyebrow="Studio" title="Settings">
+				Site-wide options for the studio.
+			</PageHeader>
 
 			<section>
 				<div className={ui.sectionTitle}>Appearance</div>
 				<p className="mb-6 font-sans font-light text-cream/82 text-base">
 					Toggle the subtle film-grain texture overlay shown across the public
-					site.
+					site. Unlike content, this applies to the live site immediately and is
+					not part of publishing.
 				</p>
 				<GrainToggle enabled={grain.enabled} intensity={grain.intensity} />
 			</section>
@@ -28,8 +30,9 @@ export default async function SettingsPage() {
 			<section className="mt-14 border-t border-cream/10 pt-10">
 				<div className={ui.sectionTitle}>Instagram</div>
 				<p className="mb-6 font-sans font-light text-cream/82 text-base">
-					The &ldquo;Studio on Instagram&rdquo; section is now a curated feed you
-					manage directly &mdash; no access token or API needed.
+					The &ldquo;Studio on Instagram&rdquo; section is a curated feed you
+					manage directly. Like all content, changes are saved as drafts and go
+					live when the Home page is published.
 				</p>
 				<Link
 					href="/admin/instagram"

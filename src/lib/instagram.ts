@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getInstagramPosts } from "@/lib/cms/queries";
+import type { InstagramPost } from "@/lib/cms/types";
 import { STUDIO } from "@/lib/data/studio";
 
 export interface InstaItem {
@@ -13,8 +14,7 @@ export interface InstaItem {
 
 // Curated feed: the "Studio on Instagram" home section reads this admin-managed
 // list instead of the Instagram API. No token, no expiry, no outages.
-export async function getCuratedInstagram(): Promise<InstaItem[]> {
-	const posts = await getInstagramPosts();
+export function toInstaItems(posts: InstagramPost[]): InstaItem[] {
 	return posts
 		.filter((p) => p.image)
 		.map((p) => ({
@@ -25,6 +25,10 @@ export async function getCuratedInstagram(): Promise<InstaItem[]> {
 			isVideo: p.is_reel,
 			image: p.image as string,
 		}));
+}
+
+export async function getCuratedInstagram(): Promise<InstaItem[]> {
+	return toInstaItems(await getInstagramPosts());
 }
 
 const TOKEN_KEY = "instagram_token";

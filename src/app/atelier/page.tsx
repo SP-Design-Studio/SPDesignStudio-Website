@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import AtelierClient from "@/components/atelier/AtelierClient";
-import { getAtelierImages } from "@/lib/atelier";
+import { getAtelierData } from "@/lib/cms/pages";
 import { SITE_NAME } from "@/lib/seo";
 
 export const revalidate = 3600;
@@ -12,6 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default async function AtelierPage() {
-	const images = await getAtelierImages();
+	const { images } = await getAtelierData();
 	return <AtelierClient images={images} />;
 }

@@ -5,6 +5,7 @@ import {
 	ACTION_LABELS,
 	ACTIVITY_FILTERS,
 } from "@/lib/cms/activity";
+import { PageHeader } from "@/components/admin/PageHeader";
 
 export const metadata = { title: "Activity" };
 
@@ -27,22 +28,7 @@ export default async function ActivityPage({
 
 	return (
 		<div className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-16">
-			<div className="mb-10">
-				<NavLink
-					href="/admin"
-					className="font-sans font-light uppercase tracking-[0.24em] text-cream/80 text-tiny transition-colors hover:text-gold">
-					← Dashboard
-				</NavLink>
-				<div className="mt-4 font-sans font-light uppercase tracking-[0.4em] text-gold text-tiny">
-					Activity
-				</div>
-				<h1 className="mt-2 font-serif font-light text-cream text-4xl md:text-5xl">
-					Edits & publishing log
-				</h1>
-				<p className="mt-3 font-sans font-light text-cream/80 text-base">
-					Every content edit, publish, revert, and team change, newest first.
-				</p>
-			</div>
+			<PageHeader eyebrow="Activity" title="Edits & publishing log" />
 
 			<div className="mb-8 flex flex-wrap gap-2">
 				{FILTERS.map((f) => {

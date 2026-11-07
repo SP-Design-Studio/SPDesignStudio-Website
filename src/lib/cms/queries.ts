@@ -1,4 +1,5 @@
 import { createPublicClient } from "@/lib/supabase/public";
+import { createAdminClient } from "@/lib/supabase/admin";
 import type {
 	HomeStat,
 	Recognition,
@@ -114,21 +115,32 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
 	return (data as SiteSettings) ?? null;
 }
 
-export async function getContentCounts(): Promise<Record<string, number>> {
+
+export async function getCareersSettings(): Promise<CareersSettings | null> {
 	const db = createPublicClient();
+	const { data } = await db
+		.from("careers_settings")
+		.select("*")
+		.eq("id", "main")
+		.single();
+	return (data as CareersSettings) ?? null;
+}
+
+export async function getContentCounts(): Promise<Record<string, number>> {
+	const db = createAdminClient();
 	const tables = [
 		"home_disciplines",
-		"home_recognition",
 		"partners",
-		"partner_categories",
 		"testimonials",
 		"team_members",
 		"timeline_entries",
 		"honours",
 		"projects",
+		"project_categories",
 		"process_steps",
 		"career_openings",
 		"instagram_posts",
+		"atelier_images",
 	];
 	const entries = await Promise.all(
 		tables.map(async (t) => {
@@ -139,14 +151,4 @@ export async function getContentCounts(): Promise<Record<string, number>> {
 		}),
 	);
 	return Object.fromEntries(entries);
-}
-
-export async function getCareersSettings(): Promise<CareersSettings | null> {
-	const db = createPublicClient();
-	const { data } = await db
-		.from("careers_settings")
-		.select("*")
-		.eq("id", "main")
-		.single();
-	return (data as CareersSettings) ?? null;
 }

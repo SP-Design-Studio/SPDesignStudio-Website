@@ -1,28 +1,26 @@
 import { requireRole } from "@/lib/auth";
-import { getPageDrafts } from "@/lib/cms/pages";
+import { getPageDrafts, PAGE_KEYS, type PageKey } from "@/lib/cms/pages";
 import { PublishPanel } from "./PublishPanel";
+import { PageHeader } from "@/components/admin/PageHeader";
 
 export const metadata = { title: "Publish" };
 
-export default async function PublishRoute() {
+export default async function PublishRoute({
+	searchParams,
+}: {
+	searchParams: Promise<{ page?: string }>;
+}) {
 	await requireRole("admin");
+	const { page } = await searchParams;
+	const initial = PAGE_KEYS.includes(page as PageKey) ? (page as PageKey) : undefined;
 	const drafts = await getPageDrafts();
 
 	return (
 		<div className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-16">
-			<div className="mb-10">
-				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-tiny mb-3">
-					Publish
-				</div>
-				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
-					Review &amp; publish
-				</h1>
-				<p className="mt-3 font-sans font-light text-cream/80 text-base">
-					Edits are saved as drafts. Review what changed, preview it, then
-					publish to push a page live.
-				</p>
-			</div>
-			<PublishPanel pages={drafts} />
+			<PageHeader eyebrow="Publish" title="Review &amp; publish">
+				Nothing is live until you publish it here.
+			</PageHeader>
+			<PublishPanel pages={drafts} initial={initial} />
 		</div>
 	);
 }

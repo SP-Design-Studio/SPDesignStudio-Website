@@ -1,6 +1,8 @@
 import { requireRole } from "@/lib/auth";
 import { getInstagramPosts } from "@/lib/cms/queries";
 import { InstagramManager } from "./InstagramManager";
+import { PageHeader } from "@/components/admin/PageHeader";
+import { PendingDeletes } from "@/components/admin/PendingDeletes";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Instagram" };
@@ -11,22 +13,10 @@ export default async function AdminInstagramPage() {
 
 	return (
 		<div className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-16">
-			<div className="mb-10 mt-4">
-				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-tiny mb-3">
-					Instagram
-				</div>
-				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
-					Studio feed
-				</h1>
-				<p className="mt-3 max-w-2xl font-sans font-light text-cream/80 text-base">
-					The &ldquo;Studio on Instagram&rdquo; section on the home page. Add the
-					posts and reels you want to feature &mdash; each is an image, a link to
-					the real Instagram post, and a Post/Reel type. Posts show as squares,
-					reels as tall tiles. Changes appear on the home page immediately.
-				</p>
-			</div>
+			<PageHeader eyebrow="Instagram" title="Studio feed" draft={{ page: "home", keys: ["instagram"] }} reorder />
 
 			<InstagramManager posts={posts} />
+			<PendingDeletes page="home" tables={["instagram_posts"]} />
 		</div>
 	);
 }

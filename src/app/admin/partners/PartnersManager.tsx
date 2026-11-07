@@ -91,7 +91,7 @@ function LogoCard({
 		});
 
 	return (
-		<div data-busy={pending || undefined} className="grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-4 rounded-sm border border-cream/10 bg-plum/20 p-4 transition-colors hover:border-cream/25">
+		<div data-busy={pending || undefined} className="grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-4 rounded-sm border border-cream/[0.07] bg-plum/10 p-4 transition-colors hover:border-cream/15">
 			<ImageUploader
 				value={logo}
 				onChange={setLogo}
@@ -177,7 +177,7 @@ function CategoryCard({
 		});
 
 	return (
-		<div data-busy={pending || undefined} className="flex flex-col gap-3 rounded-sm border border-cream/10 bg-plum/20 p-4 transition-colors hover:border-cream/25">
+		<div data-busy={pending || undefined} className="flex flex-col gap-3 rounded-sm border border-cream/[0.07] bg-plum/10 p-4 transition-colors hover:border-cream/15">
 			<label>
 				<div className={ui.label}>Category</div>
 				<input

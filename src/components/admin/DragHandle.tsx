@@ -1,4 +1,10 @@
+"use client";
+
+import { useReorderMode } from "@/lib/admin/reorderMode";
+
 export function DragHandle({ label }: { label: string }) {
+	const on = useReorderMode();
+	if (!on) return null;
 	return (
 		<span
 			aria-hidden

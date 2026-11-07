@@ -8,7 +8,7 @@ export function ConfirmButton({
 	onConfirm,
 	label = "Delete",
 	title,
-	message = "This can't be undone.",
+	message = "It leaves your draft now and comes off the live site when you publish. You can restore it until then.",
 	confirmLabel,
 	disabled,
 	className,

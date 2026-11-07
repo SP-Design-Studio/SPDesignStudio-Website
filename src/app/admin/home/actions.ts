@@ -148,25 +148,3 @@ export async function reorderRecognition(ids: string[]): Promise<ActionResult> {
 	await revalidateHome();
 	return { ok: true };
 }
-
-export async function saveInstagramSettings(input: {
-	enabled: boolean;
-	reelsCount: number;
-	postsCount: number;
-	token?: string;
-}): Promise<ActionResult> {
-	await requireRole("admin");
-	const db = createAdminClient();
-	const rows: { key: string; value: string }[] = [
-		{ key: "instagram_enabled", value: String(input.enabled) },
-		{ key: "instagram_reels_count", value: String(input.reelsCount) },
-		{ key: "instagram_posts_count", value: String(input.postsCount) },
-	];
-	if (input.token && input.token.trim())
-		rows.push({ key: "instagram_token", value: input.token.trim() });
-	const { error } = await db.from("app_config").upsert(rows, { onConflict: "key" });
-	if (error) return { error: error.message };
-	await logActivity("edit", "Instagram");
-	revalidatePath("/");
-	return { ok: true };
-}

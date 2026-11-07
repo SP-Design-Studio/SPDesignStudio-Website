@@ -10,7 +10,6 @@ export type ActionResult = { ok?: boolean; error?: string };
 
 async function reval() {
 	revalidatePath("/admin/instagram");
-	revalidatePath("/");
 	await logActivity("edit", "Instagram");
 }
 

@@ -46,6 +46,8 @@ export const ADMIN_GROUPS: AdminGroup[] = [
 				note: "Curated studio feed",
 				href: "/admin/instagram",
 				view: "/",
+				page: "home",
+				keys: ["instagram"],
 				countKey: "instagram_posts",
 				unit: "posts",
 			},
@@ -100,6 +102,10 @@ export const ADMIN_GROUPS: AdminGroup[] = [
 				note: "Behind the studio",
 				href: "/admin/atelier",
 				view: "/atelier",
+				page: "atelier",
+				keys: ["images"],
+				countKey: "atelier_images",
+				unit: "images",
 			},
 		],
 	},
@@ -156,12 +162,6 @@ export const ADMIN_GROUPS: AdminGroup[] = [
 		title: "Studio",
 		items: [
 			{
-				label: "Publish",
-				note: "Push drafts live",
-				href: "/admin/publish",
-				manageOnly: true,
-			},
-			{
 				label: "Activity",
 				note: "Recent edits",
 				href: "/admin/activity",
@@ -179,7 +179,6 @@ export const ADMIN_GROUPS: AdminGroup[] = [
 				href: "/admin/settings",
 				manageOnly: true,
 			},
-			{ label: "Account", note: "Your profile", href: "/admin/account" },
 		],
 	},
 ];

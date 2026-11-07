@@ -124,7 +124,7 @@ export function ProjectTypesManager({ items }: { items: ProjectCategoryRow[] }) 
 	};
 
 	return (
-		<div data-busy={pending || undefined} className="mb-12 rounded-sm border border-cream/10 bg-plum/20 p-5 transition-colors hover:border-cream/25">
+		<div data-busy={pending || undefined} className="mb-12 rounded-sm border border-cream/[0.07] bg-plum/10 p-5 transition-colors hover:border-cream/15">
 			<div className="mb-1 font-sans font-light uppercase tracking-[0.28em] text-gold text-tiny">
 				Project types
 			</div>

@@ -95,7 +95,7 @@ export function AtelierManager({ images }: { images: AtelierImage[] }) {
 						<div
 							key={img.id}
 							{...drag.handlers(i)}
-							className={`group relative aspect-square cursor-grab overflow-hidden rounded-sm border border-cream/10 bg-plum active:cursor-grabbing ${drag.itemClass(i)}`}
+							className={`group relative aspect-square overflow-hidden rounded-sm border border-cream/10 bg-plum ${drag.itemClass(i)}`}
 						>
 							<Image
 								src={img.url}
@@ -118,7 +118,7 @@ export function AtelierManager({ images }: { images: AtelierImage[] }) {
 									title="Delete this image?"
 									label="Delete"
 									disabled={pending}
-									onConfirm={() => run(() => deleteAtelierImage(img.id, img.url))}
+									onConfirm={() => run(() => deleteAtelierImage(img.id))}
 									className="cursor-pointer rounded-full border border-bad/60 bg-plum-dark/50 px-3 py-1 font-sans uppercase tracking-[0.2em] text-bad text-micro hover:bg-bad/10"
 								/>
 								<button

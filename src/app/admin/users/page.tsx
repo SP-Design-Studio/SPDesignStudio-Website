@@ -2,6 +2,7 @@ import { requireRole } from "@/lib/auth";
 import { getProfiles } from "@/lib/cms/activity";
 import { UsersManager } from "./UsersManager";
 import { AdminInvite } from "./AdminInvite";
+import { PageHeader } from "@/components/admin/PageHeader";
 
 export const metadata = { title: "Users" };
 
@@ -11,18 +12,7 @@ export default async function UsersRoute() {
 
 	return (
 		<div className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-16">
-			<div className="mb-10">
-				<div className="font-sans font-light uppercase tracking-[0.4em] text-gold text-tiny mb-3">
-					Users
-				</div>
-				<h1 className="font-serif font-light text-cream text-4xl md:text-5xl">
-					Team access
-				</h1>
-				<p className="mt-3 font-sans font-light text-cream/80 text-base">
-					Manage who can sign in. Change roles, reset passwords, or remove
-					accounts.
-				</p>
-			</div>
+			<PageHeader eyebrow="Users" title="Team access" />
 			<UsersManager
 				members={members}
 				currentUserId={profile.id}
